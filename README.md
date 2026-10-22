@@ -5,7 +5,7 @@ Resolver Reach is a Windows 11 25H2 x64 desktop tool for checking whether DNS-ov
 ## Features
 
 - Windows x64 release only; ARM64 is intentionally not targeted.
-- Compact, dark FluentAvalonia interface inspired by OnionFruit's small status-window layout and Photoshop's high-contrast blue-on-navy creative-software palette.
+- Single maximized FluentAvalonia window with selectable system, light, and dark themes, an integrated results view, and a Paste Links menu for custom endpoints.
 - Original Resolver Reach app icon: a blue-gradient R mark with DNS circuit nodes on a dark navy field. It uses the visual language of modern creative-app icons without reusing Adobe's Photoshop logo.
 - Paste a batch of HTTPS DoH endpoint URLs (one per line or separated with semicolons).
 - Sends a real RFC 8484 wire-format DNS query for example.com A; validates HTTP status, application/dns-message content type, DNS transaction ID, response flags, question, and DNS response code. A TLS/host connection alone is not counted as success.
@@ -13,7 +13,7 @@ Resolver Reach is a Windows 11 25H2 x64 desktop tool for checking whether DNS-ov
 - **Check Now** fetches the current public resolver table from the cURL DoH wiki, extracts only Base URL-column endpoints, deduplicates the HTTPS URLs, then tests every listed endpoint with bounded concurrency and a cancellable progress display. The full catalog is refreshed on each run; it is not a baked-in snapshot.
 - Reports valid DoH responses separately from DNS RCODE errors and unreachable/invalid endpoints. A successful HTTP request alone does not count as a valid DNS exchange. Resolver availability is a point-in-time measurement, not a guarantee of 100% uptime.
 - Supports RFC 8484 POST and retries a GET-form DNS query for endpoints that reject POST with 400, 405, 415, or 501.
-- Exports results to CSV.
+- Press Escape to cancel an in-progress scan; results and progress stay in the main window.
 - GitHub Actions builds the self-contained x64 application and compiles an Inno Setup installer. The Windows app icon lives at src/ResolverReach/Assets/ResolverReach.ico and is used for the executable, both windows, and installer.
 
 ## Build locally on Windows

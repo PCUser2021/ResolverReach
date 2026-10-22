@@ -64,9 +64,10 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     {
         var resultConnection = _resultCache.Connect()
             .ObserveOn(RxSchedulers.TaskpoolScheduler)
-            .Sort(SortExpressionComparer<ResolverResult>.Ascending(x => x.Endpoint))
-            .ObserveOn(RxSchedulers.MainThreadScheduler)
-            .Bind(out ReadOnlyObservableCollection<ResolverResult> displayedResults)
+            .SortAndBind(
+                out ReadOnlyObservableCollection<ResolverResult> displayedResults,
+                SortExpressionComparer<ResolverResult>.Ascending(x => x.Endpoint),
+                new SortAndBindOptions { Scheduler = RxSchedulers.MainThreadScheduler })
             .Subscribe();
         Results = displayedResults;
         _lifetime.Add(resultConnection);

@@ -94,7 +94,7 @@
             <TextBlock Text="Click “Check the Curl Resolvers” to fetch the current public resolver list, or choose Paste Links to test specific endpoints."
                        TextWrapping="Wrap" TextAlignment="Center" FontSize="13" Foreground="{DynamicResource AppMutedBrush}" HorizontalAlignment="Center" />
           </StackPanel>
-          <ListBox x:Name="ResultsList" ItemsSource="{Binding Results}" IsVisible="{Binding HasResults}" BorderThickness="0" Background="{DynamicResource AppBackgroundBrush}" SelectionMode="Single" HorizontalContentAlignment="Stretch">
+          <ListBox x:Name="ResultsList" ItemsSource="{Binding Results}" IsVisible="{Binding HasResults}" BorderThickness="0" Background="{DynamicResource AppBackgroundBrush}" SelectionMode="Single" >
               <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="vm:ResolverResult">
                   <Border BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="0,0,0,1" Padding="12,13">

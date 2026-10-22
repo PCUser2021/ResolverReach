@@ -2,9 +2,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:styling="clr-namespace:FluentAvalonia.Styling;assembly=FluentAvalonia"
              x:Class="ResolverReach.App"
-             RequestedThemeVariant="Light">
+             RequestedThemeVariant="Dark">
   <Application.Styles>
     <styling:FluentAvaloniaTheme UseSystemFontOnWindows="True"
-                                 CustomAccentColor="#2563EB" />
+                                 CustomAccentColor="#c71585" />
   </Application.Styles>
 </Application>

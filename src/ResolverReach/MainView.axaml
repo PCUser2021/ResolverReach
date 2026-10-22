@@ -8,7 +8,7 @@
              KeyDown="MainView_KeyDown">
 <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Background="{DynamicResource AppBackgroundBrush}">
       <Border Grid.Row="0" Background="{DynamicResource AppSurfaceBrush}" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="0,0,0,1" Padding="24,16">
-        <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="24">
+        <Grid ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="18">
           <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
             <Border Width="42" Height="42" CornerRadius="11" Background="#1473E6">
               <TextBlock Text="R" FontSize="25" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -22,7 +22,14 @@
           <Menu Grid.Column="1" VerticalAlignment="Center" Background="{DynamicResource AppSurfaceBrush}" Foreground="{DynamicResource AppTextBrush}">
             <MenuItem x:Name="PasteMenuItem" Header="Paste Links" Command="{Binding PasteLinksCommand}" />
           </Menu>
-          <ComboBox x:Name="ThemeSelector" Grid.Column="2" Width="150" MinHeight="38" VerticalAlignment="Center"
+          <Button x:Name="SaveLogsButton" Grid.Column="2" Command="{Binding SaveLogsCommand}"
+                  Padding="16,10" MinHeight="38" VerticalAlignment="Center"
+                  Background="{DynamicResource AppSubtleBrush}" Foreground="{DynamicResource AppTextBrush}"
+                  BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1" CornerRadius="6"
+                  AutomationProperties.Name="Save current resolver diagnostic logs">
+            <TextBlock Text="Save Logs" FontSize="13" FontWeight="SemiBold" />
+          </Button>
+          <ComboBox x:Name="ThemeSelector" Grid.Column="3" Width="150" MinHeight="38" VerticalAlignment="Center"
                     SelectionChanged="ThemeSelector_SelectionChanged" AutomationProperties.Name="Application theme">
             <ComboBoxItem Content="System theme" Tag="Default" />
             <ComboBoxItem Content="Light theme" Tag="Light" />

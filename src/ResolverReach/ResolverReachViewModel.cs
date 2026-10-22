@@ -43,6 +43,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
 
     public ViewModelActivator Activator { get; } = new();
     public Interaction<Unit, string?> ClipboardTextInteraction { get; } = new();
+    public Interaction<string, LogSaveResult> SaveLogInteraction { get; } = new();
     public ReadOnlyObservableCollection<ResolverResult> Results { get; }
 
     public string InputLinks
@@ -61,6 +62,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     public ReactiveCommand<Unit, Unit> CheckCatalogCommand { get; }
     public ReactiveCommand<Unit, Unit> CheckLinksCommand { get; }
     public ReactiveCommand<Unit, Unit> PasteLinksCommand { get; }
+    public ReactiveCommand<Unit, Unit> SaveLogsCommand { get; }
     public ReactiveCommand<Unit, Unit> CancelCommand { get; }
 
     private static string GetProductVersion()
@@ -126,6 +128,20 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
                 InputLinks = clipboardText;
         }, outputScheduler: RxSchedulers.MainThreadScheduler);
 
+        SaveLogsCommand = ReactiveCommand.CreateFromTask(async () =>
+        {
+            LogSaveResult saveResult = await SaveLogInteraction.Handle(BuildLogDocument());
+            if (saveResult.Cancelled)
+                return;
+
+            UpdateState(state => state with
+            {
+                StatusText = saveResult.Succeeded
+                    ? $"Diagnostic logs saved to {saveResult.FileName}."
+                    : "Could not save diagnostic logs: " + ShortError(saveResult.ErrorMessage ?? "Unknown error.")
+            });
+        }, outputScheduler: RxSchedulers.MainThreadScheduler);
+
         _isBusy = Observable.CombineLatest(
                 CheckCatalogCommand.IsExecuting,
                 CheckLinksCommand.IsExecuting,
@@ -145,6 +161,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
         _lifetime.Add(CheckCatalogCommand);
         _lifetime.Add(CheckLinksCommand);
         _lifetime.Add(PasteLinksCommand);
+        _lifetime.Add(SaveLogsCommand);
         _lifetime.Add(CancelCommand);
 
         this.WhenActivated(disposables =>
@@ -155,8 +172,49 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
                     StatusText = "Clipboard error: " + ShortError(ex.Message),
                     Detail = "You can still paste manually with Ctrl+V."
                 })));
+
+            disposables.Add(SaveLogsCommand.ThrownExceptions
+                .Subscribe(ex => UpdateState(state => state with
+                {
+                    StatusText = "Could not save diagnostic logs: " + ShortError(ex.Message)
+                })));
         });
     }
+
+    private string BuildLogDocument()
+    {
+        ResolverDashboardState state = DashboardState;
+        ResolverResult[] results = Results.ToArray();
+        var document = new StringBuilder();
+
+        document.AppendLine("Resolver Reach — Diagnostic Session Log");
+        document.AppendLine($"Version: {VersionLabel}");
+        document.AppendLine($"Exported at (UTC): {DateTimeOffset.UtcNow:O}");
+        document.AppendLine($"Session: {state.Title}");
+        document.AppendLine($"Details: {state.Detail}");
+        document.AppendLine($"Status: {state.StatusText}");
+        document.AppendLine($"Progress: {state.ProgressValue.ToString("F0", CultureInfo.InvariantCulture)}% ({state.ProgressLabel})");
+        document.AppendLine($"Result count: {results.Length}");
+        document.AppendLine();
+        document.AppendLine("Endpoint\tStatus\tHTTP status\tLatency (ms)\tDNS response\tDetails");
+
+        foreach (ResolverResult result in results)
+        {
+            document.Append(FormatLogField(result.Endpoint)).Append('\t')
+                .Append(FormatLogField(result.Status)).Append('\t')
+                .Append(result.HttpStatusCode?.ToString(CultureInfo.InvariantCulture) ?? "—").Append('\t')
+                .Append(result.LatencyMilliseconds?.ToString("F0", CultureInfo.InvariantCulture) ?? "—").Append('\t')
+                .Append(FormatLogField(result.DnsSummary)).Append('\t')
+                .AppendLine(FormatLogField(result.Detail));
+        }
+
+        return document.ToString();
+    }
+
+    private static string FormatLogField(string? value) =>
+        string.IsNullOrWhiteSpace(value)
+            ? "—"
+            : value.Replace('\r', ' ').Replace('\n', ' ').Replace('\t', ' ').Trim();
 
     private void CancelActiveRun()
     {
@@ -741,4 +799,12 @@ internal static class DnsWire
         name = string.Empty;
         return false;
     }
+}
+
+
+public sealed record LogSaveResult(bool Succeeded, bool Cancelled, string? FileName, string? ErrorMessage)
+{
+    public static LogSaveResult Saved(string fileName) => new(true, false, fileName, null);
+    public static LogSaveResult UserCancelled() => new(false, true, null, null);
+    public static LogSaveResult Failed(string errorMessage) => new(false, false, null, errorMessage);
 }

@@ -37,6 +37,7 @@ internal sealed class ImporterForm : Form
     private readonly Button _clearButton;
     private readonly Button _importButton;
     private readonly Button _cancelButton;
+    private readonly Button _saveLogsButton;
     private readonly string _modelStorePath;
     private string? _ollamaExecutable;
     private CancellationTokenSource? _importCancellation;
@@ -206,8 +207,12 @@ internal sealed class ImporterForm : Form
         _cancelButton.Margin = new Padding(0, 0, 10, 0);
         _cancelButton.Enabled = false;
         _cancelButton.Click += (_, _) => _importCancellation?.Cancel();
+        _saveLogsButton = MakeButton("Save Logs", SurfaceRaised, TextPrimary, 116);
+        _saveLogsButton.Margin = new Padding(0, 0, 10, 0);
+        _saveLogsButton.Click += async (_, _) => await SaveLogsAsync();
         actionBar.Controls.Add(_importButton);
         actionBar.Controls.Add(_cancelButton);
+        actionBar.Controls.Add(_saveLogsButton);
         footer.Controls.Add(actionBar, 0, 2);
         footer.SetColumnSpan(actionBar, 2);
         page.Controls.Add(footer, 0, 5);
@@ -217,6 +222,59 @@ internal sealed class ImporterForm : Form
             Log("Ollama CLI was not found in PATH or its usual Windows installation directories. Install/run Ollama before importing.");
         else
             Log("Ollama CLI detected. Imports are registered using the local Ollama service.");
+    }
+
+    private async Task SaveLogsAsync()
+    {
+        using var dialog = new SaveFileDialog
+        {
+            Title = "Save Ollama GGUF Importer Logs",
+            Filter = "Text log files (*.txt)|*.txt|All files (*.*)|*.*",
+            DefaultExt = "txt",
+            AddExtension = true,
+            OverwritePrompt = true,
+            FileName = $"Ollama-GGUF-Importer-Logs-{DateTime.Now:yyyyMMdd-HHmmss}.txt"
+        };
+
+        if (dialog.ShowDialog(this) != DialogResult.OK)
+            return;
+
+        var export = new StringBuilder();
+        export.AppendLine("Ollama GGUF Importer — Session Log");
+        export.AppendLine($"Version: {GetProductVersion()}");
+        export.AppendLine($"Exported at (local): {DateTimeOffset.Now:O}");
+        export.AppendLine($"Status: {_status.Text}");
+        export.AppendLine($"Ollama CLI: {_ollamaStatus.Text}");
+        export.AppendLine();
+        export.AppendLine("Activity log");
+        export.Append(_log.Text);
+        export.AppendLine();
+        export.AppendLine("Current import queue");
+        export.AppendLine("GGUF file\tSuggested Ollama name\tImport status");
+        foreach (ListViewItem row in _files.Items)
+        {
+            string name = row.SubItems.Count > 0 ? row.SubItems[0].Text : "";
+            string model = row.SubItems.Count > 1 ? row.SubItems[1].Text : "";
+            string state = row.SubItems.Count > 2 ? row.SubItems[2].Text : "";
+            export.Append(name.Replace('\t', ' ').Replace('\r', ' ').Replace('\n', ' ')).Append('\t')
+                .Append(model.Replace('\t', ' ').Replace('\r', ' ').Replace('\n', ' ')).Append('\t')
+                .AppendLine(state.Replace('\t', ' ').Replace('\r', ' ').Replace('\n', ' '));
+        }
+
+        try
+        {
+            await File.WriteAllTextAsync(dialog.FileName, export.ToString(), new UTF8Encoding(false));
+            _status.Text = $"Logs saved: {Path.GetFileName(dialog.FileName)}";
+            Log($"Saved logs to {dialog.FileName}");
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException
+            or ArgumentException or NotSupportedException or System.Security.SecurityException)
+        {
+            _status.Text = "Could not save logs.";
+            Log("ERROR: Unable to save logs: " + ex.Message);
+            MessageBox.Show(this, $"Could not save logs.\r\n\r\n{ex.Message}",
+                "Save Logs", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 
     private static string GetProductVersion()

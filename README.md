@@ -10,6 +10,7 @@ Resolver Reach is a Windows 11 25H2 x64 desktop tool for checking whether DNS-ov
 - Paste a batch of HTTPS DoH endpoint URLs (one per line or separated with semicolons).
 - Sends a real RFC 8484 wire-format DNS query for example.com A; validates HTTP status, application/dns-message content type, DNS transaction ID, response flags, question, and DNS response code. A TLS/host connection alone is not counted as success.
 - Shows endpoint status, HTTP status, latency, and DNS response details.
+- **Save Logs** opens the native save-file picker and exports the current session summary and endpoint results to a UTF-8 text file.
 - **Check the Curl Resolvers** fetches the current public resolver table from the cURL DoH wiki, extracts only Base URL-column endpoints, deduplicates the HTTPS URLs, then tests every listed endpoint with bounded concurrency and a cancellable progress display. The full catalog is refreshed on each run; it is not a baked-in snapshot.
 - Reports valid DoH responses separately from DNS RCODE errors and unreachable/invalid endpoints. A successful HTTP request alone does not count as a valid DNS exchange. Resolver availability is a point-in-time measurement, not a guarantee of 100% uptime.
 - Supports RFC 8484 POST and retries a GET-form DNS query for endpoints that reject POST with 400, 405, 415, or 501.
@@ -45,5 +46,6 @@ Resolver Reach sends DNS-over-HTTPS queries only to the HTTPS URLs in the input 
 
 The repository also includes a separate portable Windows x64 utility for importing local GGUF model files into Ollama. Its main header displays the product version (currently 1.0.0), and its executable/window use the dedicated icon at src/OllamaGgufImporter/Assets/OllamaGgufImporter.ico. It detects the current user's default Ollama model-store path, supports multi-select and common split GGUF shard sets, and registers models through Ollama's supported Modelfile + ollama create process rather than copying files directly into Ollama's internal store.
 
+- Includes a **Save Logs** button that opens a Save As dialog and exports the activity log plus the current import queue.
 - Source and instructions: [src/OllamaGgufImporter](src/OllamaGgufImporter/README.md)
 - Build artifact: download **Ollama-GGUF-Importer-Windows-x64** from the [GitHub Actions workflow](https://github.com/PCUser2021/ResolverReach/actions/workflows/ollama-gguf-importer.yml).

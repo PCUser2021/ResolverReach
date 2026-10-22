@@ -9,6 +9,7 @@ A small self-contained Windows GUI that registers local GGUF model files with Ol
 3. Click Locate .GGUF files and select one or more files.
 4. Click Import. The app derives a safe model name from each filename and invokes ollama create with a temporary Modelfile.
 5. After success, check the model with ollama list or run it using ollama run <model-name>.
+6. Click **Save Logs** to choose a destination and export the activity log, current application status, and queued import states to a UTF-8 text file.
 
 Split GGUF sets named like model-00001-of-00003.gguf are detected and imported using the matching model-*.gguf shard pattern. Keep all shards together and do not rename them.
 

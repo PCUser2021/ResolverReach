@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -14,6 +15,7 @@ public partial class MainWindow : AppWindow
         InitializeComponent();
         TitleBar.ExtendsContentIntoTitleBar = true;
         TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
+        TransparencyLevelHint = [WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur];
         SetStatusRibbon(
             "Resolver diagnostics ready",
             "No test run yet · HTTPS DNS exchange validation",

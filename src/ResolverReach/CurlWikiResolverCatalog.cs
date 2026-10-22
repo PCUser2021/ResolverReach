@@ -136,7 +136,7 @@ internal static class CurlWikiResolverCatalog
     {
         string host = uri.IdnHost.TrimEnd('.');
         if (host.Length == 0 ||
-            !host.Contains('.', StringComparison.Ordinal) ||
+            !host.Contains('.') ||
             host.Equals("localhost", StringComparison.OrdinalIgnoreCase) ||
             host.EndsWith(".localhost", StringComparison.OrdinalIgnoreCase) ||
             host.EndsWith(".local", StringComparison.OrdinalIgnoreCase) ||

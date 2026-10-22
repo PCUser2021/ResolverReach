@@ -63,6 +63,7 @@ public partial class TesterWindow : AppWindow, INotifyPropertyChanged
         _reportStatus = reportStatus;
         TitleBar.ExtendsContentIntoTitleBar = true;
         TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
+        TransparencyLevelHint = [WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur];
         DataContext = this;
         ResultsList.ItemsSource = Results;
         EmptyState.IsVisible = true;

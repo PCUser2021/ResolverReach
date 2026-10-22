@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Input.Platform;
 using Avalonia.Styling;
 using ReactiveUI;
 using ReactiveUI.Avalonia;
@@ -23,7 +24,7 @@ public partial class MainView : ReactiveUserControl<ResolverReachViewModel>
             disposables.Add(ViewModel.ClipboardTextInteraction.RegisterHandler(async interaction =>
             {
                 var clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
-                string? text = clipboard is null ? null : await clipboard.GetTextAsync();
+                string? text = clipboard is null ? null : await clipboard.TryGetTextAsync();
                 interaction.SetOutput(text);
             }));
         });

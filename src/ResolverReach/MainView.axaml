@@ -16,6 +16,7 @@
             <StackPanel Spacing="3" VerticalAlignment="Center">
               <TextBlock Text="Resolver Reach" FontSize="23" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" />
               <TextBlock Text="DNS-over-HTTPS diagnostics · Windows x64" FontSize="12" Foreground="{DynamicResource AppMutedBrush}" />
+              <TextBlock Text="{Binding VersionLabel}" FontSize="11" Foreground="{DynamicResource AppMutedBrush}" />
             </StackPanel>
           </StackPanel>
           <Menu Grid.Column="1" VerticalAlignment="Center" Background="{DynamicResource AppSurfaceBrush}" Foreground="{DynamicResource AppTextBrush}">

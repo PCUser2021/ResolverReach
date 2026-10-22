@@ -14,7 +14,7 @@ Resolver Reach is a Windows 11 25H2 x64 desktop tool for checking whether DNS-ov
 - Reports valid DoH responses separately from DNS RCODE errors and unreachable/invalid endpoints. A successful HTTP request alone does not count as a valid DNS exchange. Resolver availability is a point-in-time measurement, not a guarantee of 100% uptime.
 - Supports RFC 8484 POST and retries a GET-form DNS query for endpoints that reject POST with 400, 405, 415, or 501.
 - Press Escape to cancel an in-progress scan; results and progress stay in the main window.
-- GitHub Actions builds the self-contained x64 application and compiles an Inno Setup installer. The Windows app icon lives at src/ResolverReach/Assets/ResolverReach.ico and is used for the executable, both windows, and installer.
+- GitHub Actions builds the self-contained x64 application and compiles an Inno Setup installer. Product version (currently 1.0.0) is shown in the main header. The Windows app icon lives at src/ResolverReach/Assets/ResolverReach.ico and is used for the executable, both windows, and installer.
 
 ## Build locally on Windows
 
@@ -43,7 +43,7 @@ Resolver Reach sends DNS-over-HTTPS queries only to the HTTPS URLs in the input 
 
 ## Companion utility: Ollama GGUF Importer
 
-The repository also includes a separate portable Windows x64 utility for importing local GGUF model files into Ollama. It detects the current user's default Ollama model-store path, supports multi-select and common split GGUF shard sets, and registers models through Ollama's supported Modelfile + ollama create process rather than copying files directly into Ollama's internal store.
+The repository also includes a separate portable Windows x64 utility for importing local GGUF model files into Ollama. Its main header displays the product version (currently 1.0.0), and its executable/window use the dedicated icon at src/OllamaGgufImporter/Assets/OllamaGgufImporter.ico. It detects the current user's default Ollama model-store path, supports multi-select and common split GGUF shard sets, and registers models through Ollama's supported Modelfile + ollama create process rather than copying files directly into Ollama's internal store.
 
 - Source and instructions: [src/OllamaGgufImporter](src/OllamaGgufImporter/README.md)
 - Build artifact: download **Ollama-GGUF-Importer-Windows-x64** from the [GitHub Actions workflow](https://github.com/PCUser2021/ResolverReach/actions/workflows/ollama-gguf-importer.yml).

@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace OllamaGgufImporter;
@@ -43,6 +44,8 @@ internal sealed class ImporterForm : Form
     public ImporterForm()
     {
         Text = "Ollama GGUF Importer";
+        Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath)
+            ?? System.Drawing.SystemIcons.Application;
         StartPosition = FormStartPosition.CenterScreen;
         MinimumSize = new Size(780, 620);
         Size = new Size(900, 730);
@@ -51,6 +54,7 @@ internal sealed class ImporterForm : Form
         Font = new Font("Segoe UI", 9.5F);
         AutoScaleMode = AutoScaleMode.Dpi;
 
+        string appVersion = GetProductVersion();
         string profile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         if (string.IsNullOrWhiteSpace(profile))
             profile = Environment.GetEnvironmentVariable("USERPROFILE") ?? AppContext.BaseDirectory;
@@ -79,7 +83,7 @@ internal sealed class ImporterForm : Form
         });
         header.Controls.Add(new Label
         {
-            Text = "PORTABLE WINDOWS X64  •  SELECT A MODEL  •  IMPORT INTO OLLAMA",
+            Text = $"PORTABLE WINDOWS X64  •  v{appVersion}  •  SELECT A MODEL  •  IMPORT INTO OLLAMA",
             ForeColor = Color.FromArgb(190, 214, 245), Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
             AutoSize = true, Location = new Point(2, 38)
         });
@@ -213,6 +217,13 @@ internal sealed class ImporterForm : Form
             Log("Ollama CLI was not found in PATH or its usual Windows installation directories. Install/run Ollama before importing.");
         else
             Log("Ollama CLI detected. Imports are registered using the local Ollama service.");
+    }
+
+    private static string GetProductVersion()
+    {
+        string? version = typeof(ImporterForm).Assembly
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+        return string.IsNullOrWhiteSpace(version) ? "1.0.0" : version.Split('+', 2)[0];
     }
 
     private static Button MakeButton(string text, Color fill, Color foreground, int width)

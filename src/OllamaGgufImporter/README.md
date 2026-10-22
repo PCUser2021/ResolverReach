@@ -1,6 +1,6 @@
 # Ollama GGUF Importer (portable Windows x64)
 
-A small self-contained Windows GUI that registers local GGUF model files with Ollama.
+A small self-contained Windows GUI that registers local GGUF model files with Ollama. The main header displays the assembly product version; the executable and window use the bundled Ollama GGUF Importer icon.
 
 ## Use
 

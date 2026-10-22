@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -50,6 +51,8 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
         set => this.RaiseAndSetIfChanged(ref _inputLinks, value);
     }
 
+    public string VersionLabel { get; } = "Version " + GetProductVersion();
+
     public ResolverDashboardState DashboardState => _dashboardState.Value;
     public bool HasResults => _hasResults.Value;
     public bool IsEmptyResults => _isEmptyResults.Value;
@@ -59,6 +62,13 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     public ReactiveCommand<Unit, Unit> CheckLinksCommand { get; }
     public ReactiveCommand<Unit, Unit> PasteLinksCommand { get; }
     public ReactiveCommand<Unit, Unit> CancelCommand { get; }
+
+    private static string GetProductVersion()
+    {
+        string? version = typeof(ResolverReachViewModel).Assembly
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+        return string.IsNullOrWhiteSpace(version) ? "1.0.0" : version.Split('+', 2)[0];
+    }
 
     public ResolverReachViewModel()
     {

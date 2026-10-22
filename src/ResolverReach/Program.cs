@@ -1,4 +1,5 @@
 using Avalonia;
+using ReactiveUI.Avalonia;
 
 namespace ResolverReach;
 
@@ -11,5 +12,7 @@ internal static class Program
     public static AppBuilder BuildAvaloniaApp() =>
         AppBuilder.Configure<App>()
             .UsePlatformDetect()
+            .UseReactiveUI()
+            .RegisterReactiveUIViewsFromEntryAssembly()
             .LogToTrace();
 }

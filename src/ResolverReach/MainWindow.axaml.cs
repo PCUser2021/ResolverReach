@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using Avalonia;
 using Avalonia.Controls;
+using FluentAvalonia.UI.Windowing;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Platform.Storage;
@@ -13,7 +14,7 @@ using Avalonia.Threading;
 
 namespace ResolverReach;
 
-public partial class MainWindow : Window, INotifyPropertyChanged
+public partial class MainWindow : AppWindow, INotifyPropertyChanged
 {
     private static readonly string[] SampleEndpoints =
     [
@@ -64,6 +65,14 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         ResultsScroll.IsVisible = false;
         ProgressText.Text = "0 tested";
         TestProgress.Value = 0;
+        SetStatusRibbon("Resolver diagnostics ready", "No test run yet · HTTPS DNS exchange validation", "#512144");
+    }
+
+    private void SetStatusRibbon(string title, string detail, string fill)
+    {
+        StatusRibbonTitle.Text = title;
+        StatusRibbonText.Text = detail;
+        StatusRibbon.Background = new SolidColorBrush(Color.Parse(fill));
     }
 
     private void Samples_Click(object? sender, RoutedEventArgs e)
@@ -78,6 +87,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         if (_runCancellation is null) return;
         _runCancellation.Cancel();
         StatusText.Text = "Cancellation requested…";
+        SetStatusRibbon("Stopping resolver tests", "Waiting for active HTTPS requests to finish", "#634221");
     }
 
     private async void RunTests_Click(object? sender, RoutedEventArgs e)
@@ -112,6 +122,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         TestProgress.Value = 0;
         ProgressText.Text = $"0 / {endpoints.Length}";
         StatusText.Text = $"Testing {endpoints.Length} endpoint(s)…";
+        SetStatusRibbon("Testing DNS resolvers", $"Running valid DoH exchanges · 0 of {endpoints.Length} completed", "#66315A");
 
         var cancellation = new CancellationTokenSource();
         _runCancellation = cancellation;
@@ -163,11 +174,16 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             StatusText.Text = cancellation.IsCancellationRequested
                 ? $"Stopped · {passed} pass · {dnsErrors} DNS error · {failed} failed · {cancelled} cancelled"
                 : $"Complete · {passed} pass · {dnsErrors} DNS error · {failed} failed";
+            SetStatusRibbon(
+                cancellation.IsCancellationRequested ? "Resolver tests stopped" : passed > 0 ? "DNS diagnostics complete" : "No resolver passed validation",
+                $"{passed} valid · {dnsErrors} DNS errors · {failed} failed" + (cancelled > 0 ? $" · {cancelled} cancelled" : string.Empty),
+                cancellation.IsCancellationRequested ? "#634221" : passed > 0 ? "#28563F" : "#6A283C");
             ExportButton.IsEnabled = Results.Count > 0;
         }
         catch (Exception ex)
         {
             StatusText.Text = $"Test run error: {ShortError(ex.Message)}";
+            SetStatusRibbon("Test run error", ShortError(ex.Message), "#6A283C");
         }
         finally
         {

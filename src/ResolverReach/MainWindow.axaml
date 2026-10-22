@@ -42,7 +42,6 @@
                  Text="{Binding EndpointInput, Mode=TwoWay}"
                  AcceptsReturn="True" TextWrapping="Wrap"
                  MinLines="4" MaxLines="6"
-                 VerticalScrollBarVisibility="Auto"
                  Watermark="https://cloudflare-dns.com/dns-query&#10;https://dns.google/dns-query"
                  FontFamily="Cascadia Mono, Consolas, monospace"
                  FontSize="12" Padding="12"

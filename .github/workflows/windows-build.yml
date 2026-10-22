@@ -1,0 +1,63 @@
+name: Windows x64 build and installer
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows-x64:
+    name: Build and package Windows x64
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore src/ResolverReach/ResolverReach.csproj
+
+      - name: Publish self-contained x64 application
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifacts/publish, artifacts/installer | Out-Null
+          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=1.0.0 --output artifacts/publish
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Install Inno Setup
+        shell: pwsh
+        run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            choco install innosetup --yes --no-progress
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+          if (-not (Test-Path $iscc)) { throw "Inno Setup compiler was not found at $iscc" }
+
+      - name: Compile installer
+        shell: pwsh
+        run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          & $iscc /DMyAppVersion=1.0.0 "installer/ResolverReach.iss"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if (-not (Test-Path "artifacts/installer/ResolverReach-Setup-x64.exe")) {
+            throw "Expected installer output was not created."
+          }
+
+      - name: Upload Windows x64 installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: ResolverReach-Windows-x64
+          path: artifacts/installer/ResolverReach-Setup-x64.exe
+          if-no-files-found: error
+          retention-days: 14

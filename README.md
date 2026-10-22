@@ -11,7 +11,7 @@ Resolver Reach is a Windows 11 25H2 x64 desktop tool for checking whether DNS-ov
 - Sends a real RFC 8484 wire-format DNS query for example.com A; validates HTTP status, application/dns-message content type, DNS transaction ID, response flags, question, and DNS response code. A TLS/host connection alone is not counted as success.
 - Shows endpoint status, HTTP status, latency, and DNS response details.
 - Exports results to CSV.
-- GitHub Actions builds the self-contained x64 application and compiles an Inno Setup installer. The multi-size Windows app icon lives at src/ResolverReach/Assets/ResolverReach.ico and is used for the executable, both windows, and installer.
+- GitHub Actions builds the self-contained x64 application and compiles an Inno Setup installer. The Windows app icon lives at src/ResolverReach/Assets/ResolverReach.ico and is used for the executable, both windows, and installer.
 
 ## Build locally on Windows
 

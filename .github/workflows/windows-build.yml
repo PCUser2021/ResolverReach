@@ -2,7 +2,7 @@ name: Windows x64 build and installer
 
 on:
   push:
-    branches: [main]
+    branches: [main, reactiveui-frp-refactor]
   pull_request:
   workflow_dispatch:
 

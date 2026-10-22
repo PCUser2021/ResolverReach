@@ -6,6 +6,7 @@
 #define MyAppExeName "ResolverReach.exe"
 
 [Setup]
+SetupIconFile=..\src\ResolverReach\Assets\ResolverReach.ico
 AppId={{1F1CBB7B-5A0C-4E08-9EF2-5DBEFA683D38}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}

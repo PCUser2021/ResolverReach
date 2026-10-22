@@ -19,7 +19,7 @@ public partial class MainWindow : AppWindow
         SetStatusRibbon(
             "Resolver diagnostics ready",
             "No test run yet · HTTPS DNS exchange validation",
-            "#512144");
+            "#0E355D");
     }
 
     private void SetStatusRibbon(string title, string detail, string fill)

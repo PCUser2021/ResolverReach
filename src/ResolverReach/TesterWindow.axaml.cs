@@ -70,7 +70,7 @@ public partial class TesterWindow : AppWindow, INotifyPropertyChanged
         ResultsScroll.IsVisible = false;
         ProgressText.Text = "0 tested";
         TestProgress.Value = 0;
-        SetStatusRibbon("Resolver diagnostics ready", "No test run yet · HTTPS DNS exchange validation", "#512144");
+        SetStatusRibbon("Resolver diagnostics ready", "No test run yet · HTTPS DNS exchange validation", "#0E355D");
     }
 
     private void SetStatusRibbon(string title, string detail, string fill)

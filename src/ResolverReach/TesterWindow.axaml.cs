@@ -219,13 +219,14 @@ public partial class TesterWindow : AppWindow, INotifyPropertyChanged
             int reachable = healthy + dnsErrors;
             int failed = Results.Count(x => x.Status == "FAIL");
             int cancelled = Results.Count(x => x.Status == "CANCELLED");
-            double percentReachable = Results.Count == 0 ? 0 : 100.0 * reachable / Results.Count;
+            int completedResults = Results.Count(x => x.Status != "CANCELLED");
+            double percentReachable = completedResults == 0 ? 0 : 100.0 * reachable / completedResults;
             string cancelledSuffix = cancelled > 0 ? $" · {cancelled} cancelled" : string.Empty;
 
             if (loadCurlWikiCatalog)
             {
                 StatusText.Text = cancellation.IsCancellationRequested
-                    ? $"Stopped · {reachable}/{Results.Count} reachable ({percentReachable:F1}% of completed) · {failed} unavailable{cancelledSuffix}"
+                    ? $"Stopped · {reachable}/{completedResults} completed endpoints responded ({percentReachable:F1}%) · {failed} unavailable{cancelledSuffix}"
                     : $"Catalog check complete · {reachable}/{endpoints.Length} reachable ({percentReachable:F1}%) · {healthy} NOERROR · {dnsErrors} DNS errors · {failed} unavailable";
 
                 string title = cancellation.IsCancellationRequested

@@ -10,7 +10,7 @@ Resolver Reach is a Windows 11 25H2 x64 desktop tool for checking whether DNS-ov
 - Paste a batch of HTTPS DoH endpoint URLs (one per line or separated with semicolons).
 - Sends a real RFC 8484 wire-format DNS query for example.com A; validates HTTP status, application/dns-message content type, DNS transaction ID, response flags, question, and DNS response code. A TLS/host connection alone is not counted as success.
 - Shows endpoint status, HTTP status, latency, and DNS response details.
-- **Check Now** fetches the current public resolver table from the cURL DoH wiki, extracts only Base URL-column endpoints, deduplicates the HTTPS URLs, then tests every listed endpoint with bounded concurrency and a cancellable progress display. The full catalog is refreshed on each run; it is not a baked-in snapshot.
+- **Check the Curl Resolvers** fetches the current public resolver table from the cURL DoH wiki, extracts only Base URL-column endpoints, deduplicates the HTTPS URLs, then tests every listed endpoint with bounded concurrency and a cancellable progress display. The full catalog is refreshed on each run; it is not a baked-in snapshot.
 - Reports valid DoH responses separately from DNS RCODE errors and unreachable/invalid endpoints. A successful HTTP request alone does not count as a valid DNS exchange. Resolver availability is a point-in-time measurement, not a guarantee of 100% uptime.
 - Supports RFC 8484 POST and retries a GET-form DNS query for endpoints that reject POST with 400, 405, 415, or 501.
 - Press Escape to cancel an in-progress scan; results and progress stay in the main window.
@@ -24,16 +24,18 @@ Install the .NET 10 SDK and Inno Setup 6. From a PowerShell terminal at the repo
     dotnet publish src/ResolverReach/ResolverReach.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts/publish
     iscc /DMyAppVersion=1.0.0 installer/ResolverReach.iss
 
-Click **Check Now** to refresh resolver URLs from https://github.com/curl/curl/wiki/DNS-over-HTTPS and test the listed HTTPS DNS endpoints. Each resolver receives a test query for example.com; use this only when you are comfortable sending that query to every listed provider. Checks are point-in-time and cannot guarantee future or universal reachability.
+Click **Check the Curl Resolvers** to refresh resolver URLs from https://github.com/curl/curl/wiki/DNS-over-HTTPS and test the listed HTTPS DNS endpoints. Each resolver receives a test query for example.com; use this only when you are comfortable sending that query to every listed provider. Checks are point-in-time and cannot guarantee future or universal reachability.
 
 The workflow under .github/workflows/windows-build.yml runs on pushes to main and manual dispatch. Download the ResolverReach-Windows-x64 artifact from the run's Artifacts section.
 
-## UI/framework references
+## UI and accessibility approach
 
-- OnionFruit product page and public source: https://dragonfruit.network/onionfruit and https://github.com/dragonfruitnetwork/onionfruit/tree/2026.620.0. Resolver Reach borrows only high-level visual cues such as the compact status ribbon and acrylic window surface.
-- Photoshop reference: https://en.wikipedia.org/wiki/Adobe_Photoshop. The icon and theme are independently designed around a dark field and vivid blue accents; they do not use Adobe's Photoshop logo or name in the app identity.
+- The app uses Avalonia with FluentAvalonia and Microsoft's Fluent Design guidance for layout hierarchy, predictable commands, keyboard access, readable contrast, and light/dark themes.
+- Windows x64 manifest includes DPI awareness and long-path support. Endpoint checks use invariant URL/DNS parsing and display meaningful status text rather than relying on color alone.
+- See Microsoft's [Windows app design guidelines](https://learn.microsoft.com/en-us/windows/apps/design/guidelines-overview), [accessibility best practices](https://learn.microsoft.com/en-us/windows/apps/get-started/best-practices), and [localization guidance](https://learn.microsoft.com/en-us/windows/apps/design/globalizing/prepare-your-app-for-localization).
+- These design choices are not a certification of conformance to every international standard. Formal WCAG, localization, keyboard, assistive-technology, and high-DPI testing remains a release requirement.
 
-Resolver Reach is an independent DNS diagnostics tool, not an OnionFruit fork, VPN, or Tor client. See THIRD-PARTY-NOTICES.md.
+Resolver Reach is an independent DNS diagnostics tool, not a VPN or system DNS manager.
 
 ## Privacy and safety
 

@@ -19,7 +19,7 @@
             </StackPanel>
           </StackPanel>
           <Menu Grid.Column="1" VerticalAlignment="Center" Background="{DynamicResource AppSurfaceBrush}" Foreground="{DynamicResource AppTextBrush}">
-            <MenuItem x:Name="PasteMenuItem" Header="Paste Links"  />
+            <MenuItem x:Name="PasteMenuItem" Header="Paste Links" Command="{Binding PasteLinksCommand}" />
           </Menu>
           <ComboBox x:Name="ThemeSelector" Grid.Column="2" Width="150" MinHeight="38" VerticalAlignment="Center"
                     SelectionChanged="ThemeSelector_SelectionChanged" AutomationProperties.Name="Application theme">
@@ -32,17 +32,17 @@
       <Border x:Name="StatusRibbon" Grid.Row="1" Background="#10375A" Padding="24,18">
         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="20">
           <StackPanel Spacing="5" VerticalAlignment="Center">
-            <TextBlock x:Name="StatusRibbonTitle" Text="Ready to check DNS resolvers" FontSize="23" FontWeight="SemiBold" Foreground="#FFFFFF" />
-            <TextBlock x:Name="StatusRibbonText" Text="Check the live cURL catalog or open Paste Links to test your own endpoints." FontSize="13" Foreground="#D9EBFF" TextWrapping="Wrap" />
+            <TextBlock x:Name="StatusRibbonTitle" Text="{Binding DashboardState.Title}" FontSize="23" FontWeight="SemiBold" Foreground="#FFFFFF" />
+            <TextBlock x:Name="StatusRibbonText" Text="{Binding DashboardState.Detail}" FontSize="13" Foreground="#D9EBFF" TextWrapping="Wrap" />
           </StackPanel>
-          <Button x:Name="CheckNowButton" Grid.Column="1"  Padding="22,13" MinWidth="240" MinHeight="48" VerticalAlignment="Center"
+          <Button x:Name="CheckNowButton" Grid.Column="1" Command="{Binding CheckCatalogCommand}" Padding="22,13" MinWidth="240" MinHeight="48" VerticalAlignment="Center"
                   Background="#1473E6" BorderBrush="#31A8FF" BorderThickness="1" CornerRadius="7"
                   AutomationProperties.Name="Check the cURL DoH resolver catalog">
             <TextBlock Text="Check the Curl Resolvers" FontSize="14" FontWeight="SemiBold" Foreground="White" />
           </Button>
         </Grid>
       </Border>
-      <Border x:Name="PasteLinksPanel" Grid.Row="2" IsVisible="False" Background="{DynamicResource AppSurfaceBrush}"
+      <Border x:Name="PasteLinksPanel" Grid.Row="2" IsVisible="{Binding DashboardState.PastePanelVisible}" Background="{DynamicResource AppSurfaceBrush}"
               BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="0,0,0,1" Padding="24,16">
         <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="18" RowSpacing="10">
           <StackPanel Spacing="4">
@@ -50,12 +50,12 @@
             <TextBlock Text="One HTTPS DoH endpoint per line. Separate endpoints with line breaks or semicolons. Press Esc during a run to cancel."
                        FontSize="12" Foreground="{DynamicResource AppMutedBrush}" TextWrapping="Wrap" />
           </StackPanel>
-          <Button x:Name="CheckPasteButton" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" 
+          <Button x:Name="CheckPasteButton" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Command="{Binding CheckLinksCommand}" 
                   Padding="24,10" MinWidth="120" MinHeight="42" VerticalAlignment="Center"
                   Background="#1473E6" BorderBrush="#31A8FF" BorderThickness="1" CornerRadius="7">
             <TextBlock Text="Check" FontSize="13" FontWeight="SemiBold" Foreground="White" />
           </Button>
-          <TextBox x:Name="EndpointBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+          <TextBox x:Name="EndpointBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding InputLinks, Mode=TwoWay}" 
                    AcceptsReturn="True" TextWrapping="Wrap" MinLines="3" MaxLines="7"
                    Watermark="https://cloudflare-dns.com/dns-query&#10;https://dns.google/dns-query"
                    FontFamily="Cascadia Mono, Consolas, monospace" FontSize="13" Padding="12"
@@ -86,7 +86,7 @@
           </Grid>
         </Border>
         <Grid Grid.Row="2" MinHeight="180">
-          <StackPanel x:Name="EmptyState" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" MaxWidth="560">
+          <StackPanel x:Name="EmptyState" IsVisible="{Binding IsEmptyResults}" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" MaxWidth="560">
             <Border Width="64" Height="64" CornerRadius="18" Background="{DynamicResource AppSubtleBrush}" HorizontalAlignment="Center">
               <TextBlock Text="✓" FontSize="32" Foreground="#1473E6" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
@@ -94,7 +94,7 @@
             <TextBlock Text="Click “Check the Curl Resolvers” to fetch the current public resolver list, or choose Paste Links to test specific endpoints."
                        TextWrapping="Wrap" TextAlignment="Center" FontSize="13" Foreground="{DynamicResource AppMutedBrush}" HorizontalAlignment="Center" />
           </StackPanel>
-          <ListBox x:Name="ResultsList" IsVisible="False" BorderThickness="0" Background="{DynamicResource AppBackgroundBrush}" SelectionMode="Single" HorizontalContentAlignment="Stretch">
+          <ListBox x:Name="ResultsList" ItemsSource="{Binding Results}" IsVisible="{Binding HasResults}" BorderThickness="0" Background="{DynamicResource AppBackgroundBrush}" SelectionMode="Single" HorizontalContentAlignment="Stretch">
               <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="vm:ResolverResult">
                   <Border BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="0,0,0,1" Padding="12,13">
@@ -121,10 +121,10 @@
       <Border Grid.Row="4" Background="{DynamicResource AppSurfaceBrush}" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="0,1,0,0" Padding="24,12">
         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="20">
           <StackPanel Spacing="7">
-            <TextBlock x:Name="StatusText" Text="Idle" FontSize="12" Foreground="{DynamicResource AppTextBrush}" TextWrapping="Wrap" />
-            <ProgressBar x:Name="TestProgress" Minimum="0" Maximum="100" Value="0" Height="5" IsIndeterminate="False" />
+            <TextBlock x:Name="StatusText" Text="{Binding DashboardState.StatusText}" FontSize="12" Foreground="{DynamicResource AppTextBrush}" TextWrapping="Wrap" />
+            <ProgressBar x:Name="TestProgress" Minimum="0" Maximum="100" Value="{Binding DashboardState.ProgressValue}" Height="5" IsIndeterminate="False" />
           </StackPanel>
-          <TextBlock x:Name="ProgressText" Grid.Column="1" Text="0 tested" VerticalAlignment="Center" Margin="14,0,0,0" FontSize="12" Foreground="{DynamicResource AppMutedBrush}" />
+          <TextBlock x:Name="ProgressText" Grid.Column="1" Text="{Binding DashboardState.ProgressLabel}" VerticalAlignment="Center" Margin="14,0,0,0" FontSize="12" Foreground="{DynamicResource AppMutedBrush}" />
         </Grid>
       </Border>
     </Grid>

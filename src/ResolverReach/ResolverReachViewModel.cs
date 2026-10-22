@@ -63,9 +63,9 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     public ResolverReachViewModel()
     {
         var resultConnection = _resultCache.Connect()
-            .ObserveOn(RxApp.TaskpoolScheduler)
+            .ObserveOn(RxSchedulers.TaskpoolScheduler)
             .Sort(SortExpressionComparer<ResolverResult>.Ascending(x => x.Endpoint))
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Bind(out ReadOnlyObservableCollection<ResolverResult> displayedResults)
             .Subscribe();
         Results = displayedResults;
@@ -80,13 +80,13 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
             .StartWith(false)
             .Replay(1)
             .RefCount();
-        _hasResults = hasResults.ToProperty(this, x => x.HasResults, false, scheduler: RxApp.MainThreadScheduler);
+        _hasResults = hasResults.ToProperty(this, x => x.HasResults, false, scheduler: RxSchedulers.MainThreadScheduler);
         _isEmptyResults = hasResults.Select(value => !value)
-            .ToProperty(this, x => x.IsEmptyResults, true, scheduler: RxApp.MainThreadScheduler);
+            .ToProperty(this, x => x.IsEmptyResults, true, scheduler: RxSchedulers.MainThreadScheduler);
 
         _dashboardState = _stateSubject
             .DistinctUntilChanged()
-            .ToProperty(this, x => x.DashboardState, ResolverDashboardState.Initial, scheduler: RxApp.MainThreadScheduler);
+            .ToProperty(this, x => x.DashboardState, ResolverDashboardState.Initial, scheduler: RxSchedulers.MainThreadScheduler);
 
         IObservable<bool> canCheckLinks = this.WhenAnyValue(x => x.InputLinks)
             .Select(text => !string.IsNullOrWhiteSpace(text))
@@ -94,7 +94,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
 
         CheckCatalogCommand = ReactiveCommand.CreateFromTask(
             (CancellationToken token) => Task.Run(() => RunEndpointCheckAsync(true, string.Empty, token), token),
-            outputScheduler: RxApp.MainThreadScheduler);
+            outputScheduler: RxSchedulers.MainThreadScheduler);
         CheckLinksCommand = ReactiveCommand.CreateFromTask(
             (CancellationToken token) =>
             {
@@ -102,7 +102,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
                 return Task.Run(() => RunEndpointCheckAsync(false, capturedInput, token), token);
             },
             canCheckLinks,
-            outputScheduler: RxApp.MainThreadScheduler);
+            outputScheduler: RxSchedulers.MainThreadScheduler);
         PasteLinksCommand = ReactiveCommand.CreateFromTask(async () =>
         {
             UpdateState(state => state with
@@ -113,19 +113,19 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
             string? clipboardText = await ClipboardTextInteraction.Handle(Unit.Default);
             if (!string.IsNullOrWhiteSpace(clipboardText))
                 InputLinks = clipboardText;
-        }, outputScheduler: RxApp.MainThreadScheduler);
+        }, outputScheduler: RxSchedulers.MainThreadScheduler);
 
         _isBusy = Observable.CombineLatest(
                 CheckCatalogCommand.IsExecuting,
                 CheckLinksCommand.IsExecuting,
                 (catalog, custom) => catalog || custom)
             .DistinctUntilChanged()
-            .ToProperty(this, x => x.IsBusy, false, scheduler: RxApp.MainThreadScheduler);
+            .ToProperty(this, x => x.IsBusy, false, scheduler: RxSchedulers.MainThreadScheduler);
 
         CancelCommand = ReactiveCommand.Create(
             CancelActiveRun,
             this.WhenAnyValue(x => x.IsBusy),
-            RxApp.MainThreadScheduler);
+            RxSchedulers.MainThreadScheduler);
 
         _lifetime.Add(_dashboardState);
         _lifetime.Add(_hasResults);
@@ -138,13 +138,12 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
 
         this.WhenActivated(disposables =>
         {
-            PasteLinksCommand.ThrownExceptions
+            disposables.Add(PasteLinksCommand.ThrownExceptions
                 .Subscribe(ex => UpdateState(state => state with
                 {
                     StatusText = "Clipboard error: " + ShortError(ex.Message),
                     Detail = "You can still paste manually with Ctrl+V."
-                }))
-                .DisposeWith(disposables);
+                })));
         });
     }
 

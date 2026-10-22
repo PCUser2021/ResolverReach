@@ -72,30 +72,75 @@ internal static class CurlWikiResolverCatalog
         var endpoints = new List<string>();
         var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         bool foundTable = false;
+        var pendingRow = new System.Text.StringBuilder();
 
         for (int index = sectionStart + 1; index < lines.Length; index++)
         {
             string line = lines[index].Trim();
             if (line.StartsWith("*: Tested via", StringComparison.OrdinalIgnoreCase))
+            {
+                if (pendingRow.Length > 0)
+                    AddRow(pendingRow.ToString());
                 break;
+            }
 
-            if (!line.Contains('|') || line.StartsWith("|---", StringComparison.Ordinal))
-                continue;
-
-            // Rows in the wiki normally start with '|'; a few historical rows
-            // omit it. In both forms, the second table cell is the Base URL.
-            string row = line.StartsWith('|') ? line[1..] : line;
-            string[] cells = row.Split('|');
-            if (cells.Length < 2)
-                continue;
-
-            if (!foundTable && cells[0].Contains("Who runs it", StringComparison.OrdinalIgnoreCase))
+            if (line.Contains("Who runs it", StringComparison.OrdinalIgnoreCase))
             {
                 foundTable = true;
+                pendingRow.Clear();
                 continue;
             }
             if (!foundTable)
                 continue;
+
+            // Ignore Markdown table separators and single-cell letter labels.
+            string withoutPipes = line.Replace("|", string.Empty, StringComparison.Ordinal).Trim();
+            if (withoutPipes.Length == 0 ||
+                withoutPipes.All(character => character is '-' or ':' or ' ' or '\t') ||
+                Regex.IsMatch(line, @"^\|\s*\*\*[A-Z0-9-]+\*\*\s*$", RegexOptions.IgnoreCase))
+            {
+                continue;
+            }
+
+            if (pendingRow.Length == 0)
+            {
+                if (!line.Contains('|'))
+                    continue;
+                pendingRow.Append(line);
+            }
+            else
+            {
+                // The wiki occasionally breaks a very long table row over
+                // several physical lines, including before the Base URL cell ends.
+                pendingRow.Append(' ').Append(line);
+            }
+
+            // The four-column table has at least three pipe separators.
+            // Wait to assemble the whole logical row before examining cell #2.
+            if (pendingRow.ToString().Count(character => character == '|') >= 3)
+            {
+                AddRow(pendingRow.ToString());
+                pendingRow.Clear();
+            }
+        }
+
+        if (!foundTable)
+        {
+            throw new InvalidOperationException(
+                "The cURL wiki Base URL table could not be identified. The page layout may have changed.");
+        }
+
+        return endpoints;
+
+        void AddRow(string rawRow)
+        {
+            string row = rawRow.Trim();
+            if (row.StartsWith('|'))
+                row = row[1..];
+
+            string[] cells = row.Split('|');
+            if (cells.Length < 2)
+                return;
 
             string baseUrlCell = cells[1];
             foreach (Match match in HttpsUrlPattern.Matches(baseUrlCell))
@@ -122,14 +167,6 @@ internal static class CurlWikiResolverCatalog
                 }
             }
         }
-
-        if (!foundTable)
-        {
-            throw new InvalidOperationException(
-                "The cURL wiki Base URL table could not be identified. The page layout may have changed.");
-        }
-
-        return endpoints;
     }
 
     private static bool IsPublicHostname(Uri uri)

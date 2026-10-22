@@ -68,7 +68,7 @@ internal sealed class ImporterForm : Form
         page.RowStyles.Add(new RowStyle(SizeType.Percent, 46));
         page.RowStyles.Add(new RowStyle(SizeType.Absolute, 78));
         page.RowStyles.Add(new RowStyle(SizeType.Percent, 30));
-        page.RowStyles.Add(new RowStyle(SizeType.Absolute, 58));
+        page.RowStyles.Add(new RowStyle(SizeType.Absolute, 98));
         Controls.Add(page);
 
         var header = new Panel { Dock = DockStyle.Fill, BackColor = Color.FromArgb(20, 31, 49), Padding = new Padding(16, 10, 16, 8) };
@@ -158,14 +158,15 @@ internal sealed class ImporterForm : Form
 
         var footer = new TableLayoutPanel
         {
-            Dock = DockStyle.Fill, ColumnCount = 3, RowCount = 2,
-            BackColor = BackColor, Padding = new Padding(0, 9, 0, 0)
+            Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 3,
+            BackColor = BackColor, Padding = new Padding(0, 8, 0, 0)
         };
-        footer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-        footer.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110));
-        footer.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 132));
-        footer.RowStyles.Add(new RowStyle(SizeType.Absolute, 28));
+        footer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 62));
+        footer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 38));
         footer.RowStyles.Add(new RowStyle(SizeType.Absolute, 26));
+        footer.RowStyles.Add(new RowStyle(SizeType.Absolute, 24));
+        footer.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+
         _ollamaStatus.Text = _ollamaExecutable is null
             ? "Ollama CLI not found — install Ollama, then reopen this tool."
             : $"Ollama CLI detected: {_ollamaExecutable}";
@@ -174,14 +175,8 @@ internal sealed class ImporterForm : Form
         _ollamaStatus.Dock = DockStyle.Fill;
         _ollamaStatus.TextAlign = ContentAlignment.MiddleLeft;
         footer.Controls.Add(_ollamaStatus, 0, 0);
-        _cancelButton = MakeButton("Cancel", SurfaceRaised, TextPrimary, 100);
-        _cancelButton.Enabled = false;
-        _cancelButton.Click += (_, _) => _importCancellation?.Cancel();
-        footer.Controls.Add(_cancelButton, 1, 0);
-        _importButton = MakeButton("Import", Accent, Color.White, 122);
-        _importButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-        _importButton.Click += async (_, _) => await ImportSelectedAsync();
-        footer.Controls.Add(_importButton, 2, 0);
+        footer.SetColumnSpan(_ollamaStatus, 2);
+
         _status.Text = "Idle";
         _status.Dock = DockStyle.Fill;
         _status.ForeColor = TextMuted;
@@ -192,12 +187,25 @@ internal sealed class ImporterForm : Form
         _progress.Maximum = 100;
         _progress.Value = 0;
         footer.Controls.Add(_progress, 1, 1);
-        footer.Controls.Add(new Label
+
+        var actionBar = new FlowLayoutPanel
         {
-            Text = "Portable · No admin rights · No model file uploaded",
-            ForeColor = TextMuted, Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleRight,
-            Font = new Font("Segoe UI", 8F)
-        }, 2, 1);
+            Dock = DockStyle.Fill, AutoSize = false, WrapContents = false,
+            FlowDirection = FlowDirection.RightToLeft, BackColor = BackColor,
+            Padding = new Padding(0, 4, 0, 0), Margin = new Padding(0)
+        };
+        _importButton = MakeButton("Import", Accent, Color.White, 122);
+        _importButton.Margin = new Padding(0);
+        _importButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+        _importButton.Click += async (_, _) => await ImportSelectedAsync();
+        _cancelButton = MakeButton("Cancel", SurfaceRaised, TextPrimary, 100);
+        _cancelButton.Margin = new Padding(0, 0, 10, 0);
+        _cancelButton.Enabled = false;
+        _cancelButton.Click += (_, _) => _importCancellation?.Cancel();
+        actionBar.Controls.Add(_importButton);
+        actionBar.Controls.Add(_cancelButton);
+        footer.Controls.Add(actionBar, 0, 2);
+        footer.SetColumnSpan(actionBar, 2);
         page.Controls.Add(footer, 0, 5);
 
         RefreshButtons();
@@ -390,24 +398,42 @@ internal sealed class ImporterForm : Form
         if (_ollamaExecutable is null)
             return new ImportResult(false, null, "", "The Ollama command-line tool is not installed.");
 
+        string sourceDirectory = Path.GetDirectoryName(job.Source) ?? AppContext.BaseDirectory;
+        string sourceLeaf = Path.GetFileName(job.Source);
         string tempDirectory = Path.Combine(Path.GetTempPath(), "OllamaGgufImporter", Guid.NewGuid().ToString("N"));
+        string? modelfile = null;
+        bool localModelfile = false;
         Directory.CreateDirectory(tempDirectory);
+
         try
         {
-            string modelfile = Path.Combine(tempDirectory, "Modelfile");
-            string source = job.Source.Replace("\\", "/", StringComparison.Ordinal).Replace("\"", "\\\"", StringComparison.Ordinal);
-            await File.WriteAllTextAsync(modelfile, $"FROM \"{source}\"{Environment.NewLine}", new UTF8Encoding(false), cancellationToken);
+            // Ollama resolves relative FROM paths against the Modelfile directory.
+            // A sibling Modelfile avoids fragile absolute Windows paths and path parsing bugs.
+            string localCandidate = Path.Combine(sourceDirectory, $".ollama-import-{Guid.NewGuid():N}.modelfile");
+            string localDirective = $"FROM \"./{sourceLeaf.Replace("\\", "/", StringComparison.Ordinal)}\"{Environment.NewLine}";
+            try
+            {
+                await File.WriteAllTextAsync(localCandidate, localDirective, new UTF8Encoding(false), cancellationToken);
+                modelfile = localCandidate;
+                localModelfile = true;
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                try { File.Delete(localCandidate); } catch { }
+                modelfile = Path.Combine(tempDirectory, "Modelfile");
+                string absoluteSource = job.Source.Replace("\\", "/", StringComparison.Ordinal);
+                await File.WriteAllTextAsync(modelfile, $"FROM \"{absoluteSource}\"{Environment.NewLine}", new UTF8Encoding(false), cancellationToken);
+            }
+
+            Log(localModelfile ? "Using a sibling Modelfile and relative GGUF path." :
+                "Source folder is read-only; using a temporary Modelfile with an absolute GGUF path.");
 
             var startInfo = new ProcessStartInfo
             {
                 FileName = _ollamaExecutable,
-                WorkingDirectory = tempDirectory,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true,
-                StandardOutputEncoding = Encoding.UTF8,
-                StandardErrorEncoding = Encoding.UTF8
+                WorkingDirectory = Path.GetDirectoryName(modelfile) ?? sourceDirectory,
+                UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true,
+                CreateNoWindow = true, StandardOutputEncoding = Encoding.UTF8, StandardErrorEncoding = Encoding.UTF8
             };
             startInfo.ArgumentList.Add("create");
             startInfo.ArgumentList.Add(job.ModelName);
@@ -416,7 +442,7 @@ internal sealed class ImporterForm : Form
 
             using var process = new Process { StartInfo = startInfo };
             if (!process.Start())
-                return new ImportResult(false, null, "", "Windows could not start the Ollama process.");
+                return new ImportResult(false, null, "", "Windows could not start Ollama. Confirm that it is installed and running.");
 
             using CancellationTokenRegistration registration = cancellationToken.Register(() =>
             {
@@ -427,10 +453,7 @@ internal sealed class ImporterForm : Form
 
             Task<string> outputTask = process.StandardOutput.ReadToEndAsync();
             Task<string> errorTask = process.StandardError.ReadToEndAsync();
-            try
-            {
-                await process.WaitForExitAsync(cancellationToken);
-            }
+            try { await process.WaitForExitAsync(cancellationToken); }
             catch (OperationCanceledException)
             {
                 try { if (!process.HasExited) process.Kill(entireProcessTree: true); }
@@ -443,15 +466,24 @@ internal sealed class ImporterForm : Form
 
             string output = await outputTask;
             string error = await errorTask;
+            if (process.ExitCode != 0)
+            {
+                string combined = (error + Environment.NewLine + output).Trim();
+                if (combined.Contains("connect", StringComparison.OrdinalIgnoreCase) ||
+                    (combined.Contains("running", StringComparison.OrdinalIgnoreCase) && combined.Contains("ollama", StringComparison.OrdinalIgnoreCase)))
+                    error = combined + Environment.NewLine + "Troubleshooting: launch Ollama from the Windows Start menu and wait for startup. Check OLLAMA_HOST if using a custom endpoint.";
+            }
             return new ImportResult(process.ExitCode == 0, process.ExitCode, output, error);
         }
         catch (OperationCanceledException) { throw; }
         catch (Exception ex) { return new ImportResult(false, null, "", ex.Message); }
         finally
         {
-            try { Directory.Delete(tempDirectory, recursive: true); }
-            catch (IOException) { }
-            catch (UnauthorizedAccessException) { }
+            if (localModelfile && modelfile is not null)
+            {
+                try { File.Delete(modelfile); } catch (IOException) { } catch (UnauthorizedAccessException) { }
+            }
+            try { Directory.Delete(tempDirectory, recursive: true); } catch (IOException) { } catch (UnauthorizedAccessException) { }
         }
     }
 

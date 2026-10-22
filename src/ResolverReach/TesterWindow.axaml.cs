@@ -16,6 +16,7 @@ namespace ResolverReach;
 
 public partial class TesterWindow : AppWindow, INotifyPropertyChanged
 {
+    private const int MaximumEndpointsPerRun = 512;
     private static readonly string[] SampleEndpoints =
     [
         "https://cloudflare-dns.com/dns-query",
@@ -96,47 +97,77 @@ public partial class TesterWindow : AppWindow, INotifyPropertyChanged
         SetStatusRibbon("Stopping resolver tests", "Waiting for active HTTPS requests to finish", "#634221");
     }
 
-    private async void RunTests_Click(object? sender, RoutedEventArgs e)
+    private async void RunTests_Click(object? sender, RoutedEventArgs e) =>
+        await RunEndpointCheckAsync(loadCurlWikiCatalog: false);
+
+    private async void CheckNow_Click(object? sender, RoutedEventArgs e) =>
+        await CheckAllCurlResolversAsync();
+
+    public Task CheckAllCurlResolversAsync() =>
+        RunEndpointCheckAsync(loadCurlWikiCatalog: true);
+
+    private async Task RunEndpointCheckAsync(bool loadCurlWikiCatalog)
     {
         if (_runCancellation is not null) return;
 
-        string[] endpoints = EndpointInput
-            .Split(['\r', '\n', ';'], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
-
-        if (endpoints.Length == 0)
-        {
-            StatusText.Text = "Enter at least one HTTPS DoH endpoint URL.";
-            return;
-        }
-
-        if (endpoints.Length > 50)
-        {
-            StatusText.Text = $"You entered {endpoints.Length} unique URLs. The limit is 50 per run.";
-            return;
-        }
-
-        Results.Clear();
-        EmptyState.IsVisible = false;
-        ResultsScroll.IsVisible = true;
-        ExportButton.IsEnabled = false;
+        var cancellation = new CancellationTokenSource();
+        _runCancellation = cancellation;
+        CheckNowButton.IsEnabled = false;
         RunButton.IsEnabled = false;
         SamplesButton.IsEnabled = false;
         EndpointBox.IsEnabled = false;
         CancelButton.IsEnabled = true;
-        TestProgress.Value = 0;
-        ProgressText.Text = $"0 / {endpoints.Length}";
-        StatusText.Text = $"Testing {endpoints.Length} endpoint(s)…";
-        SetStatusRibbon("Testing DNS resolvers", $"Running valid DoH exchanges · 0 of {endpoints.Length} completed", "#66315A");
-
-        var cancellation = new CancellationTokenSource();
-        _runCancellation = cancellation;
-        using var gate = new SemaphoreSlim(6, 6);
-        int completed = 0;
+        ExportButton.IsEnabled = false;
 
         try
         {
+            string[] endpoints;
+            if (loadCurlWikiCatalog)
+            {
+                StatusText.Text = "Fetching the current curl/curl DoH resolver table…";
+                SetStatusRibbon("Loading cURL resolver catalog", "Fetching the live Base URL column from GitHub Wiki", "#0E355D");
+                endpoints = (await CurlWikiResolverCatalog.FetchEndpointsAsync(cancellation.Token)).ToArray();
+                EndpointInput = string.Join(Environment.NewLine, endpoints);
+                StatusText.Text = $"Loaded {endpoints.Length} unique resolver URLs. Starting DoH checks…";
+            }
+            else
+            {
+                endpoints = EndpointInput
+                    .Split(['\r', '\n', ';'], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToArray();
+            }
+
+            if (endpoints.Length == 0)
+            {
+                StatusText.Text = "No HTTPS DoH endpoint URLs were found.";
+                SetStatusRibbon("No endpoints found", "The source list contained no usable HTTPS resolver URLs", "#6A283C");
+                return;
+            }
+
+            if (endpoints.Length > MaximumEndpointsPerRun)
+            {
+                StatusText.Text = $"Found {endpoints.Length} unique URLs; safety limit is {MaximumEndpointsPerRun} per run. No partial test was started.";
+                SetStatusRibbon("Resolver list exceeds safety limit", $"{endpoints.Length} found · limit {MaximumEndpointsPerRun}", "#6A283C");
+                return;
+            }
+
+            Results.Clear();
+            EmptyState.IsVisible = false;
+            ResultsScroll.IsVisible = true;
+            TestProgress.Value = 0;
+            ProgressText.Text = $"0 / {endpoints.Length}";
+            StatusText.Text = loadCurlWikiCatalog
+                ? $"Testing all {endpoints.Length} unique URLs from the current cURL wiki list…"
+                : $"Testing {endpoints.Length} endpoint(s)…";
+            SetStatusRibbon(
+                loadCurlWikiCatalog ? "Checking cURL DoH resolver catalog" : "Testing DNS resolvers",
+                $"Validated DNS exchanges · 0 of {endpoints.Length} completed",
+                "#0E355D");
+
+            using var gate = new SemaphoreSlim(8, 8);
+            int completed = 0;
+
             Task[] jobs = endpoints.Select(async endpoint =>
             {
                 ResolverResult result;
@@ -169,32 +200,77 @@ public partial class TesterWindow : AppWindow, INotifyPropertyChanged
                     StatusText.Text = cancellation.IsCancellationRequested
                         ? $"Cancellation requested · {finished} of {endpoints.Length} completed"
                         : $"Tested {finished} of {endpoints.Length} endpoint(s)…";
+
+                    if (finished % 8 == 0 || finished == endpoints.Length)
+                    {
+                        int responsive = Results.Count(x => x.Status is "PASS" or "DNS ERROR");
+                        SetStatusRibbon(
+                            loadCurlWikiCatalog ? "Checking cURL DoH resolver catalog" : "Testing DNS resolvers",
+                            $"{finished}/{endpoints.Length} completed · {responsive} valid DoH responses so far",
+                            "#0E355D");
+                    }
                 });
             }).ToArray();
 
             await Task.WhenAll(jobs);
-            int passed = Results.Count(x => x.Status == "PASS");
+
+            int healthy = Results.Count(x => x.Status == "PASS");
             int dnsErrors = Results.Count(x => x.Status == "DNS ERROR");
+            int reachable = healthy + dnsErrors;
             int failed = Results.Count(x => x.Status == "FAIL");
             int cancelled = Results.Count(x => x.Status == "CANCELLED");
-            StatusText.Text = cancellation.IsCancellationRequested
-                ? $"Stopped · {passed} pass · {dnsErrors} DNS error · {failed} failed · {cancelled} cancelled"
-                : $"Complete · {passed} pass · {dnsErrors} DNS error · {failed} failed";
-            SetStatusRibbon(
-                cancellation.IsCancellationRequested ? "Resolver tests stopped" : passed > 0 ? "DNS diagnostics complete" : "No resolver passed validation",
-                $"{passed} valid · {dnsErrors} DNS errors · {failed} failed" + (cancelled > 0 ? $" · {cancelled} cancelled" : string.Empty),
-                cancellation.IsCancellationRequested ? "#634221" : passed > 0 ? "#28563F" : "#6A283C");
+            double percentReachable = Results.Count == 0 ? 0 : 100.0 * reachable / Results.Count;
+            string cancelledSuffix = cancelled > 0 ? $" · {cancelled} cancelled" : string.Empty;
+
+            if (loadCurlWikiCatalog)
+            {
+                StatusText.Text = cancellation.IsCancellationRequested
+                    ? $"Stopped · {reachable}/{Results.Count} reachable ({percentReachable:F1}% of completed) · {failed} unavailable{cancelledSuffix}"
+                    : $"Catalog check complete · {reachable}/{endpoints.Length} reachable ({percentReachable:F1}%) · {healthy} NOERROR · {dnsErrors} DNS errors · {failed} unavailable";
+
+                string title = cancellation.IsCancellationRequested
+                    ? "cURL resolver check stopped"
+                    : failed == 0 && dnsErrors == 0
+                        ? "All listed resolvers are healthy"
+                        : failed == 0
+                            ? "All endpoints replied; some DNS errors"
+                            : $"{reachable} of {endpoints.Length} endpoints responded";
+                string detail = cancellation.IsCancellationRequested
+                    ? $"{reachable} valid DoH responses · {failed} unavailable · partial run"
+                    : $"{reachable}/{endpoints.Length} valid DoH responses ({percentReachable:F1}%) · {healthy} NOERROR · {dnsErrors} DNS RCODE errors · {failed} failed";
+                SetStatusRibbon(title, detail,
+                    cancellation.IsCancellationRequested ? "#634221" :
+                    failed == 0 && dnsErrors == 0 ? "#28563F" :
+                    failed == 0 ? "#634221" : "#0E355D");
+            }
+            else
+            {
+                StatusText.Text = cancellation.IsCancellationRequested
+                    ? $"Stopped · {healthy} pass · {dnsErrors} DNS error · {failed} failed · {cancelled} cancelled"
+                    : $"Complete · {healthy} pass · {dnsErrors} DNS error · {failed} failed";
+                SetStatusRibbon(
+                    cancellation.IsCancellationRequested ? "Resolver tests stopped" : healthy > 0 ? "DNS diagnostics complete" : "No resolver passed validation",
+                    $"{reachable} valid DoH response(s) · {healthy} NOERROR · {dnsErrors} DNS errors · {failed} failed" + cancelledSuffix,
+                    cancellation.IsCancellationRequested ? "#634221" : healthy > 0 ? "#28563F" : "#6A283C");
+            }
+
             ExportButton.IsEnabled = Results.Count > 0;
+        }
+        catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+        {
+            StatusText.Text = "Check cancelled before the full resolver list was tested.";
+            SetStatusRibbon("Resolver check cancelled", "Any completed results remain available for review", "#634221");
         }
         catch (Exception ex)
         {
-            StatusText.Text = $"Test run error: {ShortError(ex.Message)}";
-            SetStatusRibbon("Test run error", ShortError(ex.Message), "#6A283C");
+            StatusText.Text = $"Check failed: {ShortError(ex.Message)}";
+            SetStatusRibbon("Resolver check failed", ShortError(ex.Message), "#6A283C");
         }
         finally
         {
             _runCancellation = null;
             cancellation.Dispose();
+            CheckNowButton.IsEnabled = true;
             RunButton.IsEnabled = true;
             SamplesButton.IsEnabled = true;
             EndpointBox.IsEnabled = true;
@@ -211,7 +287,7 @@ public partial class TesterWindow : AppWindow, INotifyPropertyChanged
             !string.IsNullOrEmpty(uri.Fragment))
         {
             return new ResolverResult(input, "FAIL", null, null, "Not tested",
-                "Enter an absolute HTTPS URL with a hostname. User-info and URL fragments are not allowed.");
+                "Endpoint must be an absolute HTTPS URL with a hostname; user-info and URL fragments are not allowed.");
         }
 
         byte[] query = DnsWire.BuildExampleAQuery(out ushort queryId);
@@ -219,57 +295,40 @@ public partial class TesterWindow : AppWindow, INotifyPropertyChanged
 
         try
         {
-            using var request = new HttpRequestMessage(HttpMethod.Post, uri)
+            using var postRequest = new HttpRequestMessage(HttpMethod.Post, uri)
             {
                 Content = new ByteArrayContent(query),
                 Version = new Version(2, 0),
                 VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
             };
-            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/dns-message");
-            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/dns-message"));
-            request.Headers.UserAgent.ParseAdd("ResolverReach/1.0");
+            postRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/dns-message");
+            postRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/dns-message"));
+            postRequest.Headers.UserAgent.ParseAdd("ResolverReach/1.0");
 
-            using HttpResponseMessage response = await Http.SendAsync(
-                request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            using HttpResponseMessage postResponse = await Http.SendAsync(
+                postRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
 
-            if (!response.IsSuccessStatusCode)
+            // RFC 8484 supports both POST and GET. Some catalog endpoints only expose GET.
+            if (postResponse.StatusCode is System.Net.HttpStatusCode.BadRequest
+                or System.Net.HttpStatusCode.MethodNotAllowed
+                or System.Net.HttpStatusCode.UnsupportedMediaType
+                or System.Net.HttpStatusCode.NotImplemented)
             {
-                clock.Stop();
-                return new ResolverResult(input, "FAIL", (int)response.StatusCode, clock.Elapsed.TotalMilliseconds,
-                    "No DNS response", $"HTTP {(int)response.StatusCode} ({response.ReasonPhrase ?? "request rejected"}).");
+                Uri getUri = BuildGetQueryUri(uri, query);
+                using var getRequest = new HttpRequestMessage(HttpMethod.Get, getUri)
+                {
+                    Version = new Version(2, 0),
+                    VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
+                };
+                getRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/dns-message"));
+                getRequest.Headers.UserAgent.ParseAdd("ResolverReach/1.0");
+
+                using HttpResponseMessage getResponse = await Http.SendAsync(
+                    getRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                return await EvaluateDnsResponseAsync(input, getResponse, queryId, clock, "GET fallback", cancellationToken);
             }
 
-            string? mediaType = response.Content.Headers.ContentType?.MediaType;
-            if (!string.Equals(mediaType, "application/dns-message", StringComparison.OrdinalIgnoreCase))
-            {
-                clock.Stop();
-                return new ResolverResult(input, "FAIL", (int)response.StatusCode, clock.Elapsed.TotalMilliseconds,
-                    "Unexpected content type", $"Expected application/dns-message, received {mediaType ?? "no Content-Type"}.");
-            }
-
-            byte[] payload = await response.Content.ReadAsByteArrayAsync(cancellationToken);
-            clock.Stop();
-
-            if (payload.Length > 65535)
-            {
-                return new ResolverResult(input, "FAIL", (int)response.StatusCode, clock.Elapsed.TotalMilliseconds,
-                    "Invalid DNS response", "Response exceeded the maximum DNS message length.");
-            }
-
-            if (!DnsWire.TryValidateResponse(payload, queryId, out int rcode, out int answers, out string validationError))
-            {
-                return new ResolverResult(input, "FAIL", (int)response.StatusCode, clock.Elapsed.TotalMilliseconds,
-                    "Invalid DNS response", validationError);
-            }
-
-            string rcodeName = DnsWire.RcodeName(rcode);
-            string detail = $"{answers} answer(s) · {payload.Length} DNS bytes · valid response";
-            string status = rcode == 0 ? "PASS" : "DNS ERROR";
-            if (rcode != 0)
-                detail = $"Valid DoH exchange, but DNS returned {rcodeName}. {answers} answer(s).";
-
-            return new ResolverResult(input, status, (int)response.StatusCode, clock.Elapsed.TotalMilliseconds,
-                $"RCODE {rcodeName}", detail);
+            return await EvaluateDnsResponseAsync(input, postResponse, queryId, clock, "POST", cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -281,7 +340,7 @@ public partial class TesterWindow : AppWindow, INotifyPropertyChanged
         {
             clock.Stop();
             return new ResolverResult(input, "FAIL", null, clock.Elapsed.TotalMilliseconds,
-                "Timed out", "Request timed out after 10 seconds.");
+                "Timed out", "Request timed out or was cancelled by the HTTP client.");
         }
         catch (HttpRequestException ex)
         {
@@ -295,6 +354,65 @@ public partial class TesterWindow : AppWindow, INotifyPropertyChanged
             return new ResolverResult(input, "FAIL", null, clock.Elapsed.TotalMilliseconds,
                 "No DNS response", ShortError(ex.Message));
         }
+    }
+
+    private static Uri BuildGetQueryUri(Uri endpoint, byte[] dnsQuery)
+    {
+        string dnsParameter = Convert.ToBase64String(dnsQuery).TrimEnd('=').Replace('+', '-').Replace('/', '_');
+        var builder = new UriBuilder(endpoint);
+        string existingQuery = builder.Query.TrimStart('?');
+        builder.Query = string.IsNullOrEmpty(existingQuery)
+            ? $"dns={dnsParameter}"
+            : $"{existingQuery}&dns={dnsParameter}";
+        return builder.Uri;
+    }
+
+    private static async Task<ResolverResult> EvaluateDnsResponseAsync(
+        string endpoint,
+        HttpResponseMessage response,
+        ushort queryId,
+        Stopwatch clock,
+        string requestMode,
+        CancellationToken cancellationToken)
+    {
+        if (!response.IsSuccessStatusCode)
+        {
+            clock.Stop();
+            return new ResolverResult(endpoint, "FAIL", (int)response.StatusCode, clock.Elapsed.TotalMilliseconds,
+                "No DNS response", $"HTTP {(int)response.StatusCode} ({response.ReasonPhrase ?? "request rejected"}) via {requestMode}.");
+        }
+
+        string? mediaType = response.Content.Headers.ContentType?.MediaType;
+        if (!string.Equals(mediaType, "application/dns-message", StringComparison.OrdinalIgnoreCase))
+        {
+            clock.Stop();
+            return new ResolverResult(endpoint, "FAIL", (int)response.StatusCode, clock.Elapsed.TotalMilliseconds,
+                "Unexpected content type", $"Expected application/dns-message, received {mediaType ?? "no Content-Type"} via {requestMode}.");
+        }
+
+        byte[] payload = await response.Content.ReadAsByteArrayAsync(cancellationToken);
+        clock.Stop();
+
+        if (payload.Length > 65535)
+        {
+            return new ResolverResult(endpoint, "FAIL", (int)response.StatusCode, clock.Elapsed.TotalMilliseconds,
+                "Invalid DNS response", "Response exceeded the maximum DNS message length.");
+        }
+
+        if (!DnsWire.TryValidateResponse(payload, queryId, out int rcode, out int answers, out string validationError))
+        {
+            return new ResolverResult(endpoint, "FAIL", (int)response.StatusCode, clock.Elapsed.TotalMilliseconds,
+                "Invalid DNS response", validationError);
+        }
+
+        string rcodeName = DnsWire.RcodeName(rcode);
+        string detail = $"{answers} answer(s) · {payload.Length} DNS bytes · valid response via {requestMode}";
+        string status = rcode == 0 ? "PASS" : "DNS ERROR";
+        if (rcode != 0)
+            detail = $"Valid DoH exchange via {requestMode}, but DNS returned {rcodeName}. {answers} answer(s).";
+
+        return new ResolverResult(endpoint, status, (int)response.StatusCode, clock.Elapsed.TotalMilliseconds,
+            $"RCODE {rcodeName}", detail);
     }
 
     private async void Export_Click(object? sender, RoutedEventArgs e)

@@ -10,6 +10,9 @@ Resolver Reach is a Windows 11 25H2 x64 desktop tool for checking whether DNS-ov
 - Paste a batch of HTTPS DoH endpoint URLs (one per line or separated with semicolons).
 - Sends a real RFC 8484 wire-format DNS query for example.com A; validates HTTP status, application/dns-message content type, DNS transaction ID, response flags, question, and DNS response code. A TLS/host connection alone is not counted as success.
 - Shows endpoint status, HTTP status, latency, and DNS response details.
+- **Check Now** fetches the current public resolver table from the cURL DoH wiki, extracts only Base URL-column endpoints, deduplicates the HTTPS URLs, then tests every listed endpoint with bounded concurrency and a cancellable progress display. The full catalog is refreshed on each run; it is not a baked-in snapshot.
+- Reports valid DoH responses separately from DNS RCODE errors and unreachable/invalid endpoints. A successful HTTP request alone does not count as a valid DNS exchange. Resolver availability is a point-in-time measurement, not a guarantee of 100% uptime.
+- Supports RFC 8484 POST and retries a GET-form DNS query for endpoints that reject POST with 400, 405, 415, or 501.
 - Exports results to CSV.
 - GitHub Actions builds the self-contained x64 application and compiles an Inno Setup installer. The Windows app icon lives at src/ResolverReach/Assets/ResolverReach.ico and is used for the executable, both windows, and installer.
 
@@ -20,6 +23,8 @@ Install the .NET 10 SDK and Inno Setup 6. From a PowerShell terminal at the repo
     dotnet restore src/ResolverReach/ResolverReach.csproj
     dotnet publish src/ResolverReach/ResolverReach.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts/publish
     iscc /DMyAppVersion=1.0.0 installer/ResolverReach.iss
+
+Click **Check Now** to refresh resolver URLs from https://github.com/curl/curl/wiki/DNS-over-HTTPS and test the listed HTTPS DNS endpoints. Each resolver receives a test query for example.com; use this only when you are comfortable sending that query to every listed provider. Checks are point-in-time and cannot guarantee future or universal reachability.
 
 The workflow under .github/workflows/windows-build.yml runs on pushes to main and manual dispatch. Download the ResolverReach-Windows-x64 artifact from the run's Artifacts section.
 

@@ -34,11 +34,11 @@
               <TextBlock x:Name="StatusRibbonText" Text="No test run yet · HTTPS DNS exchange validation"
                          FontSize="10" Foreground="#D6E8FF" />
             </StackPanel>
-            <Button Grid.Column="1" Click="OpenTester_Click"
+            <Button Grid.Column="1" Click="CheckNow_Click"
                     Padding="15,8" VerticalAlignment="Center"
                     Background="#1473E6" BorderBrush="#31A8FF" BorderThickness="1"
                     CornerRadius="4">
-              <TextBlock Text="Test endpoints" FontSize="11" FontWeight="SemiBold" Foreground="#FFFFFF" />
+              <TextBlock Text="Check Now" FontSize="11" FontWeight="SemiBold" Foreground="#FFFFFF" />
             </Button>
           </Grid>
         </Border>
@@ -47,7 +47,7 @@
             <TextBlock Text="Batch DNS-over-HTTPS testing" FontSize="11"
                        FontWeight="SemiBold" Foreground="#E0E0E0" />
             <TextBlock Text="·" FontSize="11" Foreground="#777777" />
-            <TextBlock Text="Up to 50 URLs per run" FontSize="10" Foreground="#B5B5B5" />
+            <TextBlock Text="Live cURL resolver catalog" FontSize="10" Foreground="#B5B5B5" />
           </StackPanel>
           <Button Grid.Column="1" Click="OpenTester_Click"
                   Padding="18,0" CornerRadius="0"

@@ -18,7 +18,7 @@ public partial class MainWindow : AppWindow
         TransparencyLevelHint = [WindowTransparencyLevel.Mica, WindowTransparencyLevel.AcrylicBlur];
         SetStatusRibbon(
             "Resolver diagnostics ready",
-            "No test run yet · HTTPS DNS exchange validation",
+            "Check the live cURL DoH resolver catalog",
             "#0E355D");
     }
 
@@ -41,5 +41,24 @@ public partial class MainWindow : AppWindow
         _tester = tester;
         tester.Closed += (_, _) => _tester = null;
         await tester.ShowDialog(this);
+    }
+
+    private async void CheckNow_Click(object? sender, RoutedEventArgs e)
+    {
+        if (_tester is not null)
+        {
+            _tester.Activate();
+            await _tester.CheckAllCurlResolversAsync();
+            return;
+        }
+
+        var tester = new TesterWindow(SetStatusRibbon);
+        _tester = tester;
+        tester.Closed += (_, _) => _tester = null;
+
+        // Start the asynchronous catalog refresh while the detailed window opens.
+        Task checkTask = tester.CheckAllCurlResolversAsync();
+        await tester.ShowDialog(this);
+        await checkTask;
     }
 }

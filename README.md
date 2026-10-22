@@ -38,3 +38,10 @@ Resolver Reach is an independent DNS diagnostics tool, not an OnionFruit fork, V
 ## Privacy and safety
 
 Resolver Reach sends DNS-over-HTTPS queries only to the HTTPS URLs in the input box. It does not change Windows' system DNS settings, install a network driver, or route general traffic through the resolver. Avoid endpoints you do not trust; the chosen endpoint receives the test DNS query.
+
+## Companion utility: Ollama GGUF Importer
+
+The repository also includes a separate portable Windows x64 utility for importing local GGUF model files into Ollama. It detects the current user's default Ollama model-store path, supports multi-select and common split GGUF shard sets, and registers models through Ollama's supported Modelfile + ollama create process rather than copying files directly into Ollama's internal store.
+
+- Source and instructions: [src/OllamaGgufImporter](src/OllamaGgufImporter/README.md)
+- Build artifact: download **Ollama-GGUF-Importer-Windows-x64** from the [GitHub Actions workflow](https://github.com/PCUser2021/ResolverReach/actions/workflows/ollama-gguf-importer.yml).

@@ -1,0 +1,49 @@
+name: Portable Ollama GGUF Importer (Windows x64)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - "src/OllamaGgufImporter/**"
+      - ".github/workflows/ollama-gguf-importer.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-portable-windows-x64:
+    name: Build portable importer
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Restore
+        run: dotnet restore src/OllamaGgufImporter/OllamaGgufImporter.csproj
+      - name: Publish self-contained single-file x64 app
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifacts/ollama-gguf-importer | Out-Null
+          dotnet publish src/OllamaGgufImporter/OllamaGgufImporter.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=1.0.0 --output artifacts/ollama-gguf-importer
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if (-not (Test-Path "artifacts/ollama-gguf-importer/Ollama-GGUF-Importer.exe")) {
+            throw "Expected portable executable was not created."
+          }
+      - name: Add quick-start instructions
+        shell: pwsh
+        run: |
+          Copy-Item "src/OllamaGgufImporter/README.md" "artifacts/ollama-gguf-importer/README.txt"
+          Compress-Archive -Path "artifacts/ollama-gguf-importer/*" -DestinationPath "artifacts/Ollama-GGUF-Importer-Windows-x64.zip" -Force
+      - name: Upload portable Windows x64 package
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ollama-GGUF-Importer-Windows-x64
+          path: artifacts/Ollama-GGUF-Importer-Windows-x64.zip
+          if-no-files-found: error
+          retention-days: 14

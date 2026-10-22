@@ -36,7 +36,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private string _endpointInput = string.Join(Environment.NewLine, SampleEndpoints);
     private CancellationTokenSource? _runCancellation;
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+    private event PropertyChangedEventHandler? _propertyChanged;
+    event PropertyChangedEventHandler? INotifyPropertyChanged.PropertyChanged
+    {
+        add => _propertyChanged += value;
+        remove => _propertyChanged -= value;
+    }
     public ObservableCollection<ResolverResult> Results { get; } = new();
 
     public string EndpointInput
@@ -46,7 +51,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         {
             if (_endpointInput == value) return;
             _endpointInput = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EndpointInput)));
+            _propertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EndpointInput)));
         }
     }
 

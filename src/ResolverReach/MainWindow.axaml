@@ -1,279 +1,220 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        x:Class="ResolverReach.MainWindow"
-        Title="Resolver Reach"
-        Width="1280" Height="860"
-        MinWidth="1000" MinHeight="700"
-        Background="#F4F7FB"
-        WindowStartupLocation="CenterScreen">
-  <Grid ColumnDefinitions="232,*" Background="#F4F7FB">
-    <!-- Left navigation rail -->
-    <Border Grid.Column="0" Background="#FFFFFF" BorderBrush="#E4EAF2" BorderThickness="0,0,1,0">
-      <Grid RowDefinitions="Auto,*,Auto">
-        <StackPanel Grid.Row="0" Margin="22,26,18,24" Spacing="22">
-          <Grid ColumnDefinitions="44,*" ColumnSpacing="12">
-            <Border Width="44" Height="44" CornerRadius="13" Background="#3658D4">
-              <Grid>
-                <Ellipse Width="24" Height="24" Stroke="#FFFFFF" StrokeThickness="2"
-                         HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <Ellipse Width="7" Height="7" Fill="#FFFFFF"
-                         HorizontalAlignment="Center" VerticalAlignment="Center" />
-              </Grid>
-            </Border>
-            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
-              <TextBlock Text="Resolver Reach" FontSize="17" FontWeight="Bold" Foreground="#16213A" />
-              <TextBlock Text="NETWORK DIAGNOSTICS" FontSize="9" FontWeight="SemiBold"
-                         Foreground="#8491A7" />
+<windowing:AppWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
+                     x:Class="ResolverReach.MainWindow"
+                     Title="Resolver Reach"
+                     Width="900" Height="760"
+                     MinWidth="760" MinHeight="640"
+                     CanResize="True"
+                     Background="{x:Null}"
+                     WindowStartupLocation="CenterScreen">
+  <Window.Content>
+    <Panel>
+      <ExperimentalAcrylicBorder IsHitTestVisible="False">
+        <ExperimentalAcrylicBorder.Material>
+          <ExperimentalAcrylicMaterial BackgroundSource="None"
+                                       TintColor="#242126"
+                                       TintOpacity="0.94"
+                                       MaterialOpacity="0.86" />
+        </ExperimentalAcrylicBorder.Material>
+      </ExperimentalAcrylicBorder>
+
+      <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <Border Grid.Row="0" Background="#242126" BorderBrush="#403841"
+                BorderThickness="0,0,0,1" Padding="18,12">
+          <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Orientation="Horizontal" Spacing="9" VerticalAlignment="Center">
+              <Border Width="28" Height="28" CornerRadius="7" Background="#c71585">
+                <TextBlock Text="R" FontSize="17" FontWeight="Bold" Foreground="White"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
+              <TextBlock Text="Resolver Reach" FontSize="15" FontWeight="SemiBold"
+                         Foreground="#F6F0F5" VerticalAlignment="Center" />
+              <TextBlock Text="DNS-over-HTTPS" FontSize="11" Foreground="#B9AEBB"
+                         VerticalAlignment="Center" Margin="4,0,0,0" />
             </StackPanel>
+            <Border Grid.Column="1" BorderBrush="#514754" BorderThickness="1"
+                    Background="#302A33" CornerRadius="5" Padding="9,5"
+                    VerticalAlignment="Center">
+              <TextBlock Text="WINDOWS 11 · X64" FontSize="9" FontWeight="SemiBold"
+                         Foreground="#D9C9D8" />
+            </Border>
           </Grid>
+        </Border>
 
-          <StackPanel Spacing="9">
-            <TextBlock Text="WORKSPACE" FontSize="10" FontWeight="SemiBold"
-                       Foreground="#98A3B5" Margin="8,0,0,3" />
-            <Border CornerRadius="10" Padding="12,12" Background="#EEF2FF">
-              <Grid ColumnDefinitions="24,*" ColumnSpacing="9">
-                <TextBlock Text="◈" FontSize="19" Foreground="#3658D4"
-                           VerticalAlignment="Center" HorizontalAlignment="Center" />
-                <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
-                  <TextBlock Text="Resolver tests" FontSize="13" FontWeight="SemiBold" Foreground="#2B45B5" />
-                  <TextBlock Text="DoH endpoint checks" FontSize="11" Foreground="#687BBE" />
-                </StackPanel>
+        <!-- The original app's prominent status ribbon, adapted for diagnostics. -->
+        <Border x:Name="StatusRibbon" Grid.Row="1" Background="#512144"
+                Padding="18,13">
+          <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+            <StackPanel Spacing="3" VerticalAlignment="Center">
+              <TextBlock x:Name="StatusRibbonTitle" Text="Resolver diagnostics ready"
+                         FontSize="18" FontWeight="SemiBold" Foreground="#FFFFFF" />
+              <TextBlock x:Name="StatusRibbonText" Text="No test run yet · HTTPS DNS exchange validation"
+                         FontSize="11" Foreground="#F1D5E8" />
+            </StackPanel>
+            <Button x:Name="RunButton" Grid.Column="1" Click="RunTests_Click"
+                    Padding="18,9" VerticalAlignment="Center"
+                    Background="#c71585" BorderBrush="#EA70B8" BorderThickness="1"
+                    CornerRadius="5">
+              <TextBlock Text="Test endpoints" FontSize="12" FontWeight="SemiBold" Foreground="White" />
+            </Button>
+          </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+          <StackPanel Margin="20,18,20,18" Spacing="14">
+            <Border Background="#2B272E" BorderBrush="#49414B" BorderThickness="1"
+                    CornerRadius="7" Padding="17">
+              <StackPanel Spacing="12">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                  <StackPanel Spacing="3">
+                    <TextBlock Text="Resolver endpoints" FontSize="15" FontWeight="SemiBold"
+                               Foreground="#F5F0F5" />
+                    <TextBlock Text="Paste HTTPS DoH URLs, one per line or separated by semicolons."
+                               FontSize="11" Foreground="#B8AEBB" TextWrapping="Wrap" />
+                  </StackPanel>
+                  <Border Grid.Column="1" Background="#3A303D" BorderBrush="#59465B"
+                          BorderThickness="1" CornerRadius="4" Padding="8,5"
+                          VerticalAlignment="Center">
+                    <TextBlock Text="MAX 50" FontSize="9" FontWeight="SemiBold" Foreground="#E7D1E2" />
+                  </Border>
+                </Grid>
+
+                <TextBox x:Name="EndpointBox"
+                         Text="{Binding EndpointInput, Mode=TwoWay}"
+                         AcceptsReturn="True" TextWrapping="Wrap"
+                         MinLines="4" MaxLines="6"
+                         Watermark="https://cloudflare-dns.com/dns-query&#10;https://dns.google/dns-query"
+                         FontFamily="Cascadia Mono, Consolas, monospace"
+                         FontSize="12" Padding="12"
+                         Background="#211E24" Foreground="#F1EAF1"
+                         BorderBrush="#514752" BorderThickness="1" CornerRadius="5" />
+
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                  <StackPanel Spacing="3" VerticalAlignment="Center">
+                    <TextBlock Text="Query: example.com · A record · IN class"
+                               FontSize="10" FontWeight="SemiBold" Foreground="#D2C6D3" />
+                    <TextBlock Text="Checks HTTPS, media type, DNS transaction ID, echoed question and RCODE."
+                               FontSize="10" Foreground="#988D9C" TextWrapping="Wrap" />
+                  </StackPanel>
+                  <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="7" VerticalAlignment="Center">
+                    <Button x:Name="SamplesButton" Click="Samples_Click" Padding="12,8"
+                            Background="#343039" BorderBrush="#564D59" BorderThickness="1" CornerRadius="5">
+                      <TextBlock Text="Load samples" FontSize="11" Foreground="#EEE6EF" />
+                    </Button>
+                    <Button x:Name="CancelButton" Click="Cancel_Click" IsEnabled="False"
+                            Padding="12,8" Background="#343039" BorderBrush="#564D59"
+                            BorderThickness="1" CornerRadius="5">
+                      <TextBlock Text="Cancel" FontSize="11" Foreground="#EEE6EF" />
+                    </Button>
+                  </StackPanel>
+                </Grid>
+              </StackPanel>
+            </Border>
+
+            <Border Background="#2B272E" BorderBrush="#49414B" BorderThickness="1"
+                    CornerRadius="7" Padding="17">
+              <Grid RowDefinitions="Auto,Auto,*,Auto">
+                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="12" Margin="0,0,0,12">
+                  <StackPanel Spacing="3">
+                    <TextBlock Text="Test results" FontSize="15" FontWeight="SemiBold"
+                               Foreground="#F5F0F5" />
+                    <TextBlock Text="A pass means the DNS server returned a valid DNS response, not merely that its host is reachable."
+                               FontSize="11" Foreground="#B8AEBB" TextWrapping="Wrap" />
+                  </StackPanel>
+                  <Button x:Name="ExportButton" Grid.Column="1" Click="Export_Click" IsEnabled="False"
+                          Padding="12,7" VerticalAlignment="Center"
+                          Background="#343039" BorderBrush="#564D59" BorderThickness="1" CornerRadius="5">
+                    <TextBlock Text="Export CSV" FontSize="11" Foreground="#EEE6EF" />
+                  </Button>
+                </Grid>
+
+                <Border Grid.Row="1" Background="#211E24" BorderBrush="#49414B"
+                        BorderThickness="0,1,0,1" Margin="0,0,0,2">
+                  <Grid ColumnDefinitions="3*,100,82,2*" ColumnSpacing="10">
+                    <TextBlock Grid.Column="0" Text="ENDPOINT / DETAILS" Margin="9,9"
+                               FontSize="9" FontWeight="SemiBold" Foreground="#B5A7B8" />
+                    <TextBlock Grid.Column="1" Text="STATUS" Margin="7,9"
+                               FontSize="9" FontWeight="SemiBold" Foreground="#B5A7B8" />
+                    <TextBlock Grid.Column="2" Text="LATENCY" Margin="7,9"
+                               FontSize="9" FontWeight="SemiBold" Foreground="#B5A7B8" />
+                    <TextBlock Grid.Column="3" Text="RESPONSE" Margin="7,9"
+                               FontSize="9" FontWeight="SemiBold" Foreground="#B5A7B8" />
+                  </Grid>
+                </Border>
+
+                <Grid Grid.Row="2" MinHeight="140">
+                  <StackPanel x:Name="EmptyState" HorizontalAlignment="Center"
+                              VerticalAlignment="Center" Spacing="7" MaxWidth="390">
+                    <TextBlock Text="No resolver results yet" FontSize="13" FontWeight="SemiBold"
+                               Foreground="#DED4E0" HorizontalAlignment="Center" />
+                    <TextBlock Text="Add your DoH URLs above and select Test endpoints. Each test sends a real DNS query and validates the returned message."
+                               TextWrapping="Wrap" TextAlignment="Center" FontSize="11"
+                               Foreground="#A89BAC" HorizontalAlignment="Center" />
+                  </StackPanel>
+                  <ScrollViewer x:Name="ResultsScroll" IsVisible="False" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="ResultsList">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                          <Border BorderBrush="#403841" BorderThickness="0,0,0,1" Padding="9,11">
+                            <Grid ColumnDefinitions="3*,100,82,2*" ColumnSpacing="10">
+                              <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Endpoint}" FontSize="11" Foreground="#F0E8F1"
+                                           TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding Detail}" FontSize="10" Foreground="#B6AABA"
+                                           TextWrapping="Wrap" />
+                              </StackPanel>
+                              <Border Grid.Column="1" CornerRadius="4" Padding="7,4"
+                                      Background="{Binding StatusBackground}"
+                                      HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Status}" Foreground="{Binding StatusForeground}"
+                                           FontSize="9" FontWeight="SemiBold" />
+                              </Border>
+                              <TextBlock Grid.Column="2" Text="{Binding LatencyLabel}"
+                                         FontSize="11" Foreground="#DED4E0" VerticalAlignment="Center" />
+                              <StackPanel Grid.Column="3" Spacing="3" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding HttpLabel}" FontSize="10" FontWeight="SemiBold"
+                                           Foreground="#DED4E0" />
+                                <TextBlock Text="{Binding DnsSummary}" FontSize="10" Foreground="#B6AABA"
+                                           TextWrapping="Wrap" />
+                              </StackPanel>
+                            </Grid>
+                          </Border>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </ScrollViewer>
+                </Grid>
+
+                <Grid Grid.Row="3" ColumnDefinitions="*,Auto" Margin="0,12,0,0">
+                  <StackPanel Spacing="6">
+                    <TextBlock x:Name="StatusText" Text="Ready"
+                               FontSize="11" Foreground="#C1B6C5" />
+                    <ProgressBar x:Name="TestProgress" Minimum="0" Maximum="100" Value="0"
+                                 Height="4" IsIndeterminate="False" />
+                  </StackPanel>
+                  <TextBlock x:Name="ProgressText" Grid.Column="1" Text="0 tested"
+                             VerticalAlignment="Center" Margin="14,0,0,0"
+                             FontSize="10" Foreground="#B6AABA" />
+                </Grid>
               </Grid>
             </Border>
           </StackPanel>
-        </StackPanel>
+        </ScrollViewer>
 
-        <Border Grid.Row="2" Margin="14,12,14,18" Padding="14"
-                Background="#F8FAFC" BorderBrush="#E8EDF4" BorderThickness="1" CornerRadius="12">
-          <StackPanel Spacing="9">
-            <TextBlock Text="WHAT GETS TESTED" FontSize="10" FontWeight="SemiBold" Foreground="#8793A7" />
-            <StackPanel Orientation="Horizontal" Spacing="8">
-              <Border Width="24" Height="24" CornerRadius="7" Background="#E5EDFF">
-                <TextBlock Text="1" Foreground="#3658D4" FontSize="11" FontWeight="Bold"
-                           HorizontalAlignment="Center" VerticalAlignment="Center" />
-              </Border>
-              <StackPanel VerticalAlignment="Center" Spacing="2">
-                <TextBlock Text="HTTPS + TLS" FontSize="11" FontWeight="SemiBold" Foreground="#24324A" />
-                <TextBlock Text="Secure connection" FontSize="10" Foreground="#7C899D" />
-              </StackPanel>
+        <Border Grid.Row="3" Background="#242126" BorderBrush="#403841"
+                BorderThickness="0,1,0,0" Padding="18,9">
+          <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+              <TextBlock Text="Resolver Reach" FontSize="10" FontWeight="SemiBold" Foreground="#C9BCCB" />
+              <TextBlock Text="·" FontSize="10" Foreground="#766B7A" />
+              <TextBlock Text="No system DNS changes" FontSize="10" Foreground="#978B9B" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Spacing="8">
-              <Border Width="24" Height="24" CornerRadius="7" Background="#E5EDFF">
-                <TextBlock Text="2" Foreground="#3658D4" FontSize="11" FontWeight="Bold"
-                           HorizontalAlignment="Center" VerticalAlignment="Center" />
-              </Border>
-              <StackPanel VerticalAlignment="Center" Spacing="2">
-                <TextBlock Text="DNS response" FontSize="11" FontWeight="SemiBold" Foreground="#24324A" />
-                <TextBlock Text="RFC 8484 wire format" FontSize="10" Foreground="#7C899D" />
-              </StackPanel>
-            </StackPanel>
-            <Border Height="1" Background="#E5EAF2" Margin="0,3" />
-            <TextBlock Text="This tool does not change Windows DNS settings or route other traffic."
-                       FontSize="10" Foreground="#7C899D" TextWrapping="Wrap" LineHeight="15" />
-          </StackPanel>
+            <TextBlock Grid.Column="1" Text="v1.0.0 · WIN-X64"
+                       FontSize="9" Foreground="#978B9B" VerticalAlignment="Center" />
+          </Grid>
         </Border>
       </Grid>
-    </Border>
-
-    <!-- Main workspace -->
-    <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto">
-      <Border Grid.Row="0" Background="#FFFFFF" BorderBrush="#E4EAF2" BorderThickness="0,0,0,1"
-              Padding="28,17">
-        <Grid ColumnDefinitions="*,Auto">
-          <StackPanel Spacing="3" VerticalAlignment="Center">
-            <TextBlock Text="NETWORK TOOLS  /  RESOLVER REACH" FontSize="10"
-                       FontWeight="SemiBold" Foreground="#8A96AA" />
-            <TextBlock Text="Resolver diagnostics" FontSize="18" FontWeight="SemiBold" Foreground="#18243A" />
-          </StackPanel>
-          <Border Grid.Column="1" BorderBrush="#DCE5F4" BorderThickness="1"
-                  Background="#F8FAFF" CornerRadius="9" Padding="12,8" VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" Spacing="8">
-              <Ellipse Width="7" Height="7" Fill="#3A63D8" VerticalAlignment="Center" />
-              <TextBlock Text="WINDOWS 11 · X64" FontSize="10" FontWeight="SemiBold" Foreground="#52678F" />
-            </StackPanel>
-          </Border>
-        </Grid>
-      </Border>
-
-      <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="28,25,28,28" Spacing="19">
-          <Grid ColumnDefinitions="*,Auto" ColumnSpacing="14">
-            <StackPanel Spacing="7" VerticalAlignment="Center">
-              <TextBlock Text="DNS-over-HTTPS" FontSize="29" FontWeight="Bold"
-                         Foreground="#17233B" />
-              <TextBlock Text="Check which resolvers are reachable and returning valid DNS responses."
-                         FontSize="13" Foreground="#6D7A90" TextWrapping="Wrap" />
-            </StackPanel>
-            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Spacing="7">
-              <Border Background="#E8F7F0" CornerRadius="7" Padding="10,6">
-                <TextBlock Text="PROTOCOL-LEVEL TEST" FontSize="9" FontWeight="Bold" Foreground="#187653" />
-              </Border>
-              <TextBlock Text="No system configuration changes" FontSize="10"
-                         Foreground="#8793A6" HorizontalAlignment="Right" />
-            </StackPanel>
-          </Grid>
-
-          <Border Background="#FFFFFF" BorderBrush="#E1E8F1" BorderThickness="1"
-                  CornerRadius="14" Padding="21">
-            <StackPanel Spacing="14">
-              <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
-                <StackPanel Spacing="4">
-                  <TextBlock Text="Endpoint list" FontSize="15" FontWeight="SemiBold" Foreground="#1C2941" />
-                  <TextBlock Text="Add one HTTPS DoH URL per line, or separate URLs with semicolons."
-                             FontSize="12" Foreground="#7C899D" TextWrapping="Wrap" />
-                </StackPanel>
-                <Border Grid.Column="1" Background="#F2F5FA" CornerRadius="7" Padding="10,6"
-                        VerticalAlignment="Center">
-                  <TextBlock Text="MAX 50" FontSize="10" FontWeight="SemiBold" Foreground="#68768D" />
-                </Border>
-              </Grid>
-
-              <TextBox x:Name="EndpointBox"
-                       Text="{Binding EndpointInput, Mode=TwoWay}"
-                       AcceptsReturn="True" TextWrapping="Wrap"
-                       MinLines="5" MaxLines="6"
-                       Watermark="https://cloudflare-dns.com/dns-query&#10;https://dns.google/dns-query"
-                       FontFamily="Cascadia Mono, Consolas, monospace"
-                       FontSize="12" Padding="13"
-                       Background="#FBFCFE" Foreground="#24324A"
-                       BorderBrush="#D7E0EC" BorderThickness="1" CornerRadius="9" />
-
-              <Grid ColumnDefinitions="*,Auto">
-                <StackPanel Spacing="4" VerticalAlignment="Center">
-                  <TextBlock Text="Test query: example.com · A record" FontSize="11"
-                             FontWeight="SemiBold" Foreground="#56657C" />
-                  <TextBlock Text="Validates DNS ID, question, response flags and RCODE."
-                             FontSize="10" Foreground="#929DB0" TextWrapping="Wrap" />
-                </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                  <Button x:Name="SamplesButton" Click="Samples_Click" Padding="14,10"
-                          Background="#FFFFFF" BorderBrush="#D7E0EC" BorderThickness="1" CornerRadius="8">
-                    <TextBlock Text="Load samples" FontSize="12" Foreground="#40506A" />
-                  </Button>
-                  <Button x:Name="CancelButton" Click="Cancel_Click" IsEnabled="False" Padding="13,10"
-                          Background="#FFFFFF" BorderBrush="#D7E0EC" BorderThickness="1" CornerRadius="8">
-                    <TextBlock Text="Cancel" FontSize="12" Foreground="#40506A" />
-                  </Button>
-                  <Button x:Name="RunButton" Click="RunTests_Click" Padding="18,10"
-                          Background="#3658D4" BorderBrush="#3658D4" BorderThickness="1" CornerRadius="8">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                      <TextBlock Text="▶" FontSize="10" Foreground="#FFFFFF" VerticalAlignment="Center" />
-                      <TextBlock Text="Run tests" FontSize="12" FontWeight="SemiBold" Foreground="#FFFFFF" />
-                    </StackPanel>
-                  </Button>
-                </StackPanel>
-              </Grid>
-            </StackPanel>
-          </Border>
-
-          <Border Background="#FFFFFF" BorderBrush="#E1E8F1" BorderThickness="1"
-                  CornerRadius="14" Padding="21">
-            <Grid RowDefinitions="Auto,Auto,*,Auto">
-              <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="12" Margin="0,0,0,17">
-                <StackPanel Spacing="4">
-                  <TextBlock Text="Test results" FontSize="15" FontWeight="SemiBold" Foreground="#1C2941" />
-                  <TextBlock Text="A pass requires a valid DNS reply — an open HTTPS connection is not enough."
-                             FontSize="12" Foreground="#7C899D" TextWrapping="Wrap" />
-                </StackPanel>
-                <Button x:Name="ExportButton" Grid.Column="1" Click="Export_Click" IsEnabled="False"
-                        Padding="13,8" VerticalAlignment="Center"
-                        Background="#FFFFFF" BorderBrush="#D7E0EC" BorderThickness="1" CornerRadius="8">
-                  <StackPanel Orientation="Horizontal" Spacing="7">
-                    <TextBlock Text="↓" FontSize="14" Foreground="#40506A" />
-                    <TextBlock Text="Export CSV" FontSize="11" Foreground="#40506A" />
-                  </StackPanel>
-                </Button>
-              </Grid>
-
-              <Border Grid.Row="1" Margin="0,0,0,2" Background="#F7F9FC"
-                      BorderBrush="#ECF0F5" BorderThickness="0,1,0,1" CornerRadius="6">
-                <Grid ColumnDefinitions="3*,112,90,2*" ColumnSpacing="12">
-                  <TextBlock Grid.Column="0" Text="ENDPOINT / DETAILS" Margin="10,10"
-                             FontSize="9" FontWeight="Bold" Foreground="#7E8BA0" />
-                  <TextBlock Grid.Column="1" Text="STATUS" Margin="8,10"
-                             FontSize="9" FontWeight="Bold" Foreground="#7E8BA0" />
-                  <TextBlock Grid.Column="2" Text="LATENCY" Margin="8,10"
-                             FontSize="9" FontWeight="Bold" Foreground="#7E8BA0" />
-                  <TextBlock Grid.Column="3" Text="RESPONSE" Margin="8,10"
-                             FontSize="9" FontWeight="Bold" Foreground="#7E8BA0" />
-                </Grid>
-              </Border>
-
-              <Grid Grid.Row="2" MinHeight="150">
-                <StackPanel x:Name="EmptyState" HorizontalAlignment="Center"
-                            VerticalAlignment="Center" Spacing="8" MaxWidth="390">
-                  <Border Width="44" Height="44" CornerRadius="14" Background="#F0F4FB"
-                          HorizontalAlignment="Center">
-                    <TextBlock Text="⌁" FontSize="25" Foreground="#91A2C0"
-                               HorizontalAlignment="Center" VerticalAlignment="Center" />
-                  </Border>
-                  <TextBlock Text="Ready to check your resolvers" FontSize="13" FontWeight="SemiBold"
-                             Foreground="#5C6A80" HorizontalAlignment="Center" />
-                  <TextBlock Text="Enter endpoint URLs above and run a test. Results will appear here with status and response timing."
-                             TextWrapping="Wrap" TextAlignment="Center" FontSize="11"
-                             Foreground="#9AA5B6" HorizontalAlignment="Center" />
-                </StackPanel>
-                <ScrollViewer x:Name="ResultsScroll" IsVisible="False" VerticalScrollBarVisibility="Auto">
-                  <ItemsControl x:Name="ResultsList">
-                    <ItemsControl.ItemTemplate>
-                      <DataTemplate>
-                        <Border BorderBrush="#EFF2F7" BorderThickness="0,0,0,1" Padding="10,12">
-                          <Grid ColumnDefinitions="3*,112,90,2*" ColumnSpacing="12">
-                            <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center">
-                              <TextBlock Text="{Binding Endpoint}" FontSize="12" Foreground="#233149"
-                                         TextTrimming="CharacterEllipsis" />
-                              <TextBlock Text="{Binding Detail}" FontSize="10" Foreground="#8290A4"
-                                         TextWrapping="Wrap" />
-                            </StackPanel>
-                            <Border Grid.Column="1" CornerRadius="6" Padding="8,5"
-                                    Background="{Binding StatusBackground}"
-                                    HorizontalAlignment="Left" VerticalAlignment="Center">
-                              <TextBlock Text="{Binding Status}" Foreground="{Binding StatusForeground}"
-                                         FontSize="10" FontWeight="SemiBold" />
-                            </Border>
-                            <TextBlock Grid.Column="2" Text="{Binding LatencyLabel}"
-                                       FontSize="12" Foreground="#40506A" VerticalAlignment="Center" />
-                            <StackPanel Grid.Column="3" Spacing="4" VerticalAlignment="Center">
-                              <TextBlock Text="{Binding HttpLabel}" FontSize="11" FontWeight="SemiBold" Foreground="#40506A" />
-                              <TextBlock Text="{Binding DnsSummary}" FontSize="10" Foreground="#8290A4"
-                                         TextWrapping="Wrap" />
-                            </StackPanel>
-                          </Grid>
-                        </Border>
-                      </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                  </ItemsControl>
-                </ScrollViewer>
-              </Grid>
-
-              <Grid Grid.Row="3" ColumnDefinitions="*,Auto" Margin="0,13,0,0">
-                <StackPanel Spacing="7">
-                  <TextBlock x:Name="StatusText" Text="Ready when you are"
-                             FontSize="11" Foreground="#65738A" />
-                  <ProgressBar x:Name="TestProgress" Minimum="0" Maximum="100" Value="0"
-                               Height="4" IsIndeterminate="False" />
-                </StackPanel>
-                <TextBlock x:Name="ProgressText" Grid.Column="1" Text="0 tested"
-                           VerticalAlignment="Center" Margin="18,0,0,0"
-                           FontSize="10" Foreground="#8995A8" />
-              </Grid>
-            </Grid>
-          </Border>
-        </StackPanel>
-      </ScrollViewer>
-
-      <Border Grid.Row="2" Padding="28,11" Background="#FFFFFF"
-              BorderBrush="#E4EAF2" BorderThickness="0,1,0,0">
-        <Grid ColumnDefinitions="*,Auto">
-          <StackPanel Orientation="Horizontal" Spacing="7" VerticalAlignment="Center">
-            <Ellipse Width="6" Height="6" Fill="#27A879" VerticalAlignment="Center" />
-            <TextBlock Text="LOCAL DIAGNOSTIC TOOL" FontSize="9" FontWeight="SemiBold" Foreground="#8692A5" />
-            <TextBlock Text="·" FontSize="10" Foreground="#C2CAD5" />
-            <TextBlock Text="No background monitoring" FontSize="10" Foreground="#9AA5B5" />
-          </StackPanel>
-          <TextBlock Grid.Column="1" Text="v1.0.0" FontSize="10" Foreground="#9AA5B5" VerticalAlignment="Center" />
-        </Grid>
-      </Border>
-    </Grid>
-  </Grid>
-</Window>
+    </Panel>
+  </Window.Content>
+</windowing:AppWindow>

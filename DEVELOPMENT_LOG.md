@@ -219,3 +219,14 @@ This is an append-only, chronological audit log for the two Windows applications
 - Corrected the array in `.github/workflows/jdownloader-reach.yml` and committed the fix as `b86b6743c1d8da8e597bd9e3cbf10dcecfe35305`.
 - New workflow run [#39946624955](https://github.com/PCUser2021/ResolverReach/actions/runs/39946624955) is running on that fix. At the time of this entry, x64 PE verification and license staging succeeded and installer compilation was in progress; ARM64 app publishing was in progress. Do not report final installer success until both jobs complete successfully and artifacts can be confirmed.
 - The repository-specific memory and backup references were updated. The full pre-removal branch remains `backup/JDownloaderReach-full-2026-10-23`; the fixed clean snapshot is `backup/JDownloaderReach-0.3.0-clean-2026-10-23-r2`.
+
+
+### Final verification follow-up — JDownloader Reach 0.3.0 clean installers (2026-10-23)
+
+- Corrected workflow run [#39946624955](https://github.com/PCUser2021/ResolverReach/actions/runs/39946624955), commit `b86b6743c1d8da8e597bd9e3cbf10dcecfe35305`, completed successfully for both Windows architectures.
+- **x86-64:** artifact ID `12498472300`, name `JDownloaderReach-Setup-x64`, size 64,495,157 bytes, expiry 2026-11-22. The ZIP integrity test passed. Extracted installer SHA-256: `4aee55e9eef29647435dc9b4492c182c9fe4ec752a8b612584177d33d7cb6d02`.
+- **ARM64:** artifact ID `12497973329`, name `JDownloaderReach-Setup-arm64`, size 59,116,477 bytes, expiry 2026-11-22. The ZIP integrity test passed. Extracted installer SHA-256: `8538a3a53f6b73811434a2b631271bd9c8e726a82fcdd26b698bb468c0a5e57a`.
+- Both matrix jobs passed restore, self-contained publish of the two included applications, PE machine-type validation, license/setup staging, Inno Setup compilation, and artifact upload. These tests verify publishing/packaging; no physical-device interactive installation or live JDownloader API test was run.
+- Both artifacts now package JDownloader Reach and Resolver Reach only. The standalone Ollama GGUF Importer and its own workflow were left untouched.
+- A full current repository snapshot branch was created after the project context, prompt archive, development log and memory records were updated: `backup/JDownloaderReach-full-current-2026-10-23`, head commit `c13602aabfba1bffdede443242f22a0b9f9cb637`. A final snapshot including this verification entry will be made after commit.
+- Repository visibility remains **private**. The connected GitHub integration still provides no operation to create a separate repository or change visibility. Do not claim that the project page is publicly accessible.

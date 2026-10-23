@@ -1,5 +1,21 @@
 # Resolver Reach changelog
 
+## [2.3.0] — 2026-10-23
+
+### Updated
+- Updated the Resolver Reach desktop stack to Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Reactive 24.2.0, ReactiveUI.Avalonia.Reactive 12.1.6, and confirmed DynamicData 9.5.0 as current.
+- Pinned the CI to the stable .NET SDK 10.0.402; .NET 10 remains the target framework rather than adopting a prerelease .NET 11 SDK.
+- Updated the GitHub Actions used by Resolver Reach to checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2, and action-gh-release v3.0.3.
+- Upgraded the installer compiler to Inno Setup 7.1.0 and updated the CI's compiler path and installer version.
+- Replaced all Resolver Reach SVG icon assets and the public distribution artwork with an original, blue-gradient network mark and matching white/cyan icon family inspired by the rounded geometry and blue gradient in the supplied visual reference.
+- Updated the in-window icon geometry and accent palette to match the new identity.
+- Kept the existing DoH validation and session logging behavior.
+
+### Validation
+- **Pending CI:** the Avalonia 12 / ReactiveUI 24 upgrade includes major-version changes. The actual x64 and ARM64 build/installer jobs must pass before the release is considered verified.
+- CI build success alone does not test real endpoint availability, physical ARM64 hardware, or interactive UI behavior.
+
+
 ## [2.2.0] — 2026-10-23
 
 ### Added

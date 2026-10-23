@@ -51,3 +51,10 @@ Repository visibility last verified as private, so public source and anonymous d
 - New log `ResolverReach-Logs-20261023-040016.zip` was not attached/currently mounted, and external fetch failed. Failure-level diagnosis remains pending direct upload.
 - The current GitHub repository is private, so release assets need repository access.
 - Repository context is not a backup of the complete account-level ChatGPT memory database.
+
+
+## Current distribution/toolchain update — 2026-10-23
+
+- Product target: Resolver Reach 2.3.0, with updated blue-gradient icon assets and current stable dependency/tool versions documented in the root README and CHANGELOG.
+- The x64 and ARM64 builds must pass the refreshed CI workflow before any claim that 2.3.0 is shipped. Successful compilation/packaging does not mean that every DoH endpoint responds correctly.
+- Inno Setup 7.1.0 was selected as the current installer tool. Its official release notes state that commercial use requires purchasing a license; maintainers should check that requirement against their use case.

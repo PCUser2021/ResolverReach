@@ -2,7 +2,7 @@
   <img src="public-distribution/assets/resolverreach-icon.svg" alt="Resolver Reach app icon" width="112" />
 </p>
 
-<h1 align="center">Resolver Reach 2.2.0</h1>
+<h1 align="center">Resolver Reach 2.3.0</h1>
 
 <p align="center"><strong>Windows 11 x64 and native ARM64 · DNS-over-HTTPS resolver diagnostics</strong></p>
 
@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <img src="public-distribution/assets/resolverreach-preview.svg" alt="Resolver Reach 2.2.0 interface design preview" width="100%" />
+  <img src="public-distribution/assets/resolverreach-preview.svg" alt="Resolver Reach 2.3.0 interface design preview" width="100%" />
 </p>
 
 *Image note: the graphic above is an illustrative UI design preview based on the current layout, not a screenshot captured from a running application.*
@@ -29,13 +29,13 @@ Resolver Reach checks whether DNS-over-HTTPS (DoH) endpoints complete a valid DN
 - **Resilient probe handling:** longer connection tolerance, a bounded retry for timeouts/transient HTTP status codes, and HTTP/1.1 compatibility fallback after HTTP/2 protocol errors.
 - **Save Logs to ZIP:** choose the destination and export session summary, activity log, endpoint result history, currently visible results, and session/runtime metadata.
 - **Dual Windows architecture:** separate self-contained `win-x64` and native `win-arm64` applications/installers.
-- **Original vector icon family:** dark titanium/glass forms with spectral cyan, blue, violet, and magenta accents, applied consistently to the app mark, scan/paste/log actions, status states, and empty state.
+- **Redesigned icon family:** rounded blue-gradient tiles, clear white connection geometry, and cyan signal accents across the app icon, scan/paste/log actions, status symbols, and empty state.
 
 A valid DNS error response is a completed DoH exchange but is not a successful answer. Dead hostnames, access-denied endpoints, non-DNS content, and invalid DNS replies remain failures. Checks are point-in-time; no client can guarantee every third-party resolver will be available.
 
 ## Downloads
 
-**Current release:** [Resolver Reach 2.2.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.2.0). The x64 and native ARM64 builds, installers, and Release upload all passed in [GitHub Actions run #39945785064](https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064).
+**Current release:** [Resolver Reach 2.3.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.3.0). The v2.3.0 workflow rebuilds and packages both Windows architectures with the refreshed toolchain. Confirm the linked workflow and Release assets before treating the new build as shipped.
 
 - **[Windows x64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe)** — standard Intel/AMD 64-bit Windows. The x64-compatible installer can also run under Windows 11 ARM64 emulation.
 - **[Native Windows ARM64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe)** — native Arm64 Windows app, not the emulated x64 build.
@@ -51,10 +51,11 @@ See [LICENSE](LICENSE).
 
 ## Technical details
 
-- Version: **2.2.0**
+- Version: **2.3.0**
 - Runtime identifiers: `win-x64`, `win-arm64`
-- Stack: C# / .NET 10, Avalonia, FluentAvalonia, ReactiveUI, DynamicData
+- Stack: C# / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Reactive 24.2.0, ReactiveUI.Avalonia.Reactive 12.1.6, DynamicData 9.5.0
 - DNS check: RFC 8484 wire-format request and response validation
+- Build tools: .NET SDK 10.0.402, GitHub Actions, Inno Setup 7.1.0
 - No changes to Windows DNS settings, VPN, or general traffic routing
 
 

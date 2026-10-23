@@ -15,3 +15,8 @@ Resolver Reach uses Avalonia UI for its desktop application framework. Project: 
 ## FluentAvalonia
 
 Resolver Reach uses FluentAvalonia for Fluent-style desktop theme and window controls. Project: https://github.com/amwx/FluentAvalonia. FluentAvalonia and its dependencies retain their respective licenses.
+
+
+## Build tooling — Inno Setup
+
+The v2.3.0 Windows installer workflow uses Inno Setup 7.1.0 to compile the installer. Inno Setup is a build-time tool, not a runtime dependency bundled into Resolver Reach. See the [official Inno Setup site](https://jrsoftware.org/isinfo.php) and [Inno Setup 7 revision history](https://jrsoftware.org/files/is7-whatsnew.htm) for its current license terms; the official 7.1.0 notes state that commercial use requires a purchased license. This tool's license is separate from the MIT license covering original Resolver Reach code and assets.

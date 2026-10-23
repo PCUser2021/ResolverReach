@@ -13,7 +13,7 @@ This file records the package and toolchain versions declared by the repository 
 |---|---:|---|
 | C# language/compiler | C# 14 via .NET 10 SDK | Application and tests |
 | .NET target framework | `net10.0` | Application and test target |
-| .NET SDK requested by CI | `10.0.x` | CI intentionally follows the latest .NET 10 servicing SDK |
+| .NET SDK selection | `global.json`: `10.0.402`, `rollForward: latestFeature`; setup-dotnet requests `10.0.x` | CI run used SDK `10.0.402`; global.json enables the .NET 10 Microsoft Testing Platform runner |
 | .NET SDK latest official release at audit time | `10.0.402` (released 2026-10-13) | Current reference for the unpinned `10.0.x` selector |
 | .NET 10 runtime servicing release | `10.0.13` (released 2026-10-13) | Current .NET 10 patch line; publish remains self-contained |
 | Avalonia | `12.1.4` | Cross-platform .NET UI framework |

@@ -250,3 +250,21 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Product/project/assembly/file/installer version advanced to `2.1.0` / `2.1.0.0`; changelog, README, project context and workflow synchronized.
 - Windows build/release workflow [#39937042568](https://github.com/PCUser2021/ResolverReach/actions/runs/39937042568) completed successfully. Published release [v2.1.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.0), asset `ResolverReach-Setup-x64.exe`, 33,980,655 bytes; verified stable URL `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
 - CI confirmed compile, packaging, and upload, but no live interactive Windows GUI test was performed. Repository visibility still reads `private`.
+
+
+### Prompt 012 — Diagnose DoH resolver scan failures and fix reliability bugs
+- Date: 2026-10-23
+- Target: `PCUser2021/ResolverReach`
+- Input log archive: `ResolverReach-Logs-20261023-032704.zip` (Windows 11 build 26200; Resolver Reach 2.1.0).
+- Exact prompt:
+
+> All the resolvers are not reachable, even with Proton VPN! 100% scan; analyze the log file to check why they are not reachable,, and fix all bugs like you're a postdoc developer
+
+- First diagnostic findings from the uploaded archive:
+  - The run completed all 266 endpoints: 235 PASS, 1 DNS ERROR (valid DoH response with RCODE REFUSED), 30 FAIL.
+  - Thus 236/266 (88.7%) returned structurally valid DoH responses; not all resolvers failed.
+  - Of the 30 failures: 11 request timeouts, 11 HTTPS/TLS failures, 4 HTTP status failures, 3 invalid DNS replies due mismatched transaction IDs, and 1 HTML response instead of application/dns-message.
+  - Multiple timeouts clustered almost exactly at 5,000 ms. Source has SocketsHttpHandler.ConnectTimeout=5 seconds, HttpClient.Timeout=10 seconds, and sends HTTP/2 with RequestVersionOrLower but has no HTTP/1.1 compatibility retry after HTTP/2 PROTOCOL_ERROR.
+  - Some failures appear server-specific (DNS hostname not found, HTTP 403/404/502, wrong MIME type or incorrect DNS ID); no VPN setting can make an offline or non-compliant resolver respond correctly.
+- Work requested: improve timeout tolerance, add HTTP/1.1 fallback for HTTP/2 protocol resets, retry transient timeouts/server statuses once, improve status summaries to distinguish transport failures from received-but-invalid HTTP/DoH replies, preserve per-run diagnostics, bump product version, and verify the Windows build and release.
+- Status at archive time: log inspected; code changes and build verification follow.

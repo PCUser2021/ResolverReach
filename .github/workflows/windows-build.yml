@@ -160,7 +160,7 @@ jobs:
 
   verify-packaged-artifacts:
     name: Verify both installer artifacts
-    needs: [build-windows-x64, build-windows-arm64, verify-packaged-artifacts]
+    needs: [build-windows-x64, build-windows-arm64]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -188,7 +188,7 @@ jobs:
   publish-release:
     name: Publish tested v2.3.0 release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[publish-release]')
-    needs: [build-windows-x64, build-windows-arm64]
+    needs: [build-windows-x64, build-windows-arm64, verify-packaged-artifacts]
     runs-on: ubuntu-latest
     permissions:
       contents: write

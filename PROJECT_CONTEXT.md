@@ -227,3 +227,14 @@ This section supersedes the earlier statement that the prototype was x64-only an
 - Downloaded Setup EXEs, extracted from those artifacts and checked non-empty: x64 SHA-256 `5b865279309ccc790f80be05fa92cd3e177c0a7736f416b431d27fa7e442bc8f`; ARM64 SHA-256 `d2d4a1a6309038fbd7ba76324d6132c1b455ce9da7c3ffe25334e0ef2ced5f48`.
 - The CI PE-machine validation step, Inno Setup compilation, and artifact upload succeeded for both architectures.
 - No interactive install test on a physical ARM64 device was performed; successful cross-target compilation and packaging do not establish all runtime integrations against an installed JDownloader instance.
+
+
+## Final installer verification — 2026-10-23
+
+JDownloader Reach 0.2.0 has two successful architecture-specific installers from workflow run 39943711695. The x64 installer artifact is 12496179768 and the ARM64 artifact is 12497252555. Both include native builds of the shell, Resolver Reach, and Ollama GGUF Importer; the license copy step includes the third-party LGPL text referenced by Resolver Reach notices. PE machine-type checks, Inno Setup compilation, and artifact upload passed in both jobs.
+
+Local extracted installers:
+- x64 SHA-256: 5b865279309ccc790f80be05fa92cd3e177c0a7736f416b431d27fa7e442bc8f
+- ARM64 SHA-256: d2d4a1a6309038fbd7ba76324d6132c1b455ce9da7c3ffe25334e0ef2ced5f48
+
+No interactive install test on physical ARM64 or x64 hardware was performed. JDownloader's Java engine remains a separate prerequisite.

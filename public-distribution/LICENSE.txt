@@ -1,20 +1,21 @@
-RESOLVER REACH 2.0.0 — PROPRIETARY PERSONAL / HOME-USE LICENSE
-Copyright (c) 2026 PCUser2021. All rights reserved.
+MIT License
 
-1. PERSONAL, HOME USE ONLY
-Resolver Reach is intended solely for personal, home use. Under no circumstances is anyone permitted to use Resolver Reach for any purpose other than personal, home use—this includes accessing the source code or reverse engineering it.
+Copyright (c) 2026 PCUser2021
 
-2. LIMITED PERMISSION
-Subject to this license and applicable law, you may install and run the distributed binary on your own personal/home Windows computer for your own personal, non-commercial use. No source code is distributed or licensed. No right to modify, adapt, create derivative works, redistribute, sublicense, host, sell, rent, or provide Resolver Reach as a service is granted.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-3. RESTRICTIONS
-You must not use the software for business, commercial, organizational, public-service, hosted, or other non-personal/home purposes. You must not attempt to obtain or disclose source code, decompile, disassemble, or reverse engineer the software, except to the extent a mandatory rule of applicable law expressly permits or protects such conduct and the restriction cannot lawfully be waived.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-4. NO WARRANTY
-The software is provided “AS IS”, without warranties to the maximum extent permitted by law. DNS endpoint results are point-in-time diagnostics, not a guarantee of continuous availability.
-
-5. APPLICABLE LAW
-This license does not exclude rights or exceptions that applicable law makes non-waivable. Enforceability and scope of reverse-engineering restrictions can vary by jurisdiction.
-
-6. OTHER RIGHTS
-All rights not expressly granted are reserved.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

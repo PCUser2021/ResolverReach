@@ -1,7 +1,7 @@
 # AI Session Handoff — Resolver Reach
 
 Last verified: 2026-10-23
-Main branch has not yet received this candidate. Proposed source version is Resolver Reach 2.4.0 on feature branch `feature/resolverreach-2.4.0-comprehensive-doh-validation`; latest published release verified in records remains v2.2.0. Do not claim a v2.3.0 release until its release and assets are checked.
+Main contains Resolver Reach source candidate 2.4.0, merged in commit [`803e367`](https://github.com/PCUser2021/ResolverReach/commit/803e36738e567b08a12ff3cdbc4de3675d3dd4f7). Latest published GitHub Release remains v2.2.0; v2.4.0 has not been published.
 
 ## Application and build
 
@@ -12,7 +12,7 @@ Main branch has not yet received this candidate. Proposed source version is Reso
 - UI source: `src/ResolverReach/MainView.axaml`, `MainWindow.axaml`, and their code-behind; icons under `src/ResolverReach/Assets/Icons/`.
 - Installer: `installer/ResolverReach.iss`.
 - Windows CI: `.github/workflows/windows-build.yml`.
-- Product source version is 2.3.0; latest previously verified published release is v2.2.0. Verify current workflow and release metadata before reporting a newer release.
+- Product source candidate is 2.4.0; assembly/file/manifest versions are 2.4.0.0. Latest verified published release remains v2.2.0.
 
 ## Behavior that must be preserved
 
@@ -69,10 +69,10 @@ Main branch has not yet received this candidate. Proposed source version is Reso
 OnionFruit was inspected as a separate C#/.NET Tor desktop application and a UI/theme reference only. No OnionFruit Tor engine or runtime dependencies should be added to Resolver Reach merely to imitate its technology stack.
 
 
-## Candidate implementation — Resolver Reach 2.4.0 (2026-10-23)
+## Resolver Reach 2.4.0 implementation and verification (2026-10-23)
 
-- Branch: `feature/resolverreach-2.4.0-comprehensive-doh-validation`.
+- Merged into `main` at commit [`803e367`](https://github.com/PCUser2021/ResolverReach/commit/803e36738e567b08a12ff3cdbc4de3675d3dd4f7).
 - Extracted `DnsWire`; query ID is zero; validates declared RR sections, common structured RDATA, EDNS OPT/options and extended RCODE, compression pointer direction, and exact end-of-message boundaries.
 - DoH response body reads are capped at 65,535 bytes while streaming.
 - Added `Directory.Packages.props`, `DEPENDENCIES.md`, `tests/ResolverReach.Tests` and a CI protocol-test job. Release publication now depends on tests.
-- Do not claim build, tests, live resolver behavior, or release success until the Actions run for the exact candidate head is complete. No release assets were published by the source edits.
+- Verified GitHub Actions run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171): 12/12 deterministic tests passed, both Windows architectures published and installers compiled, and both installer artifacts passed non-empty/download validation. The release job was skipped intentionally; the latest published release remains v2.2.0. No live public-resolver test or interactive GUI smoke test is implied.

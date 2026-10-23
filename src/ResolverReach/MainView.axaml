@@ -1,6 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:ResolverReach" x:Class="ResolverReach.MainView" x:DataType="vm:ResolverReachViewModel" x:CompileBindings="True" Background="{DynamicResource AppBackgroundBrush}" KeyDown="MainView_KeyDown">
   <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Background="{DynamicResource AppBackgroundBrush}">
-    <Border Grid.Row="0" Background="#34393F" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="0,0,0,1" Padding="22,11">
+    <Border Grid.Row="0" Background="#34393F" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="0,0,0,1" Padding="22,11,190,11">
       <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="13">
         <Border Width="38" Height="38" CornerRadius="9" Background="#F22E8C" VerticalAlignment="Center">
           <TextBlock Text="R" FontSize="24" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -58,12 +58,15 @@
     </Grid>
 
     <Grid Grid.Row="3" Margin="22,0,22,11" RowDefinitions="Auto,Auto,*">
-      <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="12" Margin="0,0,0,10">
+      <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10" Margin="0,0,0,10">
         <StackPanel Spacing="3">
           <TextBlock Text="Resolver results" FontSize="17" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" />
           <TextBlock Text="PASS = valid NOERROR DNS reply · DNS ERROR = valid DoH exchange with a DNS error code · FAIL = unreachable or invalid response." FontSize="11" Foreground="{DynamicResource AppMutedBrush}" TextWrapping="Wrap" />
         </StackPanel>
-        <Border Grid.Column="1" Background="{DynamicResource AppSubtleBrush}" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1" CornerRadius="5" Padding="10,6" VerticalAlignment="Center">
+        <Button x:Name="SaveLogsButton" Grid.Column="1" Click="SaveLogsButton_Click" Padding="14,8" MinWidth="112" MinHeight="34" VerticalAlignment="Center" Background="#50555C" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1" CornerRadius="5" AutomationProperties.Name="Save full resolver diagnostic logs to a ZIP archive">
+          <TextBlock Text="Save Logs" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" />
+        </Button>
+        <Border Grid.Column="2" Background="{DynamicResource AppSubtleBrush}" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1" CornerRadius="5" Padding="10,6" VerticalAlignment="Center">
           <TextBlock Text="UP TO 512 URLS / RUN" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" />
         </Border>
       </Grid>

@@ -336,3 +336,20 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Icon overhaul: new executable/installer icon; custom SVG source icon family; matching Avalonia vector icon changes for the app mark, catalog scan, paste, DoH check, Save Logs, empty state, and PASS/DNS ERROR/FAIL statuses; public app icon and UI preview updated.
 - The new log ZIP was not retrieved from the supplied MediaFire URL; its contents have not been analyzed. Direct upload is required for exact failure-level diagnosis.
 - Build/installer success does not prove all public endpoints are available and no physical ARM64 or live UI test was executed.
+
+
+### Prompt 014 — Fix resolver reachability and fully back up all project work/memory
+- Date: 2026-10-23
+- Target: `PCUser2021/ResolverReach`
+- Exact request:
+
+> 100% fix: why resolvers
+> Here are the logs.
+> Please 100% fully back up everything you did to GitHub and ChatGPTU memory
+
+- Attachment check at response time: the current conversation's file inventory did not contain the claimed new resolver-log ZIP. The previously referenced `ResolverReach-Logs-20261023-040016.zip` is not present among current mounted files, and attempting the prior MediaFire URL again failed.
+- Available prior diagnostic evidence: `ResolverReach-Logs-20261023-032704.zip` from Resolver Reach 2.1.0 was analyzed in Outcome 012; it reported 235 PASS, 1 valid DNS ERROR (RCODE REFUSED), and 30 FAIL among 266 endpoints. That analysis is not a substitute for the newer missing run.
+- Current shipped state: Resolver Reach 2.2.0; native `win-x64` and `win-arm64` release builds and installers both passed in workflow `39945785064`. Both assets are in Release `v2.2.0`. Icon overhaul and SVG/XAML vector sources are committed.
+- Required action: persist durable project context/working history to this private repository, update backup manifest/development log, and advance the versioned backup branch to the verified current main SHA.
+- Important limitation: this repository context/archive can preserve project-specific knowledge, but it cannot write or export ChatGPT's entire account-level memory database. Do not claim that global ChatGPT memory was fully backed up.
+- Status at archive time: recorded before this response's backup updates; the new ZIP's failure-level diagnosis remains blocked by missing attachment.

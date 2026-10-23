@@ -45,6 +45,101 @@ jobs:
           $architecture = Get-Content $architecturePath -Raw
           $architecture = [regex]::Replace($architecture, "(?m)^- The standalone `src/OllamaGgufImporter/` source and `\.github/workflows/ollama-gguf-importer\.yml` remain independent and unchanged\.$", "- Ollama GGUF Importer is a separate product and is outside this repository.")
           Set-Content -Path $architecturePath -Value $architecture -Encoding utf8
+          $architecture = [regex]::Replace($architecture, '(?m)^- The standalone .*src/OllamaGgufImporter.*          Copy-Item "src/JDownloaderReach/CHANGELOG.md" -Destination "$seed/CHANGELOG.md" -Force
+
+          $buildWorkflow = Get-Content ".github/workflows/jdownloader-reach.yml" -Raw
+          $buildWorkflow = $buildWorkflow.Replace("branches: [main, feature/jdownloader-reach-prototype]", "branches: [main]")
+          Set-Content -Path "$seed/.github/workflows/jdownloader-reach.yml" -Value $buildWorkflow -Encoding utf8
+
+          @'
+          # JDownloader Reach
+
+          JDownloader Reach is an independent Windows desktop control shell for an already installed JDownloader engine. It is built with C#/.NET 10, Avalonia, and FluentAvalonia and targets Windows x86-64 and ARM64.
+
+          ## Included
+
+          - JDownloader Reach 0.3.0 shell with local API state check, LinkGrabber link submission, a basic queue snapshot, start-download request, path persistence, and Save Logs ZIP.
+          - Resolver Reach as the companion DNS-over-HTTPS diagnostic app.
+          - Separate x86-64 and ARM64 Inno Setup installer scripts.
+          - A GitHub Actions workflow that publishes both native architectures and checks PE machine types before compiling installers.
+          - Source, third-party notices, and project-specific documentation.
+
+          ## Not included
+
+          - The JDownloader Java engine. Install JDownloader separately.
+          - Ollama GGUF Importer. It is not integrated into or bundled with this project.
+
+          ## Build and downloads
+
+          Push to `main` or run **Actions → JDownloader Reach Windows installers → Run workflow**. The workflow uploads separate x64 and ARM64 setup executables as Actions artifacts. Artifacts expire after 30 days; create a GitHub Release for durable downloads.
+
+          ## Security boundary
+
+          The optional legacy JDownloader API client is fixed to `http://127.0.0.1:3128/`. This interface may be deprecated and unauthenticated. Never expose port 3128 to a LAN or the internet. The app does not open firewall ports or change Windows DNS settings.
+
+          ## Current limitations
+
+          This is a control shell, not a Java-to-C# port or a complete replacement for JDownloader's native interface. Queue/API behavior must be checked against an installed JDownloader build; CI verifies compile/package correctness, not live API behavior.
+
+          See [integration architecture](docs/INTEGRATION-ARCHITECTURE.md), [changelog](CHANGELOG.md), and [project memory](docs/PROJECT-MEMORY.md).
+
+          The project is independent and is not affiliated with or endorsed by JDownloader or AppWork.
+          '@ | Set-Content -Path "$seed/README.md" -Encoding utf8
+
+          @'
+          # JDownloader Reach — project memory
+
+          ## Project identity
+          - Current product version: 0.3.0 (assembly/file version 0.3.0.0).
+          - Stack: C# / .NET 10, Avalonia, FluentAvalonia.
+          - Targets: Windows x86-64 (`win-x64`) and ARM64 (`win-arm64`).
+          - Main app: `src/JDownloaderReach/`.
+          - Bundled companion: `src/ResolverReach/`.
+          - CI packaging: `.github/workflows/jdownloader-reach.yml`.
+          - Installers: `installer/JDownloaderReach-x64.iss` and `installer/JDownloaderReach-arm64.iss`.
+
+          ## Current behavior
+          Launch a user-selected JDownloader2.exe; check the optional local API; submit links to LinkGrabber; display a basic package snapshot; request that queued downloads start; launch Resolver Reach; persist executable paths in %LOCALAPPDATA%\JDownloaderReach\settings.json; export logs and runtime metadata to ZIP.
+
+          ## Explicit exclusions
+          Ollama GGUF Importer is not integrated and is not bundled. Its separate project is deliberately outside this repository seed. JDownloader's Java engine is not bundled and must be installed separately.
+
+          ## Security
+          The optional API URL is fixed to http://127.0.0.1:3128/. It may be deprecated/unauthenticated. Never expose the port externally. Do not accept remote API hosts without a proper security redesign.
+
+          ## Build verification baseline
+          The earlier 0.2.0 bundle (before importer removal) passed x64/ARM64 packaging in workflow run 39943711695. The cleaned 0.3.0 build passed both architectures in run 39946624955, commit b86b6743c1d8da8e597bd9e3cbf10dcecfe35305. That workflow validated native PE machine types, compiled both Inno Setup installers and uploaded artifacts. It did not test a physical-device installation or live JDownloader API integration.
+
+          ## Licensing
+          JDownloader's engine is not copied or redistributed. The control-shell source is documented as MIT-licensed by the source project; Resolver Reach third-party notices remain applicable. Audit source/binary licenses before any future engine bundling.
+          '@ | Set-Content -Path "$seed/docs/PROJECT-MEMORY.md" -Encoding utf8
+
+          @'
+          bin/
+          obj/
+          artifacts/
+          .vs/
+          *.user
+          *.suo
+          '@ | Set-Content -Path "$seed/.gitignore" -Encoding utf8
+
+          if (Test-Path "$seed/src/OllamaGgufImporter") { throw "Ollama GGUF Importer must not be included." }
+          if (Test-Path "$seed/PROMPT_ARCHIVE.md") { throw "Private prompt archive must not be included." }
+
+          New-Item -ItemType Directory -Force -Path "artifacts" | Out-Null
+          Compress-Archive -Path "$seed/*" -DestinationPath "artifacts/JDownloader-Reach-Repository.zip" -Force
+          Get-Item "artifacts/JDownloader-Reach-Repository.zip" | Select-Object FullName, Length
+
+      - name: Upload repository seed
+        uses: actions/upload-artifact@v4
+        with:
+          name: JDownloader-Reach-Repository-Seed
+          path: artifacts/JDownloader-Reach-Repository.zip
+          if-no-files-found: error
+          retention-days: 7
+, '- Ollama GGUF Importer is a separate product and is outside this repository.')
+          $architecture = [regex]::Replace($architecture, '(?m)^.*ollama-gguf-importer\.yml.*\r?\n?', '')
+          Set-Content -Path $architecturePath -Value $architecture -Encoding utf8
           Copy-Item "src/JDownloaderReach/CHANGELOG.md" -Destination "$seed/CHANGELOG.md" -Force
 
           $buildWorkflow = Get-Content ".github/workflows/jdownloader-reach.yml" -Raw

@@ -160,3 +160,9 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - No analysis of the 04:48 scan is possible yet. The older 03:27 ZIP is the only actual uploaded Resolver Reach scan log available to this session.
 - Prompt 015 captured in `PROMPT_ARCHIVE.md`. Ask for a direct file upload and then document evidence-based findings.
 - Keep `backup/ResolverReach-2.2.0-2026-10-23` synced to the latest main commit after this documentation update.
+
+
+## Latest manifest follow-up — current repository backup verified
+- Prompt 015 recorded in the private prompt archive. The actual `ResolverReach-Logs-20261023-044828.zip` bytes were not delivered; message contained a manifest with 0 chunks and a ZIP prefix only.
+- Durable AI handoff files and master context are committed. The previous diagnostic ZIP remains the only scan file available for analysis.
+- After the Prompt 015 documentation commit, `backup/ResolverReach-2.2.0-2026-10-23` was synced to the exact `main` commit. Verify both refs again if more documentation/source changes are committed.

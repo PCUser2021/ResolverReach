@@ -1,6 +1,6 @@
 # Project Context and Working Agreement
 
-Last verified against repository source: 2026-10-22
+Last verified against repository source: 2026-10-23
 Repository: https://github.com/PCUser2021/ResolverReach
 Default branch: main (visibility last verified private; user has requested public access)
 
@@ -12,7 +12,7 @@ Default branch: main (visibility last verified private; user has requested publi
 
 - Product: Resolver Reach
 - Current project version: 2.2.0 (2026-10-23), with native x64 and ARM64 installers and the metallic/spectral icon overhaul.
-- Target: Windows 11 25H2, x64 only; ARM64 is intentionally not targeted
+- Target: Windows 11 x64 and native ARM64; `win-x64` and `win-arm64` self-contained installers are published in Release v2.2.0.
 - Stack: C# / .NET 10, Avalonia, FluentAvalonia, ReactiveUI, DynamicData
 - Project: `src/ResolverReach/ResolverReach.csproj`
 - Main source directory: `src/ResolverReach/`
@@ -265,7 +265,7 @@ Last verified 2026-10-23: Resolver Reach 2.2.0 x64 and ARM64 builds/installers p
 - Latest prompt is archived and project history is persisted in the private repo.
 - Root context documents: `AI_SESSION_HANDOFF.md` and `Software_Project_Master_Context.md`; README links these with `PROJECT_CONTEXT.md`, `PROMPT_ARCHIVE.md`, `DEVELOPMENT_LOG.md` and `BACKUP_MANIFEST.md`.
 - Resolver Reach 2.2.0 release was verified: workflow #39945785064 passed x64 + ARM64 builds, installer creation and upload; both release assets exist.
-- The versioned backup branch `backup/ResolverReach-2.2.0-2026-10-23` is synchronized with main at commit `ce10cecc4d8c650006a90f5389356820b0a769d6` at the moment of this note. If subsequent docs change main, sync again.
+- The versioned backup branch is `backup/ResolverReach-2.2.0-2026-10-23`. Its SHA must be checked against `main` after each source or documentation update.
 - New requested ZIP `ResolverReach-Logs-20261023-040016.zip` still is not among current attachments; the external download failed. The newer run is not analyzed.
 - Account-level ChatGPT Memory cannot be exported or directly mutated via the GitHub connector; these files are the durable project-specific memory source.
 

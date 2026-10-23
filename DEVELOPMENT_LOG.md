@@ -224,3 +224,12 @@ This is an append-only, chronological audit log for the two Windows applications
 - Backup branch `backup/ResolverReach-2.2.0-2026-10-23` was previously synchronized to main; after this documentation commit it must be moved to the final main SHA and verified.
 - New log 04:00 is absent from the attachment inventory; MediaFire retrieval failed. Do not claim the latest failure modes are known. User needs to upload the ZIP directly.
 - GitHub files preserve project-specific context and source, not all account-wide ChatGPT memory or unrelated chats.
+
+
+### Final project context backup — 2026-10-23
+- Added AI_SESSION_HANDOFF.md and Software_Project_Master_Context.md; README links the context and project archives.
+- Prompt 014 captured in PROMPT_ARCHIVE.md.
+- Verified current Resolver Reach v2.2.0 workflow #39945785064 and both published installers: x64 33,974,496 bytes; native ARM64 31,276,362 bytes.
+- The newer 04:00 log has not been received as an attachment and its external link failed. Do not claim its failure categories are known; only the older 03:27 ZIP has been analyzed.
+- The versioned backup branch must match main after the remaining documentation updates.
+- Repository files preserve project-specific context, not the entire account-level ChatGPT Memory store.

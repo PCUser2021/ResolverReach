@@ -72,7 +72,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     {
         string? version = typeof(ResolverReachViewModel).Assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-        return string.IsNullOrWhiteSpace(version) ? "2.3.0" : version.Split('+', 2)[0];
+        return string.IsNullOrWhiteSpace(version) ? "2.4.0" : version.Split('+', 2)[0];
     }
 
     public ResolverReachViewModel()
@@ -683,14 +683,38 @@ private static async Task<ResolverResult> TestEndpointAsync(string input, Cancel
                 "Unexpected content type", $"Expected application/dns-message, received {mediaType ?? "no Content-Type"} via {requestMode}.");
         }
 
-        byte[] payload = await response.Content.ReadAsByteArrayAsync(cancellationToken);
-        clock.Stop();
-
-        if (payload.Length > 65535)
+        if (response.Content.Headers.ContentLength is long declaredLength && declaredLength > 65535)
         {
+            clock.Stop();
             return new ResolverResult(endpoint, "FAIL", (int)response.StatusCode, clock.Elapsed.TotalMilliseconds,
                 "Invalid DNS response", "Response exceeded the maximum DNS message length.");
         }
+
+        // Bound the read itself. Checking only after ReadAsByteArrayAsync would
+        // permit an untrusted endpoint to make the process buffer an oversized body.
+        await using Stream responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
+        using var payloadBuffer = new MemoryStream(capacity: response.Content.Headers.ContentLength is long length
+            ? (int)Math.Clamp(length, 0, 65535)
+            : 4096);
+        byte[] readBuffer = new byte[8192];
+        while (true)
+        {
+            int read = await responseStream.ReadAsync(readBuffer.AsMemory(), cancellationToken);
+            if (read == 0)
+                break;
+
+            if (payloadBuffer.Length + read > 65535)
+            {
+                clock.Stop();
+                return new ResolverResult(endpoint, "FAIL", (int)response.StatusCode, clock.Elapsed.TotalMilliseconds,
+                    "Invalid DNS response", "Response exceeded the maximum DNS message length.");
+            }
+
+            payloadBuffer.Write(readBuffer, 0, read);
+        }
+
+        byte[] payload = payloadBuffer.ToArray();
+        clock.Stop();
 
         if (!DnsWire.TryValidateResponse(payload, queryId, out int rcode, out int answers, out string validationError))
         {
@@ -770,188 +794,5 @@ public sealed class ResolverResult
         LatencyMilliseconds = latencyMilliseconds;
         DnsSummary = dnsSummary;
         Detail = detail;
-    }
-}
-
-internal static class DnsWire
-{
-    public static byte[] BuildExampleAQuery(out ushort transactionId)
-    {
-        transactionId = (ushort)Random.Shared.Next(0, ushort.MaxValue + 1);
-        const string domain = "example.com";
-        string[] labels = domain.Split('.');
-        int encodedNameLength = labels.Sum(x => 1 + Encoding.ASCII.GetByteCount(x)) + 1;
-        byte[] packet = new byte[12 + encodedNameLength + 4];
-
-        packet[0] = (byte)(transactionId >> 8);
-        packet[1] = (byte)(transactionId & 0xff);
-        packet[2] = 0x01; // Recursion Desired
-        packet[3] = 0x00;
-        packet[4] = 0x00;
-        packet[5] = 0x01; // QDCOUNT = 1
-
-        int offset = 12;
-        foreach (string label in labels)
-        {
-            byte[] bytes = Encoding.ASCII.GetBytes(label);
-            packet[offset++] = (byte)bytes.Length;
-            Buffer.BlockCopy(bytes, 0, packet, offset, bytes.Length);
-            offset += bytes.Length;
-        }
-
-        packet[offset++] = 0x00; // root label
-        packet[offset++] = 0x00;
-        packet[offset++] = 0x01; // QTYPE = A
-        packet[offset++] = 0x00;
-        packet[offset] = 0x01;   // QCLASS = IN
-        return packet;
-    }
-
-    public static bool TryValidateResponse(byte[] message, ushort expectedId, out int rcode,
-        out int answerCount, out string error)
-    {
-        rcode = -1;
-        answerCount = 0;
-        error = string.Empty;
-
-        if (message.Length < 12)
-        {
-            error = "Response is shorter than the 12-byte DNS header.";
-            return false;
-        }
-
-        ushort id = ReadUInt16(message, 0);
-        if (id != expectedId)
-        {
-            error = "DNS transaction ID did not match the request.";
-            return false;
-        }
-
-        ushort flags = ReadUInt16(message, 2);
-        if ((flags & 0x8000) == 0)
-        {
-            error = "DNS message did not have the response (QR) bit set.";
-            return false;
-        }
-
-        if ((flags & 0x7800) != 0)
-        {
-            error = "DNS response used an unexpected opcode.";
-            return false;
-        }
-
-        if (ReadUInt16(message, 4) != 1)
-        {
-            error = "DNS response did not echo exactly one question.";
-            return false;
-        }
-
-        int offset = 12;
-        if (!TryReadName(message, ref offset, out string questionName))
-        {
-            error = "DNS question name was malformed.";
-            return false;
-        }
-
-        if (!string.Equals(questionName, "example.com", StringComparison.OrdinalIgnoreCase))
-        {
-            error = "DNS response question did not match example.com.";
-            return false;
-        }
-
-        if (offset + 4 > message.Length)
-        {
-            error = "DNS response ended before the question type and class.";
-            return false;
-        }
-
-        ushort qtype = ReadUInt16(message, offset);
-        ushort qclass = ReadUInt16(message, offset + 2);
-        if (qtype != 1 || qclass != 1)
-        {
-            error = "DNS response question was not type A / class IN.";
-            return false;
-        }
-
-        answerCount = ReadUInt16(message, 6);
-        rcode = flags & 0x000f;
-        return true;
-    }
-
-    public static string RcodeName(int rcode) => rcode switch
-    {
-        0 => "NOERROR",
-        1 => "FORMERR",
-        2 => "SERVFAIL",
-        3 => "NXDOMAIN",
-        4 => "NOTIMP",
-        5 => "REFUSED",
-        6 => "YXDOMAIN",
-        7 => "YXRRSET",
-        8 => "NXRRSET",
-        9 => "NOTAUTH",
-        10 => "NOTZONE",
-        _ => $"RCODE {rcode}"
-    };
-
-    private static ushort ReadUInt16(byte[] buffer, int offset) =>
-        (ushort)((buffer[offset] << 8) | buffer[offset + 1]);
-
-    private static bool TryReadName(byte[] message, ref int offset, out string name)
-    {
-        var labels = new List<string>();
-        int cursor = offset;
-        int? resumeOffset = null;
-
-        for (int step = 0; step < 128 && cursor < message.Length; step++)
-        {
-            byte length = message[cursor];
-
-            if ((length & 0xc0) == 0xc0)
-            {
-                if (cursor + 1 >= message.Length)
-                {
-                    name = string.Empty;
-                    return false;
-                }
-
-                int pointer = ((length & 0x3f) << 8) | message[cursor + 1];
-                if (pointer >= message.Length)
-                {
-                    name = string.Empty;
-                    return false;
-                }
-
-                resumeOffset ??= cursor + 2;
-                cursor = pointer;
-                continue;
-            }
-
-            if ((length & 0xc0) != 0)
-            {
-                name = string.Empty;
-                return false;
-            }
-
-            cursor++;
-            if (length == 0)
-            {
-                offset = resumeOffset ?? cursor;
-                name = string.Join('.', labels);
-                return true;
-            }
-
-            if (length > 63 || cursor + length > message.Length)
-            {
-                name = string.Empty;
-                return false;
-            }
-
-            labels.Add(Encoding.ASCII.GetString(message, cursor, length));
-            cursor += length;
-        }
-
-        name = string.Empty;
-        return false;
     }
 }

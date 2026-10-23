@@ -72,7 +72,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     {
         string? version = typeof(ResolverReachViewModel).Assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-        return string.IsNullOrWhiteSpace(version) ? "2.1.1" : version.Split('+', 2)[0];
+        return string.IsNullOrWhiteSpace(version) ? "2.2.0" : version.Split('+', 2)[0];
     }
 
     public ResolverReachViewModel()
@@ -735,6 +735,10 @@ public sealed class ResolverResult
     public double? LatencyMilliseconds { get; }
     public string DnsSummary { get; }
     public string Detail { get; }
+
+    public bool IsPass => string.Equals(Status, "PASS", StringComparison.Ordinal);
+    public bool IsDnsError => string.Equals(Status, "DNS ERROR", StringComparison.Ordinal);
+    public bool IsFailure => Status is "FAIL" or "CANCELLED";
 
     public string HttpLabel => HttpStatusCode.HasValue ? $"HTTP {HttpStatusCode.Value}" : "—";
     public string LatencyLabel => LatencyMilliseconds.HasValue

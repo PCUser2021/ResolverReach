@@ -317,3 +317,12 @@ This is an append-only, chronological audit log for the two Windows applications
 - Updated README, changelog, dependency audit, project context, master context, handoff and backup manifest. The .NET 10 support matrix lists macOS 15/Sequoia and newer, so app metadata sets minimum macOS 15.0.
 - NuGet listings checked 2026-10-23 show current stable direct package versions: Avalonia/Avalonia.Desktop 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Avalonia.Reactive 12.1.6; ReactiveUI.Reactive 26.0.1; DynamicData 9.5.0; System.Reactive 7.0.0; xunit.v3 4.0.2. .NET SDK 10.0.402/runtime 10.0.13 is the latest stable .NET 10 servicing release identified for this date.
 - Not yet verified at log-write time: PR CI, actual DMG/ZIP artifacts, macOS app launch/runtime behavior, release publication, and full backup branch/tag. macOS packages remain unsigned/not notarized because Apple Developer credentials were not supplied. Update this log with the actual PR, workflow, artifacts, and backup ref only after checking them.
+
+
+## 2026-10-23 — PR #4 first CI checkpoint
+
+- Opened PR #4: https://github.com/PCUser2021/ResolverReach/pull/4 (head initially `e4935a5b07070e279baaa16716034ba1ef7747ad`, subsequently updated with documentation and macOS minimum-OS corrections).
+- GitHub Actions run #40005597884 concluded `failure` for all build/test jobs. The available job-step API returned no steps; the job-log API returned `BlobNotFound`. The failure cause is unknown from the evidence available. A rerun of failed jobs was requested, but the run again completed with failure and no retrievable logs.
+- No v2.4.0 release was published. No macOS DMG/ZIP has been built or verified in an accessible artifact.
+- Prior CI run #40001573171 has non-expired Windows x64/ARM64 installer artifacts for an earlier 2.4.0 source commit, but these are not proof of the new cross-platform branch's success.
+- Next step: obtain a fresh GitHub Actions run with accessible logs and green tests/builds; troubleshoot any concrete errors before merging. Keep release gated. The backup branch must be advanced to the final commit and read back after all records are written.

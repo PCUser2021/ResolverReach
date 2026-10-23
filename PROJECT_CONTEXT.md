@@ -258,7 +258,7 @@ Last verified 2026-10-23: Resolver Reach 2.2.0 x64 and ARM64 builds/installers p
 - Added [`AI_SESSION_HANDOFF.md`](AI_SESSION_HANDOFF.md) with detailed design/source/build/release/diagnostic state, and [`Software_Project_Master_Context.md`](Software_Project_Master_Context.md) as a compact cross-project continuation memo.
 - Newer resolver archive expected: `ResolverReach-Logs-20261023-040016.zip`. The current conversation file list does not include that ZIP, and the MediaFire download failed on retry. The older `ResolverReach-Logs-20261023-032704.zip` is the only accessible scan evidence. Do not claim the new file was inspected.
 - App-specific memory stored in the repository cannot export or mutate the user's entire account-level ChatGPT memory store. State this limitation accurately.
-- After final repository documentation updates, advance `backup/ResolverReach-2.2.0-2026-10-23` to the final main SHA and verify that both refs match.
+- After any future repository documentation or source update, advance `backup/ResolverReach-2.2.0-2026-10-23` to the final main SHA and verify equality.
 
 
 ### Final backup verification — Prompt 014 (2026-10-23)
@@ -274,6 +274,6 @@ Last verified 2026-10-23: Resolver Reach 2.2.0 x64 and ARM64 builds/installers p
 - Prompt 014 is archived in PROMPT_ARCHIVE.md.
 - Durable context files: AI_SESSION_HANDOFF.md and Software_Project_Master_Context.md. README links these and the project logs.
 - Resolver Reach 2.2.0 release verified in workflow #39945785064; x64 and native ARM64 builds, installers and uploads passed.
-- Backup branch backup/ResolverReach-2.2.0-2026-10-23 is synced with main at commit ce10cecc4d8c650006a90f5389356820b0a769d6 as recorded before this note; it must be moved to the final main commit after remaining documentation changes.
+- Backup branch backup/ResolverReach-2.2.0-2026-10-23 is synchronized after the current context/archive updates. Verify main and backup branch refs match after each subsequent documentation or source commit.
 - New log ResolverReach-Logs-20261023-040016.zip remains absent from the current attachments; the MediaFire fetch failed. Do not state that its contents were diagnosed.
 - These files preserve project-specific context, not an export of all account-level ChatGPT Memory or unrelated chats.

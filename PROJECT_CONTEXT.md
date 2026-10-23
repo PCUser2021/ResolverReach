@@ -11,7 +11,7 @@ Default branch: main (visibility last verified private; user has requested publi
 ### 1. Resolver Reach
 
 - Product: Resolver Reach
-- Current project version recorded in source after the 2026-10-23 redesign: 2.0.0
+- Current project version recorded in source after the 2026-10-23 Save Logs/titlebar fix: 2.1.0
 - Target: Windows 11 25H2, x64 only; ARM64 is intentionally not targeted
 - Stack: C# / .NET 10, Avalonia, FluentAvalonia, ReactiveUI, DynamicData
 - Project: `src/ResolverReach/ResolverReach.csproj`
@@ -30,7 +30,7 @@ Verified product behavior in README/source documentation:
 - Supports POST and falls back to GET for relevant POST rejection statuses (400, 405, 415, 501).
 - “Check the Curl Resolvers” refreshes the current cURL DoH wiki catalog, extracts Base URL entries, deduplicates HTTPS endpoints, and tests with bounded concurrency and cancellable progress.
 - Escape cancels a scan.
-- The main-window UI intentionally exposes no Save Logs button or file-picker dialog; all interactive testing and results are contained in the main window.
+- Version 2.1.0 has a visible Save Logs button in the results header. It opens a native ZIP save dialog and archives current-session activity, historical endpoint result rows, visible results, and session metadata.
 - It is a diagnostic utility, not a VPN or Windows system DNS manager. It must not change Windows DNS settings or route general traffic.
 
 ### 2. Ollama GGUF Importer
@@ -170,3 +170,13 @@ Last verified 2026-10-23: Resolver Reach 2.0.0 builds successfully in workflow r
 - Stable URL: `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
 - Repo visibility last read as private; MIT licensing is committed but public access still requires the owner to switch the repository to Public.
 - Future executable updates require a new application version and corresponding tag; ordinary docs/license updates do not increment the product version.
+
+
+## Resolver Reach 2.1.0 — titlebar layout fix and ZIP log export (2026-10-23)
+
+- Fixed the top-right title/version collision shown in the user's screenshot. The header reserves a 190-DIP right safe area so the product/version badge stays clear of Windows minimize/maximize/close controls while keeping the extended titlebar design.
+- Added an explicit `Save Logs` button in the Resolver results header. The button opens Avalonia's native `StorageProvider.SaveFilePickerAsync` with `*.zip` as the file type and a timestamped suggested filename.
+- ZIP archive entries: `session-summary.txt`, `activity.log`, `resolver-results-history.csv`, `current-visible-results.csv`, and `session.json`.
+- The in-memory log captures application session/runtime info; each cURL or pasted-URL scan; every endpoint outcome with HTTP status, latency, DNS summary/detail; cancellation/failure and final scan summary. Historic results are preserved across scans during one app session even though the on-screen result list still shows the current scan.
+- Product version is 2.1.0 (assembly/file version 2.1.0.0). Release workflow and installer metadata must be synchronized to `v2.1.0`.
+- Export uses a file picker and writes a ZIP at the selected destination. Canceling the picker does not create a file. The ZIP exports in-memory session data only; it does not claim to include sessions from prior app launches.

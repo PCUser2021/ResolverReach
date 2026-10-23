@@ -11,7 +11,7 @@ Default branch: main (private repository)
 ### 1. Resolver Reach
 
 - Product: Resolver Reach
-- Current project version recorded in source: 1.0.0
+- Current project version recorded in source after the 2026-10-23 redesign: 2.0.0
 - Target: Windows 11 25H2, x64 only; ARM64 is intentionally not targeted
 - Stack: C# / .NET 10, Avalonia, FluentAvalonia, ReactiveUI, DynamicData
 - Project: `src/ResolverReach/ResolverReach.csproj`
@@ -22,7 +22,7 @@ Default branch: main (private repository)
 - README: repository root `README.md`
 
 Verified product behavior in README/source documentation:
-- FluentAvalonia desktop window, system/light/dark themes, integrated endpoint results, and Paste Links support.
+- One maximized FluentAvalonia window with a dark slate palette, a prominent red status strip, rounded slate cards, and a restrained pink accent. The interface exposes exactly two testing paths: live cURL catalog testing and paste-links testing.
 - Accepts HTTPS DoH endpoint URLs separated by lines or semicolons.
 - Sends a real RFC 8484 wire-format DNS query for `example.com A`.
 - Validates HTTP status, `application/dns-message` content type, transaction ID, response flags, question, and DNS response code. A TLS connection or HTTP success alone must not be reported as a valid DoH exchange.
@@ -30,7 +30,7 @@ Verified product behavior in README/source documentation:
 - Supports POST and falls back to GET for relevant POST rejection statuses (400, 405, 415, 501).
 - “Check the Curl Resolvers” refreshes the current cURL DoH wiki catalog, extracts Base URL entries, deduplicates HTTPS endpoints, and tests with bounded concurrency and cancellable progress.
 - Escape cancels a scan.
-- “Save Logs” opens a native Save File dialog and exports the session summary and endpoint results to UTF-8 text.
+- The main-window UI intentionally exposes no Save Logs button or file-picker dialog; all interactive testing and results are contained in the main window.
 - It is a diagnostic utility, not a VPN or Windows system DNS manager. It must not change Windows DNS settings or route general traffic.
 
 ### 2. Ollama GGUF Importer
@@ -80,7 +80,7 @@ For every substantive task related to either application:
 
 ## Release/version checks
 
-- Both projects currently declare version 1.0.0 in their project configuration/build settings at the time of this audit.
+- Resolver Reach is being advanced to 2.0.0 for its full UI replacement. Ollama GGUF Importer remains 1.0.0 unless changed in a separate shipped update.
 - Before claiming “latest version,” verify the current project file, most recent successful GitHub Actions run, and the availability of its artifact. A workflow page existing is not proof a successful artifact exists.
 - The GGUF Importer workflow sets a 14-day artifact retention period, so an old build may expire.
 - Resolver Reach workflow: `.github/workflows/windows-build.yml`.
@@ -97,7 +97,7 @@ For every substantive task related to either application:
 - Resolver Reach CI: `.github/workflows/windows-build.yml`
 - GGUF Importer CI: `.github/workflows/ollama-gguf-importer.yml`
 
-Last audit note: source project files for both products declare version 1.0.0. The root README documents Save Logs in both products. This is a snapshot from 2026-10-22; re-check before representing it as current.
+Last audit note: on 2026-10-23 Resolver Reach is being updated to 2.0.0 with a single-window two-path GUI; Ollama GGUF Importer remains at 1.0.0. Verify the final commit and workflow artifact before calling the Resolver Reach release complete.
 
 
 ## Cross-repository prompt backup and restore policy
@@ -130,3 +130,12 @@ Last audit note: source project files for both products declare version 1.0.0. T
 - Include file paths, commit references, validation performed and results, artifact/release links, and outstanding issues. State when a backup/log could not be written; never claim persistence unless the commit has been verified.
 - At the beginning of a later task, read the private archive and current repository instructions/source to restore relevant context. Treat source, history, CI logs, and artifacts as authoritative over stale summaries.
 - This policy is a required procedure for sessions that load these instructions and have GitHub access. It does not create an automatic ChatGPT-wide message interception hook and must not be represented as doing so.
+
+
+## 2026-10-23 — Resolver Reach 2.0.0 single-window redesign
+
+- The user's explicit scope is exactly two visible testing paths: **Test cURL Resolvers** and **Paste links → Test Resolvers**. Inputs, status, progress, and endpoint results stay on the one main window.
+- The supplied OnionFruitt screenshot is a visual reference only: use dark slate panels, a prominent red status strip, rounded cards/rows, and restrained pink accents. Do not add its sidebar/navigation, because the user explicitly disallowed extra options or windows.
+- The visible theme picker, Paste Links menu, Save Logs button, and save-file dialog flow were removed from the Resolver Reach UI. Product version display and Escape-to-cancel remain.
+- Version 2.0.0 was selected because the GUI interaction model is replaced. Keep project/package, assembly/file, HTTP User-Agent, installer, workflow, and documentation version metadata synchronized on subsequent shipped updates.
+- Preserve RFC 8484 testing and DNS-response validation, live cURL wiki extraction, de-duplication, bounded concurrency, the 512-URL limit, and in-window results/progress. Results are point-in-time and cannot guarantee universal reachability.

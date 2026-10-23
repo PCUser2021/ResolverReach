@@ -33,7 +33,11 @@ internal static class CurlWikiResolverCatalog
     public static async Task<IReadOnlyList<string>> FetchEndpointsAsync(CancellationToken cancellationToken)
     {
         using var request = new HttpRequestMessage(HttpMethod.Get, RawMarkdownUrl);
-        request.Headers.UserAgent.ParseAdd("ResolverReach/1.0");
+        Version? productVersion = typeof(CurlWikiResolverCatalog).Assembly.GetName().Version;
+        string productVersionLabel = productVersion is null
+            ? "2.0.0"
+            : $"{productVersion.Major}.{productVersion.Minor}.{Math.Max(0, productVersion.Build)}";
+        request.Headers.UserAgent.ParseAdd($"ResolverReach/{productVersionLabel}");
         request.Headers.CacheControl = new CacheControlHeaderValue { NoCache = true };
 
         using HttpResponseMessage response = await Http.SendAsync(

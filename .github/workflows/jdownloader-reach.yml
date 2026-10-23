@@ -11,6 +11,7 @@ on:
       - ".github/workflows/jdownloader-reach.yml"
       - "LICENSE"
       - "THIRD-PARTY-NOTICES.md"
+      - "THIRD-PARTY-LICENSES/**"
   pull_request:
     paths:
       - "src/JDownloaderReach/**"
@@ -20,6 +21,7 @@ on:
       - ".github/workflows/jdownloader-reach.yml"
       - "LICENSE"
       - "THIRD-PARTY-NOTICES.md"
+      - "THIRD-PARTY-LICENSES/**"
   workflow_dispatch:
 
 permissions:
@@ -130,6 +132,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path "$bundle/licenses" | Out-Null
           Copy-Item LICENSE "$bundle/licenses/ResolverReach-MIT-LICENSE.txt"
           Copy-Item THIRD-PARTY-NOTICES.md "$bundle/licenses/ResolverReach-THIRD-PARTY-NOTICES.md"
+          Copy-Item -Recurse THIRD-PARTY-LICENSES "$bundle/THIRD-PARTY-LICENSES"
           Copy-Item src/JDownloaderReach/README.md "$bundle/JDownloaderReach-README.txt"
           @'
           JDownloader Reach 0.2.0 — Windows ${{ matrix.label }}

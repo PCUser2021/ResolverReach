@@ -18,3 +18,10 @@
 
 ### Validation
 - The actual CI build result and artifact are recorded in the repository development log after the workflow completes. This changelog alone is not proof that a binary passed validation.
+
+
+## Project license and release-download updates — 2026-10-23
+- Replaced the previous personal/home-use-only terms with the MIT License for original project code, documentation, and original assets.
+- Added a stable latest-release installer URL to the README.
+- Configured the Windows build workflow to publish the tested installer to GitHub Releases on the explicitly designated release commit.
+- These are licensing/documentation/distribution changes; application behavior and executable source were not changed, so the executable remains version 2.0.0.

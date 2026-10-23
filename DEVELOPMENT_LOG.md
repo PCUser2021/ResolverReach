@@ -296,3 +296,12 @@ This is an append-only, chronological audit log for the two Windows applications
 - First CI run `40001056874` restored both projects and confirmed .NET SDK `10.0.402` / runtime `10.0.13` were installed. Test execution failed immediately because xUnit v3's Microsoft.Testing.Platform MSBuild integration rejects execution in legacy VSTest mode under .NET 10 without explicit runner selection. This was a CI configuration problem, not a DNS assertion failure; no tests had run yet.
 - Corrected the test project to use the MTP runner; added root `global.json` selecting Microsoft.Testing.Platform for .NET 10; replaced the VSTest-only `coverlet.collector` with `coverlet.MTP 10.1.0`, and added `Microsoft.Testing.Extensions.TrxReport 2.5.1`. Workflow now requests TRX, Coverlet JSON and Cobertura using MTP arguments. Official .NET documentation documents `global.json` selection for MTP with .NET 10 and the MTP report/coverage extensions.
 - A new PR workflow must confirm the correction before this candidate can be considered tested. Do not claim green tests based on the configuration edit alone.
+
+
+## 2026-10-23 — Resolver Reach 2.4.0 merged and verified
+
+- PR #3 was squash-merged into `main` at `803e36738e567b08a12ff3cdbc4de3675d3dd4f7`; see https://github.com/PCUser2021/ResolverReach/pull/3.
+- GitHub Actions run #40001573171 passed all 12 deterministic DNS tests (12 passed, 0 failed, 0 skipped), Windows x64 and native ARM64 self-contained publishing, Inno Setup installer compilation, and artifact verification for both installer EXEs. Workflow: https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171.
+- Test runner mismatch discovered in the first run was corrected by selecting Microsoft Testing Platform via `global.json`, using `coverlet.MTP 10.1.0`, and adding `Microsoft.Testing.Extensions.TrxReport 2.5.1`. The later exact candidate CI run passed.
+- Follow-up cleanup replaces obsolete Avalonia `TextBox.Watermark` in `MainView.axaml` with `PlaceholderText`; the initial verified CI emitted an AVLN5001 warning for this property, so the current small cleanup is expected to remove it. Check the subsequent main-branch workflow after this commit before claiming that the warning is gone.
+- Release publication was skipped intentionally. Product source candidate remains 2.4.0; latest published release remains v2.2.0. No public DoH live-network test or interactive GUI smoke test was performed.

@@ -18,7 +18,7 @@ Last verified: 2026-10-23
 - Platform: Windows 11 x64 and native Windows ARM64.
 - Technology: C# / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, DynamicData 9.5.0.
 - Project file: `src/ResolverReach/ResolverReach.csproj`; runtime IDs `win-x64;win-arm64`.
-- Source product version 2.3.0; assembly/file version 2.3.0.0. Latest published GitHub Release remains v2.2.0 until a separate release is intentionally published.
+- Main source candidate version 2.4.0; assembly/file/manifest version 2.4.0.0. Latest published GitHub Release remains v2.2.0 until a separate release is intentionally published.
 - Purpose: single-window DNS-over-HTTPS resolver reachability and response-validity tester. It is not a VPN and does not modify Windows DNS/routing.
 - Testing paths: fetch current HTTPS Base URLs from cURL's DNS-over-HTTPS wiki, or paste HTTPS DoH URLs one per line/semicolon-separated.
 - Probe validates RFC 8484 DNS wire reply to `example.com A`: HTTP status, `application/dns-message` content type, DNS ID, response flag/opcode/question, and RCODE. HTTP 200/TLS connection alone is not considered success.
@@ -91,10 +91,10 @@ A separate branch, `maintenance/latest-toolchain-onionfruit-review`, stages a de
 - After this documentation commit, verify main CI and synchronize `backup/ResolverReach-2.2.0-2026-10-23` with final main.
 
 
-## Resolver Reach 2.4.0 candidate implementation (2026-10-23)
+## Resolver Reach 2.4.0 implementation and verification (2026-10-23)
 
-- Candidate branch `feature/resolverreach-2.4.0-comprehensive-doh-validation`; main has not yet received these changes.
+- Merged into `main` at commit [`803e367`](https://github.com/PCUser2021/ResolverReach/commit/803e36738e567b08a12ff3cdbc4de3675d3dd4f7).
 - Direct package versions are centralized in `Directory.Packages.props`; `DEPENDENCIES.md` is the package/build/test inventory.
 - DNS validation checks all declared RR sections and message end boundaries, common structured RDATA, EDNS OPT/options and extended RCODE, compression-pointer direction, and trailing bytes.
 - DoH response reads are capped at 65,535 bytes while streaming.
-- Added deterministic xUnit.net v3 unit tests and a GitHub Actions test job. Exact candidate commit must pass CI before merge/release.
+- Added deterministic xUnit.net v3 unit tests and a GitHub Actions test job. CI run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171) passed all 12 tests, x64/ARM64 builds, installer compilation, and artifact verification. No v2.4.0 release was published; latest published release remains v2.2.0. No live DoH/GUI smoke test is implied.

@@ -502,3 +502,10 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Created the Windows-only replacement PR [#6](https://github.com/PCUser2021/ResolverReach/pull/6) from branch `feature/resolverreach-2.4.0-windows-only`.
 - Created `backup/ResolverReach-2.4.0-windows-only-2026-10-23` to preserve the cleaned Windows-only candidate separately. The earlier `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` remains as a historical copy of the rejected experiment, not as a supported product.
 - PR #6's CI must be checked on the latest head before merge. No v2.4.0 release is being claimed until the Windows tests, x64/ARM64 installers, and artifact verification pass.
+
+
+### Outcome 012 final status — Windows-only CI remains blocked
+- Date: 2026-10-23
+- The latest Windows-only PR #6 run [#40009024496](https://github.com/PCUser2021/ResolverReach/actions/runs/40009024496) failed in the DNS protocol test, Windows x64 build, and Windows ARM64 build jobs. Artifact verification and publication were skipped.
+- GitHub exposed no job-step summaries or log URLs for this run. The root cause remains unknown. Do not claim that removing macOS fixed the CI problem, and do not merge or publish v2.4.0 until an accessible run passes all Windows-only checks.
+- Current PR #6 branch and its Windows-only snapshot both have Windows x64/ARM64-only project/workflow settings; macOS support has been removed from the active source and distribution docs. A separate old snapshot branch intentionally records the previous experiment.

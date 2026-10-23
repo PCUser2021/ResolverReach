@@ -22,7 +22,7 @@ public partial class MainWindow : FAAppWindow
             TransparencyLevelHint = [WindowTransparencyLevel.None];
         }
 
-        WindowState = WindowState.Maximized;
+        WindowState = Avalonia.Controls.WindowState.Maximized;
         MainContent.Content = new MainView();
     }
 }

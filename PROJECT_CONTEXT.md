@@ -40,7 +40,7 @@ Main now contains Resolver Reach source candidate 2.4.0, merged at [`803e367`](h
 - x64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.2.0/ResolverReach-Setup-x64.exe
 - Native ARM64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.2.0/ResolverReach-Setup-arm64.exe
 - Verified release workflow run #39945785064: https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064.
-- The macOS packaging experiment was removed from the active source/workflow at the user's request to avoid extra development cost. Keep Resolver Reach Windows-only unless the user explicitly reopens that requirement.
+- Resolver Reach is Windows-only. Do not restore macOS runtime identifiers, installers, download links, install guides or CI jobs unless the user explicitly reopens that requirement.
 - CI validates compilation and packaging; it does not replace live resolver testing or an interactive GUI smoke test.
 
 ## Diagnostic blocker

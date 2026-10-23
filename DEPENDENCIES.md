@@ -1,7 +1,7 @@
 # Resolver Reach — stack, dependencies, and build toolchain
 
 **Audit date:** 2026-10-23  
-**Release candidate:** 2.4.0 (cross-platform CI/release pending)  
+**Release candidate:** 2.4.0 (Windows x64/ARM64 CI and release pending)  
 **Last release recorded before this change:** v2.2.0 (until v2.4.0 assets are verified and published)  
 **Repository:** https://github.com/PCUser2021/ResolverReach
 
@@ -54,16 +54,14 @@ Test fixtures are synthetic DNS packets: the protocol tests do not depend on pub
 | softprops/action-gh-release | `@v3.0.3` | Explicit version tag |
 | Inno Setup compiler | **6.7.1 in verified CI run #40001573171** | Workflow checks Inno Setup 7 paths first, then 6; current installer was built with Inno Setup 6.7.1. The workflow does not pin that patch version, so future runners could select a different release |
 | Chocolatey install fallback | `choco install innosetup --yes --no-progress` | This fallback does not pin an installer-package version; the verified run found Inno Setup 6.7.1. Exact future installation depends on runner/package feed |
-| Runtime identifiers | `win-x64`, `win-arm64`, `osx-x64`, `osx-arm64` | Windows x64/ARM64 and macOS Intel/Apple Silicon self-contained builds |
+| Runtime identifiers | `win-x64`, `win-arm64` | Self-contained Windows x64 and native ARM64 builds |
 | Windows packaging | Inno Setup script `installer/ResolverReach.iss` | Produces separate x64-compatible and native ARM64 installers |
-| macOS packaging | Native `hdiutil` + `ditto` on GitHub-hosted macOS runner | Produces DMG and ZIP containing `Resolver Reach.app` for `osx-x64` and `osx-arm64`; app bundle metadata sets minimum macOS 15.0 |
-| macOS signing/notarization | Not configured | No Apple Developer signing credentials are available to this workflow; packages are unsigned and not notarized, so Gatekeeper may block first launch |
 | Git in Windows CI | `2.56.0.windows.2` | Observed in both architecture-build/test job logs for run #40001573171; not part of the shipped app |
 | Publish model | .NET self-contained single-file | `win-x64` and `win-arm64`; native runtime bits are embedded/extracted by .NET publish configuration |
 
 ## Current stable-version audit (2026-10-23)
 
-The workflow uses .NET SDK 10.0.402 and .NET 10 runtime servicing release 10.0.13, both published 2026-10-13. NuGet stable listings checked for this update show Avalonia/Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, DynamicData 9.5.0, System.Reactive 7.0.0, xunit.v3 4.0.2, and the existing test/coverage package versions as current stable releases. Do not upgrade packages to prereleases merely because their version number is higher.
+The workflow uses .NET SDK 10.0.402 and .NET 10 runtime servicing release 10.0.13, both published 2026-10-13. The supported publish targets are Windows x64 and native Windows ARM64 only. NuGet stable listings checked for this update show Avalonia/Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, DynamicData 9.5.0, System.Reactive 7.0.0, xunit.v3 4.0.2, and the existing test/coverage package versions as current stable releases. Do not upgrade packages to prereleases merely because their version number is higher.
 
 ## Protocol and external standards
 

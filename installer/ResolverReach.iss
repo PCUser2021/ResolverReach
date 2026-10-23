@@ -1,6 +1,12 @@
 #define MyAppName "Resolver Reach"
 #ifndef MyAppVersion
-  #define MyAppVersion "2.1.1"
+  #define MyAppVersion "2.2.0"
+#endif
+#ifndef MyAppArchitecture
+  #define MyAppArchitecture "x64compatible"
+#endif
+#ifndef MyAppOutputName
+  #define MyAppOutputName "x64"
 #endif
 #define MyAppPublisher "PCUser2021"
 #define MyAppExeName "ResolverReach.exe"
@@ -16,10 +22,10 @@ DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-ArchitecturesAllowed=x64
-ArchitecturesInstallIn64BitMode=x64
+ArchitecturesAllowed={#MyAppArchitecture}
+ArchitecturesInstallIn64BitMode={#MyAppArchitecture}
 OutputDir=..\artifacts\installer
-OutputBaseFilename=ResolverReach-Setup-x64
+OutputBaseFilename=ResolverReach-Setup-{#MyAppOutputName}
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern

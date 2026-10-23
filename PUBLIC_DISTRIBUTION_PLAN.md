@@ -25,5 +25,5 @@ Last verified repository visibility is `private`. A permissive license does not 
 - `public-distribution/assets/resolverreach-preview.svg` is an illustrative layout preview, not a screenshot captured from a running Windows app.
 
 ## Backup
-- Project source, prompts and outcome records are maintained in private Git history, `PROMPT_ARCHIVE.md`, `PROJECT_CONTEXT.md`, and `DEVELOPMENT_LOG.md`.
+- Project source, prompts and outcome records are maintained in Git history, `PROMPT_ARCHIVE.md`, `PROJECT_CONTEXT.md`, and `DEVELOPMENT_LOG.md`.
 - A full export of ChatGPT's platform-level Memory and all historical chats is not available through the connected repository tool.

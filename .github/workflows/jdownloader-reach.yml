@@ -1,0 +1,89 @@
+name: JDownloader Reach Windows x64 bundle
+
+on:
+  push:
+    branches: [main, feature/jdownloader-reach-prototype]
+    paths:
+      - "src/JDownloaderReach/**"
+      - "src/ResolverReach/**"
+      - "src/OllamaGgufImporter/**"
+      - ".github/workflows/jdownloader-reach.yml"
+  pull_request:
+    paths:
+      - "src/JDownloaderReach/**"
+      - "src/ResolverReach/**"
+      - "src/OllamaGgufImporter/**"
+      - ".github/workflows/jdownloader-reach.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bundle-windows-x64:
+    name: Build integrated Windows x64 bundle
+    runs-on: windows-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore applications
+        shell: pwsh
+        run: |
+          dotnet restore src/JDownloaderReach/JDownloaderReach.csproj
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet restore src/ResolverReach/ResolverReach.csproj
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet restore src/OllamaGgufImporter/OllamaGgufImporter.csproj
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Publish JDownloader Reach shell
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifacts/bundle | Out-Null
+          dotnet publish src/JDownloaderReach/JDownloaderReach.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=0.1.0 --output artifacts/bundle
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Publish Resolver Reach tool
+        shell: pwsh
+        run: |
+          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.1.1 --output artifacts/bundle/tools/ResolverReach
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Publish Ollama GGUF Importer tool
+        shell: pwsh
+        run: |
+          dotnet publish src/OllamaGgufImporter/OllamaGgufImporter.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=1.0.0 --output artifacts/bundle/tools/OllamaGgufImporter
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Create bundle README
+        shell: pwsh
+        run: |
+          @'
+          JDownloader Reach 0.1.0 — Windows x64 prototype bundle
+
+          Start JDownloaderReach.exe. The bundle also includes Resolver Reach and Ollama GGUF Importer under tools\.
+          JDownloader's engine is not included; install JDownloader separately and configure its local API only if you understand the security implications.
+          See src/JDownloaderReach/README.md in the source repository for full setup, license, and limitations.
+          '@ | Set-Content -Encoding utf8 artifacts/bundle/README.txt
+
+      - name: Package ZIP
+        shell: pwsh
+        run: |
+          Compress-Archive -Path artifacts/bundle/* -DestinationPath artifacts/JDownloaderReach-Windows-x64.zip -Force
+          if (-not (Test-Path artifacts/JDownloaderReach-Windows-x64.zip)) { throw "ZIP artifact was not created." }
+
+      - name: Upload integrated bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: JDownloaderReach-Windows-x64
+          path: artifacts/JDownloaderReach-Windows-x64.zip
+          if-no-files-found: error
+          retention-days: 14

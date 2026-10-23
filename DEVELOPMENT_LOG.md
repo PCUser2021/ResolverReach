@@ -180,3 +180,15 @@ This is an append-only, chronological audit log for the two Windows applications
 - Code fixes: 12s connect timeout, 20s request timeout, six concurrent probes, one retry for timeouts/transient HTTP statuses, and HTTP/1.1 fallback after HTTP/2 protocol errors. Summary wording now distinguishes transport errors from HTTP replies failing DNS validation.
 - Important limit: build and release pass does not demonstrate a post-fix scan improvement. The user needs to run v2.1.1 and compare a new scan; unreachable/misconfigured third-party resolvers will still fail.
 - Last repository metadata check continued to report private visibility. Release downloads require repository access until visibility is made public.
+
+
+## 2026-10-23 — Resolver Reach 2.2.0 ARM64 packaging and metallic vector-icon overhaul
+
+- **User request:** Diagnose new run archive `ResolverReach-Logs-20261023-040016.zip`, add an ARM64 installer, and redesign every app icon in an original style inspired by Apple's premium Logic Pro visual design.
+- **Log retrieval status:** The supplied MediaFire direct-download URL could not be fetched: browser returned a cache-miss response and the container could not resolve the download host. The ZIP itself was not available, so no new-run failure statistics are asserted here. User needs to upload the ZIP directly into chat for precise post-2.1.1 analysis.
+- **Project version:** 2.2.0; assembly/file versions 2.2.0.0; installer/release tag v2.2.0.
+- **ARM64:** project runtime identifiers now include `win-x64;win-arm64`; workflow builds both RIDs in separate jobs; installer script takes architecture/name preprocessor parameters. x64-compatible setup can install on Windows 11 ARM64 through x64 emulation; native ARM64 installer is separate.
+- **Icon changes:** custom dark-titanium/glass app icon (new `ResolverReach.ico` blob), public app icon SVG, eight supporting SVG design sources, in-XAML vector replacements for old R/↻/◎ glyphs, new DoH check and Save Logs iconography, and PASS/DNS ERROR/FAIL result status visual indicators. Visual vocabulary uses steel edges and cyan/blue/violet/magenta light; it is original artwork, not copied Apple Logic Pro art.
+- **Preview:** updated public design illustration's icon art and version text; it remains a layout preview, not a screenshot captured from a running app.
+- **Build/release:** pending Windows x64 + ARM64 workflow verification and v2.2.0 dual-asset upload. A successful publish/release run must be read back before claiming downloads available.
+- **Live resolver validation:** the earlier 2.1.0 logs showed actual unreachable/non-compliant services and 2.1.1 made retries/protocol changes. Without the new ZIP, do not make additional log-specific network assertions. Post-release, collect the new ZIP by direct chat upload and compare endpoint failure classes.

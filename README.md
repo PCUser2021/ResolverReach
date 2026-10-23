@@ -2,6 +2,15 @@
 
 Resolver Reach is a Windows 11 25H2 x64 desktop tool for checking whether DNS-over-HTTPS (DoH) resolvers complete a valid HTTPS DNS exchange.
 
+## Project continuity records
+
+This repository contains two Windows desktop applications. For persistent cross-session context and a chronological record of substantive work, read these files first:
+
+- [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) — project inventory, architecture, verified feature requirements, user workflow preferences, release checks, and the required logging procedure.
+- [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md) — append-only chronological record of decisions, changes, tests, releases, and known limitations.
+
+For every substantive project task, update the development log with what actually changed and what was actually tested. Do not claim a build or release artifact succeeded unless verified. Keep both applications' visible product-version information and Save Logs features intact unless explicitly instructed otherwise.
+
 ## Features
 
 - Windows x64 release only; ARM64 is intentionally not targeted.
@@ -49,3 +58,4 @@ The repository also includes a separate portable Windows x64 utility for importi
 - Includes a **Save Logs** button that opens a Save As dialog and exports the activity log plus the current import queue.
 - Source and instructions: [src/OllamaGgufImporter](src/OllamaGgufImporter/README.md)
 - Build artifact: download **Ollama-GGUF-Importer-Windows-x64** from the [GitHub Actions workflow](https://github.com/PCUser2021/ResolverReach/actions/workflows/ollama-gguf-importer.yml).
+

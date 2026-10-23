@@ -168,11 +168,13 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - After the Prompt 015 documentation commit, `backup/ResolverReach-2.2.0-2026-10-23` was synced to the exact `main` commit. Verify both refs again if more documentation/source changes are committed.
 
 
+- Initial restore attempt exposed a dependency constraint: ReactiveUI.Avalonia 12.1.6 requires ReactiveUI >= 26.0.1. The maintenance branch was corrected to ReactiveUI 26.0.1 before the next CI attempt.
+
 ## 2026-10-23 maintenance branch snapshot
 
 - Maintenance branch: `maintenance/latest-toolchain-onionfruit-review`.
 - Intent: modernize Resolver Reach's NuGet dependencies and GitHub Actions tooling while preserving the main branch until CI validates the migration.
-- Dependency targets: Avalonia 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Avalonia 12.1.6; ReactiveUI 24.2.0; DynamicData remains 9.5.0 pending authoritative evidence of a newer stable release.
+- Dependency targets: Avalonia 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Avalonia 12.1.6; ReactiveUI 26.0.1; DynamicData remains 9.5.0 pending authoritative evidence of a newer stable release.
 - CI action targets: actions/checkout v7; actions/setup-dotnet v6; actions/upload-artifact v6; actions/download-artifact v6; softprops/action-gh-release v3.0.3.
 - Runtime: .NET 10 LTS retained. Official Microsoft release page showed .NET SDK 10.0.402 / runtime 10.0.13 on 2026-10-23.
 - Installer: workflow now looks for Inno Setup 7 first and Inno Setup 6 second after installing the Chocolatey package; actual installed version depends on the package repository at workflow time.

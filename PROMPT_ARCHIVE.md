@@ -74,3 +74,15 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Status: implementation in this commit set; verify commits and resulting files before claiming complete.
 - Planned: centralize verbatim repository-related prompt entries in this private file; direct AI sessions to restore context from the archive and current repository state; keep raw prompts out of the public Wand-Enhancer repository; document the policy in both repositories.
 - Verification must be recorded only after the GitHub writes succeed.
+
+
+### Outcome 005 — Completed repository-side setup
+- Date: 2026-10-22 (America/Los_Angeles)
+- **Private central archive created:** commit `d0e7dbbe8bffdd7336be5e7e24b34ab53cff282b`.
+- **Resolver Reach context policy updated:** commit `e2e8686b3584dfd49b090d2962e6d2419b99b774`.
+- **Resolver Reach development log updated:** initial policy/task entry recorded in commit `82919e883442ae0974800c0f6f44bd91a62754b9`; this is to be updated with final verification after all writes.
+- **Resolver Reach README linked to the archive:** commit `b030d882d2f9f9ee88700355d2bc7521d56e09d0`.
+- **Wand-Enhancer public AI instructions updated:** commit `a44a0e5daa8746e48433b7e42b085c980cf984eb`. It tells future agents to keep prompt text private and restore context from the central archive.
+- **Wand-Enhancer public-safe work log created:** commit `67983fe5c4bc309b0f67a05bca9d57adad126460`.
+- **Verification:** all six GitHub write operations returned successful commit SHAs. Follow-up read-back verification is still required. No build or runtime tests were run; these are documentation/policy-only changes.
+- **Important limitation:** this creates a documented cross-session capture/restore procedure, not a ChatGPT-wide event hook. It cannot intercept messages in conversations that do not load the policy or lack private-repository access.

@@ -170,3 +170,14 @@ This is an append-only, chronological audit log for the two Windows applications
 - **Important limitation:** This is a functional integration prototype, not a 100% Java-to-C# conversion and not a finished replacement for JDownloader's UI or engine. It delegates the downloader/plugin engine to a separately installed JDownloader so the prototype does not discard existing behavior.
 - **Build/test status at commit time:** No local compile and no live JDownloader instance test were run by the authoring session. The new Windows Actions workflow is the intended build/package verification path; its actual result must be checked before a build-success claim.
 - **Next validation:** Check the feature-branch Windows Actions run, fix any compile/package failures on this branch, then test the API against a real installation with the API confined to loopback. Do not merge into `main` until reviewed and approved.
+
+
+## 2026-10-23 — JDownloader Reach 0.2.0 dual-architecture Windows installers
+
+- **User request:** Create installers for both x86-64 and ARM64.
+- **Project/version changes:** Bumped JDownloader Reach from 0.1.0 to 0.2.0 and updated its project, UI version label, runtime metadata, README, and changelog. Resolver Reach stays at 2.1.1 and Ollama GGUF Importer at 1.0.0.
+- **Architecture targets:** Added `win-x64;win-arm64` to the JDownloader Reach and Resolver Reach project files. Updated the GGUF Importer project so `PlatformTarget` follows the requested runtime (`x64` for `win-x64`, `ARM64` for `win-arm64`).
+- **Installers:** Added `installer/JDownloaderReach-x64.iss` and `installer/JDownloaderReach-arm64.iss`. They create distinct setup EXEs and restrict installation to the appropriate Windows architecture.
+- **CI:** Replaced the ZIP-only workflow with a matrix workflow that restores/publishes all three applications for each runtime, checks each EXE's PE machine type, stages documentation and license files, compiles the architecture-specific installer, and uploads an artifact for each architecture.
+- **Verification:** Run `39943167275` completed successfully for both architecture jobs and produced setup artifacts. After review, an additional packaging correction copied the LGPL license file referenced by Resolver Reach's third-party notice. The final validation run is `39943711695`; record its final conclusion and artifact hashes after checking the actual run/artifacts.
+- **Build scope:** Windows CI cross-publishes both RIDs; this is not a live interactive test on x64 and ARM64 physical devices. The JDownloader engine remains a separately installed dependency.

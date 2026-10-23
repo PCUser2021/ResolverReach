@@ -324,3 +324,15 @@ The following seed entries were reconstructed from repository-related prompts vi
 - New icon source is original work inspired by broad high-end music-production visual cues (metallic finishes, dark substrate, spectral blue/cyan/violet/magenta), not a direct copy of Apple Logic Pro artwork.
 - Verification pending: commit new `ResolverReach.ico` and confirm x64/ARM64 build jobs, installers, Release v2.2.0, and both asset URLs.
 - Do not claim that the newly supplied log was analyzed or that all post-2.1.1 resolver failures are fixed until its contents are available.
+
+
+### Outcome 013 verification follow-up — Resolver Reach 2.2.0 published
+- Date: 2026-10-23
+- Workflow #39945785064 completed successfully: https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064
+- Both Windows x64 and native ARM64 builds succeeded, as did both installer compilations and artifact uploads.
+- Published release v2.2.0: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.2.0
+- Assets: ResolverReach-Setup-x64.exe (33,974,496 bytes) and ResolverReach-Setup-arm64.exe (31,276,362 bytes).
+- Stable direct URLs: https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe and https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe.
+- Icon overhaul: new executable/installer icon; custom SVG source icon family; matching Avalonia vector icon changes for the app mark, catalog scan, paste, DoH check, Save Logs, empty state, and PASS/DNS ERROR/FAIL statuses; public app icon and UI preview updated.
+- The new log ZIP was not retrieved from the supplied MediaFire URL; its contents have not been analyzed. Direct upload is required for exact failure-level diagnosis.
+- Build/installer success does not prove all public endpoints are available and no physical ARM64 or live UI test was executed.

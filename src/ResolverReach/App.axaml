@@ -1,34 +1,17 @@
-<Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:styling="clr-namespace:FluentAvalonia.Styling;assembly=FluentAvalonia"
-             x:Class="ResolverReach.App" RequestedThemeVariant="Default">
+<Application xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:styling="clr-namespace:FluentAvalonia.Styling;assembly=FluentAvalonia" x:Class="ResolverReach.App" RequestedThemeVariant="Dark">
   <Application.Styles>
-    <styling:FluentAvaloniaTheme UseSystemFontOnWindows="True" CustomAccentColor="#1473E6" />
+    <styling:FluentAvaloniaTheme UseSystemFontOnWindows="True" CustomAccentColor="#F22E8C" />
   </Application.Styles>
   <Application.Resources>
     <ResourceDictionary>
-      <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Light">
-          <SolidColorBrush x:Key="AppBackgroundBrush" Color="#F5F7FA" />
-          <SolidColorBrush x:Key="AppSurfaceBrush" Color="#FFFFFF" />
-          <SolidColorBrush x:Key="AppSubtleBrush" Color="#EDF2F8" />
-          <SolidColorBrush x:Key="AppTextBrush" Color="#17212F" />
-          <SolidColorBrush x:Key="AppMutedBrush" Color="#566477" />
-          <SolidColorBrush x:Key="AppBorderBrush" Color="#CBD5E1" />
-          <SolidColorBrush x:Key="AppInputBrush" Color="#FFFFFF" />
-          <SolidColorBrush x:Key="AppInputTextBrush" Color="#17212F" />
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="Dark">
-          <SolidColorBrush x:Key="AppBackgroundBrush" Color="#141923" />
-          <SolidColorBrush x:Key="AppSurfaceBrush" Color="#1C2431" />
-          <SolidColorBrush x:Key="AppSubtleBrush" Color="#283548" />
-          <SolidColorBrush x:Key="AppTextBrush" Color="#F1F5FA" />
-          <SolidColorBrush x:Key="AppMutedBrush" Color="#B5C1D1" />
-          <SolidColorBrush x:Key="AppBorderBrush" Color="#3A485B" />
-          <SolidColorBrush x:Key="AppInputBrush" Color="#111720" />
-          <SolidColorBrush x:Key="AppInputTextBrush" Color="#F1F5FA" />
-        </ResourceDictionary>
-      </ResourceDictionary.ThemeDictionaries>
+      <SolidColorBrush x:Key="AppBackgroundBrush" Color="#41464C" />
+      <SolidColorBrush x:Key="AppSurfaceBrush" Color="#50555C" />
+      <SolidColorBrush x:Key="AppSubtleBrush" Color="#3B4046" />
+      <SolidColorBrush x:Key="AppTextBrush" Color="#F7F8FA" />
+      <SolidColorBrush x:Key="AppMutedBrush" Color="#D1D5DB" />
+      <SolidColorBrush x:Key="AppBorderBrush" Color="#666C73" />
+      <SolidColorBrush x:Key="AppInputBrush" Color="#41464C" />
+      <SolidColorBrush x:Key="AppInputTextBrush" Color="#FFFFFF" />
     </ResourceDictionary>
   </Application.Resources>
 </Application>

@@ -17,10 +17,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install .NET 10 SDK
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
 
@@ -31,13 +31,13 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path artifacts/publish, artifacts/installer | Out-Null
-          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.2.0 --output artifacts/publish
+          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.3.0 --output artifacts/publish
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-      - name: Install Inno Setup 6
+      - name: Install Inno Setup
         shell: pwsh
         run: |
-          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup\ISCC.exe"
           if (-not (Test-Path $iscc)) {
             choco install innosetup --yes --no-progress
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -47,15 +47,15 @@ jobs:
       - name: Compile x64-compatible installer
         shell: pwsh
         run: |
-          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
-          & $iscc /DMyAppVersion=2.2.0 /DMyAppArchitecture=x64compatible /DMyAppOutputName=x64 "installer/ResolverReach.iss"
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup\ISCC.exe"
+          & $iscc /DMyAppVersion=2.3.0 /DMyAppArchitecture=x64compatible /DMyAppOutputName=x64 "installer/ResolverReach.iss"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if (-not (Test-Path "artifacts/installer/ResolverReach-Setup-x64.exe")) {
             throw "Expected x64 installer output was not created."
           }
 
       - name: Upload Windows x64 installer
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ResolverReach-Windows-x64
           path: artifacts/installer/ResolverReach-Setup-x64.exe
@@ -69,10 +69,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install .NET 10 SDK
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
 
@@ -83,13 +83,13 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path artifacts/publish, artifacts/installer | Out-Null
-          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-arm64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.2.0 --output artifacts/publish
+          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-arm64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.3.0 --output artifacts/publish
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-      - name: Install Inno Setup 6
+      - name: Install Inno Setup
         shell: pwsh
         run: |
-          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup\ISCC.exe"
           if (-not (Test-Path $iscc)) {
             choco install innosetup --yes --no-progress
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -99,15 +99,15 @@ jobs:
       - name: Compile native ARM64 installer
         shell: pwsh
         run: |
-          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
-          & $iscc /DMyAppVersion=2.2.0 /DMyAppArchitecture=arm64 /DMyAppOutputName=arm64 "installer/ResolverReach.iss"
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup\ISCC.exe"
+          & $iscc /DMyAppVersion=2.3.0 /DMyAppArchitecture=arm64 /DMyAppOutputName=arm64 "installer/ResolverReach.iss"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if (-not (Test-Path "artifacts/installer/ResolverReach-Setup-arm64.exe")) {
             throw "Expected native ARM64 installer output was not created."
           }
 
       - name: Upload Windows ARM64 installer
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ResolverReach-Windows-arm64
           path: artifacts/installer/ResolverReach-Setup-arm64.exe
@@ -115,7 +115,7 @@ jobs:
           retention-days: 14
 
   publish-release:
-    name: Publish tested v2.2.0 release
+    name: Publish tested v2.3.0 release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[publish-release]')
     needs: [build-windows-x64, build-windows-arm64]
     runs-on: ubuntu-latest
@@ -123,27 +123,27 @@ jobs:
       contents: write
     steps:
       - name: Download x64 installer
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: ResolverReach-Windows-x64
           path: artifacts/x64
 
       - name: Download ARM64 installer
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: ResolverReach-Windows-arm64
           path: artifacts/arm64
 
       - name: Publish GitHub Release with both installers
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@v3.0.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v2.2.0
+          tag_name: v2.3.0
           target_commitish: ${{ github.sha }}
-          name: Resolver Reach 2.2.0
+          name: Resolver Reach 2.3.0
           body: |
-            Resolver Reach 2.2.0 — Windows 11 x64 and native ARM64
+            Resolver Reach 2.3.0 — Windows 11 x64 and native ARM64
 
             This release includes two architecture-specific installers:
             - ResolverReach-Setup-x64.exe: x64 Windows; also installable on Windows 11 ARM64 via x64 emulation.

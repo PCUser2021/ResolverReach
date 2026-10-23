@@ -166,3 +166,16 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Prompt 015 recorded in the private prompt archive. The actual `ResolverReach-Logs-20261023-044828.zip` bytes were not delivered; message contained a manifest with 0 chunks and a ZIP prefix only.
 - Durable AI handoff files and master context are committed. The previous diagnostic ZIP remains the only scan file available for analysis.
 - After the Prompt 015 documentation commit, `backup/ResolverReach-2.2.0-2026-10-23` was synced to the exact `main` commit. Verify both refs again if more documentation/source changes are committed.
+
+
+## 2026-10-23 maintenance branch snapshot
+
+- Maintenance branch: `maintenance/latest-toolchain-onionfruit-review`.
+- Intent: modernize Resolver Reach's NuGet dependencies and GitHub Actions tooling while preserving the main branch until CI validates the migration.
+- Dependency targets: Avalonia 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Avalonia 12.1.6; ReactiveUI 24.2.0; DynamicData remains 9.5.0 pending authoritative evidence of a newer stable release.
+- CI action targets: actions/checkout v7; actions/setup-dotnet v6; actions/upload-artifact v6; actions/download-artifact v6; softprops/action-gh-release v3.0.3.
+- Runtime: .NET 10 LTS retained. Official Microsoft release page showed .NET SDK 10.0.402 / runtime 10.0.13 on 2026-10-23.
+- Installer: workflow now looks for Inno Setup 7 first and Inno Setup 6 second after installing the Chocolatey package; actual installed version depends on the package repository at workflow time.
+- Upstream reference: https://github.com/dragonfruitnetwork/onionfruit. The supplied `git clone ...; cd onionfruit` commands only clone and enter the upstream repository; they do not update Resolver Reach automatically. This branch uses it as an upstream reference only and does not merge or copy OnionFruit application code.
+- Validation caveat: no local build or package restore was executed from this session. CI must be green before merging. Major Avalonia 12 / FluentAvalonia 3 changes can require source-level migration fixes.
+- Backup scope: GitHub repository commits and branches preserve tracked source history. This manifest, project context, handoff, development log, and prompt archive preserve the repository-specific notes currently tracked in Git. They do not constitute a complete export of ChatGPT account Memory, all chat transcripts, untracked local files, or external GitHub Actions artifacts.

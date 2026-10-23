@@ -69,3 +69,8 @@ This file, the full GitHub source and Git history, the release assets, and the p
 - The actual ZIP is not in current conversation attachments, Library or `/mnt/data`. It has not been analyzed. Do not claim otherwise or treat old log statistics as new.
 - Latest user handoff is archived in `PROMPT_ARCHIVE.md`; project context and development log record the blocker.
 - Ask for a normal direct upload of the actual ZIP bytes before diagnosing/fixing 04:48 scan-specific failures.
+
+
+## Maintenance update — 2026-10-23
+
+A separate branch, `maintenance/latest-toolchain-onionfruit-review`, stages a dependency/toolchain modernization. Planned stable versions at the time of the update: Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia 12.1.6, ReactiveUI 24.2.0; DynamicData remains 9.5.0 pending a verified newer stable release. GitHub Actions are updated to checkout v7, setup-dotnet v6, upload-artifact v6, download-artifact v6, and softprops/action-gh-release v3.0.3. .NET 10 LTS remains the target framework. The supplied OnionFruit clone commands are treated as instructions for cloning the upstream reference repository, not as a command that automatically ports its code into Resolver Reach. The branch must pass CI before merging. Account-level ChatGPT Memory cannot be fully exported or backed up by repository tools; repository notes are the durable project-specific record.

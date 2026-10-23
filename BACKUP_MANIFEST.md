@@ -270,3 +270,10 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - The active candidate supports Windows x64 and native Windows ARM64 only. macOS runtime targets, CI jobs, packaging, documentation and download links have been removed from the candidate. PR #4 is closed.
 - Earlier `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` is retained only as a historical copy of the earlier attempt, per the request to preserve a complete project backup. It is not the active product.
 - Latest known cross-platform run failed without accessible logs. A new Windows-only PR run is required; no release or new installer is claimed until all tests/builds/artifact checks are green.
+
+
+## Windows-only CI status — 2026-10-23
+
+- After macOS support was removed, PR #6 run #40009024496 failed in the protocol test, Windows x64 build, and Windows ARM64 build jobs; downstream artifact verification and publication were skipped.
+- Available job metadata contains no steps or log URLs. Root cause is unknown. A successful Windows-only run is still required before merge/release.
+- Active Windows-only snapshot branch remains `backup/ResolverReach-2.4.0-windows-only-2026-10-23`; historic `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` preserves only the abandoned prior attempt.

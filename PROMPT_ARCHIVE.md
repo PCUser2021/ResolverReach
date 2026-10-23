@@ -494,3 +494,11 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Historical backup branch `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` is intentionally retained as a backup snapshot of the previous state; it is not an active product target. A separate Windows-only snapshot will be created after final records are written.
 - The previous macOS-containing CI runs did not expose job logs and failed across jobs. The cause was not confirmed. A fresh Windows-only CI run must pass its tests, x64/ARM64 builds, and installer-artifact validation before PR merge or v2.4.0 publication.
 - Account-level ChatGPT Memory cannot be fully exported through the GitHub integration; project source/history and repository-specific prompts/outcomes are kept in GitHub.
+
+
+### Outcome 012 follow-up — Windows-only PR replaces the closed macOS proposal
+- Date: 2026-10-23
+- Closed PR #4 with an explanatory comment after removing macOS support from the active files.
+- Created the Windows-only replacement PR [#6](https://github.com/PCUser2021/ResolverReach/pull/6) from branch `feature/resolverreach-2.4.0-windows-only`.
+- Created `backup/ResolverReach-2.4.0-windows-only-2026-10-23` to preserve the cleaned Windows-only candidate separately. The earlier `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` remains as a historical copy of the rejected experiment, not as a supported product.
+- PR #6's CI must be checked on the latest head before merge. No v2.4.0 release is being claimed until the Windows tests, x64/ARM64 installers, and artifact verification pass.

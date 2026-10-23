@@ -1,5 +1,19 @@
 # Resolver Reach changelog
 
+## [2.1.0] — 2026-10-23
+
+### Fixed
+- Fixed the main-window header/version badge collision with Windows minimize, maximize, and close controls by reserving a caption-button safe area on the header's right side.
+
+### Added
+- Added a visible **Save Logs** button to the Resolver results header.
+- Save Logs opens the native file picker, allowing the user to choose where the `.zip` diagnostic archive is saved.
+- ZIP contains `session-summary.txt`, `activity.log`, `resolver-results-history.csv` (results across all scans in the current app session), `current-visible-results.csv`, and `session.json`.
+- Diagnostic logging records session startup/runtime, each scan's mode and target URLs, per-endpoint status/HTTP status/latency/DNS details, cancellation/failure, and scan summaries.
+
+### Validation
+- The Windows x64 build and release job result for 2.1.0 will be recorded after the tagged release and uploaded asset are verified. Do not treat this entry as build proof.
+
 ## [2.0.0] — 2026-10-23
 
 ### Changed

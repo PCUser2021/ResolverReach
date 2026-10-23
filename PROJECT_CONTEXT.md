@@ -9,6 +9,8 @@ This file is the current project overview. Current source, Git history, GitHub A
 
 ## Current application — Resolver Reach
 
+**Current in-progress cross-platform release:** PR [#4](https://github.com/PCUser2021/ResolverReach/pull/4), branch `feature/2.4.0-release-macos-backup`. It adds macOS DMG/ZIP packages for Intel and Apple Silicon. The first PR workflow run #40005597884 concluded failure, but GitHub's job-log endpoint returned BlobNotFound and the job-step API returned no steps, so the failure cause could not be determined from available logs. Do not merge or publish until a usable fresh CI run passes.
+
 Main now contains Resolver Reach source candidate 2.4.0, merged at [`803e367`](https://github.com/PCUser2021/ResolverReach/commit/803e36738e567b08a12ff3cdbc4de3675d3dd4f7). The candidate's 12 deterministic protocol tests, x64/ARM64 builds, installer builds and artifact verification passed CI run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171). The latest published release remains v2.2.0. See `DEPENDENCIES.md` for the package and build-tool inventory.
 
 - Resolver Reach is the sole application maintained in the current source tree.

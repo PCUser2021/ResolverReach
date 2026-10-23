@@ -142,3 +142,13 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Latest verified releases: x64 (33,974,496 bytes) and native ARM64 (31,276,362 bytes), workflow #39945785064 success.
 - Only the earlier log `ResolverReach-Logs-20261023-032704.zip` is available in the current conversation. New log `ResolverReach-Logs-20261023-040016.zip` has not been received/retrieved.
 - The docs preserve project-related continuity but are not a copy/export of all account-level ChatGPT Memory, unrelated conversations, or hidden model state.
+
+
+## Project context backup and unresolved diagnostic — 2026-10-23
+- Current request archived as Prompt 014 in PROMPT_ARCHIVE.md.
+- Durable context files added: AI_SESSION_HANDOFF.md and Software_Project_Master_Context.md; both are linked from README.
+- Resolver Reach source, history, icons, workflows and v2.2.0 Release remain in this private repository. Release workflow #39945785064 succeeded for both x64 and native ARM64.
+- Assets: ResolverReach-Setup-x64.exe (33,974,496 bytes); ResolverReach-Setup-arm64.exe (31,276,362 bytes).
+- The requested newer ZIP ResolverReach-Logs-20261023-040016.zip is not present in the current attachment inventory. Its external MediaFire URL could not be downloaded. Its errors are unknown pending direct upload.
+- After these documentation commits, move backup/ResolverReach-2.2.0-2026-10-23 to the final main SHA and verify equality.
+- Project-specific context has been backed up in GitHub; this does not export the whole account-level ChatGPT Memory database or unrelated conversations.

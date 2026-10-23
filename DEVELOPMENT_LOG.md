@@ -334,3 +334,10 @@ This is an append-only, chronological audit log for the two Windows applications
 - Read-back confirmed matching blob SHAs between feature and backup refs for `PROMPT_ARCHIVE.md`, `src/ResolverReach/ResolverReach.csproj`, `.github/workflows/windows-build.yml`, `MACOS_INSTALLATION.md`, and `BACKUP_MANIFEST.md`.
 - The backup is a GitHub branch snapshot containing the source tree and history reachable from that branch. It is not a complete export of ChatGPT platform Memory or unrelated conversations.
 - Installer/release status remains unchanged: PR #4 is open; its first Actions run failed without retrievable job logs; no macOS package is verified and v2.4.0 has not been published.
+
+
+## 2026-10-23 — Repeated Actions run status
+
+- Follow-up runs #40006194471 and #40006338791 also concluded failure. The workflow job API exposed no executed steps; the job-log endpoint returned `BlobNotFound`. No root cause or failed command could be verified, and no application-level failure is inferred from these empty logs.
+- PR #4 remains open and unmerged. Release publication remains gated. No macOS package was produced in accessible artifacts.
+- The GitHub snapshot branch `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` was advanced after the final documentation/archive updates; key file blob hashes were compared between feature and backup refs.

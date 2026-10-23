@@ -41,7 +41,7 @@ jobs:
           Copy-Item "src/OllamaGgufImporter/README.md" "artifacts/ollama-gguf-importer/README.txt"
           Compress-Archive -Path "artifacts/ollama-gguf-importer/*" -DestinationPath "artifacts/Ollama-GGUF-Importer-Windows-x64.zip" -Force
       - name: Upload portable Windows x64 package
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: Ollama-GGUF-Importer-Windows-x64
           path: artifacts/Ollama-GGUF-Importer-Windows-x64.zip

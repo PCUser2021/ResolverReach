@@ -217,5 +217,5 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 
 - Merged into main at commit [`803e367`](https://github.com/PCUser2021/ResolverReach/commit/803e36738e567b08a12ff3cdbc4de3675d3dd4f7).
 - Main source candidate version: 2.4.0; latest verified published GitHub Release remains v2.2.0. No v2.4.0 release assets have been created.
-- Candidate adds centralized NuGet package versions, deterministic DNS protocol tests, expanded DNS/EDNS validation and bounded DoH body reads. The exact branch head and Actions results must be recorded after verification.
+- The merged source adds centralized NuGet package versions, deterministic DNS protocol tests, expanded DNS/EDNS validation and bounded DoH body reads. The PR workflow run #40001573171 passed all 12 tests, Windows x64 and ARM64 build/installer jobs, and installer artifact verification.
 - CI run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171) passed all 12 tests, Windows x64/ARM64 build and installer jobs, and artifact verification. `DEPENDENCIES.md` lists app/test packages and tooling, including tools whose patch versions are not pinned. No live DNS or GUI smoke test was run.

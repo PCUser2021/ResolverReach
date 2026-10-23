@@ -305,3 +305,39 @@ This is an append-only, chronological audit log for the two Windows applications
 - Test runner mismatch discovered in the first run was corrected by selecting Microsoft Testing Platform via `global.json`, using `coverlet.MTP 10.1.0`, and adding `Microsoft.Testing.Extensions.TrxReport 2.5.1`. The later exact candidate CI run passed.
 - Follow-up cleanup replaces obsolete Avalonia `TextBox.Watermark` in `MainView.axaml` with `PlaceholderText`; the initial verified CI emitted an AVLN5001 warning for this property, so the current small cleanup is expected to remove it. Check the subsequent main-branch workflow after this commit before claiming that the warning is gone.
 - Release publication was skipped intentionally. Product source candidate remains 2.4.0; latest published release remains v2.2.0. No public DoH live-network test or interactive GUI smoke test was performed.
+
+
+## 2026-10-23 — Resolver Reach 2.4.0 macOS installers and toolchain audit
+
+- Archived the user request as Prompt 011 in `PROMPT_ARCHIVE.md` before implementation (commit `0a5ffae5cc71fb06edbfb28b370a87e693a3ffa9`).
+- Created candidate branch `feature/2.4.0-release-macos-backup`.
+- Updated the application project to declare `osx-x64` and `osx-arm64` runtime identifiers, use `Exe` output for macOS RIDs, and apply the Windows manifest/icon only to Windows RIDs.
+- Updated window initialization to apply FluentAvalonia extended title bar and Mica/Acrylic only on Windows; other platforms use opaque native window chrome.
+- Updated `.github/workflows/windows-build.yml` to pin .NET SDK 10.0.402, build self-contained macOS app bundles for Intel/Apple Silicon, create DMG and ZIP distributions, verify all Windows/macOS installer files and SHA-256 hashes, and include macOS packages in the gated v2.4.0 release.
+- Updated README, changelog, dependency audit, project context, master context, handoff and backup manifest. The .NET 10 support matrix lists macOS 15/Sequoia and newer, so app metadata sets minimum macOS 15.0.
+- NuGet listings checked 2026-10-23 show current stable direct package versions: Avalonia/Avalonia.Desktop 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Avalonia.Reactive 12.1.6; ReactiveUI.Reactive 26.0.1; DynamicData 9.5.0; System.Reactive 7.0.0; xunit.v3 4.0.2. .NET SDK 10.0.402/runtime 10.0.13 is the latest stable .NET 10 servicing release identified for this date.
+- Not yet verified at log-write time: PR CI, actual DMG/ZIP artifacts, macOS app launch/runtime behavior, release publication, and full backup branch/tag. macOS packages remain unsigned/not notarized because Apple Developer credentials were not supplied. Update this log with the actual PR, workflow, artifacts, and backup ref only after checking them.
+
+
+## 2026-10-23 — PR #4 first CI checkpoint
+
+- Opened PR #4: https://github.com/PCUser2021/ResolverReach/pull/4 (head initially `e4935a5b07070e279baaa16716034ba1ef7747ad`, subsequently updated with documentation and macOS minimum-OS corrections).
+- GitHub Actions run #40005597884 concluded `failure` for all build/test jobs. The available job-step API returned no steps; the job-log API returned `BlobNotFound`. The failure cause is unknown from the evidence available. A rerun of failed jobs was requested, but the run again completed with failure and no retrievable logs.
+- No v2.4.0 release was published. No macOS DMG/ZIP has been built or verified in an accessible artifact.
+- Prior CI run #40001573171 has non-expired Windows x64/ARM64 installer artifacts for an earlier 2.4.0 source commit, but these are not proof of the new cross-platform branch's success.
+- Next step: obtain a fresh GitHub Actions run with accessible logs and green tests/builds; troubleshoot any concrete errors before merging. Keep release gated. The backup branch must be advanced to the final commit and read back after all records are written.
+
+
+## 2026-10-23 — GitHub backup snapshot verified
+
+- Created and advanced `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` to the final feature-branch head after the prompt archive outcome was recorded.
+- Read-back confirmed matching blob SHAs between feature and backup refs for `PROMPT_ARCHIVE.md`, `src/ResolverReach/ResolverReach.csproj`, `.github/workflows/windows-build.yml`, `MACOS_INSTALLATION.md`, and `BACKUP_MANIFEST.md`.
+- The backup is a GitHub branch snapshot containing the source tree and history reachable from that branch. It is not a complete export of ChatGPT platform Memory or unrelated conversations.
+- Installer/release status remains unchanged: PR #4 is open; its first Actions run failed without retrievable job logs; no macOS package is verified and v2.4.0 has not been published.
+
+
+## 2026-10-23 — Repeated Actions run status
+
+- Follow-up runs #40006194471 and #40006338791 also concluded failure. The workflow job API exposed no executed steps; the job-log endpoint returned `BlobNotFound`. No root cause or failed command could be verified, and no application-level failure is inferred from these empty logs.
+- PR #4 remains open and unmerged. Release publication remains gated. No macOS package was produced in accessible artifacts.
+- The GitHub snapshot branch `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` was advanced after the final documentation/archive updates; key file blob hashes were compared between feature and backup refs.

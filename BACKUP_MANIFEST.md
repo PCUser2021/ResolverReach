@@ -219,3 +219,36 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Main source candidate version: 2.4.0; latest verified published GitHub Release remains v2.2.0. No v2.4.0 release assets have been created.
 - The merged source adds centralized NuGet package versions, deterministic DNS protocol tests, expanded DNS/EDNS validation and bounded DoH body reads. The PR workflow run #40001573171 passed all 12 tests, Windows x64 and ARM64 build/installer jobs, and installer artifact verification.
 - CI run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171) passed all 12 tests, Windows x64/ARM64 build and installer jobs, and artifact verification. `DEPENDENCIES.md` lists app/test packages and tooling, including tools whose patch versions are not pinned. No live DNS or GUI smoke test was run.
+
+
+## Backup entry — Resolver Reach 2.4.0 cross-platform installer work (2026-10-23)
+
+- Request archive: `PROMPT_ARCHIVE.md`, Prompt 011, captured in commit `0a5ffae5cc71fb06edbfb28b370a87e693a3ffa9` on `feature/2.4.0-release-macos-backup`.
+- Candidate branch: `feature/2.4.0-release-macos-backup`.
+- Changes include: `src/ResolverReach/ResolverReach.csproj`, `src/ResolverReach/MainWindow.axaml.cs`, `.github/workflows/windows-build.yml`, `README.md`, `CHANGELOG.md`, `DEPENDENCIES.md`, `PROJECT_CONTEXT.md`, `Software_Project_Master_Context.md`, and `AI_SESSION_HANDOFF.md`; this manifest and the development/prompt logs must also be updated with final CI and backup evidence.
+- macOS targets: Intel `osx-x64` and Apple Silicon `osx-arm64`; deliverables planned: `ResolverReach-2.4.0-macOS-x64.dmg/.zip` and `ResolverReach-2.4.0-macOS-arm64.dmg/.zip`. Minimum OS: macOS 15.0, matching the current .NET 10 support matrix.
+- Windows targets remain `ResolverReach-Setup-x64.exe` and `ResolverReach-Setup-arm64.exe`.
+- Toolchain: .NET SDK 10.0.402; direct NuGet package versions were audited against stable NuGet listings on 2026-10-23. No prerelease package upgrades were introduced.
+- Security limitation: macOS packages are unsigned/not notarized because Apple Developer credentials were not provided.
+- Verification status at this entry: source changes are committed to the feature branch, but PR CI, macOS runtime smoke testing, release asset publication, and final backup branch/tag confirmation are pending. This is not yet a verified complete backup or a published release.
+
+
+## Verification checkpoint — cross-platform PR #4 (2026-10-23)
+
+- PR: https://github.com/PCUser2021/ResolverReach/pull/4
+- Feature branch: `feature/2.4.0-release-macos-backup`.
+- Snapshot branch: `backup/ResolverReach-2.4.0-cross-platform-2026-10-23`. After the final prompt-archive write, it was advanced to the feature branch head and read-back verified. The `PROMPT_ARCHIVE.md`, `src/ResolverReach/ResolverReach.csproj`, `.github/workflows/windows-build.yml`, `MACOS_INSTALLATION.md`, and `BACKUP_MANIFEST.md` blob SHAs matched between the feature and backup branches at verification.
+- First PR workflow run: https://github.com/PCUser2021/ResolverReach/actions/runs/40005597884; conclusion: `failure`. Every job reported failure with no exposed steps; fetching job logs returned GitHub `BlobNotFound`, and the job-step API returned an empty list. The cause is unknown; do not assert that this failure is caused by source code or by infrastructure.
+- Previous run #40001573171 contains non-expired Windows x64/ARM64 installer artifacts for earlier 2.4.0 source commit `86493b001c35bca9460d6adc301b3b2341f5071a`. These artifacts do not include the new macOS bundles and do not validate this PR's final changes.
+- No macOS installer artifact has yet been verified or published. v2.4.0 release publication is pending a successful run that verifies tests, Windows installers, macOS DMG/ZIP packages and artifact checksums.
+
+
+### Backup snapshot verification — 2026-10-23
+- Backup ref: `backup/ResolverReach-2.4.0-cross-platform-2026-10-23`.
+- Read-back comparison confirmed identical blob SHAs between the feature and backup branches for `PROMPT_ARCHIVE.md`, `src/ResolverReach/ResolverReach.csproj`, `.github/workflows/windows-build.yml`, `MACOS_INSTALLATION.md`, and `BACKUP_MANIFEST.md` at the verification checkpoint. The manifest was subsequently updated with this verification record; the backup ref is advanced again after the final writes. This snapshot includes the working tree and Git history reachable from the branch, but is not a complete export of account-level ChatGPT Memory or unrelated conversations.
+
+
+## Latest CI checkpoint — 2026-10-23
+- PR #4 run #40005597884, retry/recheck run #40006194471, and latest run #40006338791 all reported failure with no retrievable step summaries/logs (`BlobNotFound`). No source-level cause is confirmed.
+- The release remains unpublished and no macOS DMG/ZIP artifacts are verified. Do not mark the candidate build successful based on the older Windows-only artifact run.
+- After this manifest update, the backup branch must be advanced to the latest feature-branch commit and key file blob hashes rechecked.

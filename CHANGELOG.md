@@ -1,5 +1,18 @@
 # Resolver Reach changelog
 
+## [2.4.0] — release candidate, 2026-10-23
+
+### Windows and macOS packaging
+- Added self-contained macOS app-bundle packaging for Intel (`osx-x64`) and Apple Silicon (`osx-arm64`), producing both DMG installers and ZIP alternatives.
+- Added conditional Windows-only application manifest/icon properties and platform-specific window chrome behavior so macOS does not request Windows Mica/Acrylic styling.
+- Pinned CI's .NET SDK installation to the latest stable .NET 10 SDK verified for this update: 10.0.402 (runtime servicing release 10.0.13).
+- Expanded artifact verification and the release asset list to include both Windows installers and all four macOS packages.
+- The direct NuGet dependencies were checked against current stable NuGet listings on 2026-10-23; Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI packages 12.1.6/26.0.1, DynamicData 9.5.0, System.Reactive 7.0.0, and test packages remain current stable versions.
+- macOS packages are currently unsigned and not notarized; release notes must disclose this. Apple Developer credentials are required to sign and notarize.
+- Added `MACOS_INSTALLATION.md` with architecture selection, install steps, Gatekeeper warning, and signing/notarization limitations.
+- CI packaging is pending until the pull request workflow completes. Do not describe a macOS package as built or tested until the corresponding GitHub Actions artifacts are inspected.
+
+
 ## [2.4.0] — merged to main, 2026-10-23 (not yet released)
 
 ### Updated

@@ -128,3 +128,16 @@ The following seed entries were reconstructed from repository-related prompts vi
 > Everything should be in the same main window
 > Thank you so much, legendary ChatGPT.
 - Status at archive time: captured before implementation; outcome to be appended after source changes and verification.
+
+
+### Outcome 007 — Resolver Reach 2.0.0 redesign completed and verified
+- Date: 2026-10-23
+- Target: `PCUser2021/ResolverReach`
+- Merged PR: [#1 — Resolver Reach 2.0.0 single-window DoH tester redesign](https://github.com/PCUser2021/ResolverReach/pull/1), squash merge commit `35ff1517f7e0c0ce42fe1a8500935123d922dd30`.
+- Product version: `2.0.0`; project, assembly, and file version metadata read back as `2.0.0`, `2.0.0.0`, and `2.0.0.0`.
+- UI read-back checks: exactly two visible buttons; both requested test commands present; no theme selector, Paste Links menu, Save Logs button, or secondary save-file dialog; results, progress, and status are bound in the main window; Escape cancellation remains.
+- Build: [main-branch Windows x64 build and installer run #39928118989](https://github.com/PCUser2021/ResolverReach/actions/runs/39928118989) completed with conclusion `success`. .NET restore, self-contained Windows x64 publish, Inno Setup install/compile, and artifact upload all succeeded.
+- Artifact: `ResolverReach-Windows-x64`, GitHub artifact ID `12490750995`, 33,475,336-byte archive; non-expired at verification time, scheduled expiry 2026-11-06. Downloaded main-run ZIP was inspected and contained `ResolverReach-Setup-x64.exe`.
+- Local installer inspection: `Resolver-Reach-2.0.0-Setup-x64.exe`, 33,971,274 bytes; `strings -el` confirmed installer name/product/version strings including `2.0.0`. SHA-256: `0023ab33844ba6ffe00f572eb0ed28e395b3e46044fb392f893726f20df2bc22`.
+- No live DoH endpoint runtime testing was performed by CI; successful build/installer compilation does not prove every resolver reachable. The app performs live endpoint checks when the user runs it.
+- Durable implementation and build verification are documented in `DEVELOPMENT_LOG.md` and `PROJECT_CONTEXT.md`. Prompt 007 was captured in the private archive before implementation.

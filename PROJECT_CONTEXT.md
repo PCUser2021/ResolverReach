@@ -97,7 +97,7 @@ For every substantive task related to either application:
 - Resolver Reach CI: `.github/workflows/windows-build.yml`
 - GGUF Importer CI: `.github/workflows/ollama-gguf-importer.yml`
 
-Last audit note: on 2026-10-23 Resolver Reach is being updated to 2.0.0 with a single-window two-path GUI; Ollama GGUF Importer remains at 1.0.0. Verify the final commit and workflow artifact before calling the Resolver Reach release complete.
+Last verified 2026-10-23: Resolver Reach 2.0.0 single-window redesign merged to main at `35ff1517f7e0c0ce42fe1a8500935123d922dd30`; Windows x64 build and installer succeeded in workflow run `39928118989`, artifact `12490750995`. No live resolver endpoint runtime test was part of CI. Ollama GGUF Importer remains version 1.0.0.
 
 
 ## Cross-repository prompt backup and restore policy

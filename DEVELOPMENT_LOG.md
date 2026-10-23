@@ -64,3 +64,13 @@ This is an append-only, chronological audit log for the two Windows applications
 - **Version:** Advanced Resolver Reach from 1.0.0 to 2.0.0; synchronized project/assembly/file metadata, HTTP User-Agent strings, workflow publish version, installer version, README, and changelog.
 - **Changed files:** `src/ResolverReach/App.axaml`, `src/ResolverReach/MainView.axaml`, `src/ResolverReach/MainView.axaml.cs`, `src/ResolverReach/ResolverReachViewModel.cs`, `src/ResolverReach/CurlWikiResolverCatalog.cs`, `src/ResolverReach/ResolverReach.csproj`, `.github/workflows/windows-build.yml`, `installer/ResolverReach.iss`, `README.md`, `CHANGELOG.md`, `PROJECT_CONTEXT.md`, and this log.
 - **Validation state at commit time:** Source changes are committed to a feature branch. No local Windows build was run in this environment. Record the actual GitHub Actions build result and artifact status in a follow-up entry; do not infer success from an opened pull request alone.
+
+
+### Verification follow-up — Resolver Reach 2.0.0 main-branch build (2026-10-23)
+- Merged implementation commit: `35ff1517f7e0c0ce42fe1a8500935123d922dd30` (PR [#1](https://github.com/PCUser2021/ResolverReach/pull/1)).
+- Successful Windows x64 workflow: [run #39928118989](https://github.com/PCUser2021/ResolverReach/actions/runs/39928118989), commit `35ff1517f7e0c0ce42fe1a8500935123d922dd30`; conclusion `success`.
+- Verified successful steps: .NET 10 setup, restore, self-contained x64 publish, Inno Setup availability/install, installer compile, and upload of `ResolverReach-Windows-x64`.
+- Artifact ID `12490750995`, archive size 33,475,336 bytes, not expired at verification; listed expiry 2026-11-06. The archive was downloaded and inspected; it contains `ResolverReach-Setup-x64.exe`.
+- Installer copied for direct download: `/mnt/data/Resolver-Reach-2.0.0-Setup-x64.exe`, size 33,971,274 bytes. Installer string inspection verified `Resolver Reach Setup`, `Resolver Reach`, and `2.0.0`. SHA-256: `0023ab33844ba6ffe00f572eb0ed28e395b3e46044fb392f893726f20df2bc22`.
+- Static source read-back confirmed exactly two visible UI buttons, no old theme/menu/Save Logs controls, all results/status/progress in the one window, Escape cancellation preserved, and project version metadata at 2.0.0/2.0.0.0/2.0.0.0.
+- No endpoint runtime DNS requests or GUI-interaction tests were run in CI; no claim is made that every public resolver was reachable at build time.

@@ -231,3 +231,13 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Toolchain: .NET SDK 10.0.402; direct NuGet package versions were audited against stable NuGet listings on 2026-10-23. No prerelease package upgrades were introduced.
 - Security limitation: macOS packages are unsigned/not notarized because Apple Developer credentials were not provided.
 - Verification status at this entry: source changes are committed to the feature branch, but PR CI, macOS runtime smoke testing, release asset publication, and final backup branch/tag confirmation are pending. This is not yet a verified complete backup or a published release.
+
+
+## Verification checkpoint — cross-platform PR #4 (2026-10-23)
+
+- PR: https://github.com/PCUser2021/ResolverReach/pull/4
+- Feature branch: `feature/2.4.0-release-macos-backup`.
+- Snapshot branch created: `backup/ResolverReach-2.4.0-cross-platform-2026-10-23`; it must be advanced to the final feature-branch commit after the last documentation/archive update.
+- First PR workflow run: https://github.com/PCUser2021/ResolverReach/actions/runs/40005597884; conclusion: `failure`. Every job reported failure with no exposed steps; fetching job logs returned GitHub `BlobNotFound`, and the job-step API returned an empty list. The cause is unknown; do not assert that this failure is caused by source code or by infrastructure.
+- Previous run #40001573171 contains non-expired Windows x64/ARM64 installer artifacts for earlier 2.4.0 source commit `86493b001c35bca9460d6adc301b3b2341f5071a`. These artifacts do not include the new macOS bundles and do not validate this PR's final changes.
+- No macOS installer artifact has yet been verified or published. v2.4.0 release publication is pending a successful run that verifies tests, Windows installers, macOS DMG/ZIP packages and artifact checksums.

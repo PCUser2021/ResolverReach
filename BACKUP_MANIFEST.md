@@ -193,3 +193,5 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Follow-up action audit: official release metadata identifies `actions/upload-artifact@v7.0.2` and `actions/download-artifact@v8.0.2` as current on 2026-10-23. Workflow refs use major tags @v7/@v8. Re-run CI against the updated workflow before merge/release.
 
 - Final package/action audit: DynamicData 9.5.0 and System.Reactive 7.0.0 are current stable releases; official GitHub metadata identifies checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2 and softprops/action-gh-release v3.0.3. Both workflows have been updated to current artifact action majors. Current-head CI remains the release gate.
+
+- CI now verifies the artifacts after upload by downloading x64 and native ARM64 installers via download-artifact@v8, validating non-zero output files, and printing SHA-256 hashes. The release job depends on the verification job. Final latest-head CI must pass before merge or release.

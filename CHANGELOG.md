@@ -35,3 +35,9 @@
 - Verified NuGet's current stable versions for the packages used by the main app: Avalonia/Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, DynamicData 9.5.0, and System.Reactive 7.0.0 (transitive minimum of ReactiveUI.Reactive).
 - Verified GitHub Releases current tags: checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2, softprops/action-gh-release v3.0.3. Workflows use their major-version tags where appropriate.
 - The Ollama GGUF Importer workflow now also uses upload-artifact@v7. Neither the app release nor its binaries have been published from this maintenance branch. Use the most recent workflow run for the branch head when deciding whether CI is green.
+
+
+### CI artifact-download verification — 2026-10-23
+- Added `verify-packaged-artifacts` to the Windows workflow. After both architecture-specific installers are built and uploaded, CI downloads both with `actions/download-artifact@v8` and checks that the resulting EXE files exist and are non-empty; SHA-256 hashes are printed in the job log.
+- The release job depends on this verification job. Release publishing remains gated by a push to main whose head commit message contains `[publish-release]`, so routine PR builds do not publish a release.
+- A prior complete run passed x64/ARM64 publish and Inno Setup packaging on revision `0249107342b29067c6d0819a52efaaba61d44c62`. The artifact-action major upgrades and the new download verification job still require a final green run on the latest maintenance branch head.

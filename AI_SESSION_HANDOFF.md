@@ -121,3 +121,5 @@ This file plus the full Git history/source/assets/releases and project logs pres
 
 - Full workflow audit completed: both `.github/workflows/windows-build.yml` and `.github/workflows/ollama-gguf-importer.yml` use checkout@v7 / setup-dotnet@v6; artifact upload uses @v7 and Windows release artifact downloads use @v8. These refs match the latest official releases at the audit date (checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2, softprops/action-gh-release v3.0.3).
 - NuGet audit: DynamicData 9.5.0 is listed as current stable; ReactiveUI.Reactive 26.0.1 requires System.Reactive >=7.0.0, the current stable version. Do not add a duplicate explicit System.Reactive reference unless CI establishes it is necessary; it arrives transitively through the selected compatibility package.
+
+- Last CI hardening: added `verify-packaged-artifacts` to the Windows workflow so current `download-artifact@v8` is exercised on PRs. It downloads both installers, validates non-empty EXE files, and emits SHA-256 hashes. The release-only job depends on this validation but remains disabled for ordinary PRs.

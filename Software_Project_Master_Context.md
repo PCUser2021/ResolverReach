@@ -87,3 +87,5 @@ A separate branch, `maintenance/latest-toolchain-onionfruit-review`, stages a de
 - Latest GitHub Actions audit (2026-10-23): official release metadata was checked; upload-artifact v7.0.2 and download-artifact v8.0.2 are current, so the maintenance workflow uses major tags @v7/@v8. The previous CI run predates this workflow edit and cannot be treated as validation of the final action versions.
 
 - Final dependency verification on 2026-10-23: DynamicData 9.5.0 is current stable; System.Reactive 7.0.0 is the current release required by ReactiveUI.Reactive 26.0.1. Artifact workflows now use upload-artifact@v7 and download-artifact@v8; inspect the latest run for the final branch head.
+
+- Windows workflow now has a normal-PR artifact round-trip check using download-artifact@v8. It downloads both uploaded installers, checks each EXE is non-empty, and prints SHA-256 hashes; release publication depends on this job and remains separately gated.

@@ -257,3 +257,5 @@ This is an append-only, chronological audit log for the two Windows applications
 - Final toolchain audit against official GitHub Releases API found upload-artifact v7.0.2 and download-artifact v8.0.2 published 2026-10-07. Workflow majors were advanced to @v7/@v8; validation remains pending for this exact workflow revision.
 
 - Final dependency audit confirmed DynamicData 9.5.0 is the latest stable NuGet release listed on 2026-10-23. ReactiveUI.Reactive 26.0.1 depends on System.Reactive >= 7.0.0, current version 7.0.0. Official GitHub Releases showed checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2 and softprops/action-gh-release v3.0.3. Updated both workflows; confirm the newest run against the final branch head.
+
+- Added a CI job to exercise `actions/download-artifact@v8` during every normal PR build, not only during release publishing. It downloads both installer artifacts, asserts both EXE files are non-empty, and logs SHA-256 checksums. The release job depends on this check. This closes the coverage gap for the upgraded artifact-download action.

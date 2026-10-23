@@ -9,7 +9,9 @@
 <p align="center">
   <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe"><strong>Download Windows x64</strong></a>
   · <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe"><strong>Download native ARM64</strong></a>
-  · <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-2.4.0-macOS-arm64.dmg"><strong>Download macOS Apple Silicon</strong></a>\n  · <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-2.4.0-macOS-x64.dmg"><strong>Download macOS Intel</strong></a>\n  · <a href="https://github.com/PCUser2021/ResolverReach/releases">All releases</a>
+  · <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-2.4.0-macOS-arm64.dmg"><strong>Download macOS Apple Silicon</strong></a>
+  · <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-2.4.0-macOS-x64.dmg"><strong>Download macOS Intel</strong></a>
+  · <a href="https://github.com/PCUser2021/ResolverReach/releases">All releases</a>
 </p>
 
 <p align="center">
@@ -40,7 +42,11 @@ A valid DNS error response is a completed DoH exchange but is not a successful a
 
 - **[Windows x64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe)** — standard Intel/AMD 64-bit Windows. The x64-compatible installer can also run under Windows 11 ARM64 emulation.
 - **[Native Windows ARM64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe)** — native Arm64 Windows app, not the emulated x64 build.
-- **[macOS Apple Silicon installer (DMG)](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-2.4.0-macOS-arm64.dmg)** — native arm64 Macs (M1 and newer).\n- **[macOS Intel installer (DMG)](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-2.4.0-macOS-x64.dmg)** — Intel Macs. ZIP alternatives are published alongside the DMGs.\n- [Browse all releases and checksums](https://github.com/PCUser2021/ResolverReach/releases).\n\n**macOS security note:** these packages are not code-signed or notarized yet. Gatekeeper may block first launch; Apple Developer signing/notarization credentials are required for a normal trusted first-launch experience. .NET 10 support currently targets macOS 15 (Sequoia) and newer.
+- **[macOS Apple Silicon installer (DMG)](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-2.4.0-macOS-arm64.dmg)** — native arm64 Macs (M1 and newer).
+- **[macOS Intel installer (DMG)](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-2.4.0-macOS-x64.dmg)** — Intel Macs. ZIP alternatives are published alongside the DMGs.
+- [Browse all releases and checksums](https://github.com/PCUser2021/ResolverReach/releases).
+
+**macOS security note:** these packages are not code-signed or notarized yet. Gatekeeper may block first launch; Apple Developer signing/notarization credentials are required for a normal trusted first-launch experience. .NET 10 support currently targets macOS 15 (Sequoia) and newer.
 
 Public anonymous downloads require the repository to be public; private release assets remain access-controlled.
 

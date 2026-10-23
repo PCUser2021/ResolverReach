@@ -108,3 +108,23 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Knowledge rule: durable requirements, decisions, discoveries, bug causes, failed attempts and unfinished work must be persisted into repository context/logs. Every repository-related prompt should be archived in this private file first; public repositories only receive non-sensitive summaries.
 - No application code changed in this task; no product version was bumped and no build/runtime tests were run. This was a documentation/policy change.
 - Limitation remains: this repository policy is not a ChatGPT-wide message interception hook and cannot guarantee automatic capture in sessions that never load the policy or lack GitHub access.
+
+
+### Prompt 007 — Complete single-window Resolver Reach redesign
+- Date: 2026-10-23 (user's current timezone: America/New_York)
+- Target: `PCUser2021/ResolverReach` — Resolver Reach
+- Reference image: user-provided screenshot of OnionFruitt settings/main window (dark slate panels, narrow title bar, strong red connection/status strip, rounded rows, restrained pink accent, left navigation in screenshot).
+- Exact prompt:
+
+> Hi legendary ChatGPT:
+> Please 100% do what I say about Resolver Reach
+> Delete the whole GUI 100% and redesign it 100% from scratch using these settings:
+> 100% copy and paste the GUI design from the screenshot and 100% use it.
+> Just 2 options:
+> 1: Test Curl Resolvers (Test all DNS over HTTPS Resolvers from the https://github.com/curl/curl/wiki/DNS-over-HTTPS 100% check 100% if they are reachable)
+> 2: Add the option: Paste links: Test 100% DNS over HTTPS and check 100% if they are reachable) and add the button: Test Resolvers.
+> It's just a: 1-window software: no fucking other window or any extra options; just a 1-window option: the test result should be just on the 1 main window. Remember: It's just a 1-window software, and everything should be in the main window: no extra window, option, or anything; everything should be 100% just in the main window.
+> Please develop it like you are a 100% postdoc developer.
+> Everything should be in the same main window
+> Thank you so much, legendary ChatGPT.
+- Status at archive time: captured before implementation; outcome to be appended after source changes and verification.

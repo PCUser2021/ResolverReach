@@ -103,7 +103,7 @@ jobs:
           }
           $executables = @(
             "artifacts/bundle/${{ matrix.arch }}/JDownloaderReach.exe",
-            "artifacts/bundle/${{ matrix.arch }}/tools/ResolverReach/ResolverReach.exe",
+            "artifacts/bundle/${{ matrix.arch }}/tools/ResolverReach/ResolverReach.exe"
           )
           foreach ($exe in $executables) {
             if (-not (Test-Path $exe)) { throw "Expected application was not published: $exe" }

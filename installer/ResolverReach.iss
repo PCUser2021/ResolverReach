@@ -1,6 +1,6 @@
 #define MyAppName "Resolver Reach"
 #ifndef MyAppVersion
-  #define MyAppVersion "2.2.0"
+  #define MyAppVersion "2.3.0"
 #endif
 #ifndef MyAppArchitecture
   #define MyAppArchitecture "x64compatible"

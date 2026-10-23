@@ -23,3 +23,15 @@ This is an append-only, chronological audit log for the two Windows applications
 - **Restore behavior:** New repo-related sessions must read the private archive and current target-repository instructions/source to reconstruct context; never silently reset or overwrite code to an older state.
 - **Automation limitation:** No ChatGPT message-event hook is available through these tools, so this cannot intercept every message automatically in all possible ChatGPT conversations. This establishes a repository-side protocol for sessions that load the instruction and have GitHub write access; inability to write must be reported rather than concealed.
 - **Verification:** Initial archive creation commit: `d0e7dbbe8bffdd7336be5e7e24b34ab53cff282b`. Context policy commit: `e2e8686b3584dfd49b090d2962e6d2419b99b774`. Remaining actions and commit SHAs must be appended after they are completed and verified. No code compilation or runtime tests are applicable to this policy/documentation work.
+
+
+## 2026-10-22 — Cross-repository prompt backup setup completed and verified
+
+- Added private central `PROMPT_ARCHIVE.md` to archive repository-related user prompts and task outcomes: creation commit `d0e7dbbe8bffdd7336be5e7e24b34ab53cff282b`; final setup/outcome update commit `6fa9363ea3b7bdb0eac013b8586bdadd96f98354`.
+- Updated this repository's `PROJECT_CONTEXT.md` with the central archive, prompt-capture policy, context-restoration rules, privacy rules, and limitations: commit `e2e8686b3584dfd49b090d2962e6d2419b99b774`.
+- Updated root `README.md` to link the private archive: commit `b030d882d2f9f9ee88700355d2bc7521d56e09d0`.
+- Updated public `PCUser2021/Wand-Enhancer/AGENTS.md` with instructions to restore context from the private archive and never expose verbatim user prompts publicly: commit `a44a0e5daa8746e48433b7e42b085c980cf984eb`.
+- Created public-safe `PCUser2021/Wand-Enhancer/AI_WORK_LOG.md`: commit `67983fe5c4bc309b0f67a05bca9d57adad126460`.
+- All listed writes returned successful GitHub commit SHAs. The archive, context, and instructions should be read back to verify the final committed contents; do not infer success solely from a tool response.
+- No code/build/runtime tests were performed because this change only alters documentation and workflow instructions.
+- The prompt archive records repository-related prompts from the current conversation and establishes a process for future repository-related prompts. It cannot act as a global ChatGPT message interceptor; each future session must load and follow the instructions and have access to the private repository. Secrets must be redacted.

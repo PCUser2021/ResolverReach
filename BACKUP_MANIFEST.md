@@ -261,3 +261,12 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - The existing `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` branch is deliberately kept as a historical backup of the previous attempt, consistent with the earlier full-backup request; it is not part of the active product/build.
 - A clean Windows-only backup branch will be created and read back after the final documentation and prompt archive commits.
 - Verification remains pending until a fresh Windows-only CI run passes all tests, both architecture installer jobs, and artifact validation. No new release is claimed here.
+
+
+## Windows-only candidate snapshot — 2026-10-23
+
+- Current candidate branch: `feature/resolverreach-2.4.0-windows-only`; current PR: https://github.com/PCUser2021/ResolverReach/pull/6.
+- Snapshot branch created: `backup/ResolverReach-2.4.0-windows-only-2026-10-23`. It will be advanced to the latest candidate after this final audit entry and then read back.
+- The active candidate supports Windows x64 and native Windows ARM64 only. macOS runtime targets, CI jobs, packaging, documentation and download links have been removed from the candidate. PR #4 is closed.
+- Earlier `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` is retained only as a historical copy of the earlier attempt, per the request to preserve a complete project backup. It is not the active product.
+- Latest known cross-platform run failed without accessible logs. A new Windows-only PR run is required; no release or new installer is claimed until all tests/builds/artifact checks are green.

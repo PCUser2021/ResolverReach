@@ -81,7 +81,7 @@ OnionFruit was inspected as a separate C#/.NET Tor desktop application and a UI/
 
 ## Current handoff — Resolver Reach 2.4.0 Windows-only installers (2026-10-23)
 
-- Active proposal branch: `feature/2.4.0-release-macos-backup`, PR #4: https://github.com/PCUser2021/ResolverReach/pull/4.
+- Active proposal branch: `feature/resolverreach-2.4.0-windows-only`, PR #6: https://github.com/PCUser2021/ResolverReach/pull/6. Prior PR #4 was closed because macOS support was withdrawn.
 - Supported targets are Windows x64 and native ARM64 only. The macOS proposal was removed from the active project file, main-window code, workflow, README, dependency inventory and current changelog.
 - CI pins .NET SDK 10.0.402. Current direct NuGet packages were audited for stable versions on 2026-10-23.
 - The first runs for the former cross-platform branch failed without retrievable job logs (`BlobNotFound`); the root cause was not confirmed. The workflow has been restored to Windows-only jobs and must produce a fresh green test, x64 build, ARM64 build and artifact-verification run before merging/releasing.

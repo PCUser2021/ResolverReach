@@ -202,3 +202,15 @@ This is an append-only, chronological audit log for the two Windows applications
 - Stable links use /releases/latest/download/ResolverReach-Setup-x64.exe and /releases/latest/download/ResolverReach-Setup-arm64.exe.
 - The UI uses original vector icons in XAML with matching SVG source family and the redesigned executable/installer ICO. This is an original dark-metallic/spectral treatment, not a copy of Logic Pro's icon.
 - The new MediaFire log file was not retrievable from the URL. Do not claim its failure contents were analyzed; ask for direct chat upload. Build success does not prove resolver availability and no interactive GUI test or live resolver re-scan was performed.
+
+
+## 2026-10-23 — Full project-context handoff and latest diagnostic request
+
+- Archived latest prompt as Prompt 014 in `PROMPT_ARCHIVE.md`.
+- Added `AI_SESSION_HANDOFF.md`: authoritative project/version/release details, resolver-probe behavior, older analyzed log statistics, missing newer-log status, user preferences, repository workflow and next actions.
+- Added `Software_Project_Master_Context.md` as a cross-project handoff memo covering Resolver Reach 2.2.0 and Ollama GGUF Importer.
+- Updated root README and project context with the durable context links and latest version state.
+- Current Resolver Reach release remains v2.2.0. Successful dual-architecture build/release workflow #39945785064; x64 installer 33,974,496 bytes and native ARM64 installer 31,276,362 bytes.
+- Latest requested log `ResolverReach-Logs-20261023-040016.zip` is not present in current conversation attachments and MediaFire retry failed; only the older 03:27 ZIP has been analyzed. Do not infer latest failure counts from old data. Request direct ZIP upload.
+- Backup branch must be advanced to the final updated main SHA after documentation commits and verified.
+- Limit: GitHub stores source/context/prompts/decisions for these projects, but cannot export the entire account-level ChatGPT memory database, hidden state, or all unrelated conversations. Do not state otherwise.

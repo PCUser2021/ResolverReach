@@ -97,3 +97,15 @@ This is an append-only, chronological audit log for the two Windows applications
 - The preview image is a design illustration rendered from the XAML layout, not a screenshot taken from the running app. No genuine screen capture has been claimed.
 - Created stable snapshot branch `backup/ResolverReach-2.0.0-2026-10-23`. This final audit commit is then synchronized to that branch; final read-back records whether the heads match.
 - A complete export of ChatGPT platform Memory/historic chat data cannot be produced through the connected tools. All repository-related prompts, implementation decisions, current source state, build verification and handoff limitations visible in this work are kept in the private repository's archive/context/log.
+
+
+## 2026-10-23 — Prepare Resolver Reach source repository for public visibility
+
+- **User authorization:** Prompt 009 explicitly approves publishing the source code and the whole repository publicly, overriding the earlier request to keep source code inaccessible.
+- **Front page:** Replaced root `README.md` with a public-facing app description, icon artwork, a clearly disclosed UI design preview, feature explanation, build verification link, license summary, and repository visibility instructions. Main README commit `a2eee58f267d2cd72c5a4464e25d37431c0db97c`; visibility wording update `9c590b4248ad2a6e3cd1f009a9b6e349c6d52dba`.
+- **License:** Added root `LICENSE.txt` with personal/home-use restrictions and a frank caveat that making the repository public inherently exposes source files and allows forks; a license cannot technically block access to public content. Commit `6554a8d90c70658344f7c3799188c962bedc32d1`.
+- **Description:** The requested 256-character summary is stored in `public-distribution/REPO_DESCRIPTION.txt`; GitHub's About metadata was not changed because no repository-settings/write action is exposed in the connected GitHub toolset.
+- **Icon/preview:** Root README displays `public-distribution/assets/resolverreach-icon.svg` and `public-distribution/assets/resolverreach-preview.svg`. The preview is illustrative, not an actual screenshot capture.
+- **Visibility blocker:** No GitHub action for changing repository visibility exists in this session and `gh` CLI is unavailable/unauthenticated in the container. Last metadata read still reports `private`. The source repository has not been made public; the repository owner must complete Settings → Danger Zone → Change repository visibility → Public and then verify metadata.
+- **Consequence:** Once made public, the complete committed history, prompt archive, project records, source for both Resolver Reach and Ollama GGUF Importer, and GitHub Actions logs become visible. The user has approved public source visibility.
+- **Memory limitation:** Complete platform-level ChatGPT Memory and all historic chats cannot be exported by available tools. Relevant repository prompts, project decisions, source state, backup branch and build validation remain in Git.

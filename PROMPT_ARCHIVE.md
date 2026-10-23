@@ -192,3 +192,16 @@ The following seed entries were reconstructed from repository-related prompts vi
 > ok fine, turn source code public and 100% make the project public
 
 - Status: user explicitly approved public source visibility after being informed that it means source can be read and forked. The connected GitHub toolset in this session lacks a repository-settings/visibility mutation operation. Do not claim the visibility was changed unless verified using GitHub repository metadata.
+
+
+### Outcome 009 — Public front-page preparation; visibility change still pending
+- Date: 2026-10-23
+- The user explicitly approved publishing source code after the earlier explanation that this makes the source and Git history publicly visible.
+- The current GitHub connector exposes repository reads and content/commit writes, but not a repository visibility-change operation. No authenticated GitHub CLI is installed in the tool environment. Consequently, the repository was **not** made public by this session.
+- Root `README.md` was replaced with a public-facing description, resolver feature summary, app icon reference, interface preview, build verification link, and requested personal/home-use statement. Commit `a2eee58f267d2cd72c5a4464e25d37431c0db97c`; visibility instructions follow-up `9c590b4248ad2a6e3cd1f009a9b6e349c6d52dba`.
+- Added root `LICENSE.txt` with the requested personal/home-use terms and explicit caveat that public GitHub visibility makes source files readable and allows public forks regardless of license wording. Commit `6554a8d90c70658344f7c3799188c962bedc32d1`.
+- Icon and preview in README point to `public-distribution/assets/resolverreach-icon.svg` and `public-distribution/assets/resolverreach-preview.svg`. The latter is a design illustration, not a genuine screenshot from a running Windows app.
+- Proposed repository About description remains in `public-distribution/REPO_DESCRIPTION.txt`; it has not been set as GitHub repository metadata because no metadata-write operation is available.
+- Updated `PUBLIC_DISTRIBUTION_PLAN.md` and `BACKUP_MANIFEST.md` to reflect current approval and the remaining GitHub Settings operation. The prompt archive and history contain prior repository-related prompts; these will also become public when the repository visibility is changed.
+- The repository's visibility was last read as `private`; don't claim public visibility until a fresh GitHub metadata read reports `public`.
+- Full platform ChatGPT Memory/export remains unavailable. Project-related knowledge and outcomes are saved in this private repository.

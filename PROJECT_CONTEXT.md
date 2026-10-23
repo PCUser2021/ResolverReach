@@ -97,7 +97,7 @@ For every substantive task related to either application:
 - Resolver Reach CI: `.github/workflows/windows-build.yml`
 - GGUF Importer CI: `.github/workflows/ollama-gguf-importer.yml`
 
-Last verified 2026-10-23: Resolver Reach 2.0.0 source is in private repo `PCUser2021/ResolverReach`; public binary-only distribution kit is prepared locally but not published. The Windows x64 build and installer succeeded in run `39928118989`. See `PUBLIC_DISTRIBUTION_PLAN.md`, `BACKUP_MANIFEST.md`, and the latest development-log entry.
+Last verified 2026-10-23: Resolver Reach 2.0.0 builds successfully in workflow run `39928118989`. The user has authorized making the source repository public, but the connected toolset cannot change GitHub visibility and the last metadata read is still `private`. See `PUBLIC_DISTRIBUTION_PLAN.md`, `BACKUP_MANIFEST.md`, and the latest development-log entry.
 
 
 ## Cross-repository prompt backup and restore policy
@@ -141,11 +141,13 @@ Last verified 2026-10-23: Resolver Reach 2.0.0 source is in private repo `PCUser
 - Preserve RFC 8484 testing and DNS-response validation, live cURL wiki extraction, de-duplication, bounded concurrency, the 512-URL limit, and in-window results/progress. Results are point-in-time and cannot guarantee universal reachability.
 
 
-## Public distribution and source confidentiality — 2026-10-23
+## Public source publication — 2026-10-23
 
-- Keep `PCUser2021/ResolverReach` **private**. It includes source for Resolver Reach and Ollama GGUF Importer. Never change this repository to public as a shortcut for publishing only the binary.
-- GitHub public repositories expose committed files and history to the internet and allow public forks. The user's combined requirements are satisfied safely only by a separate public distribution repo containing binary/release assets, README, license, icon, and a clearly marked preview.
-- The current connected GitHub interface did not expose a repository-create or visibility-change operation during this task. The public distribution repository has not been created by the assistant. A packaged source-free ZIP and public draft files are available for upload.
+- The user's latest instruction explicitly approves making the source and entire `PCUser2021/ResolverReach` repository public; it supersedes the earlier preference to keep source inaccessible.
+- GitHub public visibility exposes source, commit history, Actions logs, and repo content including the prompt archive. Treat this as an explicit disclosure decision, not a source-protection mechanism.
+- Root `README.md` has a public-facing introduction, description, icon reference, preview, feature summary and visibility instructions; root `LICENSE.txt` includes the requested personal/home-use restrictions plus a caveat that publicly committed files remain readable and forkable.
+- The current connected GitHub tools do not offer a repository visibility-change operation, and the local `gh` CLI is unavailable. The repository therefore remains `private` until the owner performs Settings → Danger Zone → Change repository visibility → Public; verify using `get_repo` metadata afterward.
+- The GitHub About/Description field is drafted in `public-distribution/REPO_DESCRIPTION.txt`, but is not changed as repository metadata by this session. The visual asset is a design preview, not a genuine captured application screenshot.
 - UI image caveat: `public-distribution/assets/resolverreach-preview.svg` is an illustration rendered from the 2.0.0 XAML composition, not a real screen capture of the app running. A genuine screen capture must replace it before claiming it is an actual screenshot.
 - Requested home/personal-use and anti-reverse-engineering language is in the public README and license draft. Do not promise absolute enforceability; mandatory rights and exceptions depend on applicable jurisdiction.
 - Full platform-level ChatGPT Memory and all historical chats cannot be exported through this repository connection. Persist all relevant project-related prompts/decisions/outcomes in `PROMPT_ARCHIVE.md`, and preserve the implementation state/history in Git.
@@ -159,3 +161,13 @@ Last verified 2026-10-23: Resolver Reach 2.0.0 source is in private repo `PCUser
 - A separate public download repository has **not** been created by this assistant session: the connected GitHub actions available here do not include repository creation or repository-visibility mutation. Do not say that the public listing exists until verified.
 - Stable snapshot branch: `backup/ResolverReach-2.0.0-2026-10-23`; after any final documentation update, move it to the final `main` commit and verify both refs match.
 - ChatGPT's full platform Memory and historic conversations cannot be exported through the available connector. Preserve the full project-relevant context/prompts/outcomes in `PROMPT_ARCHIVE.md`, this file, `DEVELOPMENT_LOG.md`, and `BACKUP_MANIFEST.md`.
+
+
+## Public source publication handoff — 2026-10-23
+
+- User's latest instruction authorizes making source public. Do not revert to a source-hidden plan; do accurately disclose the setting limitation.
+- In this session the repo-admin action required to flip `PCUser2021/ResolverReach` visibility is unavailable. Last check still returned `private`. The owner needs to visit [Repository Settings](https://github.com/PCUser2021/ResolverReach/settings), select Danger Zone → Change repository visibility → Public, confirm the warnings, then the assistant can re-check visibility on a subsequent turn.
+- Before toggling public, the owner should note GitHub makes all source/history, prompt archive, project records and Actions logs publicly visible and allows forks. The user has expressly accepted public source, but these records are included too.
+- Root README now displays the product icon and a labelled UI preview; the preview is not a genuine application screenshot. The proposed About description remains in `public-distribution/REPO_DESCRIPTION.txt` pending an admin metadata update.
+- Root `LICENSE.txt` states personal/home use only and recognizes that public source access cannot technically be blocked by license text.
+- Full ChatGPT platform memory cannot be exported. Prompt and project knowledge visible to the assistant are stored in the private history, prompt archive and development records.

@@ -14,8 +14,11 @@ The user has explicitly requested that anyone may use Resolver Reach and the pro
 ## Download links
 - Stable direct installer URL: https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe
 - All releases: https://github.com/PCUser2021/ResolverReach/releases
-- `.github/workflows/windows-build.yml` is being updated to publish tag `v2.0.0` and upload `ResolverReach-Setup-x64.exe` from the verified Windows build artifact when a designated main-branch commit contains `[publish-release]`.
-- Before calling the download link active, check the workflow run and confirm the Release API returns a published `v2.0.0` release with a `ResolverReach-Setup-x64.exe` browser download URL.
+- Published Release: [Resolver Reach 2.0.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.0.0), created by successful [workflow run #39933931024](https://github.com/PCUser2021/ResolverReach/actions/runs/39933931024).
+- Uploaded asset: `ResolverReach-Setup-x64.exe` (33,975,898 bytes).
+- Stable download URL: https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe
+- Fixed-version URL: https://github.com/PCUser2021/ResolverReach/releases/download/v2.0.0/ResolverReach-Setup-x64.exe
+- The release job uses `[publish-release]` in a main-branch commit to avoid republishing on ordinary future documentation commits.
 
 ## Visibility
 Last verified repository visibility is `private`. A permissive license does not make private GitHub source public. Repository owner must open https://github.com/PCUser2021/ResolverReach/settings, go to Danger Zone → Change repository visibility → Public, and confirm. The connected GitHub actions in this session do not expose the repository visibility mutation; do not claim that the repository is public until metadata confirms it.

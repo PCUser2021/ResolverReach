@@ -305,3 +305,15 @@ This is an append-only, chronological audit log for the two Windows applications
 - Test runner mismatch discovered in the first run was corrected by selecting Microsoft Testing Platform via `global.json`, using `coverlet.MTP 10.1.0`, and adding `Microsoft.Testing.Extensions.TrxReport 2.5.1`. The later exact candidate CI run passed.
 - Follow-up cleanup replaces obsolete Avalonia `TextBox.Watermark` in `MainView.axaml` with `PlaceholderText`; the initial verified CI emitted an AVLN5001 warning for this property, so the current small cleanup is expected to remove it. Check the subsequent main-branch workflow after this commit before claiming that the warning is gone.
 - Release publication was skipped intentionally. Product source candidate remains 2.4.0; latest published release remains v2.2.0. No public DoH live-network test or interactive GUI smoke test was performed.
+
+
+## 2026-10-23 — Resolver Reach 2.4.0 macOS installers and toolchain audit
+
+- Archived the user request as Prompt 011 in `PROMPT_ARCHIVE.md` before implementation (commit `0a5ffae5cc71fb06edbfb28b370a87e693a3ffa9`).
+- Created candidate branch `feature/2.4.0-release-macos-backup`.
+- Updated the application project to declare `osx-x64` and `osx-arm64` runtime identifiers, use `Exe` output for macOS RIDs, and apply the Windows manifest/icon only to Windows RIDs.
+- Updated window initialization to apply FluentAvalonia extended title bar and Mica/Acrylic only on Windows; other platforms use opaque native window chrome.
+- Updated `.github/workflows/windows-build.yml` to pin .NET SDK 10.0.402, build self-contained macOS app bundles for Intel/Apple Silicon, create DMG and ZIP distributions, verify all Windows/macOS installer files and SHA-256 hashes, and include macOS packages in the gated v2.4.0 release.
+- Updated README, changelog, dependency audit, project context, master context, handoff and backup manifest. The .NET 10 support matrix lists macOS 15/Sequoia and newer, so app metadata sets minimum macOS 15.0.
+- NuGet listings checked 2026-10-23 show current stable direct package versions: Avalonia/Avalonia.Desktop 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Avalonia.Reactive 12.1.6; ReactiveUI.Reactive 26.0.1; DynamicData 9.5.0; System.Reactive 7.0.0; xunit.v3 4.0.2. .NET SDK 10.0.402/runtime 10.0.13 is the latest stable .NET 10 servicing release identified for this date.
+- Not yet verified at log-write time: PR CI, actual DMG/ZIP artifacts, macOS app launch/runtime behavior, release publication, and full backup branch/tag. macOS packages remain unsigned/not notarized because Apple Developer credentials were not supplied. Update this log with the actual PR, workflow, artifacts, and backup ref only after checking them.

@@ -100,9 +100,9 @@ A separate branch, `maintenance/latest-toolchain-onionfruit-review`, stages a de
 - Added deterministic xUnit.net v3 unit tests and a GitHub Actions test job. CI run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171) passed all 12 tests, x64/ARM64 builds, installer compilation, and artifact verification. No v2.4.0 release was published; latest published release remains v2.2.0. No live DoH/GUI smoke test is implied.
 
 
-## Resolver Reach 2.4.0 macOS packaging work — 2026-10-23
-- Candidate branch: `feature/2.4.0-release-macos-backup`.
-- The workflow now targets Windows x64/ARM64 plus macOS Intel (`osx-x64`) and Apple Silicon (`osx-arm64`). macOS packages are app bundles distributed as both DMG and ZIP, with macOS 15+ as the minimum supported OS.
-- .NET SDK selection is pinned to 10.0.402. NuGet stable package versions were audited on 2026-10-23; existing direct package versions were current stable versions, so no speculative prerelease upgrades were made.
-- macOS signing/notarization remains unavailable without Apple Developer credentials. Build artifacts must be verified in GitHub Actions before describing the packages as built or ready.
-- Prompt archive entry 011 records the request. Backup branch, full source snapshot, and final verification outcome must be confirmed before claiming the backup is complete.
+
+## Resolver Reach 2.4.0 Windows-only release scope — 2026-10-23
+- Supported targets for the active source/workflow: Windows x64 and native Windows ARM64 (`win-x64`, `win-arm64`).
+- The proposed macOS packaging work was removed from the active PR and build workflow at the user's request to avoid the cost of macOS development, signing and notarization. Do not restore macOS runtime identifiers, app bundles, DMG/ZIP packaging, downloads, or workflows unless the user explicitly requests macOS again.
+- CI for the original macOS-containing PR failed without retrievable logs. A new Windows-only CI run must pass before merging or publishing v2.4.0.
+- A historical backup branch preserves the earlier macOS experiment as part of the requested project backup; it is not the active product target.

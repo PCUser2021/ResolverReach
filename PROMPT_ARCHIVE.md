@@ -451,3 +451,16 @@ The following seed entries were reconstructed from repository-related prompts vi
 > Update everything you used to develop Resolver Reach to the latest version and apply it to the Resolver Reach installers
 > Develop macOS versions with installers. Make a 100% full backup of everything you did to GitHub
 - Status: captured before implementation on branch `feature/2.4.0-release-macos-backup`. Outcome will be recorded after changes and CI/backup verification.
+
+
+### Outcome 011 — Cross-platform installer work recorded; release blocked by untraceable CI failure
+- Date: 2026-10-23
+- PR: [#4 — Resolver Reach 2.4.0: Windows and macOS installers](https://github.com/PCUser2021/ResolverReach/pull/4)
+- Feature branch: `feature/2.4.0-release-macos-backup`; source branch head before this outcome entry: `d00af08d705a71973aa5858ea224a2cd12a591ea`.
+- Implemented project/runtime configuration for `osx-x64` and `osx-arm64`; macOS app-bundle packaging into DMG and ZIP; Windows-only app manifest/icon conditions; Windows-only Mica/extended-title-bar styling; pinned .NET SDK 10.0.402 in CI; expanded package verification/release asset list; updated README, dependency inventory, changelog, project context, handoff, backup manifest and added `MACOS_INSTALLATION.md`.
+- Stable NuGet package versions were checked against current listings on 2026-10-23; the existing direct package versions were current stable versions in the checks performed. .NET SDK 10.0.402 / runtime 10.0.13 is the latest stable .NET 10 servicing release found for the date.
+- PR CI run [#40005597884](https://github.com/PCUser2021/ResolverReach/actions/runs/40005597884) failed across test/build jobs. The available job-step API returned no steps and the log API returned `BlobNotFound`; a rerun also failed without accessible logs. The cause is unknown and must not be guessed.
+- Previous run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171) has non-expired Windows x64/ARM64 artifacts for an earlier 2.4.0 source commit. Those artifacts do not verify this new branch and contain no macOS packages.
+- No v2.4.0 release was published; no macOS DMG/ZIP has been verified or published. macOS packages are unsigned/not notarized because Apple Developer credentials were not supplied. Minimum macOS is 15 (Sequoia), matching the current .NET 10 support matrix.
+- A snapshot branch named `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` was created. It must point to the final feature-branch head after this archive update; verify the ref before claiming the backup complete.
+- Remaining: obtain a fresh Actions run with usable logs, fix any evidenced failures, verify all Windows/macOS artifacts and hashes, then merge and publish the release only after the gates pass. This repository backup covers project files and Git history reachable from the snapshot branch; it cannot export platform-level ChatGPT Memory or unrelated conversations.

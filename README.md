@@ -56,7 +56,7 @@ See [LICENSE](LICENSE).
 - Runtime identifiers: `win-x64`, `win-arm64`
 - Stack: C# 14 / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, System.Reactive 7.0.0, DynamicData 9.5.0; versions are centrally managed in `Directory.Packages.props`
 - DNS check: RFC 8484 wire-format request and full declared-section/EDNS boundary validation
-- Tests: xUnit.net v3 4.0.2, Microsoft.NET.Test.Sdk 18.11.0, Visual Studio adapter 4.0.1, Coverlet collector 10.1.0
+- Tests: xUnit.net v3 4.0.2, Microsoft.NET.Test.Sdk 18.11.0, Visual Studio adapter 4.0.1, Microsoft.Testing.Extensions.TrxReport 2.5.1, Coverlet.MTP 10.1.0; `.NET 10` `global.json` selects Microsoft Testing Platform
 - Complete packages and build-tool versions: [DEPENDENCIES.md](DEPENDENCIES.md)
 - No changes to Windows DNS settings, VPN, or general traffic routing
 

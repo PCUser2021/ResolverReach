@@ -293,3 +293,19 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Requirement: add separate architecture-specific installers for JDownloader Reach together with Resolver Reach and Ollama GGUF Importer. Publish each app for the matching Windows .NET runtime, and reject incompatible native OS architectures in each installer.
 - Preserve main and existing app features. Record version changes and actual build/test outcomes in the development log.
 - Claim ARM64 support only after the ARM64 build and installer complete successfully in CI.
+
+
+## 2026-10-23 — JDownloader Reach: remove Ollama integration, preserve full backup, project-memory backup, public page request
+
+### User prompt (verbatim)
+> Delete this project; I don't need it
+> Ollama GGUF Importer integration
+>
+> Show me the GitHub page for this project and make it public, save a full backup of everything to GitHub, and also full back up ChatGPT memory
+> JDownloader Reach
+
+### Scope interpretation and privacy
+- Remove the Ollama GGUF Importer integration from JDownloader Reach itself (UI controls, saved path, launch handlers, installer shortcuts/payload, and JDownloader Reach build workflow). Preserve the existing standalone Ollama GGUF Importer project and its independent build workflow; the request targets its JDownloader Reach integration, not deletion of that separate app.
+- Preserve the full pre-removal repository state on branch `backup/JDownloaderReach-full-2026-10-23` before modifying the integration.
+- Create a durable project-specific JDownloader Reach memory/context file in the repository. Do not export unrelated general ChatGPT memories or sensitive personal details.
+- User requests a public project page. Repository visibility is currently private; do not claim public until GitHub metadata confirms it. The connected GitHub actions available in this session do not expose repository visibility mutation or repository creation, so a manual Settings action may remain necessary.

@@ -34,3 +34,12 @@ Repository visibility last verified as private, so public source and anonymous d
 - The icon family uses original dark-metallic spectral-glass artwork and XAML vectors, not copies of Logic Pro's exact copyrighted icon.
 - New log archive retrieval failed from the supplied MediaFire URL; request a direct file upload for a new failure analysis.
 - Do not claim release availability until Actions and the Releases API confirm both assets.
+
+
+## Resolver Reach 2.2.0 dual architecture published
+- Workflow: https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064.
+- Release: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.2.0.
+- x64 asset: ResolverReach-Setup-x64.exe (33,974,496 bytes).
+- native ARM64 asset: ResolverReach-Setup-arm64.exe (31,276,362 bytes).
+- The direct latest download URL is /releases/latest/download/ResolverReach-Setup-x64.exe or /releases/latest/download/ResolverReach-Setup-arm64.exe.
+- CI does not prove live resolver availability. The new MediaFire ZIP could not be accessed here, so the user should attach it directly for a detailed failure analysis.

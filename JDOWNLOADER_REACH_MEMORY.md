@@ -43,3 +43,13 @@ Successful workflow: https://github.com/PCUser2021/ResolverReach/actions/runs/39
 - This is a project-specific ChatGPT context reconstruction, not a complete account-wide ChatGPT Memory export.
 - The repository is private and holds unrelated apps plus verbatim prompts. Do not expose the whole repository just to publish JDownloader Reach. The available GitHub connector can read and write files/branches but does not offer repository creation or visibility changes. A dedicated clean public repository should be created and then its public visibility verified.
 - The new 0.3.0 workflow must be checked after the change. Do not infer build success from the earlier v0.2.0 run.
+
+
+## Cleaned v0.3.0 build verification (2026-10-23)
+
+Corrected CI run: https://github.com/PCUser2021/ResolverReach/actions/runs/39946624955 — both x64 and ARM64 jobs succeeded at workflow commit `b86b6743c1d8da8e597bd9e3cbf10dcecfe35305`. Both downloaded artifact ZIPs passed `unzip -t`.
+
+- x64: Actions artifact ID `12498472300`, 64,495,157 bytes, expires 2026-11-22; extracted installer SHA-256 `4aee55e9eef29647435dc9b4492c182c9fe4ec752a8b612584177d33d7cb6d02`.
+- ARM64: Actions artifact ID `12497973329`, 59,116,477 bytes, expires 2026-11-22; extracted installer SHA-256 `8538a3a53f6b73811434a2b631271bd9c8e726a82fcdd26b698bb468c0a5e57a`.
+
+The two clean installers package JDownloader Reach and Resolver Reach only. The build succeeded; interactive UI and live API behavior were not tested. A full current repository snapshot after this verification is on `backup/JDownloaderReach-full-final-2026-10-23` (link recorded in the final delivery when its branch is verified). Repository is still private.

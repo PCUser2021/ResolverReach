@@ -46,7 +46,7 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 ## MIT licensing and permanent Release downloads — 2026-10-23
 - Project-owned source, docs, and original assets now use the MIT License; personal/home-only restrictions are removed from root and distribution license/README files.
 - Root README includes the stable direct installer link: `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
-- The main build workflow is being configured to publish a `v2.0.0` Release after a successful Windows x64 build on a designated `[publish-release]` main-branch commit. Check the Release API and asset URL before claiming the download is active.
+- The main build workflow successfully published [Release v2.0.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.0.0) in [run #39933931024](https://github.com/PCUser2021/ResolverReach/actions/runs/39933931024). The uploaded `ResolverReach-Setup-x64.exe` asset is 33,975,898 bytes. Stable direct link: `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
 - Repository metadata last reported `private`; a GitHub Settings visibility change remains necessary before public source and downloads become available to everyone.
 
 
@@ -55,3 +55,12 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Root README includes the stable direct installer link: `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
 - The main build workflow is being configured to publish a `v2.0.0` Release after a successful Windows x64 build on a designated `[publish-release]` main-branch commit. Check the Release API and asset URL before claiming the download is active.
 - Repository metadata last reported `private`; a GitHub Settings visibility change remains necessary before public source and downloads become available to everyone.
+
+
+## Verified MIT Release asset — 2026-10-23
+- Release: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.0.0
+- Successful workflow: https://github.com/PCUser2021/ResolverReach/actions/runs/39933931024
+- Asset: `ResolverReach-Setup-x64.exe`, 33,975,898 bytes.
+- Stable download: https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe
+- Fixed version download: https://github.com/PCUser2021/ResolverReach/releases/download/v2.0.0/ResolverReach-Setup-x64.exe
+- Repository remains private as of final metadata read; public downloads and source browsing require the owner to change repository visibility.

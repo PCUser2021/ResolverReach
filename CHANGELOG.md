@@ -11,7 +11,7 @@
 
 ### Validation
 - Windows x64 and ARM64 build/installer workflows must both pass; the release job runs only after both installers are successfully produced.
-- The new MediaFire ZIP link supplied for this release could not be fetched in the assistant environment. The latest log file has not been analyzed yet; the prior accessible ZIP remains the evidence base. Upload the new ZIP directly in chat to complete specific post-2.1.1 failure analysis.
+- The Windows CI jobs validate compilation and packaging, not live resolver reachability. A fresh post-install scan is required to measure endpoint availability in the user's network/VPN environment.
 - Build and packaging success does not prove every public resolver is reachable or that the UI has been interactively exercised on both architectures.
 
 ## [2.1.1] — 2026-10-23

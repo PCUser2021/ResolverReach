@@ -341,3 +341,14 @@ This is an append-only, chronological audit log for the two Windows applications
 - Follow-up runs #40006194471 and #40006338791 also concluded failure. The workflow job API exposed no executed steps; the job-log endpoint returned `BlobNotFound`. No root cause or failed command could be verified, and no application-level failure is inferred from these empty logs.
 - PR #4 remains open and unmerged. Release publication remains gated. No macOS package was produced in accessible artifacts.
 - The GitHub snapshot branch `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` was advanced after the final documentation/archive updates; key file blob hashes were compared between feature and backup refs.
+
+
+## 2026-10-23 — Removed macOS support at user request
+
+- Restored `src/ResolverReach/ResolverReach.csproj` and `src/ResolverReach/MainWindow.axaml.cs` to the Windows-only implementation from `main`, eliminating `osx-x64` / `osx-arm64` targets and macOS-specific window behavior.
+- Restored `.github/workflows/windows-build.yml` to its Windows x64/ARM64 workflow, preserving the pinned .NET SDK `10.0.402`. Removed the macOS build matrix, DMG/ZIP packaging, verification, and release assets.
+- Removed macOS download/install text from `README.md`, macOS packaging rows from `DEPENDENCIES.md`, and macOS packaging from the current 2.4.0 candidate section in `CHANGELOG.md`.
+- Updated `PROJECT_CONTEXT.md`, `Software_Project_Master_Context.md`, and `AI_SESSION_HANDOFF.md` to define Windows x64 and native ARM64 as the only active targets.
+- Deleted `MACOS_INSTALLATION.md` from the active branch.
+- Prompt 012 records the request and this outcome. The historical branch `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` is retained as an archival copy of the earlier attempt; a clean Windows-only snapshot branch will be created after verification.
+- Verification not yet complete at log write: the new Windows-only PR run must pass the 12 protocol tests, Windows x64 build/installer, Windows ARM64 build/installer, and artifact verification. Do not merge/publish until confirmed. Previous cross-platform runs failed without retrievable logs; their cause remains unknown.

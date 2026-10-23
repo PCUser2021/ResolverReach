@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO.Compression;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Reactive;
@@ -8,6 +9,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
+using System.Text.Json;
 using Avalonia.Media;
 using DynamicData;
 using DynamicData.Binding;
@@ -35,6 +37,11 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     private readonly object _stateGate = new();
     private readonly object _runGate = new();
     private CancellationTokenSource? _activeRunCancellation;
+    private readonly object _logGate = new();
+    private readonly List<string> _activityLog = new();
+    private readonly List<ResolverLogRow> _resultHistory = new();
+    private readonly DateTimeOffset _sessionStartedAt = DateTimeOffset.Now;
+    private int _runSequence;
     private readonly ObservableAsPropertyHelper<ResolverDashboardState> _dashboardState;
     private readonly ObservableAsPropertyHelper<bool> _hasResults;
     private readonly ObservableAsPropertyHelper<bool> _isEmptyResults;
@@ -65,7 +72,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     {
         string? version = typeof(ResolverReachViewModel).Assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-        return string.IsNullOrWhiteSpace(version) ? "2.0.0" : version.Split('+', 2)[0];
+        return string.IsNullOrWhiteSpace(version) ? "2.1.0" : version.Split('+', 2)[0];
     }
 
     public ResolverReachViewModel()
@@ -132,7 +139,132 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
         _lifetime.Add(CheckLinksCommand);
         _lifetime.Add(CancelCommand);
 
+        AppendActivityLog($"Application session started. Version {GetProductVersion()}; OS {Environment.OSVersion}; runtime {Environment.Version}.");
     }
+
+    public void RecordUiActivity(string message) => AppendActivityLog(message);
+
+    public void SetStatusMessage(string message)
+    {
+        AppendActivityLog("UI status: " + message);
+        UpdateState(state => state with { StatusText = message });
+    }
+
+    private void AppendActivityLog(string message)
+    {
+        string line = $"{DateTimeOffset.Now:O}\t{message}";
+        lock (_logGate)
+            _activityLog.Add(line);
+    }
+
+    private void RecordEndpointResult(int runNumber, string mode, ResolverResult result)
+    {
+        var row = new ResolverLogRow(
+            DateTimeOffset.Now, runNumber, mode, result.Endpoint, result.Status,
+            result.HttpStatusCode, result.LatencyMilliseconds, result.DnsSummary, result.Detail);
+        lock (_logGate)
+        {
+            _resultHistory.Add(row);
+            _activityLog.Add($"{row.Timestamp:O}\tRESULT\tRun #{runNumber} [{mode}] {result.Status} | {result.Endpoint} | {result.HttpLabel} | {result.LatencyLabel} | {result.DnsSummary} | {result.Detail}");
+        }
+    }
+
+    private static string CsvEscape(string? value)
+    {
+        value ??= string.Empty;
+        return "\"" + value.Replace("\"", "\"\"") + "\"";
+    }
+
+    private static string BuildResultsCsv(IEnumerable<ResolverLogRow> rows)
+    {
+        var builder = new StringBuilder();
+        builder.AppendLine("timestamp,run_number,mode,endpoint,status,http_status,latency_ms,dns_summary,details");
+        foreach (ResolverLogRow row in rows)
+        {
+            builder.Append(row.Timestamp.ToString("O", CultureInfo.InvariantCulture)).Append(',')
+                .Append(row.RunNumber.ToString(CultureInfo.InvariantCulture)).Append(',')
+                .Append(CsvEscape(row.Mode)).Append(',')
+                .Append(CsvEscape(row.Endpoint)).Append(',')
+                .Append(CsvEscape(row.Status)).Append(',')
+                .Append(row.HttpStatusCode?.ToString(CultureInfo.InvariantCulture) ?? string.Empty).Append(',')
+                .Append(row.LatencyMilliseconds?.ToString("F2", CultureInfo.InvariantCulture) ?? string.Empty).Append(',')
+                .Append(CsvEscape(row.DnsSummary)).Append(',')
+                .Append(CsvEscape(row.Detail)).AppendLine();
+        }
+        return builder.ToString();
+    }
+
+    private static async Task WriteZipEntryAsync(ZipArchive archive, string name, string content)
+    {
+        ZipArchiveEntry entry = archive.CreateEntry(name, CompressionLevel.Optimal);
+        await using Stream entryStream = entry.Open();
+        await using var writer = new StreamWriter(entryStream, new UTF8Encoding(false));
+        await writer.WriteAsync(content);
+        await writer.FlushAsync();
+    }
+
+    public async Task WriteLogsZipAsync(Stream destination)
+    {
+        ArgumentNullException.ThrowIfNull(destination);
+
+        string[] activity;
+        ResolverLogRow[] history;
+        lock (_logGate)
+        {
+            activity = _activityLog.ToArray();
+            history = _resultHistory.ToArray();
+        }
+
+        ResolverLogRow[] visibleResults = Results
+            .Select(result => new ResolverLogRow(
+                DateTimeOffset.Now, 0, "Currently visible results", result.Endpoint, result.Status,
+                result.HttpStatusCode, result.LatencyMilliseconds, result.DnsSummary, result.Detail))
+            .ToArray();
+        ResolverDashboardState state = DashboardState;
+        DateTimeOffset exportedAt = DateTimeOffset.Now;
+        var sessionDetails = new
+        {
+            Product = "Resolver Reach",
+            ProductVersion = GetProductVersion(),
+            SessionStartedAt = _sessionStartedAt,
+            ExportedAt = exportedAt,
+            OperatingSystem = Environment.OSVersion.ToString(),
+            RuntimeVersion = Environment.Version.ToString(),
+            CurrentStatus = state.StatusText,
+            CurrentTitle = state.Title,
+            CurrentDetail = state.Detail,
+            CurrentProgressPercent = state.ProgressValue,
+            CurrentProgressLabel = state.ProgressLabel,
+            ActivityEntryCount = activity.Length,
+            HistoricalEndpointResultCount = history.Length,
+            CurrentVisibleResultCount = visibleResults.Length
+        };
+        var summary = new StringBuilder()
+            .AppendLine("Resolver Reach — full diagnostic log archive")
+            .AppendLine($"Product version: {GetProductVersion()}")
+            .AppendLine($"Session started: {_sessionStartedAt:O}")
+            .AppendLine($"Archive created: {exportedAt:O}")
+            .AppendLine($"Operating system: {Environment.OSVersion}")
+            .AppendLine($"Runtime: {Environment.Version}")
+            .AppendLine($"Activity log entries: {activity.Length}")
+            .AppendLine($"Historical endpoint results: {history.Length}")
+            .AppendLine($"Currently visible endpoint results: {visibleResults.Length}")
+            .AppendLine($"Current state: {state.Title}")
+            .AppendLine($"Current status: {state.StatusText}")
+            .AppendLine($"Progress: {state.ProgressLabel} ({state.ProgressValue:F1}%)")
+            .ToString();
+
+        using var archive = new ZipArchive(destination, ZipArchiveMode.Create, leaveOpen: true);
+        await WriteZipEntryAsync(archive, "session-summary.txt", summary).ConfigureAwait(false);
+        await WriteZipEntryAsync(archive, "activity.log", string.Join(Environment.NewLine, activity) + Environment.NewLine).ConfigureAwait(false);
+        await WriteZipEntryAsync(archive, "resolver-results-history.csv", BuildResultsCsv(history)).ConfigureAwait(false);
+        await WriteZipEntryAsync(archive, "current-visible-results.csv", BuildResultsCsv(visibleResults)).ConfigureAwait(false);
+        await WriteZipEntryAsync(archive, "session.json", JsonSerializer.Serialize(sessionDetails, new JsonSerializerOptions { WriteIndented = true })).ConfigureAwait(false);
+    }
+
+    private sealed record ResolverLogRow(
+        DateTimeOffset Timestamp, int RunNumber, string Mode, string Endpoint, string Status,
+        int? HttpStatusCode, double? LatencyMilliseconds, string DnsSummary, string Detail);
 
     private void CancelActiveRun()
     {
@@ -150,12 +282,16 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     {
         if (commandToken.IsCancellationRequested) return;
         using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(commandToken);
+        int runNumber;
+        string mode = loadCurlWikiCatalog ? "cURL resolver catalog" : "pasted endpoints";
         lock (_runGate)
         {
             if (_activeRunCancellation is not null) return;
             _activeRunCancellation = cancellation;
+            runNumber = ++_runSequence;
         }
 
+        AppendActivityLog($"Run #{runNumber} started ({mode}).");
         try
         {
             string[] endpoints;
@@ -170,6 +306,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
                     ProgressLabel = "Loading"
                 });
                 endpoints = (await CurlWikiResolverCatalog.FetchEndpointsAsync(cancellation.Token).ConfigureAwait(false)).ToArray();
+                AppendActivityLog($"Run #{runNumber}: live cURL catalog returned {endpoints.Length} unique endpoint(s).");
             }
             else
             {
@@ -177,10 +314,14 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
                     .Split(['\r', '\n', ';'], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
                     .Distinct(StringComparer.OrdinalIgnoreCase)
                     .ToArray();
+                AppendActivityLog($"Run #{runNumber}: parsed {endpoints.Length} unique pasted endpoint(s).");
+                foreach (string endpoint in endpoints)
+                    AppendActivityLog($"Run #{runNumber} target: {endpoint}");
             }
 
             if (endpoints.Length == 0)
             {
+                AppendActivityLog($"Run #{runNumber} stopped: no endpoint URLs found.");
                 UpdateState(state => state with
                 {
                     Title = "No resolver URLs found",
@@ -194,6 +335,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
 
             if (endpoints.Length > MaximumEndpointsPerRun)
             {
+                AppendActivityLog($"Run #{runNumber} rejected: {endpoints.Length} unique endpoints exceed the {MaximumEndpointsPerRun} endpoint safety limit.");
                 UpdateState(state => state with
                 {
                     Title = "Resolver list exceeds safety limit",
@@ -243,6 +385,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
                 }
 
                 _resultCache.AddOrUpdate(result);
+                RecordEndpointResult(runNumber, mode, result);
                 switch (result.Status)
                 {
                     case "PASS": Interlocked.Increment(ref healthy); break;
@@ -310,9 +453,11 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
                 ProgressValue = 100.0,
                 ProgressLabel = $"{finishedTotal}/{endpoints.Length}"
             });
+            AppendActivityLog($"Run #{runNumber} summary: {statusFinal}.");
         }
         catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
         {
+            AppendActivityLog($"Run #{runNumber} cancelled before completion.");
             UpdateState(state => state with
             {
                 Title = "Resolver check cancelled",
@@ -322,6 +467,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
         }
         catch (Exception ex)
         {
+            AppendActivityLog($"Run #{runNumber} failed: {ex}");
             UpdateState(state => state with
             {
                 Title = "Resolver check failed",
@@ -336,6 +482,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
                 if (ReferenceEquals(_activeRunCancellation, cancellation))
                     _activeRunCancellation = null;
             }
+            AppendActivityLog($"Run #{runNumber} finished.");
         }
     }
 

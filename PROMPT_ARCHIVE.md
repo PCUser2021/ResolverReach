@@ -429,3 +429,14 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Final dependency audit: NuGet lists DynamicData 9.5.0 as current (2026-10-13); ReactiveUI.Reactive 26.0.1 requires System.Reactive >= 7.0.0, with 7.0.0 current. Official GitHub release metadata checked: checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2, softprops/action-gh-release v3.0.3. Both workflows now use the current artifact action majors; a fresh CI run after the last workflow update is required.
 
 - Additional CI hardening: added a non-release `verify-packaged-artifacts` job to the Windows workflow. It downloads the x64 and native ARM64 installer artifacts using download-artifact@v8, verifies each EXE is present/non-empty and logs SHA-256 checksums. The release job now depends on that verification. Final branch-head CI is still the merge gate.
+
+
+### Outcome 017 — Resolver Reach dependencies/tooling updated and merged
+- Date: 2026-10-23
+- PR #2 was merged into main: https://github.com/PCUser2021/ResolverReach/pull/2; squash commit `e96baa4d822ce58617b8544e6167df94334ffea3`.
+- Verification on the exact PR head passed: Windows x64 + native ARM64 publish, installer build, artifact upload and round-trip download/validation run #39994207960; Ollama GGUF Importer workflow #39994207956.
+- Updated app dependencies, compatible ReactiveUI package family, .NET 10 workflows, GitHub Actions artifact action majors, installer lookup, artifact verification, and project-specific documentation.
+- Current shipped release remains v2.2.0. Version 2.3.0 is merged to main but no v2.3.0 GitHub Release has been published. The release-only job was skipped intentionally.
+- OnionFruit remains a separate UI/theme reference; no Tor-client source or runtime dependency was imported.
+- A local `git clone` from the execution container could not resolve `github.com`; upstream source metadata was inspected through the connected GitHub repository API instead.
+- Remaining finalization: check main post-merge CI and sync the named versioned backup branch to final main after this documentation commit.

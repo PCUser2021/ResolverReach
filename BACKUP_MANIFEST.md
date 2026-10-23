@@ -3,15 +3,16 @@
 Snapshot date: 2026-10-23  
 Primary repository: https://github.com/PCUser2021/ResolverReach  
 Visibility at last check: **private; the user requested public access, but the owner must still change the GitHub visibility setting**  
-Product version: **Resolver Reach 2.2.0**  
+Source version: **Resolver Reach 2.3.0**  
+Latest published release: **Resolver Reach 2.2.0**  
 The source history includes Resolver Reach and Ollama GGUF Importer.
 
 ## Authoritative tracked backup
 
 The private Git repository is the authoritative, versioned backup of source and project records. The user has now explicitly authorized making the source repository public; the current connected toolset cannot execute GitHub's repository-visibility setting, so the change remains pending the repository owner's Settings action.
 
-- Main branch backup head: check the current `main` ref before relying on this snapshot.
-- Stable backup branch: `backup/ResolverReach-2.0.0-2026-10-23`.
+- Main branch backup head after the v2.3.0 source merge: `e96baa4d822ce58617b8544e6167df94334ffea3`; confirm the latest head after documentation commits.
+- Historical backup branch: `backup/ResolverReach-2.0.0-2026-10-23`. Current versioned full-tree backup branch: `backup/ResolverReach-2.2.0-2026-10-23` (sync after final docs).
 - Resolver Reach 2.0.0 redesign merge: commit `35ff1517f7e0c0ce42fe1a8500935123d922dd30`.
 - Successful Windows x64 publish/installer build: [workflow run #39928118989](https://github.com/PCUser2021/ResolverReach/actions/runs/39928118989).
 - Project source and icon: `src/ResolverReach/`.
@@ -195,3 +196,12 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Final package/action audit: DynamicData 9.5.0 and System.Reactive 7.0.0 are current stable releases; official GitHub metadata identifies checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2 and softprops/action-gh-release v3.0.3. Both workflows have been updated to current artifact action majors. Current-head CI remains the release gate.
 
 - CI now verifies the artifacts after upload by downloading x64 and native ARM64 installers via download-artifact@v8, validating non-zero output files, and printing SHA-256 hashes. The release job depends on the verification job. Final latest-head CI must pass before merge or release.
+
+
+## Verified maintenance merge — 2026-10-23
+- Source version 2.3.0 is merged into `main` by PR #2, squash commit `e96baa4d822ce58617b8544e6167df94334ffea3`; the latest published release remains v2.2.0.
+- Final PR-head CI passed: Windows x64/native ARM64 builds + installer compilation + artifact upload/download verification run #39994207960; Ollama GGUF Importer run #39994207956.
+- Current package set: Avalonia/Avalonia.Desktop 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Avalonia.Reactive 12.1.6; ReactiveUI.Reactive 26.0.1; DynamicData 9.5.0 (latest stable verified at audit time); target .NET 10.
+- Workflow tooling now uses checkout@v7, setup-dotnet@v6, upload-artifact@v7, download-artifact@v8 and softprops/action-gh-release@v3.0.3. Installer compilation supports Inno Setup 7/6 discovery; artifact verification downloads both built installers and checks their size/hashes.
+- The v2.3.0 GitHub Release was not published. The release-only job was skipped intentionally.
+- After final docs and the main CI run, move `backup/ResolverReach-2.2.0-2026-10-23` to the final main SHA and verify the two refs match.

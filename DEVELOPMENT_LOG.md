@@ -259,3 +259,14 @@ This is an append-only, chronological audit log for the two Windows applications
 - Final dependency audit confirmed DynamicData 9.5.0 is the latest stable NuGet release listed on 2026-10-23. ReactiveUI.Reactive 26.0.1 depends on System.Reactive >= 7.0.0, current version 7.0.0. Official GitHub Releases showed checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2 and softprops/action-gh-release v3.0.3. Updated both workflows; confirm the newest run against the final branch head.
 
 - Added a CI job to exercise `actions/download-artifact@v8` during every normal PR build, not only during release publishing. It downloads both installer artifacts, asserts both EXE files are non-empty, and logs SHA-256 checksums. The release job depends on this check. This closes the coverage gap for the upgraded artifact-download action.
+
+
+## 2026-10-23 — Prompt 017 finalized: dependencies and CI updated, PR merged
+- Merged PR #2 into `main` with squash commit `e96baa4d822ce58617b8544e6167df94334ffea3`: https://github.com/PCUser2021/ResolverReach/pull/2.
+- Final PR-head Windows workflow passed for both x64 and native ARM64. Both installers were compiled with Inno Setup, uploaded as artifacts, downloaded by the verification job via `actions/download-artifact@v8`, and checked as non-empty EXE files: https://github.com/PCUser2021/ResolverReach/actions/runs/39994207960.
+- Final PR-head Ollama GGUF Importer workflow passed: https://github.com/PCUser2021/ResolverReach/actions/runs/39994207956.
+- Package changes: Avalonia/Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, DynamicData 9.5.0 (verified current stable at audit time); .NET 10 remains the target.
+- Current workflow majors: checkout@v7, setup-dotnet@v6, upload-artifact@v7, download-artifact@v8, softprops/action-gh-release@v3.0.3. Installer discovery supports Inno Setup 7 and 6.
+- The release-only job was skipped because this was a pull request / ordinary merge, and no `[publish-release]` trigger was used. The latest published release remains v2.2.0; no v2.3.0 release or external release assets have been created.
+- OnionFruit was inspected as an upstream visual reference only. Its separate Tor client implementation was not copied or added as a Resolver Reach dependency.
+- Exact-head PR CI passed; main branch's post-merge CI is running independently. After the remaining documentation commit, confirm its own CI and synchronize `backup/ResolverReach-2.2.0-2026-10-23` to final main.

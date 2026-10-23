@@ -13,12 +13,12 @@ Last verified: 2026-10-23
 - Changelog: [CHANGELOG.md](https://github.com/PCUser2021/ResolverReach/blob/main/CHANGELOG.md)
 - Resolver Reach current source and workflows are authoritative; inspect them before claiming behavior or build status. Verify releases and artifacts through GitHub's Release API/workflow run.
 
-## Project A — Resolver Reach 2.2.0
+## Project A — Resolver Reach 2.3.0 source (merged; not yet released)
 
 - Platform: Windows 11 x64 and native Windows ARM64.
-- Technology: C# / .NET 10, Avalonia 11, FluentAvalonia, ReactiveUI, DynamicData.
+- Technology: C# / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, DynamicData 9.5.0.
 - Project file: `src/ResolverReach/ResolverReach.csproj`; runtime IDs `win-x64;win-arm64`.
-- Product version 2.2.0; assembly/file version 2.2.0.0.
+- Source product version 2.3.0; assembly/file version 2.3.0.0. Latest published GitHub Release remains v2.2.0 until a separate release is intentionally published.
 - Purpose: single-window DNS-over-HTTPS resolver reachability and response-validity tester. It is not a VPN and does not modify Windows DNS/routing.
 - Testing paths: fetch current HTTPS Base URLs from cURL's DNS-over-HTTPS wiki, or paste HTTPS DoH URLs one per line/semicolon-separated.
 - Probe validates RFC 8484 DNS wire reply to `example.com A`: HTTP status, `application/dns-message` content type, DNS ID, response flag/opcode/question, and RCODE. HTTP 200/TLS connection alone is not considered success.
@@ -89,3 +89,11 @@ A separate branch, `maintenance/latest-toolchain-onionfruit-review`, stages a de
 - Final dependency verification on 2026-10-23: DynamicData 9.5.0 is current stable; System.Reactive 7.0.0 is the current release required by ReactiveUI.Reactive 26.0.1. Artifact workflows now use upload-artifact@v7 and download-artifact@v8; inspect the latest run for the final branch head.
 
 - Windows workflow now has a normal-PR artifact round-trip check using download-artifact@v8. It downloads both uploaded installers, checks each EXE is non-empty, and prints SHA-256 hashes; release publication depends on this job and remains separately gated.
+
+
+## Final state after Prompt 017 — 2026-10-23
+- PR #2 merged to main as `e96baa4d822ce58617b8544e6167df94334ffea3`: https://github.com/PCUser2021/ResolverReach/pull/2
+- Exact PR-head CI passed: Windows x64/native ARM64 builds, installer compile, artifact round-trip validation #39994207960, and Ollama GGUF Importer #39994207956.
+- Package/action audit is recorded in the changelog. Current source is version 2.3.0, but latest published release remains v2.2.0; no v2.3.0 release has been created.
+- OnionFruit was only used as an upstream UI/theme reference, not as a Resolver Reach code/runtime dependency.
+- After this documentation commit, verify main CI and synchronize `backup/ResolverReach-2.2.0-2026-10-23` with final main.

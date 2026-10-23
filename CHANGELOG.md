@@ -1,27 +1,26 @@
 # Resolver Reach changelog
 
-## [2.3.0] — 2026-10-23 (maintenance branch; pending CI verification)
+## [2.3.0] — 2026-10-23 (merged into main; CI verified; release not published)
 
 ### Updated
-- Updated Avalonia and Avalonia.Desktop to 12.1.4.
-- Updated FluentAvaloniaUI to 3.1.0.
-- Switched to `ReactiveUI.Avalonia.Reactive` 12.1.6 and `ReactiveUI.Reactive` 26.0.1 to preserve the app's existing `System.Reactive` APIs across the major-version upgrade.
-- Verified DynamicData 9.5.0 as the latest stable package listed on NuGet on 2026-10-23 (package page: https://www.nuget.org/packages/DynamicData/9.5.0).
-- Updated GitHub Actions references to checkout v7, setup-dotnet v6, upload-artifact v7, download-artifact v8, and softprops/action-gh-release v3.0.3.
-- Updated the application version to 2.3.0 and adjusted release metadata.
-- Updated installer discovery to prefer Inno Setup 7 while retaining a fallback for Inno Setup 6 if the package manager supplies that version.
+- Upgraded Avalonia and Avalonia.Desktop to 12.1.4 and FluentAvaloniaUI to 3.1.0.
+- Switched to the System.Reactive-compatible packages `ReactiveUI.Avalonia.Reactive` 12.1.6 and `ReactiveUI.Reactive` 26.0.1.
+- Verified DynamicData 9.5.0 as the latest stable NuGet package listed on 2026-10-23.
+- Updated GitHub Actions to checkout v7, setup-dotnet v6, upload-artifact v7, download-artifact v8, and softprops/action-gh-release v3.0.3.
+- Kept .NET 10 and updated application, assembly, file, and installer metadata to version 2.3.0.
+- Migrated the main window to FluentAvalonia 3's `FAAppWindow`; removed the obsolete `TitleBarHitTestType` assignment.
+- Switched the app to the `ReactiveUI.Avalonia.Reactive` / `ReactiveUI.Reactive` compatibility packages to retain existing `System.Reactive` subject, scheduler, and command types.
+- Improved Inno Setup discovery for versioned Inno Setup 7/6 paths and PATH fallback.
+- Updated the Ollama GGUF Importer workflow to use upload-artifact v7; the importer source and behavior were not changed.
+- Added a CI artifact round-trip job to download both installers with download-artifact v8 and verify each executable is non-empty.
 
-
-### Verification status
-- This is a maintenance branch, not a published release.
-- GitHub Actions confirmed restore succeeded, but the first Avalonia 12 / ReactiveUI 26 compile attempt failed on removed title-bar and incompatible reactive-type APIs. Fixes are committed on the maintenance branch; the next x64/ARM64 CI run is pending.
-- No release has been published from this branch. Do not merge or publish v2.3.0 until both Windows architecture jobs and installer packaging pass.
-
-### Follow-up fixes from initial CI
-- Removed the obsolete FluentAvalonia `TitleBarHitTestType` assignment, which no longer exists in the upgraded title-bar API.
-- Switched the main view and view model to `ReactiveUI.Avalonia.Reactive` / `ReactiveUI.Reactive` and kept `System.Reactive` imports, avoiding the incompatible `RxVoid`/`ISequencer` API family.
-- Updated the product-version fallback to `2.3.0`.
-- Current CI run triggered by the fixes: https://github.com/PCUser2021/ResolverReach/actions/runs/39993023775 (pending at time of this note).
+### Verified
+- Merged PR #2, "Upgrade Resolver Reach dependencies and Windows CI toolchain": https://github.com/PCUser2021/ResolverReach/pull/2
+- Squash merge commit on main: `e96baa4d822ce58617b8544e6167df94334ffea3`.
+- Windows x64 and native ARM64 build, publish, Inno Setup installer compilation, upload, artifact download, and executable checks all passed on final PR head: https://github.com/PCUser2021/ResolverReach/actions/runs/39994207960
+- Portable Ollama GGUF Importer Windows x64 workflow passed on final PR head: https://github.com/PCUser2021/ResolverReach/actions/runs/39994207956
+- The routine CI run skipped the release-only job as intended. The latest published release remains v2.2.0; v2.3.0 has **not** been published as a GitHub Release.
+- CI validates compilation and packaging; it does not replace live network testing of public resolvers or an interactive GUI smoke test.
 
 ## [2.2.0] — 2026-10-23
 

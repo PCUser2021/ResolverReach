@@ -1,6 +1,6 @@
 # AI Session Handoff — Resolver Reach + Ollama GGUF Importer
 
-Last verified: 2026-10-23 (America/New_York context: app repositories inspected and Resolver Reach v2.2.0 release read back from GitHub).
+Last verified: 2026-10-23 (Resolver Reach v2.3.0 source merged to main; exact PR-head Windows x64/ARM64 and GGUF Importer CI passed; v2.2.0 remains latest published release).
 
 ## Authoritative backup and operating rules
 
@@ -13,7 +13,7 @@ Last verified: 2026-10-23 (America/New_York context: app repositories inspected 
 - Never claim a source change, build, uploaded asset, successful test, or backup unless GitHub read-back verifies it.
 - There is no global ChatGPT hook that guarantees every message in every conversation is automatically archived. Repository instructions work only when they are loaded and GitHub access is available.
 
-## Current product: Resolver Reach 2.2.0
+## Current source: Resolver Reach 2.3.0 (merged; not yet released)
 
 ### Purpose and behavior
 Windows 11 single-window DNS-over-HTTPS (DoH) resolver diagnostic application. It is not a VPN and does not change system DNS, routing, or general Internet traffic.
@@ -123,3 +123,12 @@ This file plus the full Git history/source/assets/releases and project logs pres
 - NuGet audit: DynamicData 9.5.0 is listed as current stable; ReactiveUI.Reactive 26.0.1 requires System.Reactive >=7.0.0, the current stable version. Do not add a duplicate explicit System.Reactive reference unless CI establishes it is necessary; it arrives transitively through the selected compatibility package.
 
 - Last CI hardening: added `verify-packaged-artifacts` to the Windows workflow so current `download-artifact@v8` is exercised on PRs. It downloads both installers, validates non-empty EXE files, and emits SHA-256 hashes. The release-only job depends on this validation but remains disabled for ordinary PRs.
+
+
+## Final handoff — Prompt 017 merged and verified (2026-10-23)
+- PR #2 merged into main as squash commit `e96baa4d822ce58617b8544e6167df94334ffea3`: https://github.com/PCUser2021/ResolverReach/pull/2.
+- The exact PR head passed Windows x64 and native ARM64 publish/installer compilation; both uploaded installer EXEs were successfully downloaded with `actions/download-artifact@v8`, checked for non-zero size, and SHA-256 printed by run #39994207960: https://github.com/PCUser2021/ResolverReach/actions/runs/39994207960.
+- The portable Ollama GGUF Importer workflow passed on the exact same PR head: https://github.com/PCUser2021/ResolverReach/actions/runs/39994207956.
+- Latest source/app version is 2.3.0; latest published release remains v2.2.0. No v2.3.0 release was published and the release-only job was skipped intentionally.
+- Main post-merge CI was still running when this note was written; verify those runs before marking the final main head green. Then sync `backup/ResolverReach-2.2.0-2026-10-23` to the final main commit after these doc changes.
+- Local clone attempt failed because the execution container could not resolve `github.com`; upstream OnionFruit metadata/source tree was inspected via the connected GitHub API instead. OnionFruit code was not copied.

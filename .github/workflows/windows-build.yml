@@ -186,97 +186,9 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-
-  build-macos-installers:
-    name: Build macOS ${{ matrix.architecture }} app and installers
-    runs-on: macos-15
-    timeout-minutes: 45
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - rid: osx-arm64
-            architecture: Apple-Silicon
-            asset_suffix: arm64
-          - rid: osx-x64
-            architecture: Intel
-            asset_suffix: x64
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
-
-      - name: Install pinned .NET 10 SDK
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: 10.0.402
-
-      - name: Restore
-        run: dotnet restore src/ResolverReach/ResolverReach.csproj -r ${{ matrix.rid }}
-
-      - name: Publish self-contained single-file macOS application
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p artifacts/publish artifacts/installer
-          dotnet publish src/ResolverReach/ResolverReach.csproj \
-            --configuration Release \
-            --runtime "${{ matrix.rid }}" \
-            --self-contained true \
-            -p:PublishSingleFile=true \
-            -p:IncludeNativeLibrariesForSelfExtract=true \
-            -p:DebugType=None \
-            -p:DebugSymbols=false \
-            -p:Version=2.4.0 \
-            --output artifacts/publish
-
-      - name: Assemble macOS app bundle and DMG/ZIP installers
-        shell: bash
-        run: |
-          set -euo pipefail
-          APP="artifacts/Resolver Reach.app"
-          mkdir -p "$APP/Contents/MacOS" artifacts/installer
-          cp -R artifacts/publish/. "$APP/Contents/MacOS/"
-          chmod +x "$APP/Contents/MacOS/ResolverReach"
-          cat > "$APP/Contents/Info.plist" <<'PLIST'
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-            <key>CFBundleName</key><string>Resolver Reach</string>
-            <key>CFBundleDisplayName</key><string>Resolver Reach</string>
-            <key>CFBundleIdentifier</key><string>com.pcuser2021.resolverreach</string>
-            <key>CFBundleExecutable</key><string>ResolverReach</string>
-            <key>CFBundlePackageType</key><string>APPL</string>
-            <key>CFBundleShortVersionString</key><string>2.4.0</string>
-            <key>CFBundleVersion</key><string>2.4.0</string>
-            <key>LSMinimumSystemVersion</key><string>15.0</string>
-            <key>NSHighResolutionCapable</key><true/>
-          </dict>
-          </plist>
-          PLIST
-          plutil -lint "$APP/Contents/Info.plist"
-          file "$APP/Contents/MacOS/ResolverReach"
-          hdiutil create -volname "Resolver Reach 2.4.0 (${{ matrix.architecture }})" \
-            -srcfolder "$APP" -ov -format UDZO \
-            "artifacts/installer/ResolverReach-2.4.0-macOS-${{ matrix.asset_suffix }}.dmg"
-          ditto -c -k --sequesterRsrc --keepParent "$APP" \
-            "artifacts/installer/ResolverReach-2.4.0-macOS-${{ matrix.asset_suffix }}.zip"
-          test -s "artifacts/installer/ResolverReach-2.4.0-macOS-${{ matrix.asset_suffix }}.dmg"
-          test -s "artifacts/installer/ResolverReach-2.4.0-macOS-${{ matrix.asset_suffix }}.zip"
-
-      - name: Upload macOS installer artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: ResolverReach-macOS-${{ matrix.asset_suffix }}
-          path: |
-            artifacts/installer/ResolverReach-2.4.0-macOS-${{ matrix.asset_suffix }}.dmg
-            artifacts/installer/ResolverReach-2.4.0-macOS-${{ matrix.asset_suffix }}.zip
-          if-no-files-found: error
-          retention-days: 14
-
   verify-packaged-artifacts:
-    name: Verify all Windows and macOS installer artifacts
-    needs: [build-windows-x64, build-windows-arm64, build-macos-installers]
+    name: Verify both installer artifacts
+    needs: [build-windows-x64, build-windows-arm64]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -292,37 +204,19 @@ jobs:
           name: ResolverReach-Windows-arm64
           path: artifacts/arm64
 
-
-      - name: Download macOS Apple Silicon installers
-        uses: actions/download-artifact@v8
-        with:
-          name: ResolverReach-macOS-arm64
-          path: artifacts/macos-arm64
-
-      - name: Download macOS Intel installers
-        uses: actions/download-artifact@v8
-        with:
-          name: ResolverReach-macOS-x64
-          path: artifacts/macos-x64
-
-      - name: Verify all Windows and macOS installers exist and are non-empty
+      - name: Verify both installers exist and are non-empty
         shell: bash
         run: |
           set -euo pipefail
           test -s artifacts/x64/ResolverReach-Setup-x64.exe
           test -s artifacts/arm64/ResolverReach-Setup-arm64.exe
           ls -lh artifacts/x64/ResolverReach-Setup-x64.exe artifacts/arm64/ResolverReach-Setup-arm64.exe
-          test -s artifacts/macos-arm64/ResolverReach-2.4.0-macOS-arm64.dmg
-          test -s artifacts/macos-arm64/ResolverReach-2.4.0-macOS-arm64.zip
-          test -s artifacts/macos-x64/ResolverReach-2.4.0-macOS-x64.dmg
-          test -s artifacts/macos-x64/ResolverReach-2.4.0-macOS-x64.zip
-          ls -lh artifacts/macos-arm64/* artifacts/macos-x64/*
-          sha256sum artifacts/x64/ResolverReach-Setup-x64.exe artifacts/arm64/ResolverReach-Setup-arm64.exe artifacts/macos-arm64/* artifacts/macos-x64/*
+          sha256sum artifacts/x64/ResolverReach-Setup-x64.exe artifacts/arm64/ResolverReach-Setup-arm64.exe
 
   publish-release:
     name: Publish tested v2.4.0 release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[publish-release]')
-    needs: [build-windows-x64, build-windows-arm64, build-macos-installers, verify-packaged-artifacts, test]
+    needs: [build-windows-x64, build-windows-arm64, verify-packaged-artifacts, test]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -339,20 +233,7 @@ jobs:
           name: ResolverReach-Windows-arm64
           path: artifacts/arm64
 
-
-      - name: Download macOS Apple Silicon installers
-        uses: actions/download-artifact@v8
-        with:
-          name: ResolverReach-macOS-arm64
-          path: artifacts/macos-arm64
-
-      - name: Download macOS Intel installers
-        uses: actions/download-artifact@v8
-        with:
-          name: ResolverReach-macOS-x64
-          path: artifacts/macos-x64
-
-      - name: Publish GitHub Release with Windows and macOS installers
+      - name: Publish GitHub Release with both installers
         uses: softprops/action-gh-release@v3.0.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -361,16 +242,11 @@ jobs:
           target_commitish: ${{ github.sha }}
           name: Resolver Reach 2.4.0
           body: |
-            Resolver Reach 2.4.0 — Windows 11 and macOS
+            Resolver Reach 2.4.0 — Windows 11 x64 and native ARM64
 
-            Windows installers:
+            This release includes two architecture-specific installers:
             - ResolverReach-Setup-x64.exe: x64 Windows; also installable on Windows 11 ARM64 via x64 emulation.
             - ResolverReach-Setup-arm64.exe: native ARM64 Windows build.
-
-            macOS installers:
-            - ResolverReach-2.4.0-macOS-arm64.dmg / .zip: Apple Silicon (M1 or newer).
-            - ResolverReach-2.4.0-macOS-x64.dmg / .zip: Intel Macs.
-            - macOS builds are currently unsigned and not notarized; Gatekeeper may require the user to approve opening the app. Signing/notarization requires Apple Developer credentials.
 
             Highlights:
             - New dark titanium/glass icon family with cyan, blue, violet and spectral-magenta accents.
@@ -381,10 +257,6 @@ jobs:
           files: |
             artifacts/x64/ResolverReach-Setup-x64.exe
             artifacts/arm64/ResolverReach-Setup-arm64.exe
-            artifacts/macos-arm64/ResolverReach-2.4.0-macOS-arm64.dmg
-            artifacts/macos-arm64/ResolverReach-2.4.0-macOS-arm64.zip
-            artifacts/macos-x64/ResolverReach-2.4.0-macOS-x64.dmg
-            artifacts/macos-x64/ResolverReach-2.4.0-macOS-x64.zip
           fail_on_unmatched_files: true
           draft: false
           prerelease: false

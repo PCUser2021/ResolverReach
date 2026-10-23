@@ -5,6 +5,7 @@ Snapshot: 2026-10-23
 - Repository: https://github.com/PCUser2021/ResolverReach (metadata currently says private).
 - Project branch: https://github.com/PCUser2021/ResolverReach/tree/feature/jdownloader-reach-prototype
 - Full pre-removal backup: `backup/JDownloaderReach-full-2026-10-23`, based on commit `14b1bb89bd4366c1ed5df60f043726ec7a48392f`. It preserves the previous integrated app, installers, workflow, docs, and Git history.
+- Clean snapshot branch with the corrected workflow: `backup/JDownloaderReach-0.3.0-clean-2026-10-23-r2`, created at commit `b86b6743c1d8da8e597bd9e3cbf10dcecfe35305`.
 - Keep this prototype branch separate from `main` unless the user asks for a merge.
 - Related research repositories: https://github.com/mycodedoesnotcompile2/jdownloader_mirror and https://github.com/PCUser2021/ResolverReach.
 

@@ -42,9 +42,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     private string _inputLinks = string.Empty;
 
     public ViewModelActivator Activator { get; } = new();
-    public Interaction<Unit, string?> ClipboardTextInteraction { get; } = new();
-    public Interaction<string, LogSaveResult> SaveLogInteraction { get; } = new();
-    public ReadOnlyObservableCollection<ResolverResult> Results { get; }
+        public ReadOnlyObservableCollection<ResolverResult> Results { get; }
 
     public string InputLinks
     {
@@ -61,8 +59,6 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
 
     public ReactiveCommand<Unit, Unit> CheckCatalogCommand { get; }
     public ReactiveCommand<Unit, Unit> CheckLinksCommand { get; }
-    public ReactiveCommand<Unit, Unit> PasteLinksCommand { get; }
-    public ReactiveCommand<Unit, Unit> SaveLogsCommand { get; }
     public ReactiveCommand<Unit, Unit> CancelCommand { get; }
 
     private static string GetProductVersion()
@@ -116,32 +112,6 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
             },
             canCheckLinks,
             outputScheduler: RxSchedulers.MainThreadScheduler);
-        PasteLinksCommand = ReactiveCommand.CreateFromTask(async () =>
-        {
-            UpdateState(state => state with
-            {
-                PastePanelVisible = true,
-                StatusText = "Paste or review resolver URLs, then click Check."
-            });
-            string? clipboardText = await ClipboardTextInteraction.Handle(Unit.Default);
-            if (!string.IsNullOrWhiteSpace(clipboardText))
-                InputLinks = clipboardText;
-        }, outputScheduler: RxSchedulers.MainThreadScheduler);
-
-        SaveLogsCommand = ReactiveCommand.CreateFromTask(async () =>
-        {
-            LogSaveResult saveResult = await SaveLogInteraction.Handle(BuildLogDocument());
-            if (saveResult.Cancelled)
-                return;
-
-            UpdateState(state => state with
-            {
-                StatusText = saveResult.Succeeded
-                    ? $"Diagnostic logs saved to {saveResult.FileName}."
-                    : "Could not save diagnostic logs: " + ShortError(saveResult.ErrorMessage ?? "Unknown error.")
-            });
-        }, outputScheduler: RxSchedulers.MainThreadScheduler);
-
         _isBusy = Observable.CombineLatest(
                 CheckCatalogCommand.IsExecuting,
                 CheckLinksCommand.IsExecuting,
@@ -160,61 +130,9 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
         _lifetime.Add(_isBusy);
         _lifetime.Add(CheckCatalogCommand);
         _lifetime.Add(CheckLinksCommand);
-        _lifetime.Add(PasteLinksCommand);
-        _lifetime.Add(SaveLogsCommand);
         _lifetime.Add(CancelCommand);
 
-        this.WhenActivated(disposables =>
-        {
-            disposables.Add(PasteLinksCommand.ThrownExceptions
-                .Subscribe(ex => UpdateState(state => state with
-                {
-                    StatusText = "Clipboard error: " + ShortError(ex.Message),
-                    Detail = "You can still paste manually with Ctrl+V."
-                })));
-
-            disposables.Add(SaveLogsCommand.ThrownExceptions
-                .Subscribe(ex => UpdateState(state => state with
-                {
-                    StatusText = "Could not save diagnostic logs: " + ShortError(ex.Message)
-                })));
-        });
     }
-
-    private string BuildLogDocument()
-    {
-        ResolverDashboardState state = DashboardState;
-        ResolverResult[] results = Results.ToArray();
-        var document = new StringBuilder();
-
-        document.AppendLine("Resolver Reach — Diagnostic Session Log");
-        document.AppendLine($"Version: {VersionLabel}");
-        document.AppendLine($"Exported at (UTC): {DateTimeOffset.UtcNow:O}");
-        document.AppendLine($"Session: {state.Title}");
-        document.AppendLine($"Details: {state.Detail}");
-        document.AppendLine($"Status: {state.StatusText}");
-        document.AppendLine($"Progress: {state.ProgressValue.ToString("F0", CultureInfo.InvariantCulture)}% ({state.ProgressLabel})");
-        document.AppendLine($"Result count: {results.Length}");
-        document.AppendLine();
-        document.AppendLine("Endpoint\tStatus\tHTTP status\tLatency (ms)\tDNS response\tDetails");
-
-        foreach (ResolverResult result in results)
-        {
-            document.Append(FormatLogField(result.Endpoint)).Append('\t')
-                .Append(FormatLogField(result.Status)).Append('\t')
-                .Append(result.HttpStatusCode?.ToString(CultureInfo.InvariantCulture) ?? "—").Append('\t')
-                .Append(result.LatencyMilliseconds?.ToString("F0", CultureInfo.InvariantCulture) ?? "—").Append('\t')
-                .Append(FormatLogField(result.DnsSummary)).Append('\t')
-                .AppendLine(FormatLogField(result.Detail));
-        }
-
-        return document.ToString();
-    }
-
-    private static string FormatLogField(string? value) =>
-        string.IsNullOrWhiteSpace(value)
-            ? "—"
-            : value.Replace('\r', ' ').Replace('\n', ' ').Replace('\t', ' ').Trim();
 
     private void CancelActiveRun()
     {
@@ -445,7 +363,7 @@ private static async Task<ResolverResult> TestEndpointAsync(string input, Cancel
             };
             postRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/dns-message");
             postRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/dns-message"));
-            postRequest.Headers.UserAgent.ParseAdd("ResolverReach/1.0");
+            postRequest.Headers.UserAgent.ParseAdd($"ResolverReach/{GetProductVersion()}");
 
             using HttpResponseMessage postResponse = await Http.SendAsync(
                 postRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
@@ -463,7 +381,7 @@ private static async Task<ResolverResult> TestEndpointAsync(string input, Cancel
                     VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
                 };
                 getRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/dns-message"));
-                getRequest.Headers.UserAgent.ParseAdd("ResolverReach/1.0");
+                getRequest.Headers.UserAgent.ParseAdd($"ResolverReach/{GetProductVersion()}");
 
                 using HttpResponseMessage getResponse = await Http.SendAsync(
                     getRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
@@ -568,12 +486,12 @@ private static async Task<ResolverResult> TestEndpointAsync(string input, Cancel
 
 public sealed record ResolverDashboardState(
     string Title, string Detail, string StatusText,
-    double ProgressValue, string ProgressLabel, bool PastePanelVisible)
+    double ProgressValue, string ProgressLabel)
 {
     public static ResolverDashboardState Initial { get; } = new(
         "Ready to check DNS resolvers",
-        "Check the live cURL catalog or open Paste Links to test your own endpoints.",
-        "Idle", 0, "0 tested", false);
+        "Choose Test cURL Resolvers or paste HTTPS endpoints and click Test Resolvers.",
+        "Idle", 0, "0 / 0");
 }
 
 public sealed class ResolverResult

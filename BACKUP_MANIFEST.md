@@ -219,3 +219,15 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Main source candidate version: 2.4.0; latest verified published GitHub Release remains v2.2.0. No v2.4.0 release assets have been created.
 - The merged source adds centralized NuGet package versions, deterministic DNS protocol tests, expanded DNS/EDNS validation and bounded DoH body reads. The PR workflow run #40001573171 passed all 12 tests, Windows x64 and ARM64 build/installer jobs, and installer artifact verification.
 - CI run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171) passed all 12 tests, Windows x64/ARM64 build and installer jobs, and artifact verification. `DEPENDENCIES.md` lists app/test packages and tooling, including tools whose patch versions are not pinned. No live DNS or GUI smoke test was run.
+
+
+## Backup entry — Resolver Reach 2.4.0 cross-platform installer work (2026-10-23)
+
+- Request archive: `PROMPT_ARCHIVE.md`, Prompt 011, captured in commit `0a5ffae5cc71fb06edbfb28b370a87e693a3ffa9` on `feature/2.4.0-release-macos-backup`.
+- Candidate branch: `feature/2.4.0-release-macos-backup`.
+- Changes include: `src/ResolverReach/ResolverReach.csproj`, `src/ResolverReach/MainWindow.axaml.cs`, `.github/workflows/windows-build.yml`, `README.md`, `CHANGELOG.md`, `DEPENDENCIES.md`, `PROJECT_CONTEXT.md`, `Software_Project_Master_Context.md`, and `AI_SESSION_HANDOFF.md`; this manifest and the development/prompt logs must also be updated with final CI and backup evidence.
+- macOS targets: Intel `osx-x64` and Apple Silicon `osx-arm64`; deliverables planned: `ResolverReach-2.4.0-macOS-x64.dmg/.zip` and `ResolverReach-2.4.0-macOS-arm64.dmg/.zip`. Minimum OS: macOS 15.0, matching the current .NET 10 support matrix.
+- Windows targets remain `ResolverReach-Setup-x64.exe` and `ResolverReach-Setup-arm64.exe`.
+- Toolchain: .NET SDK 10.0.402; direct NuGet package versions were audited against stable NuGet listings on 2026-10-23. No prerelease package upgrades were introduced.
+- Security limitation: macOS packages are unsigned/not notarized because Apple Developer credentials were not provided.
+- Verification status at this entry: source changes are committed to the feature branch, but PR CI, macOS runtime smoke testing, release asset publication, and final backup branch/tag confirmation are pending. This is not yet a verified complete backup or a published release.

@@ -80,10 +80,10 @@ jobs:
       - name: Create GitHub Release and upload installer
         uses: softprops/action-gh-release@v3
         env:
-          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v2.0.0
-          target_commitish: \${{ github.sha }}
+          target_commitish: ${{ github.sha }}
           name: Resolver Reach 2.0.0
           body: |
             Resolver Reach 2.0.0 — Windows 11 x64

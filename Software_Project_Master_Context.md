@@ -13,7 +13,7 @@ Last verified: 2026-10-23
 - Changelog: [CHANGELOG.md](https://github.com/PCUser2021/ResolverReach/blob/main/CHANGELOG.md)
 - Resolver Reach current source and workflows are authoritative; inspect them before claiming behavior or build status. Verify releases and artifacts through GitHub's Release API/workflow run.
 
-## Project A — Resolver Reach 2.3.0 source (merged; not yet released)
+## Resolver Reach 2.3.0 source (merged; not yet released)
 
 - Platform: Windows 11 x64 and native Windows ARM64.
 - Technology: C# / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, DynamicData 9.5.0.
@@ -41,20 +41,12 @@ Last verified: 2026-10-23
 - The newer log `ResolverReach-Logs-20261023-040016.zip` was not present in the latest conversation attachment listing. The referenced MediaFire link failed to download. Do not claim that file has been analyzed.
 - Next step for failure-specific fix: upload the newer ZIP directly to the chat; inspect each result, then code against evidenced causes, bump version for software behavior changes, run x64+ARM64 CI, publish and verify the new release, and synchronize the backup branch.
 
-## Project B — Ollama GGUF Importer
-
-- Current C#/.NET 10 Windows GUI source: `src/OllamaGgufImporter`; workflow: `.github/workflows/ollama-gguf-importer.yml`.
-- Purpose: select/validate local GGUF files and register them with Ollama using a temporary Modelfile + supported `ollama create` flow.
-- Never recommend copying a GGUF directly into Ollama's internal `.ollama/models` blob/manifest store.
-- Preserves multi-file queues, split-GGUF shard handling, logs, visible product version and native icon.
-- User previously reported Ollama at `C:\Users\googe\AppData\Local\Programs\Ollama`; conventional models store is `C:\Users\googe\.ollama\models` unless custom config changes it.
-
 ## Development / backup rules
 
 - Append repo-specific prompts and outcomes to the private `PROMPT_ARCHIVE.md` before/after work; avoid committing secrets.
 - For every shipped product change, increment semantic version, synchronize project metadata, assembly/file version, installer and workflow release tag, update changelog, test x64 and ARM64 packaging, verify uploaded files, and update project context/development log/backup manifest.
 - Docs-only changes need not bump product version.
-- After finalized docs, update `backup/ResolverReach-2.2.0-2026-10-23` to exactly match `main` and verify the branch SHAs.
+- The pre-removal snapshot branch `backup/pre-remove-ollama-gguf-importer-2026-10-23` preserves the repository state from before the recent source-tree cleanup.
 - User prefers GUI/open-and-click Windows instructions; avoid PowerShell unless necessary.
 - Be precise: say exactly which files/builds/tests were verified and what remains untested.
 
@@ -65,7 +57,7 @@ This file, the full GitHub source and Git history, the release assets, and the p
 
 ## Latest diagnostic status (Prompt 015, 2026-10-23)
 
-- User message named `ResolverReach-Logs-20261023-044828.zip`, but supplied only a codebase manifest: one binary file, zero chunks, visible ZIP signature prefix `PK\x03\x04\x14`.
+- User message named `ResolverReach-Logs-20261023-044828.zip`, but supplied only a codebase manifest: one binary file, zero chunks, visible ZIP signature prefix `PK\\x03\\x04\\x14`.
 - The actual ZIP is not in current conversation attachments, Library or `/mnt/data`. It has not been analyzed. Do not claim otherwise or treat old log statistics as new.
 - Latest user handoff is archived in `PROMPT_ARCHIVE.md`; project context and development log record the blocker.
 - Ask for a normal direct upload of the actual ZIP bytes before diagnosing/fixing 04:48 scan-specific failures.
@@ -93,7 +85,7 @@ A separate branch, `maintenance/latest-toolchain-onionfruit-review`, stages a de
 
 ## Final state after Prompt 017 — 2026-10-23
 - PR #2 merged to main as `e96baa4d822ce58617b8544e6167df94334ffea3`: https://github.com/PCUser2021/ResolverReach/pull/2
-- Exact PR-head CI passed: Windows x64/native ARM64 builds, installer compile, artifact round-trip validation #39994207960, and Ollama GGUF Importer #39994207956.
+- Exact PR-head CI passed: Windows x64/native ARM64 builds, installer compile, and artifact round-trip validation #39994207960.
 - Package/action audit is recorded in the changelog. Current source is version 2.3.0, but latest published release remains v2.2.0; no v2.3.0 release has been created.
 - OnionFruit was only used as an upstream UI/theme reference, not as a Resolver Reach code/runtime dependency.
 - After this documentation commit, verify main CI and synchronize `backup/ResolverReach-2.2.0-2026-10-23` with final main.

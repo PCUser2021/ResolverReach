@@ -92,3 +92,12 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - **Project-specific memory:** `JDOWNLOADER_REACH_MEMORY.md` is the durable scoped memory backup; `PROMPT_ARCHIVE.md` remains private and contains exact repository-related prompts.
 - **Existing CI installer artifacts:** x64 artifact ID `12496179768` and ARM64 artifact ID `12497252555` from run `39943711695` were verified for the 0.2.0 three-app bundle, not the cleaned 0.3.0 bundle. GitHub Actions artifacts are temporary (30-day retention); they are not a permanent source-tree backup.
 - **Public-page status:** repository visibility is private. The connected GitHub actions do not offer repository creation or visibility mutation. Do not expose the central repository's full prompt archive merely to publish the one project; publish to a dedicated repository and verify its visibility.
+
+
+## JDownloader Reach 0.3.0 clean installers — verified (2026-10-23)
+
+- Successful workflow: https://github.com/PCUser2021/ResolverReach/actions/runs/39946624955, commit `b86b6743c1d8da8e597bd9e3cbf10dcecfe35305`; both target architecture jobs passed.
+- x64: Actions artifact `12498472300`; ZIP size 64,495,157 bytes; extracted EXE SHA-256 `4aee55e9eef29647435dc9b4492c182c9fe4ec752a8b612584177d33d7cb6d02`.
+- ARM64: Actions artifact `12497973329`; ZIP size 59,116,477 bytes; extracted EXE SHA-256 `8538a3a53f6b73811434a2b631271bd9c8e726a82fcdd26b698bb468c0a5e57a`.
+- Both downloaded artifact ZIP archives passed integrity validation. Artifact retention expires 2026-11-22. The permanent source backup is the Git branch snapshot, not the Actions artifacts.
+- These version 0.3.0 installers contain JDownloader Reach and Resolver Reach only. No physical-device or live JDownloader API interaction test was performed.

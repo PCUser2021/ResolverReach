@@ -1,5 +1,17 @@
 # JDownloader Reach changelog
 
+## 0.2.0 — 2026-10-23 — x64 and ARM64 installers
+
+### Added
+- Added native `win-x64` and `win-arm64` publishing for JDownloader Reach, Resolver Reach, and Ollama GGUF Importer.
+- Added separate Windows installers, `JDownloaderReach-Setup-x64.exe` and `JDownloaderReach-Setup-arm64.exe`, with OS-architecture guards and Start Menu shortcuts for all three applications.
+- Added CI validation of each published executable's PE machine type before installer compilation.
+- Added the license and third-party notice documents to each installer payload.
+
+### Validation
+- Windows CI must complete both matrix jobs successfully before either architecture is described as verified. The running workflow is linked from the repository Actions tab.
+
+
 ## 0.1.0 — 2026-10-23 — prototype
 
 ### Added

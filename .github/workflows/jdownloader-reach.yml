@@ -1,4 +1,4 @@
-name: JDownloader Reach Windows x64 bundle
+name: JDownloader Reach Windows installers
 
 on:
   push:
@@ -7,23 +7,45 @@ on:
       - "src/JDownloaderReach/**"
       - "src/ResolverReach/**"
       - "src/OllamaGgufImporter/**"
+      - "installer/JDownloaderReach-*.iss"
       - ".github/workflows/jdownloader-reach.yml"
+      - "LICENSE"
+      - "THIRD-PARTY-NOTICES.md"
   pull_request:
     paths:
       - "src/JDownloaderReach/**"
       - "src/ResolverReach/**"
       - "src/OllamaGgufImporter/**"
+      - "installer/JDownloaderReach-*.iss"
       - ".github/workflows/jdownloader-reach.yml"
+      - "LICENSE"
+      - "THIRD-PARTY-NOTICES.md"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  bundle-windows-x64:
-    name: Build integrated Windows x64 bundle
+  build-installer:
+    name: Build Windows ${{ matrix.label }} installer
     runs-on: windows-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            label: x86-64
+            rid: win-x64
+            platform: x64
+            installer_script: installer/JDownloaderReach-x64.iss
+            installer_filename: JDownloaderReach-Setup-x64.exe
+          - arch: arm64
+            label: ARM64
+            rid: win-arm64
+            platform: ARM64
+            installer_script: installer/JDownloaderReach-arm64.iss
+            installer_filename: JDownloaderReach-Setup-arm64.exe
 
     steps:
       - name: Checkout repository
@@ -34,56 +56,117 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
-      - name: Restore applications
+      - name: Restore all apps for ${{ matrix.rid }}
         shell: pwsh
         run: |
-          dotnet restore src/JDownloaderReach/JDownloaderReach.csproj
+          dotnet restore src/JDownloaderReach/JDownloaderReach.csproj --runtime "${{ matrix.rid }}"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          dotnet restore src/ResolverReach/ResolverReach.csproj
+          dotnet restore src/ResolverReach/ResolverReach.csproj --runtime "${{ matrix.rid }}"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          dotnet restore src/OllamaGgufImporter/OllamaGgufImporter.csproj
+          dotnet restore src/OllamaGgufImporter/OllamaGgufImporter.csproj --runtime "${{ matrix.rid }}"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Publish JDownloader Reach shell
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force -Path artifacts/bundle | Out-Null
-          dotnet publish src/JDownloaderReach/JDownloaderReach.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=0.1.0 --output artifacts/bundle
+          $bundle = "artifacts/bundle/${{ matrix.arch }}"
+          New-Item -ItemType Directory -Force -Path $bundle, "artifacts/installer" | Out-Null
+          dotnet publish src/JDownloaderReach/JDownloaderReach.csproj --configuration Release --runtime "${{ matrix.rid }}" --self-contained true --no-restore -p:PlatformTarget=${{ matrix.platform }} -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=0.2.0 --output $bundle
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-      - name: Publish Resolver Reach tool
+      - name: Publish Resolver Reach
         shell: pwsh
         run: |
-          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.1.1 --output artifacts/bundle/tools/ResolverReach
+          $output = "artifacts/bundle/${{ matrix.arch }}/tools/ResolverReach"
+          New-Item -ItemType Directory -Force -Path $output | Out-Null
+          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime "${{ matrix.rid }}" --self-contained true --no-restore -p:PlatformTarget=${{ matrix.platform }} -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.1.1 --output $output
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-      - name: Publish Ollama GGUF Importer tool
+      - name: Publish Ollama GGUF Importer
         shell: pwsh
         run: |
-          dotnet publish src/OllamaGgufImporter/OllamaGgufImporter.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=1.0.0 --output artifacts/bundle/tools/OllamaGgufImporter
+          $output = "artifacts/bundle/${{ matrix.arch }}/tools/OllamaGgufImporter"
+          New-Item -ItemType Directory -Force -Path $output | Out-Null
+          dotnet publish src/OllamaGgufImporter/OllamaGgufImporter.csproj --configuration Release --runtime "${{ matrix.rid }}" --self-contained true --no-restore -p:PlatformTarget=${{ matrix.platform }} -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=1.0.0 --output $output
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-      - name: Create bundle README
+      - name: Verify published PE machine types and required files
         shell: pwsh
         run: |
+          $expected = if ("${{ matrix.arch }}" -eq "x64") { "x64" } else { "ARM64" }
+          function Get-PeMachine([string]$Path) {
+            $stream = [System.IO.File]::OpenRead($Path)
+            try {
+              $reader = [System.IO.BinaryReader]::new($stream)
+              $stream.Position = 0x3C
+              $peOffset = $reader.ReadInt32()
+              $stream.Position = $peOffset + 4
+              $machine = $reader.ReadUInt16()
+              switch ($machine) {
+                0x8664 { return "x64" }
+                0xAA64 { return "ARM64" }
+                default { return ("Unknown 0x{0:X4}" -f $machine) }
+              }
+            } finally {
+              $stream.Dispose()
+            }
+          }
+          $executables = @(
+            "artifacts/bundle/${{ matrix.arch }}/JDownloaderReach.exe",
+            "artifacts/bundle/${{ matrix.arch }}/tools/ResolverReach/ResolverReach.exe",
+            "artifacts/bundle/${{ matrix.arch }}/tools/OllamaGgufImporter/Ollama-GGUF-Importer.exe"
+          )
+          foreach ($exe in $executables) {
+            if (-not (Test-Path $exe)) { throw "Expected application was not published: $exe" }
+            $actual = Get-PeMachine $exe
+            Write-Host "$exe -> $actual"
+            if ($actual -ne $expected) { throw "$exe has PE machine $actual; expected $expected." }
+          }
+
+      - name: Add licenses and setup instructions
+        shell: pwsh
+        run: |
+          $bundle = "artifacts/bundle/${{ matrix.arch }}"
+          New-Item -ItemType Directory -Force -Path "$bundle/licenses" | Out-Null
+          Copy-Item LICENSE "$bundle/licenses/ResolverReach-MIT-LICENSE.txt"
+          Copy-Item THIRD-PARTY-NOTICES.md "$bundle/licenses/ResolverReach-THIRD-PARTY-NOTICES.md"
+          Copy-Item src/JDownloaderReach/README.md "$bundle/JDownloaderReach-README.txt"
           @'
-          JDownloader Reach 0.1.0 — Windows x64 prototype bundle
+          JDownloader Reach 0.2.0 — Windows ${{ matrix.label }}
 
-          Start JDownloaderReach.exe. The bundle also includes Resolver Reach and Ollama GGUF Importer under tools\.
-          JDownloader's engine is not included; install JDownloader separately and configure its local API only if you understand the security implications.
-          See src/JDownloaderReach/README.md in the source repository for full setup, license, and limitations.
-          '@ | Set-Content -Encoding utf8 artifacts/bundle/README.txt
+          Install JDownloader Reach. The bundle also includes native ${{ matrix.label }} builds of Resolver Reach and Ollama GGUF Importer.
+          JDownloader's downloader engine is not included; install JDownloader separately.
+          The optional legacy API client only connects to 127.0.0.1:3128. Never expose that interface to a LAN or the internet.
+          See JDownloaderReach-README.txt and the licenses folder for setup and licensing details.
+          '@ | Set-Content -Encoding utf8 "$bundle/README.txt"
 
-      - name: Package ZIP
+      - name: Install Inno Setup
         shell: pwsh
         run: |
-          Compress-Archive -Path artifacts/bundle/* -DestinationPath artifacts/JDownloaderReach-Windows-x64.zip -Force
-          if (-not (Test-Path artifacts/JDownloaderReach-Windows-x64.zip)) { throw "ZIP artifact was not created." }
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            choco install innosetup --yes --no-progress
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+          if (-not (Test-Path $iscc)) { throw "Inno Setup compiler was not found at $iscc" }
+          Write-Host "Using Inno Setup compiler: $iscc"
+          & $iscc /? | Select-Object -First 2
 
-      - name: Upload integrated bundle
+      - name: Compile architecture-specific installer
+        shell: pwsh
+        run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          & $iscc "${{ matrix.installer_script }}"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $installer = "artifacts/installer/${{ matrix.installer_filename }}"
+          if (-not (Test-Path $installer)) { throw "Expected installer was not created: $installer" }
+          Write-Host "Installer created: $installer"
+          Get-Item $installer | Select-Object FullName, Length
+
+      - name: Upload ${{ matrix.label }} installer
         uses: actions/upload-artifact@v4
         with:
-          name: JDownloaderReach-Windows-x64
-          path: artifacts/JDownloaderReach-Windows-x64.zip
+          name: JDownloaderReach-Setup-${{ matrix.arch }}
+          path: artifacts/installer/${{ matrix.installer_filename }}
           if-no-files-found: error
-          retention-days: 14
+          retention-days: 30

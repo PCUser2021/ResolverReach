@@ -21,7 +21,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         LoadSettings();
-        RecordActivity("JDownloader Reach prototype 0.1.0 started.");
+        RecordActivity("JDownloader Reach prototype 0.2.0 started.");
         SetStatus("Ready. If the local API is not enabled, start JDownloader and enable its local API first.");
     }
 
@@ -306,7 +306,7 @@ public partial class MainWindow : Window
                 WriteTextEntry(archive, "session.json", JsonSerializer.Serialize(new
                 {
                     Product = "JDownloader Reach",
-                    Version = "0.1.0",
+                    Version = "0.2.0",
                     StartedAt = logSnapshot.FirstOrDefault(),
                     SavedAt = DateTimeOffset.Now,
                     OperatingSystem = Environment.OSVersion.ToString(),

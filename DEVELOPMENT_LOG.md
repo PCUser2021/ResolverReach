@@ -35,3 +35,13 @@ This is an append-only, chronological audit log for the two Windows applications
 - All listed writes returned successful GitHub commit SHAs. The archive, context, and instructions should be read back to verify the final committed contents; do not infer success solely from a tool response.
 - No code/build/runtime tests were performed because this change only alters documentation and workflow instructions.
 - The prompt archive records repository-related prompts from the current conversation and establishes a process for future repository-related prompts. It cannot act as a global ChatGPT message interceptor; each future session must load and follow the instructions and have access to the private repository. Secrets must be redacted.
+
+
+## 2026-10-22 — Adopt mandatory version bumps and knowledge persistence policy
+
+- **User request (archived privately):** “always add a new version to softwares you update and always saves you knowledge to id”
+- Updated the private central archive first: `PROMPT_ARCHIVE.md` commit `7b48a65d982b5b54e4bed9e8247d2402713f7f48`.
+- Added an explicit policy to `PROJECT_CONTEXT.md` requiring a product version bump for each shipped software update, synchronized version metadata, a changelog entry, verification of the actual artifact, and persistence of durable knowledge in repository records. Documentation-only changes do not bump the application's binary version.
+- Updated the public Wand-Enhancer `AGENTS.md` with the same versioning and knowledge-preservation rules. Raw user prompts remain in the private archive and must never be copied into the public repo.
+- No application source code or shipped product behavior changed in this task, so no application version was incremented and no product changelog release entry was added.
+- **Validation still pending:** verify GitHub write commits and read back the updated files. No application build or runtime tests are applicable to this documentation-only policy change.

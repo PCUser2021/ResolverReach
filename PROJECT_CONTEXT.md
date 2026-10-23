@@ -9,10 +9,10 @@ This file is the current project overview. Current source, Git history, GitHub A
 
 ## Current application — Resolver Reach
 
-The 2.4.0 candidate branch adds complete DNS section-boundary/EDNS validation, bounded streaming response reads, and deterministic offline tests. See `DEPENDENCIES.md` for the package and build-tool inventory.
+Main now contains Resolver Reach source candidate 2.4.0, merged at [`803e367`](https://github.com/PCUser2021/ResolverReach/commit/803e36738e567b08a12ff3cdbc4de3675d3dd4f7). The candidate's 12 deterministic protocol tests, x64/ARM64 builds, installer builds and artifact verification passed CI run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171). The latest published release remains v2.2.0. See `DEPENDENCIES.md` for the package and build-tool inventory.
 
 - Resolver Reach is the sole application maintained in the current source tree.
-- Current source candidate: 2.4.0 (not yet published as a GitHub Release). Latest published GitHub Release at last verification: v2.2.0. Do not claim v2.3.0 is released until the release and assets are verified.
+- Current main source candidate: 2.4.0 (merged; not yet published as a GitHub Release). Latest published GitHub Release: v2.2.0. Do not claim a v2.4.0 release until its release assets are verified.
 - Platform: Windows 11 x64 and native ARM64; runtime identifiers: `win-x64` and `win-arm64`.
 - Stack: C# 14 / .NET 10; Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, System.Reactive 7.0.0, DynamicData 9.5.0; direct NuGet versions are centralized in `Directory.Packages.props`.
 - Main project: `src/ResolverReach/ResolverReach.csproj`.

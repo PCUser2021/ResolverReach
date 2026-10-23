@@ -30,7 +30,7 @@ Verified product behavior in README/source documentation:
 - Supports POST and falls back to GET for relevant POST rejection statuses (400, 405, 415, 501).
 - “Check the Curl Resolvers” refreshes the current cURL DoH wiki catalog, extracts Base URL entries, deduplicates HTTPS endpoints, and tests with bounded concurrency and cancellable progress.
 - Escape cancels a scan.
-- “Save Logs” opens a native Save File dialog and exports the session summary and endpoint results to UTF-8 text.
+- The main-window UI intentionally exposes no Save Logs button or file-picker dialog; all interactive testing and results are contained in the main window.
 - It is a diagnostic utility, not a VPN or Windows system DNS manager. It must not change Windows DNS settings or route general traffic.
 
 ### 2. Ollama GGUF Importer

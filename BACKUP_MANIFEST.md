@@ -205,3 +205,9 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Workflow tooling now uses checkout@v7, setup-dotnet@v6, upload-artifact@v7, download-artifact@v8 and softprops/action-gh-release@v3.0.3. Installer compilation supports Inno Setup 7/6 discovery; artifact verification downloads both built installers and checks their size/hashes.
 - The v2.3.0 GitHub Release was not published. The release-only job was skipped intentionally.
 - After final docs and the main CI run, move `backup/ResolverReach-2.2.0-2026-10-23` to the final main SHA and verify the two refs match.
+
+
+## Pre-removal safety snapshot — 2026-10-23
+- Created branch `backup/pre-remove-ollama-gguf-importer-2026-10-23` at pre-removal commit `adc9e656fdf118cb829eb976ce61cbc0c79bd267` before removing the separate application from `main`.
+- The branch preserves the complete pre-removal tracked tree. Current `main` retains Resolver Reach and its installer/build workflow.
+- This was a source-tree cleanup, not a Git history rewrite or a claim that all remote build artifacts were erased.

@@ -223,3 +223,19 @@ Last verified 2026-10-23: Resolver Reach 2.1.1 build and release completed succe
 - The main-window icons are Avalonia vector shapes drawn in XAML; custom SVG source files are included as design source. `ResolverReach.ico` is the generated executable/installer icon resource.
 - Diagnostic input limitation: the new user-supplied `ResolverReach-Logs-20261023-040016.zip` MediaFire direct URL failed to download from the assistant environment (browser cache miss and local DNS resolution failure). Do not claim its contents were analyzed. Request a direct chat upload to diagnose any additional failures from that run.
 - Build/release status is pending until both architectures compile, both installer outputs are generated, and the v2.2.0 release contains both assets. Do not claim ARM64 installer is available until verified.
+
+
+## Resolver Reach 2.2.0 release verified — 2026-10-23
+
+- Successful build and release workflow: [#39945785064](https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064).
+- Both architecture jobs succeeded: .NET restore, self-contained publish, Inno Setup compiler setup, installer compilation, and artifact upload.
+- Published GitHub Release: [v2.2.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.2.0).
+- Assets:
+  - `ResolverReach-Setup-x64.exe`: 33,974,496 bytes — https://github.com/PCUser2021/ResolverReach/releases/download/v2.2.0/ResolverReach-Setup-x64.exe
+  - `ResolverReach-Setup-arm64.exe`: 31,276,362 bytes — https://github.com/PCUser2021/ResolverReach/releases/download/v2.2.0/ResolverReach-Setup-arm64.exe
+- Stable latest asset URLs:
+  - https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe
+  - https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe
+- Original dark-metallic/spectral vector icon design is reflected in XAML, `Assets/Icons/*.svg`, the generated executable/installer `.ico`, the public product SVG, and the preview illustration.
+- The new user-provided MediaFire ZIP still could not be downloaded; no new-log-specific claims are made. User should attach `ResolverReach-Logs-20261023-040016.zip` directly for failure-by-failure diagnosis.
+- Repository visibility remains private at last check, so release assets remain access-controlled for non-collaborators.

@@ -25,3 +25,12 @@ Repository visibility last verified as private, so public source and anonymous d
 - Uploaded log showed 236/266 valid DNS-over-HTTPS replies, not zero: 235 NOERROR and 1 RCODE REFUSED. The 30 fails included 11 timeouts, 11 TLS/HTTP2, 4 HTTP errors, 3 invalid DNS IDs, and 1 HTML MIME response.
 - v2.1.1 raises the connect/request timeouts, retries transient timeout/status errors once, falls back to HTTP/1.1 after HTTP/2 protocol errors, uses six concurrent probes, and separates transport failures from HTTP replies that fail DoH validation.
 - Build/release [run #39940585354](https://github.com/PCUser2021/ResolverReach/actions/runs/39940585354) completed successfully. Published [Release v2.1.1](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.1), asset `ResolverReach-Setup-x64.exe` (33,979,934 bytes). A fresh scan is still necessary to confirm measured endpoint-level improvement.
+
+
+## Resolver Reach 2.2.0 dual-architecture publication (2026-10-23)
+- The next release builds self-contained `win-x64` and native `win-arm64` applications.
+- Planned GitHub Release v2.2.0 assets: `ResolverReach-Setup-x64.exe` and `ResolverReach-Setup-arm64.exe`; the release job waits for both architecture jobs before uploading.
+- Stable links after publication: `/releases/latest/download/ResolverReach-Setup-x64.exe` and `/releases/latest/download/ResolverReach-Setup-arm64.exe`.
+- The icon family uses original dark-metallic spectral-glass artwork and XAML vectors, not copies of Logic Pro's exact copyrighted icon.
+- New log archive retrieval failed from the supplied MediaFire URL; request a direct file upload for a new failure analysis.
+- Do not claim release availability until Actions and the Releases API confirm both assets.

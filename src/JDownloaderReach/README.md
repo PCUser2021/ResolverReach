@@ -1,6 +1,6 @@
-# JDownloader Reach 0.1.0 — prototype
+# JDownloader Reach 0.2.0 — prototype
 
-JDownloader Reach is a Windows x64 Avalonia desktop control shell that connects to an existing JDownloader installation and provides quick access to the two applications already maintained in the ResolverReach repository.
+JDownloader Reach is a Windows x64 and ARM64 Avalonia desktop control shell that connects to an existing JDownloader installation and provides quick access to the two applications already maintained in the ResolverReach repository.
 
 ## What this prototype does
 
@@ -11,11 +11,11 @@ JDownloader Reach is a Windows x64 Avalonia desktop control shell that connects 
 - Stores executable paths under `%LOCALAPPDATA%\JDownloaderReach\settings.json`.
 - Exports the shell's activity log and runtime/settings metadata to a user-selected ZIP archive.
 
-The repository workflow packages the shell and both existing applications into a single downloadable ZIP artifact, with the tools in their own subdirectories.
+The repository workflow packages the shell and both existing applications into a architecture-specific Windows setup executables, with the tools in their own subdirectories.
 
 ## Requirements and setup
 
-- Windows 11 x64.
+- Windows 11 x64 or ARM64.
 - A separately installed JDownloader instance. This prototype does **not** bundle the JDownloader Java engine.
 - To use queue/link controls, JDownloader's local API must be running and available at `127.0.0.1:3128`. The application does not change JDownloader settings or open/firewall ports.
 - If the bundled tools are present in the expected `tools\ResolverReach` and `tools\OllamaGgufImporter` folders, the app auto-detects them. Otherwise use **Browse…** to select the executable.
@@ -36,12 +36,23 @@ A lossless 100% Java-to-C# conversion is not realistically achievable through me
 ```text
 dotnet restore src/JDownloaderReach/JDownloaderReach.csproj
 dotnet publish src/JDownloaderReach/JDownloaderReach.csproj --configuration Release --runtime win-x64 --self-contained true
+
+dotnet publish src/JDownloaderReach/JDownloaderReach.csproj --configuration Release --runtime win-arm64 --self-contained true
 ```
 
-The repository workflow builds the shell and both existing applications on Windows x64 and uploads a ZIP containing their published outputs. CI completion proves compilation and packaging, not live interaction with a running JDownloader instance.
+The repository workflow publishes all three applications as native `win-x64` and `win-arm64` builds, validates each EXE's PE machine type, and compiles `JDownloaderReach-Setup-x64.exe` and `JDownloaderReach-Setup-arm64.exe` installers. CI completion proves compilation and packaging, not live interaction with a running JDownloader instance.
 
 ## License and attribution
 
 The new shell is original code in the ResolverReach repository and is covered by the repository's MIT License. The upstream JDownloader source mirror is used as API-reference material; this prototype does not copy its Java implementation or redistribute its engine. JDownloader and related product names are used only to identify compatibility. This independent project is not affiliated with or endorsed by JDownloader or AppWork.
 
 Resolver Reach's third-party dependencies and notices remain applicable to the Resolver Reach binary. Each distributed application remains subject to its own license and third-party terms. A future version that incorporates or redistributes JDownloader source or binaries must complete a separate license/dependency audit and meet all applicable GPL-3.0-or-later and third-party obligations before publication.
+
+
+## Architecture-specific installers
+
+- x86-64: `JDownloaderReach-Setup-x64.exe`, limited to x64 Windows.
+- ARM64: `JDownloaderReach-Setup-arm64.exe`, limited to Windows ARM64.
+- Both installers include matching-architecture builds of JDownloader Reach, Resolver Reach, and Ollama GGUF Importer. Each app is self-contained for its target runtime; the .NET runtime does not need to be installed separately.
+- The installer workflow checks the PE machine type of all three application EXEs and fails the build if the machine type does not match the selected architecture.
+- CI publishes the installers as GitHub Actions artifacts with 30-day retention. These are build artifacts, not permanent GitHub Releases.

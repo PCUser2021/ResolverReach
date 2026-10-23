@@ -97,7 +97,7 @@ For every substantive task related to either application:
 - Resolver Reach CI: `.github/workflows/windows-build.yml`
 - GGUF Importer CI: `.github/workflows/ollama-gguf-importer.yml`
 
-Last verified 2026-10-23: Resolver Reach 2.0.0 builds successfully in workflow run `39928118989`. The user has selected MIT licensing and requested public visibility; current metadata still reports `private`. See `PUBLIC_DISTRIBUTION_PLAN.md`, `BACKUP_MANIFEST.md`, and the latest development-log entry.
+Last verified 2026-10-23: Resolver Reach 2.1.0 build and Release succeeded in workflow run `39937042568`; release asset is uploaded. Repository metadata still reports `private`. See `PUBLIC_DISTRIBUTION_PLAN.md`, `BACKUP_MANIFEST.md`, and the latest development-log entry.
 
 
 ## Cross-repository prompt backup and restore policy
@@ -136,7 +136,7 @@ Last verified 2026-10-23: Resolver Reach 2.0.0 builds successfully in workflow r
 
 - The user's explicit scope is exactly two visible testing paths: **Test cURL Resolvers** and **Paste links → Test Resolvers**. Inputs, status, progress, and endpoint results stay on the one main window.
 - The supplied OnionFruitt screenshot is a visual reference only: use dark slate panels, a prominent red status strip, rounded cards/rows, and restrained pink accents. Do not add its sidebar/navigation, because the user explicitly disallowed extra options or windows.
-- The visible theme picker, Paste Links menu, Save Logs button, and save-file dialog flow were removed from the Resolver Reach UI. Product version display and Escape-to-cancel remain.
+- In v2.0.0 the visible theme picker and Paste Links menu were removed. Version 2.1.0 adds a Save Logs button and ZIP file-picker flow back to the main UI; Escape-to-cancel remains.
 - Version 2.0.0 was selected because the GUI interaction model is replaced. Keep project/package, assembly/file, HTTP User-Agent, installer, workflow, and documentation version metadata synchronized on subsequent shipped updates.
 - Preserve RFC 8484 testing and DNS-response validation, live cURL wiki extraction, de-duplication, bounded concurrency, the 512-URL limit, and in-window results/progress. Results are point-in-time and cannot guarantee universal reachability.
 
@@ -178,5 +178,15 @@ Last verified 2026-10-23: Resolver Reach 2.0.0 builds successfully in workflow r
 - Added an explicit `Save Logs` button in the Resolver results header. The button opens Avalonia's native `StorageProvider.SaveFilePickerAsync` with `*.zip` as the file type and a timestamped suggested filename.
 - ZIP archive entries: `session-summary.txt`, `activity.log`, `resolver-results-history.csv`, `current-visible-results.csv`, and `session.json`.
 - The in-memory log captures application session/runtime info; each cURL or pasted-URL scan; every endpoint outcome with HTTP status, latency, DNS summary/detail; cancellation/failure and final scan summary. Historic results are preserved across scans during one app session even though the on-screen result list still shows the current scan.
-- Product version is 2.1.0 (assembly/file version 2.1.0.0). Release workflow and installer metadata must be synchronized to `v2.1.0`.
+- Product version is 2.1.0 (assembly/file version 2.1.0.0). Release workflow and installer metadata are synchronized to `v2.1.0`; successful release verified in workflow #39937042568.
 - Export uses a file picker and writes a ZIP at the selected destination. Canceling the picker does not create a file. The ZIP exports in-memory session data only; it does not claim to include sessions from prior app launches.
+
+
+## Resolver Reach 2.1.0 verification — 2026-10-23
+
+- Fixed titlebar collision via a 190-DIP right-side header safe area.
+- Save Logs creates a user-selected ZIP containing session summary, activity log, historical endpoint results across all runs in this app process, current visible results, and JSON session/runtime metadata.
+- Product/assembly/file/installer versions: 2.1.0 / 2.1.0.0 / 2.1.0.0 / 2.1.0.
+- Successful CI and release run: #39937042568. Published release v2.1.0 asset `ResolverReach-Setup-x64.exe` (33,980,655 bytes).
+- No interactive desktop UI test or end-to-end click-to-ZIP test was run; the Windows CI build and package/release upload succeeded.
+- Repository visibility is still private at the final metadata check.

@@ -246,3 +246,9 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 ### Backup snapshot verification — 2026-10-23
 - Backup ref: `backup/ResolverReach-2.4.0-cross-platform-2026-10-23`.
 - Read-back comparison confirmed identical blob SHAs between the feature and backup branches for `PROMPT_ARCHIVE.md`, `src/ResolverReach/ResolverReach.csproj`, `.github/workflows/windows-build.yml`, `MACOS_INSTALLATION.md`, and `BACKUP_MANIFEST.md` at the verification checkpoint. The manifest was subsequently updated with this verification record; the backup ref is advanced again after the final writes. This snapshot includes the working tree and Git history reachable from the branch, but is not a complete export of account-level ChatGPT Memory or unrelated conversations.
+
+
+## Latest CI checkpoint — 2026-10-23
+- PR #4 run #40005597884, retry/recheck run #40006194471, and latest run #40006338791 all reported failure with no retrievable step summaries/logs (`BlobNotFound`). No source-level cause is confirmed.
+- The release remains unpublished and no macOS DMG/ZIP artifacts are verified. Do not mark the candidate build successful based on the older Windows-only artifact run.
+- After this manifest update, the backup branch must be advanced to the latest feature-branch commit and key file blob hashes rechecked.

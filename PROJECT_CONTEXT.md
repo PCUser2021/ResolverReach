@@ -239,3 +239,14 @@ Last verified 2026-10-23: Resolver Reach 2.1.1 build and release completed succe
 - Original dark-metallic/spectral vector icon design is reflected in XAML, `Assets/Icons/*.svg`, the generated executable/installer `.ico`, the public product SVG, and the preview illustration.
 - The new user-provided MediaFire ZIP still could not be downloaded; no new-log-specific claims are made. User should attach `ResolverReach-Logs-20261023-040016.zip` directly for failure-by-failure diagnosis.
 - Repository visibility remains private at last check, so release assets remain access-controlled for non-collaborators.
+
+
+## Resolver Reach 2.2.0 release verified — 2026-10-23
+
+- Successful build/release workflow: https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064.
+- Both self-contained Windows targets passed: win-x64 and win-arm64. Both Inno Setup installer compilations and artifact uploads passed.
+- Published Release v2.2.0 contains two assets: ResolverReach-Setup-x64.exe (33,974,496 bytes) and ResolverReach-Setup-arm64.exe (31,276,362 bytes).
+- Stable links: /releases/latest/download/ResolverReach-Setup-x64.exe and /releases/latest/download/ResolverReach-Setup-arm64.exe.
+- The main app icon, XAML vector icon set, SVG icon source files, public SVG mark, and UI design preview were redesigned as original dark metallic/glass/spectral artwork.
+- The supplied newer ZIP named ResolverReach-Logs-20261023-040016.zip could not be downloaded from the supplied MediaFire URL in this environment. The contents were not analyzed. Request direct upload to finish post-2.1.1 scan-specific diagnosis.
+- CI validates compilation and packaging, but no physical ARM64 device test, live GUI interaction, or full resolver scan was run in this session.

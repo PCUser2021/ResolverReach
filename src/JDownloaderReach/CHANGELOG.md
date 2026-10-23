@@ -1,5 +1,18 @@
 # JDownloader Reach changelog
 
+## 0.3.0 — 2026-10-23 — Remove Ollama GGUF Importer integration
+
+### Changed
+- Removed Ollama GGUF Importer path detection, settings, browse/launch handlers, UI controls, installer shortcut, and bundled binary from JDownloader Reach.
+- Kept the standalone Ollama GGUF Importer project and its independent workflow intact; it is no longer a dependency of JDownloader Reach.
+- Retained separate x64 and ARM64 installers, JDownloader local-API controls, Resolver Reach launcher, and Save Logs ZIP.
+- Bumped the JDownloader Reach product, assembly, and file version to 0.3.0 / 0.3.0.0.
+
+### Validation
+- Source structure was checked for remaining importer references in the JDownloader Reach UI, shell code, installer scripts, and packaging workflow.
+- Do not infer successful packaging until the JDownloader Reach Actions workflow completes for both architectures.
+
+
 ## 0.2.0 — 2026-10-23 — x64 and ARM64 installers
 
 ### Added

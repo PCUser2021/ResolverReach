@@ -21,7 +21,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         LoadSettings();
-        RecordActivity("JDownloader Reach prototype 0.2.0 started.");
+        RecordActivity("JDownloader Reach prototype 0.3.0 started.");
         SetStatus("Ready. If the local API is not enabled, start JDownloader and enable its local API first.");
     }
 
@@ -44,11 +44,6 @@ public partial class MainWindow : Window
             Path.Combine(AppContext.BaseDirectory, "tools", "ResolverReach", "ResolverReach.exe"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Resolver Reach", "ResolverReach.exe"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "Resolver Reach", "ResolverReach.exe")) ?? string.Empty;
-        GgufImporterPathBox.Text = ExistingPath(
-            settings.GgufImporterPath,
-            Path.Combine(AppContext.BaseDirectory, "tools", "OllamaGgufImporter", "Ollama-GGUF-Importer.exe"),
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Ollama GGUF Importer", "Ollama-GGUF-Importer.exe"),
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "Ollama GGUF Importer", "Ollama-GGUF-Importer.exe")) ?? string.Empty;
     }
 
     private static string? ExistingPath(params string?[] paths) =>
@@ -77,8 +72,7 @@ public partial class MainWindow : Window
             var settings = new AppSettings
             {
                 JDownloaderPath = JDownloaderPathBox.Text?.Trim() ?? string.Empty,
-                ResolverReachPath = ResolverReachPathBox.Text?.Trim() ?? string.Empty,
-                GgufImporterPath = GgufImporterPathBox.Text?.Trim() ?? string.Empty
+                ResolverReachPath = ResolverReachPathBox.Text?.Trim() ?? string.Empty
             };
             File.WriteAllText(SettingsPath, JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true }));
         }
@@ -180,8 +174,6 @@ public partial class MainWindow : Window
     private async void BrowseResolverReachButton_Click(object? sender, RoutedEventArgs e) =>
         await BrowseExecutableAsync(ResolverReachPathBox, "Resolver Reach");
 
-    private async void BrowseGgufImporterButton_Click(object? sender, RoutedEventArgs e) =>
-        await BrowseExecutableAsync(GgufImporterPathBox, "Ollama GGUF Importer");
 
     private void LaunchJDownloaderButton_Click(object? sender, RoutedEventArgs e) =>
         LaunchExecutable(JDownloaderPathBox.Text, "JDownloader");
@@ -189,8 +181,6 @@ public partial class MainWindow : Window
     private void LaunchResolverReachButton_Click(object? sender, RoutedEventArgs e) =>
         LaunchExecutable(ResolverReachPathBox.Text, "Resolver Reach");
 
-    private void LaunchGgufImporterButton_Click(object? sender, RoutedEventArgs e) =>
-        LaunchExecutable(GgufImporterPathBox.Text, "Ollama GGUF Importer");
 
     private void ClearLinksButton_Click(object? sender, RoutedEventArgs e)
     {
@@ -306,7 +296,7 @@ public partial class MainWindow : Window
                 WriteTextEntry(archive, "session.json", JsonSerializer.Serialize(new
                 {
                     Product = "JDownloader Reach",
-                    Version = "0.2.0",
+                    Version = "0.3.0",
                     StartedAt = logSnapshot.FirstOrDefault(),
                     SavedAt = DateTimeOffset.Now,
                     OperatingSystem = Environment.OSVersion.ToString(),
@@ -342,6 +332,5 @@ public partial class MainWindow : Window
     {
         public string JDownloaderPath { get; set; } = string.Empty;
         public string ResolverReachPath { get; set; } = string.Empty;
-        public string GgufImporterPath { get; set; } = string.Empty;
     }
 }

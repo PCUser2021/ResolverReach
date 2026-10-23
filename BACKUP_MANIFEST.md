@@ -83,3 +83,12 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - App version: 2.1.0, assembly/file: 2.1.0.0.
 - UI compiled, but no live Windows interactive GUI test was performed.
 - GitHub repository visibility remains private as of the final metadata check.
+
+
+## JDownloader Reach full project backup — 2026-10-23
+
+- **Pre-removal backup branch:** `backup/JDownloaderReach-full-2026-10-23` was created before the 0.3.0 cleanup. Its base commit is `14b1bb89bd4366c1ed5df60f043726ec7a48392f`, which was the head of `feature/jdownloader-reach-prototype` at the time. It preserves the original full repository tree/history, installer scripts, three-app workflow, integration source, docs, licenses and project records.
+- **Active cleaned branch:** `feature/jdownloader-reach-prototype` is the working line for JDownloader Reach 0.3.0 without the Ollama GGUF Importer integration. The standalone importer application and independent build remain in the repository.
+- **Project-specific memory:** `JDOWNLOADER_REACH_MEMORY.md` is the durable scoped memory backup; `PROMPT_ARCHIVE.md` remains private and contains exact repository-related prompts.
+- **Existing CI installer artifacts:** x64 artifact ID `12496179768` and ARM64 artifact ID `12497252555` from run `39943711695` were verified for the 0.2.0 three-app bundle, not the cleaned 0.3.0 bundle. GitHub Actions artifacts are temporary (30-day retention); they are not a permanent source-tree backup.
+- **Public-page status:** repository visibility is private. The connected GitHub actions do not offer repository creation or visibility mutation. Do not expose the central repository's full prompt archive merely to publish the one project; publish to a dedicated repository and verify its visibility.

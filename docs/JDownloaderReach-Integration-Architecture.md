@@ -2,14 +2,14 @@
 
 ## Goal
 
-Create a new Windows desktop experience that retains the complete functionality of the existing JDownloader engine while bringing the repository's existing tools into one shell. Keep Resolver Reach and Ollama GGUF Importer source and behavior intact.
+Maintain an independent Windows desktop control shell for an existing JDownloader engine. Current JDownloader Reach 0.3.0 launches Resolver Reach only; the independent Ollama GGUF Importer is not part of JDownloader Reach UI, settings, packaging, or installer workflow.
 
 ## Repository findings
 
 - The JDownloader source is a large Java codebase. Its build configuration references separate dependency roots, including AppWorkUtils, JDClosed, browser, update-client, and server-options source. The mirror alone should not be assumed to be a complete standalone build.
 - Resolver Reach is C# / .NET 10 / Avalonia with an existing single-window DoH diagnostic UI and session ZIP logging.
 - Ollama GGUF Importer is C# / .NET 10 Windows Forms with its own GGUF verification/import workflow.
-- The two .NET apps can be bundled together; their UI/frameworks cannot be combined by merely changing project metadata.
+- The separate .NET applications have distinct responsibilities and build workflows; JDownloader Reach's installer bundles Resolver Reach only, not the standalone GGUF importer.
 - JDownloader source headers use GPL-3.0-or-later. ResolverReach's original code is MIT-licensed. A combined derivative that includes JDownloader code needs a deliberate GPL compatibility and third-party license review.
 
 ## Integration strategy
@@ -42,3 +42,11 @@ Create a new Windows desktop experience that retains the complete functionality 
 ## Current completion state
 
 The 0.1.0 shell is an integration prototype. It is not a Java-to-C# conversion and does not replace the original JDownloader UI. See `src/JDownloaderReach/README.md` and `src/JDownloaderReach/CHANGELOG.md`.
+
+
+## Current scope — JDownloader Reach 0.3.0
+
+- The JDownloader Reach app no longer has GGUF importer controls, executable path settings, browse/launch handlers, or an importer start-menu shortcut.
+- The JDownloader Reach CI workflow publishes and validates two apps per architecture: JDownloader Reach and Resolver Reach. The x64 and ARM64 installers include only those two apps plus required license notices and setup documentation.
+- The standalone `src/OllamaGgufImporter/` source and `.github/workflows/ollama-gguf-importer.yml` remain independent and unchanged.
+- The current shell continues to delegate downloads to a separately installed JDownloader instance through an optional API fixed to `http://127.0.0.1:3128/`. This API can be deprecated/unauthenticated and must not be exposed to the LAN/internet.

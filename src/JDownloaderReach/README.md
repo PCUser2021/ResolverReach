@@ -1,25 +1,24 @@
-# JDownloader Reach 0.2.0 — prototype
+# JDownloader Reach 0.3.0 — prototype
 
-JDownloader Reach is a Windows x64 and ARM64 Avalonia desktop control shell that connects to an existing JDownloader installation and provides quick access to the two applications already maintained in the ResolverReach repository.
+JDownloader Reach is a Windows x64 and ARM64 Avalonia desktop control shell that connects to an existing JDownloader installation and can launch the separate Resolver Reach DNS-over-HTTPS diagnostic application. Ollama GGUF Importer is not integrated into this app or included in its installers.
 
 ## What this prototype does
 
 - Launches a user-selected `JDownloader2.exe`.
 - Uses the optional JDownloader local API at the fixed loopback address `http://127.0.0.1:3128/` to check engine state, send links to LinkGrabber, display a read-only download-package snapshot, and request that queued downloads start.
 - Launches the existing Resolver Reach application, preserving its RFC 8484 DoH validation and Save Logs ZIP functionality.
-- Launches the existing Ollama GGUF Importer, preserving its GGUF validation and Ollama import workflow.
 - Stores executable paths under `%LOCALAPPDATA%\JDownloaderReach\settings.json`.
 - Exports the shell's activity log and runtime/settings metadata to a user-selected ZIP archive.
 
-The repository workflow packages the shell and both existing applications into a architecture-specific Windows setup executables, with the tools in their own subdirectories.
+The repository workflow packages JDownloader Reach and Resolver Reach into architecture-specific Windows setup executables.
 
 ## Requirements and setup
 
 - Windows 11 x64 or ARM64.
 - A separately installed JDownloader instance. This prototype does **not** bundle the JDownloader Java engine.
 - To use queue/link controls, JDownloader's local API must be running and available at `127.0.0.1:3128`. The application does not change JDownloader settings or open/firewall ports.
-- If the bundled tools are present in the expected `tools\ResolverReach` and `tools\OllamaGgufImporter` folders, the app auto-detects them. Otherwise use **Browse…** to select the executable.
-- Resolver Reach and the GGUF Importer keep their own settings/logging; the shell does not merge their session logs.
+- If Resolver Reach is present in `tools\ResolverReach`, the app auto-detects it. Otherwise use **Browse…** to select the executable.
+- Resolver Reach keeps its own settings and logging; the shell does not merge its session logs. The independent Ollama GGUF Importer remains separate and is not launched or bundled by JDownloader Reach.
 
 ## Security note
 
@@ -40,7 +39,7 @@ dotnet publish src/JDownloaderReach/JDownloaderReach.csproj --configuration Rele
 dotnet publish src/JDownloaderReach/JDownloaderReach.csproj --configuration Release --runtime win-arm64 --self-contained true
 ```
 
-The repository workflow publishes all three applications as native `win-x64` and `win-arm64` builds, validates each EXE's PE machine type, and compiles `JDownloaderReach-Setup-x64.exe` and `JDownloaderReach-Setup-arm64.exe` installers. CI completion proves compilation and packaging, not live interaction with a running JDownloader instance.
+The repository workflow publishes JDownloader Reach and Resolver Reach as native `win-x64` and `win-arm64` builds, validates each EXE's PE machine type, and compiles `JDownloaderReach-Setup-x64.exe` and `JDownloaderReach-Setup-arm64.exe` installers. CI completion proves compilation and packaging, not live interaction with a running JDownloader instance.
 
 ## License and attribution
 
@@ -53,6 +52,6 @@ Resolver Reach's third-party dependencies and notices remain applicable to the R
 
 - x86-64: `JDownloaderReach-Setup-x64.exe`, limited to x64 Windows.
 - ARM64: `JDownloaderReach-Setup-arm64.exe`, limited to Windows ARM64.
-- Both installers include matching-architecture builds of JDownloader Reach, Resolver Reach, and Ollama GGUF Importer. Each app is self-contained for its target runtime; the .NET runtime does not need to be installed separately.
-- The installer workflow checks the PE machine type of all three application EXEs and fails the build if the machine type does not match the selected architecture.
+- Both installers include matching-architecture builds of JDownloader Reach and Resolver Reach. Each app is self-contained for its target runtime; the .NET runtime does not need to be installed separately.
+- The installer workflow checks the PE machine type of both application EXEs and fails the build if the machine type does not match the selected architecture.
 - CI publishes the installers as GitHub Actions artifacts with 30-day retention. These are build artifacts, not permanent GitHub Releases.

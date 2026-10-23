@@ -6,7 +6,6 @@ on:
     paths:
       - "src/JDownloaderReach/**"
       - "src/ResolverReach/**"
-      - "src/OllamaGgufImporter/**"
       - "installer/JDownloaderReach-*.iss"
       - ".github/workflows/jdownloader-reach.yml"
       - "LICENSE"
@@ -16,7 +15,6 @@ on:
     paths:
       - "src/JDownloaderReach/**"
       - "src/ResolverReach/**"
-      - "src/OllamaGgufImporter/**"
       - "installer/JDownloaderReach-*.iss"
       - ".github/workflows/jdownloader-reach.yml"
       - "LICENSE"
@@ -58,14 +56,12 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
-      - name: Restore all apps for ${{ matrix.rid }}
+      - name: Restore required apps for ${{ matrix.rid }}
         shell: pwsh
         run: |
           dotnet restore src/JDownloaderReach/JDownloaderReach.csproj --runtime "${{ matrix.rid }}"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet restore src/ResolverReach/ResolverReach.csproj --runtime "${{ matrix.rid }}"
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          dotnet restore src/OllamaGgufImporter/OllamaGgufImporter.csproj --runtime "${{ matrix.rid }}"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Publish JDownloader Reach shell
@@ -73,7 +69,7 @@ jobs:
         run: |
           $bundle = "artifacts/bundle/${{ matrix.arch }}"
           New-Item -ItemType Directory -Force -Path $bundle, "artifacts/installer" | Out-Null
-          dotnet publish src/JDownloaderReach/JDownloaderReach.csproj --configuration Release --runtime "${{ matrix.rid }}" --self-contained true --no-restore -p:PlatformTarget=${{ matrix.platform }} -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=0.2.0 --output $bundle
+          dotnet publish src/JDownloaderReach/JDownloaderReach.csproj --configuration Release --runtime "${{ matrix.rid }}" --self-contained true --no-restore -p:PlatformTarget=${{ matrix.platform }} -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=0.3.0 --output $bundle
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Publish Resolver Reach
@@ -82,14 +78,6 @@ jobs:
           $output = "artifacts/bundle/${{ matrix.arch }}/tools/ResolverReach"
           New-Item -ItemType Directory -Force -Path $output | Out-Null
           dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime "${{ matrix.rid }}" --self-contained true --no-restore -p:PlatformTarget=${{ matrix.platform }} -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.1.1 --output $output
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
-      - name: Publish Ollama GGUF Importer
-        shell: pwsh
-        run: |
-          $output = "artifacts/bundle/${{ matrix.arch }}/tools/OllamaGgufImporter"
-          New-Item -ItemType Directory -Force -Path $output | Out-Null
-          dotnet publish src/OllamaGgufImporter/OllamaGgufImporter.csproj --configuration Release --runtime "${{ matrix.rid }}" --self-contained true --no-restore -p:PlatformTarget=${{ matrix.platform }} -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=1.0.0 --output $output
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Verify published PE machine types and required files
@@ -116,7 +104,6 @@ jobs:
           $executables = @(
             "artifacts/bundle/${{ matrix.arch }}/JDownloaderReach.exe",
             "artifacts/bundle/${{ matrix.arch }}/tools/ResolverReach/ResolverReach.exe",
-            "artifacts/bundle/${{ matrix.arch }}/tools/OllamaGgufImporter/Ollama-GGUF-Importer.exe"
           )
           foreach ($exe in $executables) {
             if (-not (Test-Path $exe)) { throw "Expected application was not published: $exe" }
@@ -135,9 +122,9 @@ jobs:
           Copy-Item -Recurse THIRD-PARTY-LICENSES "$bundle/THIRD-PARTY-LICENSES"
           Copy-Item src/JDownloaderReach/README.md "$bundle/JDownloaderReach-README.txt"
           @'
-          JDownloader Reach 0.2.0 — Windows ${{ matrix.label }}
+          JDownloader Reach 0.3.0 — Windows ${{ matrix.label }}
 
-          Install JDownloader Reach. The bundle also includes native ${{ matrix.label }} builds of Resolver Reach and Ollama GGUF Importer.
+          Install JDownloader Reach. The bundle also includes a native ${{ matrix.label }} build of Resolver Reach.
           JDownloader's downloader engine is not included; install JDownloader separately.
           The optional legacy API client only connects to 127.0.0.1:3128. Never expose that interface to a LAN or the internet.
           See JDownloaderReach-README.txt and the licenses folder for setup and licensing details.

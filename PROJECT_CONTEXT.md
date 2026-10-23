@@ -238,3 +238,17 @@ Local extracted installers:
 - ARM64 SHA-256: d2d4a1a6309038fbd7ba76324d6132c1b455ce9da7c3ffe25334e0ef2ced5f48
 
 No interactive install test on physical ARM64 or x64 hardware was performed. JDownloader's Java engine remains a separate prerequisite.
+
+
+## Current branch state — JDownloader Reach 0.3.0 (2026-10-23)
+
+- **Project page:** https://github.com/PCUser2021/ResolverReach/tree/feature/jdownloader-reach-prototype
+- **Active branch:** `feature/jdownloader-reach-prototype`. The default branch `main` remains separate; do not merge the prototype into `main` without the user's explicit instruction.
+- **Current version:** JDownloader Reach 0.3.0 (assembly/file version 0.3.0.0), targeting `win-x64` and `win-arm64`.
+- **Current contents:** a .NET 10/Avalonia shell, an existing separately installed JDownloader engine integration through the optional loopback-only legacy API, and a launcher for Resolver Reach. It supports launching JDownloader, API state check, LinkGrabber submission, package snapshot, start-downloads request, executable-path persistence, and Save Logs ZIP export.
+- **Explicitly removed in 0.3.0:** the Ollama GGUF Importer integration from the JDownloader Reach app (UI card, path detection, saved setting, browse/launch handlers), installer shortcuts/payload, and JDownloader Reach build workflow. The standalone `src/OllamaGgufImporter/` project and `.github/workflows/ollama-gguf-importer.yml` remain unchanged because they are separate repository products, not a JDownloader Reach dependency.
+- **Current packaging:** each architecture-specific installer contains JDownloader Reach and Resolver Reach only, with required MIT and third-party license texts and setup instructions. JDownloader's Java engine is not bundled.
+- **Versioned full backup:** `backup/JDownloaderReach-full-2026-10-23` was created before removing the integration and points to the pre-removal project state, including source, installers, workflow, docs and repository history. Previous 0.2.0 installer artifacts are associated with workflow run https://github.com/PCUser2021/ResolverReach/actions/runs/39943711695; their hashes are recorded in the development log and backup branch.
+- **Verification caveat:** the 0.2.0 x64 and ARM64 installers had successful build/PE validation. The revised 0.3.0 source must be rebuilt in GitHub Actions; no physical-device GUI/API integration test has been run.
+- **Privacy/publication:** the current repository metadata is private. It is also a central repository containing other projects and a private prompt archive. Do not expose this entire repository merely to publish JDownloader Reach. A dedicated public repository would be the correct publication boundary, but the current GitHub connector has no repository-creation or visibility-mutation operation. Never claim the project is public until verified.
+- **Project-specific memory:** see `JDOWNLOADER_REACH_MEMORY.md`. Raw prompts stay in this private repository's `PROMPT_ARCHIVE.md`; the memory file is scoped to JDownloader Reach and excludes unrelated personal ChatGPT memories.

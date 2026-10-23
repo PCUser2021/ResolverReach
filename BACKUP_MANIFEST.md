@@ -19,7 +19,7 @@ The private Git repository is the authoritative, versioned backup of source and 
 - Public-only draft copy (docs/assets; not source): `public-distribution/`.
 - Distribution constraints and publish steps: `PUBLIC_DISTRIBUTION_PLAN.md`.
 
-A backup branch is to be created at the final commit produced by this task: `backup/ResolverReach-2.0.0-2026-10-23`. Verify that branch after creation before relying on it.
+The stable source snapshot branch `backup/ResolverReach-2.0.0-2026-10-23` has been created. It is maintained as a second reference to the complete source-and-records snapshot at task completion; verify that its head matches the final `main` commit after any follow-up edits.
 
 ## Verified shipped binary
 

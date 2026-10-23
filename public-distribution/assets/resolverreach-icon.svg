@@ -1,7 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
-<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#42C5FF"/><stop offset=".55" stop-color="#1473E6"/><stop offset="1" stop-color="#2752CF"/></linearGradient><linearGradient id="bg" x1="0" y1="0" x2=".9" y2="1"><stop offset="0" stop-color="#1A2B46"/><stop offset="1" stop-color="#0B1424"/></linearGradient></defs>
-<rect x="8" y="8" width="240" height="240" rx="52" fill="url(#bg)"/>
-<path d="M65 186V67h64c34 0 55 18 55 48 0 21-11 37-31 44l40 27h-42l-34-24H99v24zm34-54h28c15 0 23-6 23-17s-8-17-23-17H99z" fill="url(#g)"/>
-<path d="M168 84h27V70h19M188 130h24v16h15M163 176h20v14h20" fill="none" stroke="#80DCFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="216" cy="70" r="7" fill="#FF64AC"/><circle cx="227" cy="146" r="7" fill="#4CD7FF"/><circle cx="203" cy="190" r="7" fill="#4CD7FF"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+<title id="title">Resolver Reach metallic network icon</title>
+<desc id="desc">Original dark titanium app icon with a luminous network globe, metallic orbit ring, and spectral cyan, blue, violet, and magenta nodes.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#202A3B"/><stop offset=".52" stop-color="#0C1421"/><stop offset="1" stop-color="#080D17"/></linearGradient>
+  <linearGradient id="metal" x1=".08" y1=".05" x2=".92" y2=".95"><stop stop-color="#F0F5FC"/><stop offset=".22" stop-color="#869BB5"/><stop offset=".43" stop-color="#354961"/><stop offset=".66" stop-color="#AFC1D6"/><stop offset=".84" stop-color="#455B73"/><stop offset="1" stop-color="#D4E2F0"/></linearGradient>
+  <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9BFFFF"/><stop offset=".43" stop-color="#38DFFF"/><stop offset=".72" stop-color="#318DFF"/><stop offset="1" stop-color="#BE66FF"/></linearGradient>
+  <radialGradient id="orb" cx=".25" cy=".18" r=".94"><stop stop-color="#65F0FF"/><stop offset=".27" stop-color="#136BBE"/><stop offset=".61" stop-color="#10294B"/><stop offset="1" stop-color="#07101F"/></radialGradient>
+  <radialGradient id="nodeC"><stop stop-color="#C2FFFF"/><stop offset=".48" stop-color="#4AE9FF"/><stop offset="1" stop-color="#1178CC"/></radialGradient>
+  <radialGradient id="nodeV"><stop stop-color="#F2C9FF"/><stop offset=".45" stop-color="#C16EFF"/><stop offset="1" stop-color="#5D31A7"/></radialGradient>
+  <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="10"/></filter>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4"/></filter>
+</defs>
+<rect x="8" y="8" width="496" height="496" rx="112" fill="url(#bg)" stroke="#667C98" stroke-opacity=".7" stroke-width="4"/>
+<rect x="19" y="19" width="474" height="474" rx="103" fill="none" stroke="#D5E8FF" stroke-opacity=".1" stroke-width="2"/>
+<rect x="24" y="24" width="464" height="464" rx="100" fill="none" stroke="url(#cyan)" stroke-opacity=".23" stroke-width="3"/>
+<circle cx="256" cy="256" r="166" fill="#1685D4" opacity=".2" filter="url(#glow)"/>
+<circle cx="256" cy="256" r="151" fill="#15273F" stroke="url(#metal)" stroke-width="20"/>
+<circle cx="256" cy="256" r="129" fill="url(#orb)" stroke="#4AA7DD" stroke-opacity=".8" stroke-width="4"/>
+<path d="M127 256H385 M145 207C210 237 302 237 367 207 M145 305C210 275 302 275 367 305" fill="none" stroke="url(#cyan)" stroke-width="5" stroke-linecap="round" opacity=".88"/>
+<ellipse cx="256" cy="256" rx="57" ry="129" fill="none" stroke="url(#cyan)" stroke-width="5" opacity=".92"/>
+<ellipse cx="256" cy="256" rx="99" ry="129" fill="none" stroke="#53B5FF" stroke-opacity=".48" stroke-width="3"/>
+<path d="M256 127V385" stroke="#6AEFFF" stroke-opacity=".52" stroke-width="3"/>
+<path d="M255 96V112 M416 256H400 M256 416V400 M96 256H112" stroke="url(#metal)" stroke-width="10" stroke-linecap="round"/>
+<g filter="url(#shadow)" opacity=".72"><circle cx="256" cy="93" r="39" fill="#000"/><circle cx="419" cy="256" r="39" fill="#000"/><circle cx="256" cy="419" r="39" fill="#000"/><circle cx="93" cy="256" r="39" fill="#000"/></g>
+<g stroke="url(#metal)" stroke-width="9"><circle cx="256" cy="93" r="34" fill="#102239"/><circle cx="419" cy="256" r="34" fill="#102239"/><circle cx="256" cy="419" r="34" fill="#102239"/><circle cx="93" cy="256" r="34" fill="#102239"/></g>
+<circle cx="256" cy="93" r="23" fill="url(#nodeC)" stroke="#DBFFFF" stroke-opacity=".8" stroke-width="3"/>
+<circle cx="419" cy="256" r="23" fill="url(#nodeV)" stroke="#F5DEFF" stroke-opacity=".8" stroke-width="3"/>
+<circle cx="256" cy="419" r="23" fill="url(#nodeV)" stroke="#F5DEFF" stroke-opacity=".8" stroke-width="3"/>
+<circle cx="93" cy="256" r="23" fill="url(#nodeC)" stroke="#DBFFFF" stroke-opacity=".8" stroke-width="3"/>
+<circle cx="235" cy="220" r="25" fill="#A8FFFF" opacity=".14" filter="url(#glow)"/>
+<circle cx="235" cy="220" r="8" fill="#B8FFFF" opacity=".92"/>
 </svg>

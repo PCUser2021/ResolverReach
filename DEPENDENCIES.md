@@ -34,7 +34,9 @@ This file records the package and toolchain versions declared by the repository 
 | Microsoft.NET.Test.Sdk | `18.11.0` | .NET test discovery and execution |
 | xunit.v3 | `4.0.2` | Current xUnit.net v3 test framework |
 | xunit.runner.visualstudio | `4.0.1` | Visual Studio/VSTest adapter |
-| coverlet.collector | `10.1.0` | Optional Cobertura code-coverage collection in CI |
+| coverlet.MTP | `10.1.0` | Coverlet integration for Microsoft Testing Platform; JSON/Cobertura reports |
+| Microsoft.Testing.Extensions.TrxReport | `2.5.1` | Produces machine-readable TRX test reports in CI |
+| Test runner | Microsoft Testing Platform via `global.json` | The .NET 10 SDK runner is explicitly selected; MTP version is transitive through xunit.v3, not separately pinned in this repository |
 | Test target | `net10.0` | Offline/deterministic protocol-unit tests |
 
 Test fixtures are synthetic DNS packets: the protocol tests do not depend on public resolver availability or make live DNS requests. The CI workflow runs tests separately from the architecture-specific publish jobs.

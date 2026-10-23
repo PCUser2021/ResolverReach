@@ -189,3 +189,5 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Dependency set: Avalonia/Avalonia.Desktop 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Avalonia.Reactive 12.1.6; ReactiveUI.Reactive 26.0.1; DynamicData 9.5.0; .NET 10.
 - Initial CI reached compile after successful restore but failed on upstream API breaking changes. Fixes have been committed; latest x64/ARM64 run #39993023775 was pending at archive time.
 - Do not treat the maintenance branch as a release. After CI success, read back both jobs and packaged artifacts, then merge/publish only with the intended release procedure. Sync the versioned backup branch to final main only after finalization.
+
+- Follow-up action audit: official release metadata identifies `actions/upload-artifact@v7.0.2` and `actions/download-artifact@v8.0.2` as current on 2026-10-23. Workflow refs use major tags @v7/@v8. Re-run CI against the updated workflow before merge/release.

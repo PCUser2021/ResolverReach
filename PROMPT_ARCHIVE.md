@@ -423,3 +423,5 @@ The following seed entries were reconstructed from repository-related prompts vi
 - First CI identified breaking changes: FluentAvalonia removed `TitleBarHitTestType`; ReactiveUI's non-`.Reactive` build changed scheduler and command types. The code was updated to remove the deleted title-bar call and use the compatibility package family.
 - Verification: Ollama GGUF Importer CI passed on the prior revision. The current Windows x64/ARM64 workflow run #39993023775 was triggered by the compatibility fixes and was pending when this archive entry was written. Do not claim v2.3.0 builds, merge, release, or installer assets until read-back confirms success.
 - User-facing action method supplied was a clone into a separate working directory; cloning OnionFruit alone does not update Resolver Reach.
+
+- Post-audit action update: official GitHub releases show `actions/upload-artifact` latest v7.0.2 and `actions/download-artifact` latest v8.0.2 (both published 2026-10-07); workflow references updated to major tags `@v7` / `@v8`. The next workflow run must validate these refs.

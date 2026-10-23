@@ -248,8 +248,10 @@ This is an append-only, chronological audit log for the two Windows applications
 - Inspected Resolver Reach main, current release metadata, project files, workflows, OnionFruit upstream tree, and existing third-party license notices.
 - Existing main remains on Resolver Reach 2.2.0. Work is isolated to PR #2 / branch `maintenance/latest-toolchain-onionfruit-review`; no v2.3.0 release was created.
 - Updated primary app packages on the maintenance branch to Avalonia 12.1.4 / Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6 and ReactiveUI.Reactive 26.0.1. Retained DynamicData 9.5.0 and .NET 10.
-- CI action references moved to checkout v7, setup-dotnet v6, upload/download-artifact v6 and softprops/action-gh-release v3.0.3. Installer compiler discovery now checks Inno Setup 7 and 6 paths plus PATH.
+- CI action references moved to checkout v7, setup-dotnet v6, upload-artifact v7 / download-artifact v8 and softprops/action-gh-release v3.0.3. Installer compiler discovery now checks Inno Setup 7 and 6 paths plus PATH.
 - First Windows CI run restored packages successfully but failed compiling due to removed `TitleBarHitTestType` and using the non-compatibility ReactiveUI API with `System.Reactive` schedulers/commands. Removed the obsolete assignment, selected the compatibility package family, added explicit `System.Reactive.Linq` import, and synchronized product-version fallback.
 - Next Windows x64/ARM64 run: https://github.com/PCUser2021/ResolverReach/actions/runs/39993023775 (pending at time of note). Ollama GGUF Importer workflow passed on the previous maintenance revision.
 - OnionFruit is an upstream design reference and separate Tor application, not a Resolver Reach runtime component. Existing LGPL license/notice remain; no OnionFruit source was imported.
 - Release, merge, and backup branch synchronization remain pending successful CI and final ref/asset read-back.
+
+- Final toolchain audit against official GitHub Releases API found upload-artifact v7.0.2 and download-artifact v8.0.2 published 2026-10-07. Workflow majors were advanced to @v7/@v8; validation remains pending for this exact workflow revision.

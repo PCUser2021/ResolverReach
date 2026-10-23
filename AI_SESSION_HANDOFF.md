@@ -111,8 +111,10 @@ This file plus the full Git history/source/assets/releases and project logs pres
 ## Maintenance dependency update — Prompt 017, 2026-10-23
 - Current release on main is still Resolver Reach v2.2.0; the update is isolated on PR #2, `maintenance/latest-toolchain-onionfruit-review`: https://github.com/PCUser2021/ResolverReach/pull/2.
 - Updated dependency proposal: Avalonia/Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1. DynamicData remains 9.5.0; target framework remains .NET 10.
-- Updated CI action references: checkout v7, setup-dotnet v6, upload/download-artifact v6, softprops/action-gh-release v3.0.3. Installer path lookup supports Inno Setup 7 and 6, including PATH fallback.
+- Updated CI action references: checkout v7, setup-dotnet v6, upload-artifact v7 / download-artifact v8, softprops/action-gh-release v3.0.3. Installer path lookup supports Inno Setup 7 and 6, including PATH fallback.
 - The first Windows compile passed restore but failed due to FluentAvalonia's removed `TitleBarHitTestType` and the non-System.Reactive ReactiveUI API. Those failures were fixed on the branch by removing that assignment and switching to the `.Reactive` package family.
 - Latest Windows x64/ARM64 run after the fixes: https://github.com/PCUser2021/ResolverReach/actions/runs/39993023775. At handoff entry creation it was pending; inspect actual job results before merging or releasing. Previous Ollama GGUF Importer run #39990582893 passed.
 - OnionFruit is a separate Tor application used only as a UI reference in this repository; no OnionFruit code was copied or added as a runtime dependency. Keep the existing third-party notices and LGPL text.
 - Once CI succeeds, read back PR merge state, release assets, and backup refs before claiming completion. No release has been published by the maintenance PR yet.
+
+- Toolchain re-check: on 2026-10-23 the official GitHub Releases API reported checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2, and softprops/action-gh-release v3.0.3 as latest. Workflow uses major refs `@v7`, `@v8` for artifact actions. CI needs another run after these changes.

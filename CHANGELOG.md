@@ -7,7 +7,7 @@
 - Updated FluentAvaloniaUI to 3.1.0.
 - Switched to `ReactiveUI.Avalonia.Reactive` 12.1.6 and `ReactiveUI.Reactive` 26.0.1 to preserve the app's existing `System.Reactive` APIs across the major-version upgrade.
 - Retained DynamicData 9.5.0 because the repository already uses that release and the current package evidence did not establish a newer stable version.
-- Updated GitHub Actions references to checkout v7, setup-dotnet v6, upload-artifact v6, download-artifact v6, and softprops/action-gh-release v3.0.3.
+- Updated GitHub Actions references to checkout v7, setup-dotnet v6, upload-artifact v7, download-artifact v8, and softprops/action-gh-release v3.0.3.
 - Updated the application version to 2.3.0 and adjusted release metadata.
 - Updated installer discovery to prefer Inno Setup 7 while retaining a fallback for Inno Setup 6 if the package manager supplies that version.
 
@@ -25,3 +25,7 @@
 
 ## [2.2.0] — 2026-10-23
 
+
+
+### GitHub Actions patch audit — 2026-10-23
+- Verified action release tags directly against the official GitHub Releases API and moved `actions/upload-artifact` to v7 and `actions/download-artifact` to v8 (latest releases v7.0.2 and v8.0.2 published 2026-10-07). The running workflow created before this commit does not validate these final action pins; a fresh CI run is required.

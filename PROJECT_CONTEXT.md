@@ -111,3 +111,22 @@ Last audit note: source project files for both products declare version 1.0.0. T
 - Never save credentials or secret values in logs; redact them. Scope is every repository-related user prompt, not unrelated general-chat messages.
 - Restore means reconstructing project requirements and unfinished task state from the archive and current source. Do not automatically roll back or overwrite repository code without explicit approval.
 - Hard limitation: this policy does not create a ChatGPT platform event hook. It cannot guarantee that every message from every conversation is intercepted if a session does not load these instructions or cannot write to GitHub. If GitHub writing is unavailable, say so and provide a ready-to-commit archive entry.
+
+
+## Mandatory version bump and knowledge-persistence policy
+
+### Application versioning
+- Whenever an update to a user-owned software product changes shipped source code, user-visible behavior/UI, dependencies, assets, configuration, packaging, or executable output, create a **new product version**. Never ship two different software updates under the same product version.
+- Use semantic versioning where applicable: patch for fixes/refinements, minor for backward-compatible features, major for breaking changes. Use the project's existing versioning convention if it is different, but still advance the version on each shipped software update.
+- Keep the version consistent everywhere it is exposed or consumed: project/package metadata, assembly/file versions, in-app About/header/version display, installer metadata, workflow publish arguments, release/tag names, and user-facing documentation. Search for duplicated literals so an old version is not left behind.
+- Update the relevant user-facing `CHANGELOG.md` (or project changelog) with the version, date, changes, compatibility notes, and known limitations. If no changelog exists, create one. Do not fabricate dates, tested behavior, or test results.
+- Verify the built executable/package reports the intended version; run the applicable build/tests and inspect the resulting artifact. Do not say a version was released until the artifact/release is confirmed.
+- Documentation-only or internal archive/policy edits that do not change the shipped software do **not** require incrementing the application's binary version. Third-party dependencies keep their upstream version numbers unless dependency upgrades are explicitly part of the task.
+
+### Persist project knowledge after every repository-related prompt
+- Append each repository-related prompt to the central private `PROMPT_ARCHIVE.md` before substantive work. Keep secrets redacted.
+- Persist new durable requirements, design decisions, discoveries, environment findings, bug causes, failed approaches, unfinished tasks, and user preferences in the appropriate repository context/instructions file. Do not leave essential knowledge only in chat.
+- After task completion, append an outcome to the private prompt archive and relevant development log. For public repositories, put only non-sensitive summaries in the public-safe AI work log; raw prompt text remains in the private central archive.
+- Include file paths, commit references, validation performed and results, artifact/release links, and outstanding issues. State when a backup/log could not be written; never claim persistence unless the commit has been verified.
+- At the beginning of a later task, read the private archive and current repository instructions/source to restore relevant context. Treat source, history, CI logs, and artifacts as authoritative over stale summaries.
+- This policy is a required procedure for sessions that load these instructions and have GitHub access. It does not create an automatic ChatGPT-wide message interception hook and must not be represented as doing so.

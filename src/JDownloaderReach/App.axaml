@@ -1,0 +1,20 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:styling="clr-namespace:FluentAvalonia.Styling;assembly=FluentAvalonia"
+             x:Class="JDownloaderReach.App"
+             RequestedThemeVariant="Dark">
+  <Application.Styles>
+    <styling:FluentAvaloniaTheme UseSystemFontOnWindows="True" CustomAccentColor="#F22E8C" />
+  </Application.Styles>
+  <Application.Resources>
+    <ResourceDictionary>
+      <SolidColorBrush x:Key="AppBackgroundBrush" Color="#41464C" />
+      <SolidColorBrush x:Key="AppSurfaceBrush" Color="#50555C" />
+      <SolidColorBrush x:Key="AppSubtleBrush" Color="#3B4046" />
+      <SolidColorBrush x:Key="AppTextBrush" Color="#F7F8FA" />
+      <SolidColorBrush x:Key="AppMutedBrush" Color="#D1D5DB" />
+      <SolidColorBrush x:Key="AppBorderBrush" Color="#666C73" />
+      <SolidColorBrush x:Key="AppInputBrush" Color="#34393F" />
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>

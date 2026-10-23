@@ -440,3 +440,14 @@ The following seed entries were reconstructed from repository-related prompts vi
 - OnionFruit remains a separate UI/theme reference; no Tor-client source or runtime dependency was imported.
 - A local `git clone` from the execution container could not resolve `github.com`; upstream source metadata was inspected through the connected GitHub repository API instead.
 - Remaining finalization: check main post-merge CI and sync the named versioned backup branch to final main after this documentation commit.
+
+
+### Prompt 011 — Release Resolver Reach 2.4.0, upgrade dependencies, add macOS installers, and back up work
+- Date: 2026-10-23
+- Target: `PCUser2021/ResolverReach`
+- Exact prompt:
+
+> Make an installer for 2.4.0
+> Update everything you used to develop Resolver Reach to the latest version and apply it to the Resolver Reach installers
+> Develop macOS versions with installers. Make a 100% full backup of everything you did to GitHub
+- Status: captured before implementation on branch `feature/2.4.0-release-macos-backup`. Outcome will be recorded after changes and CI/backup verification.

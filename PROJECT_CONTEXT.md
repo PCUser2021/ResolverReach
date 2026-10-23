@@ -212,3 +212,14 @@ Last verified 2026-10-23: Resolver Reach 2.1.1 build and release completed succe
 - Final UI summary distinguishes transport failures from HTTP replies that fail DNS validation.
 - The logs are from v2.1.0. A new v2.1.1 scan is needed to confirm the measured improvement in the user's Proton VPN/network environment; no universal endpoint reachability is guaranteed.
 - Repository visibility remains private as last checked.
+
+
+## Resolver Reach 2.2.0 — native ARM64 installer and icon overhaul (2026-10-23)
+
+- Product version is 2.2.0; project file version/assembly version should be 2.2.0 / 2.2.0.0. Release workflow target is v2.2.0.
+- Added `win-arm64` to project runtime identifiers. Workflow now builds separate self-contained `win-x64` and `win-arm64` outputs; Inno Setup creates `ResolverReach-Setup-x64.exe` (x64-compatible, including Windows 11 ARM64 emulation) and `ResolverReach-Setup-arm64.exe` (native ARM64).
+- Icon overhaul: replaced the R monogram, refresh arrow, empty-state bullseye glyph, and text-only DoH badge with original metallic/spectral network/vector marks; added icon glyphs for paste links and Save Logs; result status gets distinct PASS/DNS ERROR/FAIL visual indicators.
+- Created SVG source icon family under `src/ResolverReach/Assets/Icons/`; redesigned the public product SVG icon and UI preview to the original dark titanium/glass treatment with cyan, blue, violet, and magenta accents. The actual art is original and does not reproduce Logic Pro's copyrighted icon.
+- The main-window icons are Avalonia vector shapes drawn in XAML; custom SVG source files are included as design source. `ResolverReach.ico` is the generated executable/installer icon resource.
+- Diagnostic input limitation: the new user-supplied `ResolverReach-Logs-20261023-040016.zip` MediaFire direct URL failed to download from the assistant environment (browser cache miss and local DNS resolution failure). Do not claim its contents were analyzed. Request a direct chat upload to diagnose any additional failures from that run.
+- Build/release status is pending until both architectures compile, both installer outputs are generated, and the v2.2.0 release contains both assets. Do not claim ARM64 installer is available until verified.

@@ -11,8 +11,8 @@
 - Stream-read DoH response bodies with a 65,535-byte cap rather than buffering oversized bodies in full.
 
 ### Tests and CI
-- Added `tests/ResolverReach.Tests` using xUnit.net v3 and deterministic offline DNS fixtures.
-- Added a GitHub Actions test job and made it a prerequisite for release publication; test results and coverage are uploaded as workflow artifacts.
+- Added `tests/ResolverReach.Tests` using xUnit.net v3 and deterministic offline DNS fixtures; explicitly selected Microsoft Testing Platform for the .NET 10 `dotnet test` mode.
+- Added a GitHub Actions test job and made it a prerequisite for release publication; TRX and Coverlet MTP (JSON/Cobertura) results are uploaded as workflow artifacts.
 - Added `DEPENDENCIES.md` documenting direct package versions, the .NET servicing release at audit time, CI action versions, and the intentionally unpinned Inno Setup installation.
 - No GitHub Release was created by these source changes; publication remains gated on successful CI and an explicit `[publish-release]` commit message.
 

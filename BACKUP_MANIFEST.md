@@ -110,3 +110,16 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Public UI preview and app SVG updated. It is illustrative artwork, not a genuine captured screenshot.
 - New user-supplied MediaFire log ZIP could not be retrieved; its contents have not been analyzed. Direct upload is needed before claiming new-run diagnosis.
 - Build and release status pending until x64 + ARM64 jobs and both uploaded assets are verified.
+
+
+## Verified Resolver Reach 2.2.0 dual architecture release — 2026-10-23
+- Workflow: https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064 — conclusion success.
+- Release: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.2.0
+- x64 installer: ResolverReach-Setup-x64.exe, 33,974,496 bytes.
+- Native ARM64 installer: ResolverReach-Setup-arm64.exe, 31,276,362 bytes.
+- Stable download URLs:
+  - https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe
+  - https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe
+- Project version 2.2.0; assembly/file 2.2.0.0; installer/release tag v2.2.0.
+- The redesigned original spectral-metal icon family includes new executable/installer ICO, SVG sources under src/ResolverReach/Assets/Icons/, XAML vectors, and matching public icon/preview.
+- The newly supplied MediaFire log was not retrieved; direct ZIP upload is necessary for its exact failure analysis.

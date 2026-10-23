@@ -285,3 +285,11 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Engineering constraints discovered at task start: JDownloader is a large Java codebase; Resolver Reach is a .NET 10/Avalonia application, and the repository also contains the separate Ollama GGUF Importer WinForms app. These technologies cannot be losslessly converted into a single language/framework by a mechanical transformation.
 - Workflow: preserve the current `main` branch, work on an isolated feature branch, verify license compatibility before redistribution, and record the actual scope/build results. Any first iteration must clearly distinguish a launcher/prototype from a fully ported and integrated downloader.
 - Status at archive time: repository inspection underway; no product code changes made yet.
+
+
+### Prompt 014 — x64 and ARM64 installers
+- Date: 2026-10-23
+- Request: Create a Windows installer for both x86-64 and ARM64.
+- Requirement: add separate architecture-specific installers for JDownloader Reach together with Resolver Reach and Ollama GGUF Importer. Publish each app for the matching Windows .NET runtime, and reject incompatible native OS architectures in each installer.
+- Preserve main and existing app features. Record version changes and actual build/test outcomes in the development log.
+- Claim ARM64 support only after the ARM64 build and installer complete successfully in CI.

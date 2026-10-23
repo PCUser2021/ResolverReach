@@ -192,3 +192,13 @@ This is an append-only, chronological audit log for the two Windows applications
 - **Preview:** updated public design illustration's icon art and version text; it remains a layout preview, not a screenshot captured from a running app.
 - **Build/release:** pending Windows x64 + ARM64 workflow verification and v2.2.0 dual-asset upload. A successful publish/release run must be read back before claiming downloads available.
 - **Live resolver validation:** the earlier 2.1.0 logs showed actual unreachable/non-compliant services and 2.1.1 made retries/protocol changes. Without the new ZIP, do not make additional log-specific network assertions. Post-release, collect the new ZIP by direct chat upload and compare endpoint failure classes.
+
+
+### Verification follow-up — Resolver Reach 2.2.0 dual-architecture release completed (2026-10-23)
+- Workflow #39945785064 completed with conclusion success: https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064
+- x64 and ARM64 jobs both passed .NET restore, self-contained publish, Inno Setup install, installer compilation, and artifact upload.
+- Release job downloaded both artifacts and published Release v2.2.0: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.2.0
+- Assets: ResolverReach-Setup-x64.exe (33,974,496 bytes), ResolverReach-Setup-arm64.exe (31,276,362 bytes).
+- Stable links use /releases/latest/download/ResolverReach-Setup-x64.exe and /releases/latest/download/ResolverReach-Setup-arm64.exe.
+- The UI uses original vector icons in XAML with matching SVG source family and the redesigned executable/installer ICO. This is an original dark-metallic/spectral treatment, not a copy of Logic Pro's icon.
+- The new MediaFire log file was not retrievable from the URL. Do not claim its failure contents were analyzed; ask for direct chat upload. Build success does not prove resolver availability and no interactive GUI test or live resolver re-scan was performed.

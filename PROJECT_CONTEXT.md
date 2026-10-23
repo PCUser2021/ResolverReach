@@ -151,3 +151,14 @@ Last verified 2026-10-23: Resolver Reach 2.0.0 builds successfully in workflow r
 - Public front page includes the app icon and a clearly labelled layout preview. The preview is an illustration, not a screenshot captured from the live app.
 - Git history contains both Resolver Reach and Ollama GGUF Importer sources. If the source repository is made public, all tracked files/history and Actions logs will also be visible.
 - Full platform-level ChatGPT Memory and every historical chat cannot be exported through the available tools. Project prompts, decisions, state and test outcomes visible in this work are recorded in `PROMPT_ARCHIVE.md`, `PROJECT_CONTEXT.md`, `DEVELOPMENT_LOG.md`, and `BACKUP_MANIFEST.md`.
+
+
+## MIT licensing, Release downloads, and public visibility — 2026-10-23
+
+- The user's latest instruction replaces the earlier personal/home-use-only restriction with permission for anyone to use the original project source for any purpose. Use the MIT License in root `LICENSE`, compatibility `LICENSE.txt`, and `public-distribution/LICENSE.txt`.
+- MIT allows use, copying, modification, publishing, distribution, sublicensing, and sale, subject to preservation of the copyright/license notice. It applies to project-owned original code/docs/assets; third-party dependencies and trademarks retain their respective licenses.
+- Root README provides `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe` as the stable direct download path. CI is being configured to produce a `v2.0.0` GitHub Release and attach `ResolverReach-Setup-x64.exe` after successful build on a designated release commit. Verify the actual release and asset before calling the link active.
+- GitHub repository metadata last reported `private`. License permissions do not change repository visibility; public code/download access still requires the owner to set the repository to Public in GitHub Settings. This session's GitHub connector does not offer a visibility-change operation.
+- Public front page includes the app icon and a clearly labelled layout preview. The preview is an illustration, not a screenshot captured from the live app.
+- Git history contains both Resolver Reach and Ollama GGUF Importer sources. If the source repository is made public, all tracked files/history and Actions logs will also be visible.
+- Full platform-level ChatGPT Memory and every historical chat cannot be exported through the available tools. Project prompts, decisions, state, and test outcomes visible in this work are recorded in `PROMPT_ARCHIVE.md`, `PROJECT_CONTEXT.md`, `DEVELOPMENT_LOG.md`, and `BACKUP_MANIFEST.md`.

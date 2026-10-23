@@ -43,9 +43,9 @@ jobs:
 
           $architecturePath = "$seed/docs/INTEGRATION-ARCHITECTURE.md"
           $architecture = Get-Content $architecturePath -Raw
-          $architecture = [regex]::Replace($architecture, "(?m)^- The standalone `src/OllamaGgufImporter/` source and `\.github/workflows/ollama-gguf-importer\.yml` remain independent and unchanged\.$", "- Ollama GGUF Importer is a separate product and is outside this repository.")
+          $architecture = [string]::Join([Environment]::NewLine, ($architecture -split "\r?\n" | Where-Object { $_ -notmatch 'src/OllamaGgufImporter|ollama-gguf-importer\.yml' }))
           Set-Content -Path $architecturePath -Value $architecture -Encoding utf8
-          $architecture = [regex]::Replace($architecture, '(?m)^- The standalone .*src/OllamaGgufImporter.*          Copy-Item "src/JDownloaderReach/CHANGELOG.md" -Destination "$seed/CHANGELOG.md" -Force
+          Copy-Item "src/JDownloaderReach/CHANGELOG.md" -Destination "$seed/CHANGELOG.md" -Force
 
           $buildWorkflow = Get-Content ".github/workflows/jdownloader-reach.yml" -Raw
           $buildWorkflow = $buildWorkflow.Replace("branches: [main, feature/jdownloader-reach-prototype]", "branches: [main]")

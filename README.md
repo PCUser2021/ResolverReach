@@ -6,7 +6,11 @@
 
 <p align="center"><strong>Windows 11 x64 · DNS-over-HTTPS reachability testing · One main window</strong></p>
 
-> **PERSONAL / HOME USE ONLY.** "Resolver Reach" is intended solely for personal, home use. Under no circumstances is anyone permitted to use "Resolver Reach" for any purpose other than personal, home use—this includes accessing the source code or reverse engineering it.
+<p align="center">
+  <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe"><strong>⬇ Download the latest Windows x64 installer</strong></a>
+  · <a href="https://github.com/PCUser2021/ResolverReach/releases">All releases</a>
+  · <a href="LICENSE">MIT License</a>
+</p>
 
 <p align="center">
   <img src="public-distribution/assets/resolverreach-preview.svg" alt="Resolver Reach 2.0.0 interface design preview" width="100%" />
@@ -14,43 +18,39 @@
 
 *Image note: the graphic above is an illustrative UI design preview based on the v2.0.0 layout, not a screenshot captured from a running application.*
 
-Resolver Reach checks whether DNS-over-HTTPS (DoH) endpoints complete a valid DNS exchange. The application exposes two testing paths; progress, aggregate status, endpoint status, latency and DNS details stay in the same main window.
+Resolver Reach is a Windows desktop tool for checking whether DNS-over-HTTPS (DoH) resolvers complete a valid DNS exchange. It provides two testing paths, while progress, endpoint status, latency, and DNS response details remain in the same main window.
 
 ## What Resolver Reach does
 
-- **Test cURL Resolvers:** fetches the live [cURL DNS-over-HTTPS resolver catalog](https://github.com/curl/curl/wiki/DNS-over-HTTPS), extracts HTTPS endpoints from its public table's Base URL column, removes duplicates, and tests the current list.
+- **Test cURL Resolvers:** fetch the live [cURL DNS-over-HTTPS resolver catalog](https://github.com/curl/curl/wiki/DNS-over-HTTPS), extract unique HTTPS endpoints from its Base URL column, and test the current list.
 - **Paste links → Test Resolvers:** test your own HTTPS DoH endpoints. Paste one URL per line or separate URLs with semicolons.
-- **Validate actual DoH responses:** sends a real RFC 8484 DNS query for `example.com A` and checks the HTTP status, `application/dns-message` content type, DNS transaction ID, response flags, echoed question, and DNS response code. A successful TLS connection or HTTP response alone is not counted as a valid DNS exchange.
-- **See results in the same window:** view PASS, DNS ERROR, or FAIL, plus HTTP status, latency, DNS response details and scan progress.
-- **Bounded scanning:** at most 512 unique endpoints per run, with Escape to cancel an active scan.
+- **Validate actual DoH responses:** send an RFC 8484 DNS query for `example.com A` and validate HTTP status, `application/dns-message` content type, DNS transaction ID, response flags, echoed question, and DNS response code. HTTP/TLS success alone is not a successful DNS test.
+- **Integrated results:** view PASS, DNS ERROR, or FAIL with HTTP status, latency, DNS response details, and scan progress.
+- **Bounded scanning:** up to 512 unique endpoints per run; Escape cancels an active scan.
 
-A valid DNS error response is shown separately from a failed/unreachable endpoint. Availability checks are point-in-time measurements and cannot guarantee a resolver's future or universal reachability. The selected provider receives the test DNS query; only test services you trust.
+A valid DNS error response is distinguished from an unavailable endpoint or invalid reply. Availability checks are point-in-time measurements, not a guarantee of future reachability. The chosen DNS provider receives the test query; use services you trust.
 
 ## Download
 
-- **Latest verified build:** [Resolver Reach 2.0.0 Windows x64 installer](https://github.com/PCUser2021/ResolverReach/actions/runs/39928118989)
-- The successful GitHub Actions run published the `ResolverReach-Windows-x64` installer artifact. Workflow artifacts are temporary and may expire; a permanent tagged Release asset must be uploaded separately if the binary should remain downloadable.
+- **[Download the latest Windows x64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe)** — stable URL for the newest published GitHub Release.
+- **[View all releases and assets](https://github.com/PCUser2021/ResolverReach/releases)**.
+- Public downloads require the repository to be public; private repositories' release assets remain access-controlled.
 
-## License and source visibility
+The Windows build workflow is configured to publish the installer to GitHub Releases after a successful main-branch build on the designated release commit. It also keeps a short-lived Actions artifact as a secondary fallback.
 
-The personal/home-use restrictions above are the requested terms. See [LICENSE.txt](LICENSE.txt) for the distribution license.
+## License
 
-**Repository visibility:** the owner can switch visibility at [Repository Settings](https://github.com/PCUser2021/ResolverReach/settings) → Danger Zone → Change repository visibility. The connected assistant session cannot execute this administrative setting change. Once public, the source and Git history are visible to visitors and GitHub permits public forks; the license wording cannot technically conceal publicly committed files. The requested restriction on source access is therefore a stated use restriction, not an access-control mechanism.
+Resolver Reach's original project source, documentation, and original assets in this repository are licensed under the permissive **MIT License**. Anyone may use, copy, modify, merge, publish, distribute, sublicense, and sell copies for any purpose, subject to preserving the copyright and license notice.
+
+See [LICENSE](LICENSE). Third-party libraries, dependencies, and trademarks remain subject to their own licenses and terms.
 
 ## Build verification
 
-The v2.0.0 source was merged in commit `35ff1517f7e0c0ce42fe1a8500935123d922dd30`. The Windows x64 publish, Inno Setup installer compilation and artifact upload passed in [GitHub Actions run #39928118989](https://github.com/PCUser2021/ResolverReach/actions/runs/39928118989). CI build success does not mean every DNS resolver was live-tested at build time.
+Resolver Reach 2.0.0 is a Windows 11 x64 app built with C# / .NET 10, Avalonia, FluentAvalonia, ReactiveUI, and DynamicData. The v2.0.0 Windows x64 publish and installer compile passed in [GitHub Actions run #39928118989](https://github.com/PCUser2021/ResolverReach/actions/runs/39928118989). CI packaging success does not mean every DNS resolver has been live-tested.
 
 ## Technical details
 
 - Version: **2.0.0**
-- OS target: Windows 11 x64
-- Stack: C# / .NET 10, Avalonia, FluentAvalonia, ReactiveUI, DynamicData
-- Resolver testing: RFC 8484 DNS-over-HTTPS with POST and GET fallback where supported
-- No system DNS modification, VPN, or general traffic routing
-
----
-
-### Project history and development
-
-The repository's Git history contains the source code and development records for Resolver Reach as well as the separate Ollama GGUF Importer utility. The history also includes project prompt archives and GitHub Actions workflow logs; review those records before making the repository publicly visible.
+- Target: Windows 11 x64
+- DoH test: RFC 8484 DNS wire-format query with POST and GET fallback where appropriate
+- No changes to Windows DNS settings, VPN, or general traffic routing

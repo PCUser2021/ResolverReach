@@ -35,6 +35,8 @@ A valid DNS error response is a completed DoH exchange but is not a successful a
 
 ## Downloads
 
+**Current release:** [Resolver Reach 2.2.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.2.0). The x64 and native ARM64 builds, installers, and Release upload all passed in [GitHub Actions run #39945785064](https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064).
+
 - **[Windows x64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe)** — standard Intel/AMD 64-bit Windows. The x64-compatible installer can also run under Windows 11 ARM64 emulation.
 - **[Native Windows ARM64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe)** — native Arm64 Windows app, not the emulated x64 build.
 - [Browse all releases and checksums](https://github.com/PCUser2021/ResolverReach/releases).

@@ -270,3 +270,10 @@ This is an append-only, chronological audit log for the two Windows applications
 - The release-only job was skipped because this was a pull request / ordinary merge, and no `[publish-release]` trigger was used. The latest published release remains v2.2.0; no v2.3.0 release or external release assets have been created.
 - OnionFruit was inspected as an upstream visual reference only. Its separate Tor client implementation was not copied or added as a Resolver Reach dependency.
 - Exact-head PR CI passed; main branch's post-merge CI is running independently. After the remaining documentation commit, confirm its own CI and synchronize `backup/ResolverReach-2.2.0-2026-10-23` to final main.
+
+
+## 2026-10-23 — Removed the separate GGUF importer from current main
+- Deleted the standalone app source, project file, README and icon, plus its dedicated GitHub Actions workflow.
+- Refreshed the current project context and handoff to describe Resolver Reach as the sole application in the current source tree.
+- Resolver Reach source, installer and Windows build workflow were retained. No app build was run for this deletion-only task.
+- A pre-removal snapshot remains on branch `backup/pre-remove-ollama-gguf-importer-2026-10-23`. Earlier Git history and past Actions records were not rewritten or erased.

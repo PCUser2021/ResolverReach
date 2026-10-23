@@ -2,7 +2,7 @@
 
 Snapshot date: 2026-10-23  
 Primary repository: https://github.com/PCUser2021/ResolverReach  
-Visibility at last check: **private (awaiting GitHub UI visibility change)**  
+Visibility at last check: **private; the user requested public access, but the owner must still change the GitHub visibility setting**  
 Product version: **Resolver Reach 2.0.0**  
 The source history includes Resolver Reach and Ollama GGUF Importer.
 
@@ -41,6 +41,13 @@ Once the private source repository becomes public, GitHub makes all committed co
 ## ChatGPT memory limitation
 
 The complete ChatGPT platform-level Memory store and every historical chat cannot be exported through the connected tools. Repository-related prompts, decisions, implementation notes, build validation and handoff state are preserved in `PROMPT_ARCHIVE.md`, `PROJECT_CONTEXT.md`, and `DEVELOPMENT_LOG.md`; that is not a full platform Memory export.
+
+
+## MIT licensing and permanent Release downloads — 2026-10-23
+- Project-owned source, docs, and original assets now use the MIT License; personal/home-only restrictions are removed from root and distribution license/README files.
+- Root README includes the stable direct installer link: `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
+- The main build workflow is being configured to publish a `v2.0.0` Release after a successful Windows x64 build on a designated `[publish-release]` main-branch commit. Check the Release API and asset URL before claiming the download is active.
+- Repository metadata last reported `private`; a GitHub Settings visibility change remains necessary before public source and downloads become available to everyone.
 
 
 ## MIT licensing and permanent Release downloads — 2026-10-23

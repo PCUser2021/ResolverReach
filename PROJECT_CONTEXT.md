@@ -218,3 +218,12 @@ This section supersedes the earlier statement that the prototype was x64-only an
 - **Workflow:** `.github/workflows/jdownloader-reach.yml` creates separate GitHub Actions artifacts named `JDownloaderReach-Setup-x64` and `JDownloaderReach-Setup-arm64`, with 30-day retention. This is artifact distribution, not a permanent GitHub Release.
 - **Security/product boundary:** JDownloader's Java engine is still not bundled. The shell operates an existing JDownloader instance via loopback-only legacy API controls and launches the two .NET tools.
 - **Current CI note:** The build before the license-copy correction succeeded for both architectures in workflow run `39943167275`. The rebuild including the third-party license file is in progress under workflow run `39943711695`; update the outcome after inspecting that exact run.
+
+
+### Final verification — x64 and ARM64 installers including third-party license text (2026-10-23)
+
+- Final successful workflow: [#39943711695](https://github.com/PCUser2021/ResolverReach/actions/runs/39943711695), commit `8a2feed6059ee3fc8d6590f5b679e26a79a8b711`; both matrix jobs completed with `success`.
+- Artifacts: `JDownloaderReach-Setup-x64` (artifact ID `12496179768`, 97,832,112 bytes) and `JDownloaderReach-Setup-arm64` (artifact ID `12497252555`, 89,365,276 bytes). Both artifacts include the native three-app bundle, readme, MIT license, Resolver Reach third-party notices, and the actual `THIRD-PARTY-LICENSES/ONIONFRUIT-LGPL-3.0.md` text.
+- Downloaded Setup EXEs, extracted from those artifacts and checked non-empty: x64 SHA-256 `5b865279309ccc790f80be05fa92cd3e177c0a7736f416b431d27fa7e442bc8f`; ARM64 SHA-256 `d2d4a1a6309038fbd7ba76324d6132c1b455ce9da7c3ffe25334e0ef2ced5f48`.
+- The CI PE-machine validation step, Inno Setup compilation, and artifact upload succeeded for both architectures.
+- No interactive install test on a physical ARM64 device was performed; successful cross-target compilation and packaging do not establish all runtime integrations against an installed JDownloader instance.

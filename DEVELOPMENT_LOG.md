@@ -109,3 +109,15 @@ This is an append-only, chronological audit log for the two Windows applications
 - **Visibility blocker:** No GitHub action for changing repository visibility exists in this session and `gh` CLI is unavailable/unauthenticated in the container. Last metadata read still reports `private`. The source repository has not been made public; the repository owner must complete Settings → Danger Zone → Change repository visibility → Public and then verify metadata.
 - **Consequence:** Once made public, the complete committed history, prompt archive, project records, source for both Resolver Reach and Ollama GGUF Importer, and GitHub Actions logs become visible. The user has approved public source visibility.
 - **Memory limitation:** Complete platform-level ChatGPT Memory and all historic chats cannot be exported by available tools. Relevant repository prompts, project decisions, source state, backup branch and build validation remain in Git.
+
+
+## 2026-10-23 — MIT licensing and release download automation (in progress)
+
+- **User intent:** Allow anyone to use Resolver Reach and the project source for any purpose and make permanent installer links available through GitHub Releases.
+- **License:** Replaced personal/home-use-only restrictions with MIT in the root license files and public distribution draft. The README states that original project code/docs/assets may be used for any purpose subject to retaining the MIT notice. Third-party dependencies retain their own licenses.
+- **Download UX:** Added stable README link `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe` and link to all releases.
+- **Release automation in this task:** Add a `publish-release` job with `contents: write` scoped to that job. After the Windows x64 build/artifact succeeds, the job is gated to a designated main commit containing `[publish-release]`, downloads `ResolverReach-Windows-x64`, creates the `v2.0.0` release, and attaches `ResolverReach-Setup-x64.exe`.
+- **Pre-change facts:** Releases API returned an empty list and the `v2.0.0` tag did not exist. Final status must be verified from the ensuing CI run and Release API response.
+- **Visibility status:** Repository metadata currently reports `private`. The available GitHub connector does not provide a repository visibility mutation, so public access needs a manual GitHub Settings change.
+- **Version policy:** No product behavior/source-code logic changed; product version remains 2.0.0. This is a license/docs/release-pipeline update.
+- **No live DNS test claim:** Packaging success does not mean every DoH endpoint has been runtime-tested.

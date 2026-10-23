@@ -211,3 +211,11 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Created branch `backup/pre-remove-ollama-gguf-importer-2026-10-23` at pre-removal commit `adc9e656fdf118cb829eb976ce61cbc0c79bd267` before removing the separate application from `main`.
 - The branch preserves the complete pre-removal tracked tree. Current `main` retains Resolver Reach and its installer/build workflow.
 - This was a source-tree cleanup, not a Git history rewrite or a claim that all remote build artifacts were erased.
+
+
+## Resolver Reach 2.4.0 candidate branch — 2026-10-23
+
+- Feature branch: `feature/resolverreach-2.4.0-comprehensive-doh-validation`.
+- Candidate source version: 2.4.0; latest previously verified GitHub Release: v2.2.0. No v2.4.0 release assets have been created.
+- Candidate adds centralized NuGet package versions, deterministic DNS protocol tests, expanded DNS/EDNS validation and bounded DoH body reads. The exact branch head and Actions results must be recorded after verification.
+- `DEPENDENCIES.md` lists application/test packages, CI actions, and build tools whose patch versions are not pinned. This entry records planned verification; it is not proof that the build or tests passed.

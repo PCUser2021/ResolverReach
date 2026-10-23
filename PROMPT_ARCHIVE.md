@@ -482,3 +482,15 @@ The following seed entries were reconstructed from repository-related prompts vi
 > [https://github.com/PCUser2021/ResolverReach/actions/runs/40006428473](https://github.com/PCUser2021/ResolverReach/actions/runs/40006428473)
 > Delete macOS version completely. i don't have money to develop the macos version.
 - Status: captured before implementation on `feature/2.4.0-release-macos-backup`. Outcome will document the Windows-only cleanup and CI verification.
+
+
+### Outcome 012 — macOS support removed from the active Resolver Reach proposal
+- Date: 2026-10-23
+- PR: [#4 — Resolver Reach 2.4.0: Windows and macOS installers](https://github.com/PCUser2021/ResolverReach/pull/4); the PR title/body must be renamed to Windows-only after these source changes.
+- Removed active macOS support by restoring the Windows-only `ResolverReach.csproj`, Windows-only `MainWindow.axaml.cs`, and Windows-only `.github/workflows/windows-build.yml` from `main`, while retaining pinned .NET SDK `10.0.402` in CI.
+- Removed macOS download links, macOS feature/packaging/security text and macOS runtime IDs from the README and dependency inventory; changed the 2.4.0 changelog candidate to Windows-only scope.
+- Updated current project context, master context, and AI handoff to state that Windows x64 and native Windows ARM64 are the only active targets.
+- Deleted `MACOS_INSTALLATION.md` from the working branch. No macOS app-bundle, DMG/ZIP package, runtime identifier, or macOS CI job remains in the active source/workflow.
+- Historical backup branch `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` is intentionally retained as a backup snapshot of the previous state; it is not an active product target. A separate Windows-only snapshot will be created after final records are written.
+- The previous macOS-containing CI runs did not expose job logs and failed across jobs. The cause was not confirmed. A fresh Windows-only CI run must pass its tests, x64/ARM64 builds, and installer-artifact validation before PR merge or v2.4.0 publication.
+- Account-level ChatGPT Memory cannot be fully exported through the GitHub integration; project source/history and repository-specific prompts/outcomes are kept in GitHub.

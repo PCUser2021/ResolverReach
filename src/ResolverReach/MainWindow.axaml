@@ -1,4 +1,4 @@
-<windowing:AppWindow xmlns="https://github.com/avaloniaui"
+<windowing:FAAppWindow xmlns="https://github.com/avaloniaui"
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
                      x:Class="ResolverReach.MainWindow"
@@ -9,4 +9,4 @@
                      Background="{DynamicResource AppBackgroundBrush}"
                      WindowStartupLocation="CenterScreen">
   <Window.Content><ContentControl x:Name="MainContent" /></Window.Content>
-</windowing:AppWindow>
+</windowing:FAAppWindow>

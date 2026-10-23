@@ -3,7 +3,7 @@
 Snapshot date: 2026-10-23  
 Primary repository: https://github.com/PCUser2021/ResolverReach  
 Visibility at last check: **private; the user requested public access, but the owner must still change the GitHub visibility setting**  
-Product version: **Resolver Reach 2.1.1**  
+Product version: **Resolver Reach 2.2.0**  
 The source history includes Resolver Reach and Ollama GGUF Importer.
 
 ## Authoritative tracked backup
@@ -100,3 +100,13 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Stable latest link: https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe
 - Release job confirmed the build artifact was uploaded. The actual endpoint availability percentage after the fix remains to be measured in a new scan.
 - The repository visibility remains private at the last metadata read.
+
+
+## Resolver Reach 2.2.0 — dual architecture and icon overhaul (2026-10-23)
+- Project supports both `win-x64` and `win-arm64` runtime identifiers.
+- Planned release assets: `ResolverReach-Setup-x64.exe` and `ResolverReach-Setup-arm64.exe`.
+- Version 2.2.0 / assembly/file 2.2.0.0 / tag v2.2.0.
+- New original icon source under `src/ResolverReach/Assets/Icons/*.svg`; XAML draws a consistent metallic/glass icon family; main `ResolverReach.ico` is replaced in the release commit.
+- Public UI preview and app SVG updated. It is illustrative artwork, not a genuine captured screenshot.
+- New user-supplied MediaFire log ZIP could not be retrieved; its contents have not been analyzed. Direct upload is needed before claiming new-run diagnosis.
+- Build and release status pending until x64 + ARM64 jobs and both uploaded assets are verified.

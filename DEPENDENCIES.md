@@ -45,17 +45,17 @@ Test fixtures are synthetic DNS packets: the protocol tests do not depend on pub
 
 | Tool | Repository setting | Versioning note |
 |---|---|---|
-| GitHub Actions runner | `windows-latest` for tests and Windows builds | Hosted runner image is rolling, not pinned to an immutable image |
-| GitHub Actions runner | `ubuntu-latest` for artifact round-trip verification | Hosted runner image is rolling |
-| actions/checkout | `@v7` | Major tag, not a full commit-SHA pin |
-| actions/setup-dotnet | `@v6` | Major tag; installs `.NET 10.0.x` |
-| actions/upload-artifact | `@v7` | Major tag, not a full commit-SHA pin |
-| actions/download-artifact | `@v8` | Major tag, not a full commit-SHA pin |
+| GitHub Actions runner | `windows-latest` for tests and Windows builds | Verified CI run #40001573171 used runner `2.338.0`, image `20261021.618`, image version `20261021.278.1`; these are rolling, not immutable pins |
+| GitHub Actions runner | `ubuntu-latest` for artifact round-trip verification | Verified CI run #40001573171 used runner `2.338.0`, image `20261012.601`, image version `20261012.334.1`; these are rolling, not immutable pins |
+| actions/checkout | `@v7`; resolved SHA in run #40001573171: `3d3c42e5aac5ba805825da76410c181273ba90b1` | Workflow uses major tag, not a full commit-SHA pin |
+| actions/setup-dotnet | `@v6`; resolved SHA in run #40001573171: `a98b56852c35b8e3190ac28c8c2271da59106c68` | Workflow uses major tag; installs `.NET 10.0.x` |
+| actions/upload-artifact | `@v7`; resolved SHA in run #40001573171: `cf430e030ddbb5b0abf93d22962f4752f3646cd9` | Workflow uses major tag, not a full commit-SHA pin |
+| actions/download-artifact | `@v8`; resolved SHA in run #40001573171: `9000827ccba6bdab643e8b6fd33ac0654aef8333` | Workflow uses major tag, not a full commit-SHA pin |
 | softprops/action-gh-release | `@v3.0.3` | Explicit version tag |
-| Inno Setup compiler | Discovery tries Inno Setup 7 then 6 | Exact patch version is not pinned |
-| Chocolatey install fallback | `choco install innosetup --yes --no-progress` | Package version is intentionally unpinned; exact installed patch depends on the runner/package feed on that day |
+| Inno Setup compiler | **6.7.1 in verified CI run #40001573171** | Workflow checks Inno Setup 7 paths first, then 6; current installer was built with Inno Setup 6.7.1. The workflow does not pin that patch version, so future runners could select a different release |
+| Chocolatey install fallback | `choco install innosetup --yes --no-progress` | This fallback does not pin an installer-package version; the verified run found Inno Setup 6.7.1. Exact future installation depends on runner/package feed |
 | Windows packaging | Inno Setup script `installer/ResolverReach.iss` | Produces separate x64-compatible and native ARM64 installers |
-| Publish model | .NET self-contained single-file | `win-x64` and `win-arm64`; native runtime bits are embedded/extracted by .NET publish configuration |
+| Git in Windows CI | `2.56.0.windows.2` | Observed in both architecture-build/test job logs for run #40001573171; not part of the shipped app |\n| Publish model | .NET self-contained single-file | `win-x64` and `win-arm64`; native runtime bits are embedded/extracted by .NET publish configuration |
 
 ## Protocol and external standards
 

@@ -45,3 +45,11 @@ This is an append-only, chronological audit log for the two Windows applications
 - Updated the public Wand-Enhancer `AGENTS.md` with the same versioning and knowledge-preservation rules. Raw user prompts remain in the private archive and must never be copied into the public repo.
 - No application source code or shipped product behavior changed in this task, so no application version was incremented and no product changelog release entry was added.
 - **Validation still pending:** verify GitHub write commits and read back the updated files. No application build or runtime tests are applicable to this documentation-only policy change.
+
+
+### Verification follow-up — 2026-10-22
+- GitHub read-back confirmed the mandatory versioning/knowledge-persistence section is present in `PROJECT_CONTEXT.md` (blob `5ce54854c01b54f45800b136d7941845adf51f28`).
+- GitHub read-back confirmed the exact user prompt is present in private `PROMPT_ARCHIVE.md` (blob `b61567b9501dc0bc256e9b299539f57325aac56f`).
+- GitHub read-back confirmed the versioning rule and knowledge-persistence rule are present in public `Wand-Enhancer/AGENTS.md` (blob `6dc15b096486ff3720682bb8bb272e0ed872e7b6`).
+- Public-safe work-log policy is present in `Wand-Enhancer/AI_WORK_LOG.md` (blob `0563d0275edf0f5c11552a6c941cabcadfab5af8`).
+- No product code changed; application versions remain unchanged in this documentation-only task. No build or runtime tests were run.

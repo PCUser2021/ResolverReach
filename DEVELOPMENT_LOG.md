@@ -87,3 +87,13 @@ This is an append-only, chronological audit log for the two Windows applications
 - **License caveat:** Requested personal/home-use restriction and reverse-engineering prohibition are included in the drafts. Their enforceability cannot be guaranteed against non-waivable rights under every jurisdiction.
 - **Backup state:** Source plus Git history remains in the private repo. Prompt 008 was archived before work; this outcome and updated project context are now being saved. A separate full export of all ChatGPT platform Memory/historical chats is not supported by available tools; repository-related knowledge is preserved in the private prompt archive, context, and development log.
 - **Next step:** create a separate public binary-only repository (suggested name `ResolverReach-Downloads`) and upload the prepared kit, keeping the source repository private.
+
+
+### Final backup and publication status — 2026-10-23
+- Exact request archived as Prompt 008; outcome recorded in `PROMPT_ARCHIVE.md`.
+- Public distribution drafts and icon/preview source are committed under `public-distribution/` in the **private** source repository. `PUBLIC_DISTRIBUTION_PLAN.md` and `BACKUP_MANIFEST.md` explain the safe release-only repository design.
+- Local publication package: `/mnt/data/ResolverReach-Public-Distribution-Kit.zip`; SHA-256 `0295e351aa532b70f8e84d83054d0b9e78a9f31301a61b70008188f2c0a9030b`. It includes the installer, public-facing docs, license terms, icon artwork, and a clearly disclosed layout preview, not source.
+- Do not make the current repository public: it contains application source for two projects. GitHub public visibility exposes tracked code and commit history. This session's available GitHub connection does not expose repository-creation or visibility-change operations, so no new public repository was created and the existing repository remains private.
+- The preview image is a design illustration rendered from the XAML layout, not a screenshot taken from the running app. No genuine screen capture has been claimed.
+- Created stable snapshot branch `backup/ResolverReach-2.0.0-2026-10-23`. This final audit commit is then synchronized to that branch; final read-back records whether the heads match.
+- A complete export of ChatGPT platform Memory/historic chat data cannot be produced through the connected tools. All repository-related prompts, implementation decisions, current source state, build verification and handoff limitations visible in this work are kept in the private repository's archive/context/log.

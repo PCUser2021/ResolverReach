@@ -97,7 +97,7 @@ For every substantive task related to either application:
 - Resolver Reach CI: `.github/workflows/windows-build.yml`
 - GGUF Importer CI: `.github/workflows/ollama-gguf-importer.yml`
 
-Last verified 2026-10-23: Resolver Reach 2.0.0 main branch build passed (run `39928118989`), artifact `12490750995`. The source repository remains private. A separate public binary-only distribution kit is prepared but not published; see `PUBLIC_DISTRIBUTION_PLAN.md` and `BACKUP_MANIFEST.md`.
+Last verified 2026-10-23: Resolver Reach 2.0.0 source is in private repo `PCUser2021/ResolverReach`; public binary-only distribution kit is prepared locally but not published. The Windows x64 build and installer succeeded in run `39928118989`. See `PUBLIC_DISTRIBUTION_PLAN.md`, `BACKUP_MANIFEST.md`, and the latest development-log entry.
 
 
 ## Cross-repository prompt backup and restore policy
@@ -150,3 +150,12 @@ Last verified 2026-10-23: Resolver Reach 2.0.0 main branch build passed (run `39
 - Requested home/personal-use and anti-reverse-engineering language is in the public README and license draft. Do not promise absolute enforceability; mandatory rights and exceptions depend on applicable jurisdiction.
 - Full platform-level ChatGPT Memory and all historical chats cannot be exported through this repository connection. Persist all relevant project-related prompts/decisions/outcomes in `PROMPT_ARCHIVE.md`, and preserve the implementation state/history in Git.
 - Full backup manifest: `BACKUP_MANIFEST.md`. Suggested stable source snapshot branch: `backup/ResolverReach-2.0.0-2026-10-23`.
+
+
+### Final publication/backup status — 2026-10-23
+
+- The existing source repository remains private. It contains source code for both Resolver Reach and Ollama GGUF Importer; do not change it to public because GitHub public visibility exposes code and commit history.
+- Prepared public-only draft assets/docs in `public-distribution/` and a source-free local ZIP `ResolverReach-Public-Distribution-Kit.zip`. The image is explicitly labelled as a UI design preview, not a live app screenshot.
+- A separate public download repository has **not** been created by this assistant session: the connected GitHub actions available here do not include repository creation or repository-visibility mutation. Do not say that the public listing exists until verified.
+- Stable snapshot branch: `backup/ResolverReach-2.0.0-2026-10-23`; after any final documentation update, move it to the final `main` commit and verify both refs match.
+- ChatGPT's full platform Memory and historic conversations cannot be exported through the available connector. Preserve the full project-relevant context/prompts/outcomes in `PROMPT_ARCHIVE.md`, this file, `DEVELOPMENT_LOG.md`, and `BACKUP_MANIFEST.md`.

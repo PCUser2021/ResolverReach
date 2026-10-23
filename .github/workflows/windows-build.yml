@@ -158,6 +158,33 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+  verify-packaged-artifacts:
+    name: Verify both installer artifacts
+    needs: [build-windows-x64, build-windows-arm64, verify-packaged-artifacts]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Download Windows x64 installer artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ResolverReach-Windows-x64
+          path: artifacts/x64
+
+      - name: Download native Windows ARM64 installer artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ResolverReach-Windows-arm64
+          path: artifacts/arm64
+
+      - name: Verify both installers exist and are non-empty
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s artifacts/x64/ResolverReach-Setup-x64.exe
+          test -s artifacts/arm64/ResolverReach-Setup-arm64.exe
+          ls -lh artifacts/x64/ResolverReach-Setup-x64.exe artifacts/arm64/ResolverReach-Setup-arm64.exe
+          sha256sum artifacts/x64/ResolverReach-Setup-x64.exe artifacts/arm64/ResolverReach-Setup-arm64.exe
+
   publish-release:
     name: Publish tested v2.3.0 release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[publish-release]')

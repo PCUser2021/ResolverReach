@@ -241,3 +241,12 @@ The following seed entries were reconstructed from repository-related prompts vi
 
 - Required work: fix the top-right title/version/system-caption overlap; add a Save Logs main-window button that prompts for a user-selected ZIP path and exports available full run/activity diagnostics; bump product version and synchronize metadata/changelog; verify the Windows build and update durable context.
 - Status at archive time: captured before implementation.
+
+
+### Outcome 011 — Resolver Reach 2.1.0 titlebar fix and ZIP Save Logs verified
+- Date: 2026-10-23
+- Updated the main header to reserve a 190-DIP safe area for Windows caption controls; added the **Save Logs** button and Avalonia ZIP save picker.
+- Added session-level activity and endpoint-result history. ZIP contains `session-summary.txt`, `activity.log`, `resolver-results-history.csv`, `current-visible-results.csv`, and `session.json`.
+- Product/project/assembly/file/installer version advanced to `2.1.0` / `2.1.0.0`; changelog, README, project context and workflow synchronized.
+- Windows build/release workflow [#39937042568](https://github.com/PCUser2021/ResolverReach/actions/runs/39937042568) completed successfully. Published release [v2.1.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.0), asset `ResolverReach-Setup-x64.exe`, 33,980,655 bytes; verified stable URL `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
+- CI confirmed compile, packaging, and upload, but no live interactive Windows GUI test was performed. Repository visibility still reads `private`.

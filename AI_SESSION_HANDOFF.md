@@ -13,15 +13,15 @@ Last verified: 2026-10-23 (America/New_York context: app repositories inspected 
 - Never claim a source change, build, uploaded asset, successful test, or backup unless GitHub read-back verifies it.
 - There is no global ChatGPT hook that guarantees every message in every conversation is automatically archived. Repository instructions work only when they are loaded and GitHub access is available.
 
-## Current product: Resolver Reach 2.2.0
+## Current product target: Resolver Reach 2.3.0 (CI verification pending)
 
 ### Purpose and behavior
 Windows 11 single-window DNS-over-HTTPS (DoH) resolver diagnostic application. It is not a VPN and does not change system DNS, routing, or general Internet traffic.
 
-- Technologies: C# / .NET 10, Avalonia 11, FluentAvalonia, ReactiveUI, DynamicData.
+- Technologies: C# / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Reactive 24.2.0, ReactiveUI.Avalonia.Reactive 12.1.6, DynamicData 9.5.0.
 - Project: `src/ResolverReach/ResolverReach.csproj`.
 - Runtime identifiers: `win-x64;win-arm64`.
-- App/project version: `2.2.0`; assembly/file version: `2.2.0.0`.
+- App/project target version: `2.3.0`; assembly/file version: `2.3.0.0`.
 - The two UI paths test unique HTTPS Base URLs parsed from the current curl/curl DNS-over-HTTPS wiki or test pasted HTTPS endpoints. The app sends RFC 8484 wire-format DNS query for `example.com A`.
 - Validation covers HTTP status, `application/dns-message` content type, transaction ID, response flags, question and DNS response code; HTTP 200/TLS alone is not considered success.
 - Result statuses distinguish PASS (valid NOERROR), DNS ERROR (valid DNS exchange with non-NOERROR response), FAIL, and CANCELLED. A dead hostname, HTTP 403/404/502, wrong MIME type or invalid DNS packet is not a healthy resolver.
@@ -106,3 +106,13 @@ This file plus the full Git history/source/assets/releases and project logs pres
 - Actual ZIP is absent from current attachments, Library and `/mnt/data`; the manifest is not the binary. Do not attempt to infer results from it.
 - The only scan archive actually analyzed is the older `ResolverReach-Logs-20261023-032704.zip` (266 endpoints: 235 PASS, 1 DNS ERROR, 30 FAIL). That run preceded the v2.1.1 networking changes and is not a substitute for the latest run.
 - Next action: ask user to attach the entire `ResolverReach-Logs-20261023-044828.zip` directly as a file. Once present, inspect ZIP directory, log, CSVs and per-endpoint errors; then determine code vs external resolver/VPN/network causes.
+
+
+## Current modernization handoff — 2026-10-23
+
+- Working branch: maintenance/ResolverReach-2.3.0-modernization-2026-10-23.
+- Pre-change snapshot: backup/ResolverReach-2.2.0-before-modernization-2026-10-23.
+- Product candidate version: 2.3.0. Framework/package and CI changes plus brand assets are committed on the working branch; CI must prove Avalonia 12 / ReactiveUI 24 compatibility and package both architectures before merge/release.
+- Tool versions are pinned in src/ResolverReach/ResolverReach.csproj and .github/workflows/windows-build.yml; do not assume API compatibility solely from version listings.
+- Redesigned nine Resolver Reach SVG assets, ResolverReach.ico, public resolverreach-icon.svg, and the labeled non-screenshot resolverreach-preview.svg. Ollama GGUF Importer icon/code/workflow are outside the requested Resolver Reach icon scope.
+- Full ChatGPT platform Memory and unrelated historical chats cannot be exported by available tools. Durable repo-specific work is stored in Git history plus prompt/context/log files.

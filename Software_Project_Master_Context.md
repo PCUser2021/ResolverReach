@@ -13,12 +13,12 @@ Last verified: 2026-10-23
 - Changelog: [CHANGELOG.md](https://github.com/PCUser2021/ResolverReach/blob/main/CHANGELOG.md)
 - Resolver Reach current source and workflows are authoritative; inspect them before claiming behavior or build status. Verify releases and artifacts through GitHub's Release API/workflow run.
 
-## Project A — Resolver Reach 2.2.0
+## Project A — Resolver Reach 2.3.0
 
 - Platform: Windows 11 x64 and native Windows ARM64.
-- Technology: C# / .NET 10, Avalonia 11, FluentAvalonia, ReactiveUI, DynamicData.
+- Technology: C# / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Reactive 24.2.0, ReactiveUI.Avalonia.Reactive 12.1.6, DynamicData 9.5.0.
 - Project file: `src/ResolverReach/ResolverReach.csproj`; runtime IDs `win-x64;win-arm64`.
-- Product version 2.2.0; assembly/file version 2.2.0.0.
+- Product version 2.3.0; assembly/file version 2.3.0.0.
 - Purpose: single-window DNS-over-HTTPS resolver reachability and response-validity tester. It is not a VPN and does not modify Windows DNS/routing.
 - Testing paths: fetch current HTTPS Base URLs from cURL's DNS-over-HTTPS wiki, or paste HTTPS DoH URLs one per line/semicolon-separated.
 - Probe validates RFC 8484 DNS wire reply to `example.com A`: HTTP status, `application/dns-message` content type, DNS ID, response flag/opcode/question, and RCODE. HTTP 200/TLS connection alone is not considered success.
@@ -28,8 +28,8 @@ Last verified: 2026-10-23
 - Save Logs ZIP contents: `session-summary.txt`, `activity.log`, `resolver-results-history.csv`, `current-visible-results.csv`, `session.json`. Captures current process history, not previous application sessions.
 - Layout fix reserves 190 DIPs at the right of the extended header so version badge clears Windows caption controls.
 - Icon overhaul: original dark titanium/glass with spectral cyan/blue/violet/magenta light; broad Logic Pro-inspired premium visual direction, not a copy. Main icon `src/ResolverReach/Assets/ResolverReach.ico`; SVG assets `src/ResolverReach/Assets/Icons/*.svg`; XAML vector controls `src/ResolverReach/MainView.axaml`; public mark/preview under `public-distribution/assets/`.
-- Release v2.2.0: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.2.0
-- Verified workflow #39945785064: https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064 (x64 + ARM64 publish, installers, and release job passed).
+- Release target v2.3.0: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.3.0 (do not consider verified until current CI and actual release assets are confirmed).
+- Prior verified workflow #39945785064 applies to v2.2.0 only. The v2.3.0 Avalonia 12 / ReactiveUI 24 build remains pending CI verification.
 - x64 installer, 33,974,496 bytes: https://github.com/PCUser2021/ResolverReach/releases/download/v2.2.0/ResolverReach-Setup-x64.exe
 - Native ARM64 installer, 31,276,362 bytes: https://github.com/PCUser2021/ResolverReach/releases/download/v2.2.0/ResolverReach-Setup-arm64.exe
 - Stable installer URLs: https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe and https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe
@@ -69,3 +69,11 @@ This file, the full GitHub source and Git history, the release assets, and the p
 - The actual ZIP is not in current conversation attachments, Library or `/mnt/data`. It has not been analyzed. Do not claim otherwise or treat old log statistics as new.
 - Latest user handoff is archived in `PROMPT_ARCHIVE.md`; project context and development log record the blocker.
 - Ask for a normal direct upload of the actual ZIP bytes before diagnosing/fixing 04:48 scan-specific failures.
+
+
+## 2026-10-23 — Resolver Reach 2.3.0 toolchain/icon modernization
+- Target framework remains stable .NET 10 (no preview SDK); CI pins SDK 10.0.402.
+- Packages: Avalonia/Avalonia.Desktop 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Reactive 24.2.0 plus ReactiveUI.Avalonia.Reactive 12.1.6 to preserve System.Reactive APIs; DynamicData 9.5.0.
+- Build/release tools: actions/checkout v7.0.1, actions/setup-dotnet v6.0.0, actions/upload-artifact v7.0.2, actions/download-artifact v8.0.2, softprops/action-gh-release v3.0.3, Inno Setup 7.1.0.
+- New icon family: rounded cyan-to-blue gradient, white network branches, cyan resolver node, and signal arcs. SVG source is under src/ResolverReach/Assets/Icons; public icon and illustrative preview are under public-distribution/assets.
+- Branch: maintenance/ResolverReach-2.3.0-modernization-2026-10-23. CI and release verification are pending; do not claim v2.3.0 is released until both architecture builds and uploaded assets are verified.

@@ -166,3 +166,14 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Prompt 015 recorded in the private prompt archive. The actual `ResolverReach-Logs-20261023-044828.zip` bytes were not delivered; message contained a manifest with 0 chunks and a ZIP prefix only.
 - Durable AI handoff files and master context are committed. The previous diagnostic ZIP remains the only scan file available for analysis.
 - After the Prompt 015 documentation commit, `backup/ResolverReach-2.2.0-2026-10-23` was synced to the exact `main` commit. Verify both refs again if more documentation/source changes are committed.
+
+
+## 2026-10-23 — Modernization working snapshot
+
+- Pre-change branch: https://github.com/PCUser2021/ResolverReach/tree/backup/ResolverReach-2.2.0-before-modernization-2026-10-23, created after prompt capture and before application changes.
+- Working branch: https://github.com/PCUser2021/ResolverReach/tree/maintenance/ResolverReach-2.3.0-modernization-2026-10-23.
+- Prompt capture commit: e34f04de01659476f0acd41d54f674277ea2c08f.
+- Source/toolchain commit: 19edf7817cafda55a792730e85a02f560bd6b475; SVG design commit: b1e005a7abf30e1ed6353905a7267b322bef8fad; docs commit: 190e5932737106abff61364ebcc34febdcc4a7ec; current Windows icon regeneration commit: 426c2aaa8bf054cb62a3d60cf043b998fdf740a0. The branch head is authoritative for the full final tree.
+- Product target 2.3.0; do not claim release until CI and the actual x64/ARM64 assets are verified.
+- Git branches preserve all tracked files/history in their ancestry. A post-change snapshot branch should be created after validation/finalization.
+- ChatGPT platform Memory limitation: connected tools cannot export all platform Memory entries, every historical conversation, or hidden platform state. The repository backup covers tracked code/assets/docs and the project-specific prompts/outcomes available here.

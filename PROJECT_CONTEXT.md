@@ -11,9 +11,9 @@ Default branch: main (visibility last verified private; user has requested publi
 ### 1. Resolver Reach
 
 - Product: Resolver Reach
-- Current project version: 2.2.0 (2026-10-23), with native x64 and ARM64 installers and the metallic/spectral icon overhaul.
+- Current target version: 2.3.0 (2026-10-23), with native x64 and ARM64 installers planned after CI verification and a blue-gradient network icon redesign.
 - Target: Windows 11 x64 and native ARM64; `win-x64` and `win-arm64` self-contained installers are published in Release v2.2.0.
-- Stack: C# / .NET 10, Avalonia, FluentAvalonia, ReactiveUI, DynamicData
+- Stack: C# / .NET 10; Avalonia 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Reactive 24.2.0; ReactiveUI.Avalonia.Reactive 12.1.6; DynamicData 9.5.0
 - Project: `src/ResolverReach/ResolverReach.csproj`
 - Main source directory: `src/ResolverReach/`
 - Icon: `src/ResolverReach/Assets/ResolverReach.ico`
@@ -97,7 +97,7 @@ For every substantive task related to either application:
 - Resolver Reach CI: `.github/workflows/windows-build.yml`
 - GGUF Importer CI: `.github/workflows/ollama-gguf-importer.yml`
 
-Last verified 2026-10-23: Resolver Reach 2.2.0 x64 and ARM64 builds/installers plus release publishing succeeded in workflow #39945785064. Repository metadata last reported `private`.
+Prior verification 2026-10-23: Resolver Reach 2.2.0 x64 and ARM64 builds/installers plus release publishing succeeded in workflow #39945785064. The 2.3.0 modernization must be re-verified by CI. Repository metadata last reported `private`.
 
 
 ## Cross-repository prompt backup and restore policy
@@ -284,3 +284,13 @@ Last verified 2026-10-23: Resolver Reach 2.2.0 x64 and ARM64 builds/installers p
 - Actual archive bytes are absent from current conversation/library file lists and `/mnt/data`. The scan results have not been inspected. This is a confirmed transfer/attachment gap, not evidence about endpoint reachability.
 - Do not make or claim new log-specific fixes until the actual ZIP is available. Ask the user to attach the ZIP as a normal file upload.
 - The latest manifest handoff has been archived as Prompt 015 in `PROMPT_ARCHIVE.md`.
+
+
+## Resolver Reach modernization — 2026-10-23 (v2.3.0 target; validation pending)
+
+- Toolchain: .NET SDK 10.0.402; Avalonia 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Reactive 24.2.0 and ReactiveUI.Avalonia.Reactive 12.1.6; DynamicData 9.5.0.
+- CI actions: checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2, action-gh-release v3.0.3.
+- Installer compiler: Inno Setup 7.1.0. CI was updated to find the v7 compiler.
+- Redesigned Resolver Reach icon family: rounded cyan-to-blue gradient, original white network geometry and cyan highlight. See src/ResolverReach/Assets/Icons, src/ResolverReach/Assets/ResolverReach.ico, and public-distribution/assets.
+- Working branch maintenance/ResolverReach-2.3.0-modernization-2026-10-23; pre-change branch backup/ResolverReach-2.2.0-before-modernization-2026-10-23.
+- Do not claim v2.3.0 is released until successful x64 + ARM64 jobs and actual Release assets are confirmed. CI cannot prove universal endpoint availability or interactive UI testing.

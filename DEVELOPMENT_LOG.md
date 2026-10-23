@@ -242,3 +242,15 @@ This is an append-only, chronological audit log for the two Windows applications
 - No per-endpoint diagnostic conclusion or code change is justified from this message. Earlier 03:27 log remains the only analyzed scan file.
 - Request a direct chat file upload of the actual `ResolverReach-Logs-20261023-044828.zip`; after receiving it, inspect all files, classify errors, compare against v2.2.0, and only change the app where evidence supports a root cause.
 - Project source/release/archive are retained in the private GitHub repo. Account-wide ChatGPT memory cannot be exported by these GitHub tools.
+
+
+## 2026-10-23 — Resolver Reach 2.3.0 toolchain and icon modernization
+
+- Request: update tools used for Resolver Reach to current stable versions; redesign all Resolver Reach icons using the supplied App Store icon as a visual direction; back up repository work and project knowledge.
+- Prompt capture commit: e34f04de01659476f0acd41d54f674277ea2c08f. Pre-change backup branch: backup/ResolverReach-2.2.0-before-modernization-2026-10-23. Work branch: maintenance/ResolverReach-2.3.0-modernization-2026-10-23.
+- Toolchain/source: product/assembly/file/manifest/installer version 2.3.0/2.3.0.0; Avalonia and Avalonia.Desktop 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Reactive 24.2.0 and ReactiveUI.Avalonia.Reactive 12.1.6 to retain existing System.Reactive API usage; DynamicData 9.5.0; .NET SDK 10.0.402.
+- CI tools: checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2, softprops/action-gh-release v3.0.3; Inno Setup 7.1.0 and updated compiler path.
+- Icon design: nine original SVG assets, Windows ResolverReach.ico, public resolverreach-icon.svg and updated illustrative resolverreach-preview.svg; UI emblem and accent palette recolored blue/cyan. Ollama GGUF Importer icon/source/workflow remain unchanged by scope.
+- Changes are on the working branch; latest icon regeneration commit is 426c2aaa8bf054cb62a3d60cf043b998fdf740a0. CI was not yet run at this log entry. No local Windows build; do not claim Avalonia 12 / ReactiveUI 24 compatibility or x64/ARM64 package success until CI confirms.
+- Licensing note: Inno Setup 7.1.0's official notes require a purchased license for commercial use. Check that requirement for commercial builds.
+- Backup limitation: repository source, tracked files/history and project-specific prompts/context/logs can be preserved. Full ChatGPT platform Memory and unrelated chat history cannot be exported by available tools.

@@ -1,5 +1,22 @@
 # Resolver Reach changelog
 
+## [2.4.0] — source candidate, 2026-10-23 (not yet released)
+
+### Updated
+- Centralized direct NuGet package versions in `Directory.Packages.props` and made System.Reactive 7.0.0 an explicit direct dependency.
+- Bumped source, assembly, file, manifest, installer fallback and release-workflow metadata to 2.4.0. The latest published release remains v2.2.0 until the gated release job succeeds.
+- Extracted DNS wire handling into `src/ResolverReach/DnsWire.cs`.
+- Changed the deterministic probe transaction ID to zero for RFC 8484 cache friendliness.
+- Validate all declared answer, authority and additional records; check common A/AAAA/name/MX/SOA/SRV RDATA structures; validate EDNS OPT placement/options and extended RCODE; reject truncated responses, impossible section counts, invalid/forward compression pointers and trailing bytes.
+- Stream-read DoH response bodies with a 65,535-byte cap rather than buffering oversized bodies in full.
+
+### Tests and CI
+- Added `tests/ResolverReach.Tests` using xUnit.net v3 and deterministic offline DNS fixtures.
+- Added a GitHub Actions test job and made it a prerequisite for release publication; test results and coverage are uploaded as workflow artifacts.
+- Added `DEPENDENCIES.md` documenting direct package versions, the .NET servicing release at audit time, CI action versions, and the intentionally unpinned Inno Setup installation.
+- No GitHub Release was created by these source changes; publication remains gated on successful CI and an explicit `[publish-release]` commit message.
+
+
 ## Repository cleanup — 2026-10-23
 - Removed the standalone GGUF importer source, icon, README, project file, and dedicated GitHub Actions workflow from the current `main` tree.
 - Updated the active project context and handoff documents to describe Resolver Reach as the only current application.

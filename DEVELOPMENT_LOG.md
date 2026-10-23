@@ -53,3 +53,14 @@ This is an append-only, chronological audit log for the two Windows applications
 - GitHub read-back confirmed the versioning rule and knowledge-persistence rule are present in public `Wand-Enhancer/AGENTS.md` (blob `6dc15b096486ff3720682bb8bb272e0ed872e7b6`).
 - Public-safe work-log policy is present in `Wand-Enhancer/AI_WORK_LOG.md` (blob `0563d0275edf0f5c11552a6c941cabcadfab5af8`).
 - No product code changed; application versions remain unchanged in this documentation-only task. No build or runtime tests were run.
+
+
+## 2026-10-23 — Resolver Reach 2.0.0 single-window UI replacement
+
+- **User request:** Replace Resolver Reach's GUI using the supplied OnionFruitt screenshot as a visual reference; expose only live cURL resolver testing and paste-links testing; show all results and progress in the one main window.
+- **Design:** Dark slate surfaces, a prominent red status strip, rounded cards, and restrained pink accents. No screenshot sidebar/settings navigation, because the user explicitly asked for exactly two visible testing paths and no extra UI.
+- **UI changes:** Replaced `src/ResolverReach/MainView.axaml`; simplified `src/ResolverReach/MainView.axaml.cs` to initialization and Escape-to-cancel; set a fixed dark palette in `src/ResolverReach/App.axaml`. Removed visible theme selection, Paste Links menu, Save Logs button, and save-file-picker flow.
+- **Resolver behavior preserved:** Live cURL wiki catalog; pasted URL input; RFC 8484 POST with GET fallback; DNS-response validation; HTTP/latency/DNS details; bounded concurrency; 512-endpoint limit; in-window progress and Escape cancellation.
+- **Version:** Advanced Resolver Reach from 1.0.0 to 2.0.0; synchronized project/assembly/file metadata, HTTP User-Agent strings, workflow publish version, installer version, README, and changelog.
+- **Changed files:** `src/ResolverReach/App.axaml`, `src/ResolverReach/MainView.axaml`, `src/ResolverReach/MainView.axaml.cs`, `src/ResolverReach/ResolverReachViewModel.cs`, `src/ResolverReach/CurlWikiResolverCatalog.cs`, `src/ResolverReach/ResolverReach.csproj`, `.github/workflows/windows-build.yml`, `installer/ResolverReach.iss`, `README.md`, `CHANGELOG.md`, `PROJECT_CONTEXT.md`, and this log.
+- **Validation state at commit time:** Source changes are committed to a feature branch. No local Windows build was run in this environment. Record the actual GitHub Actions build result and artifact status in a follow-up entry; do not infer success from an opened pull request alone.

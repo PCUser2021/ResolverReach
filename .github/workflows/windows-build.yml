@@ -37,17 +37,39 @@ jobs:
       - name: Install Inno Setup
         shell: pwsh
         run: |
-          $iscc = "${env:ProgramFiles(x86)}\Inno Setup\ISCC.exe"
-          if (-not (Test-Path $iscc)) {
+          $candidatePaths = @(
+            "${env:ProgramFiles(x86)}\Inno Setup 7\ISCC.exe",
+            "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe",
+            "${env:ProgramFiles}\Inno Setup 7\ISCC.exe",
+            "${env:ProgramFiles}\Inno Setup 6\ISCC.exe"
+          )
+          $iscc = $candidatePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
+          if (-not $iscc) {
             choco install innosetup --yes --no-progress
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            $iscc = $candidatePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
           }
-          if (-not (Test-Path $iscc)) { throw "Inno Setup compiler was not found at $iscc" }
+          if (-not $iscc) {
+            $command = Get-Command ISCC.exe -ErrorAction SilentlyContinue
+            if ($command) { $iscc = $command.Source }
+          }
+          if (-not $iscc) { throw "Inno Setup compiler was not found in the expected installation paths or PATH." }
 
       - name: Compile x64-compatible installer
         shell: pwsh
         run: |
-          $iscc = "${env:ProgramFiles(x86)}\Inno Setup\ISCC.exe"
+          $candidatePaths = @(
+            "${env:ProgramFiles(x86)}\Inno Setup 7\ISCC.exe",
+            "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe",
+            "${env:ProgramFiles}\Inno Setup 7\ISCC.exe",
+            "${env:ProgramFiles}\Inno Setup 6\ISCC.exe"
+          )
+          $iscc = $candidatePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
+          if (-not $iscc) {
+            $command = Get-Command ISCC.exe -ErrorAction SilentlyContinue
+            if ($command) { $iscc = $command.Source }
+          }
+          if (-not $iscc) { throw "Inno Setup compiler not found." }
           & $iscc /DMyAppVersion=2.3.0 /DMyAppArchitecture=x64compatible /DMyAppOutputName=x64 "installer/ResolverReach.iss"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if (-not (Test-Path "artifacts/installer/ResolverReach-Setup-x64.exe")) {
@@ -89,17 +111,39 @@ jobs:
       - name: Install Inno Setup
         shell: pwsh
         run: |
-          $iscc = "${env:ProgramFiles(x86)}\Inno Setup\ISCC.exe"
-          if (-not (Test-Path $iscc)) {
+          $candidatePaths = @(
+            "${env:ProgramFiles(x86)}\Inno Setup 7\ISCC.exe",
+            "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe",
+            "${env:ProgramFiles}\Inno Setup 7\ISCC.exe",
+            "${env:ProgramFiles}\Inno Setup 6\ISCC.exe"
+          )
+          $iscc = $candidatePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
+          if (-not $iscc) {
             choco install innosetup --yes --no-progress
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            $iscc = $candidatePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
           }
-          if (-not (Test-Path $iscc)) { throw "Inno Setup compiler was not found at $iscc" }
+          if (-not $iscc) {
+            $command = Get-Command ISCC.exe -ErrorAction SilentlyContinue
+            if ($command) { $iscc = $command.Source }
+          }
+          if (-not $iscc) { throw "Inno Setup compiler was not found in the expected installation paths or PATH." }
 
       - name: Compile native ARM64 installer
         shell: pwsh
         run: |
-          $iscc = "${env:ProgramFiles(x86)}\Inno Setup\ISCC.exe"
+          $candidatePaths = @(
+            "${env:ProgramFiles(x86)}\Inno Setup 7\ISCC.exe",
+            "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe",
+            "${env:ProgramFiles}\Inno Setup 7\ISCC.exe",
+            "${env:ProgramFiles}\Inno Setup 6\ISCC.exe"
+          )
+          $iscc = $candidatePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
+          if (-not $iscc) {
+            $command = Get-Command ISCC.exe -ErrorAction SilentlyContinue
+            if ($command) { $iscc = $command.Source }
+          }
+          if (-not $iscc) { throw "Inno Setup compiler not found." }
           & $iscc /DMyAppVersion=2.3.0 /DMyAppArchitecture=arm64 /DMyAppOutputName=arm64 "installer/ResolverReach.iss"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if (-not (Test-Path "artifacts/installer/ResolverReach-Setup-arm64.exe")) {

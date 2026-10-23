@@ -103,6 +103,6 @@ A separate branch, `maintenance/latest-toolchain-onionfruit-review`, stages a de
 
 ## Resolver Reach 2.4.0 Windows-only release scope — 2026-10-23
 - Supported targets for the active source/workflow: Windows x64 and native Windows ARM64 (`win-x64`, `win-arm64`).
-- The proposed macOS packaging work was removed from the active PR and build workflow at the user's request to avoid the cost of macOS development, signing and notarization. Do not restore macOS runtime identifiers, app bundles, DMG/ZIP packaging, downloads, or workflows unless the user explicitly requests macOS again.
+- The proposed macOS packaging work was removed from the active source and build workflow at the user's request to avoid the cost of macOS development, signing and notarization. Do not restore macOS runtime identifiers, app bundles, DMG/ZIP packaging, downloads, installation instructions, or workflows unless the user explicitly requests macOS again.
 - CI for the original macOS-containing PR failed without retrievable logs. A new Windows-only CI run must pass before merging or publishing v2.4.0.
 - A historical backup branch preserves the earlier macOS experiment as part of the requested project backup; it is not the active product target.

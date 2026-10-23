@@ -190,3 +190,12 @@ This is an append-only, chronological audit log for the two Windows applications
 - **Downloaded installer files:** `JDownloaderReach-Setup-x64.exe`, SHA-256 `6cd336707137f31dede767b4d99b2c03946fabdea61b0e1629503a4f0db4ce26`; `JDownloaderReach-Setup-arm64.exe`, SHA-256 `0d0d0b0aedacfb7cc24e5324a2a090f4534ccbff02580038e2b001aa06c7096f`. Each was extracted from its corresponding successfully uploaded workflow artifact and the local file was verified to exist and be non-empty.
 - **Separate license-packaging correction:** Workflow run [#39943711695](https://github.com/PCUser2021/ResolverReach/actions/runs/39943711695) adds the full `THIRD-PARTY-LICENSES` folder to the bundle and was still compiling the two installers at this check. The downloadable EXEs above are from the completed successful run #39943167275, before that extra license-file copy. Do not state that these particular EXEs include the later-added license folder; update the installers if the newer run completes successfully.
 - **Runtime limitations:** No interactive installation test was run on a physical x64 or ARM64 computer. CI validated native PE machine types, build, packaging, setup compilation, and artifact upload; the JDownloader engine remains separately installed.
+
+
+### Final verification — x64 and ARM64 setup artifacts (2026-10-23)
+
+- Final CI workflow run 39943711695 completed successfully for both the x64 and ARM64 installer jobs.
+- Uploaded artifacts: JDownloaderReach-Setup-x64 (ID 12496179768, 97,832,112 bytes) and JDownloaderReach-Setup-arm64 (ID 12497252555, 89,365,276 bytes). The final packaging run includes the LGPL license text referenced by Resolver Reach's third-party notice.
+- Both artifact ZIPs passed an integrity check. Extracted installer SHA-256: x64 = 5b865279309ccc790f80be05fa92cd3e177c0a7736f416b431d27fa7e442bc8f; ARM64 = d2d4a1a6309038fbd7ba76324d6132c1b455ce9da7c3ffe25334e0ef2ced5f48.
+- The CI PE-machine check passed for the three bundled applications per architecture (x64 0x8664; ARM64 0xAA64). Inno Setup compilation and artifact upload passed in both jobs.
+- No physical-device interactive installation test was run. JDownloader's Java engine remains separately installed; the new installer packages JDownloader Reach and the two existing ResolverReach applications, not the engine.

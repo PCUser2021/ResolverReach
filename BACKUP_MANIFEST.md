@@ -237,7 +237,12 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 
 - PR: https://github.com/PCUser2021/ResolverReach/pull/4
 - Feature branch: `feature/2.4.0-release-macos-backup`.
-- Snapshot branch created: `backup/ResolverReach-2.4.0-cross-platform-2026-10-23`; it must be advanced to the final feature-branch commit after the last documentation/archive update.
+- Snapshot branch: `backup/ResolverReach-2.4.0-cross-platform-2026-10-23`. After the final prompt-archive write, it was advanced to the feature branch head and read-back verified. The `PROMPT_ARCHIVE.md`, `src/ResolverReach/ResolverReach.csproj`, `.github/workflows/windows-build.yml`, `MACOS_INSTALLATION.md`, and `BACKUP_MANIFEST.md` blob SHAs matched between the feature and backup branches at verification.
 - First PR workflow run: https://github.com/PCUser2021/ResolverReach/actions/runs/40005597884; conclusion: `failure`. Every job reported failure with no exposed steps; fetching job logs returned GitHub `BlobNotFound`, and the job-step API returned an empty list. The cause is unknown; do not assert that this failure is caused by source code or by infrastructure.
 - Previous run #40001573171 contains non-expired Windows x64/ARM64 installer artifacts for earlier 2.4.0 source commit `86493b001c35bca9460d6adc301b3b2341f5071a`. These artifacts do not include the new macOS bundles and do not validate this PR's final changes.
 - No macOS installer artifact has yet been verified or published. v2.4.0 release publication is pending a successful run that verifies tests, Windows installers, macOS DMG/ZIP packages and artifact checksums.
+
+
+### Backup snapshot verification — 2026-10-23
+- Backup ref: `backup/ResolverReach-2.4.0-cross-platform-2026-10-23`.
+- Read-back comparison found identical blob SHAs on the feature and backup branches for `PROMPT_ARCHIVE.md` (`638289b21cf7b73bbb2df8d39199881e58ebf6b9`), `src/ResolverReach/ResolverReach.csproj` (`f95850059db5c257bb62babec2e40502debb5e14`), `.github/workflows/windows-build.yml` (`744c0cdddd38b3a7e894f7632f32069db5288099`), `MACOS_INSTALLATION.md` (`b289a4823ee357459fc0a2453e4268b948bcca2f`), and `BACKUP_MANIFEST.md` (`9bf09dcbc08b6a53dd17c6b5b7354d48de034e38`). This verified source snapshot includes the working tree and Git history reachable from the branch; it is not a complete export of account-level ChatGPT Memory or unrelated conversations.

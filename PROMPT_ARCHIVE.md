@@ -268,3 +268,20 @@ The following seed entries were reconstructed from repository-related prompts vi
   - Some failures appear server-specific (DNS hostname not found, HTTP 403/404/502, wrong MIME type or incorrect DNS ID); no VPN setting can make an offline or non-compliant resolver respond correctly.
 - Work requested: improve timeout tolerance, add HTTP/1.1 fallback for HTTP/2 protocol resets, retry transient timeouts/server statuses once, improve status summaries to distinguish transport failures from received-but-invalid HTTP/DoH replies, preserve per-run diagnostics, bump product version, and verify the Windows build and release.
 - Status at archive time: log inspected; code changes and build verification follow.
+
+
+### Prompt 013 — Develop a JDownloader-derived application using ResolverReach
+- Date: 2026-10-23
+- Target source: `mycodedoesnotcompile2/jdownloader_mirror`
+- Target project: `PCUser2021/ResolverReach`
+- Exact prompt:
+
+> Develop a new JDownloader from this repo
+> [https://github.com/mycodedoesnotcompile2/jdownloader_mirror?utm_source=chatgpt.com](https://github.com/mycodedoesnotcompile2/jdownloader_mirror?utm_source=chatgpt.com)
+> And convert it and develop a new JDownloader using 100% of this project
+> [https://github.com/PCUser2021/ResolverReach](https://github.com/PCUser2021/ResolverReach)
+
+- Intent: investigate a new download-manager product that reuses the JDownloader source and incorporates all existing ResolverReach-repository applications and functionality.
+- Engineering constraints discovered at task start: JDownloader is a large Java codebase; Resolver Reach is a .NET 10/Avalonia application, and the repository also contains the separate Ollama GGUF Importer WinForms app. These technologies cannot be losslessly converted into a single language/framework by a mechanical transformation.
+- Workflow: preserve the current `main` branch, work on an isolated feature branch, verify license compatibility before redistribution, and record the actual scope/build results. Any first iteration must clearly distinguish a launcher/prototype from a fully ported and integrated downloader.
+- Status at archive time: repository inspection underway; no product code changes made yet.

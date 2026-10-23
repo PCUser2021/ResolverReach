@@ -24,6 +24,8 @@ Resolver Reach checks whether DoH endpoints complete a valid DNS exchange. Test 
 - Original icon family: dark titanium/glass geometry with spectral cyan/blue/violet accents.
 
 ## Downloads
+
+Published release: [Resolver Reach v2.2.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.2.0). Both architecture installers were built and uploaded by successful [workflow run #39945785064](https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064).
 - [Latest x64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe)
 - [Latest native ARM64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe)
 - [All releases](https://github.com/PCUser2021/ResolverReach/releases)

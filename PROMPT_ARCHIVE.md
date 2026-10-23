@@ -353,3 +353,14 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Required action: persist durable project context/working history to this private repository, update backup manifest/development log, and advance the versioned backup branch to the verified current main SHA.
 - Important limitation: this repository context/archive can preserve project-specific knowledge, but it cannot write or export ChatGPT's entire account-level memory database. Do not claim that global ChatGPT memory was fully backed up.
 - Status at archive time: recorded before this response's backup updates; the new ZIP's failure-level diagnosis remains blocked by missing attachment.
+
+
+### Outcome 014 — Durable cross-project handoff written to GitHub; newest ZIP still unavailable
+- Date: 2026-10-23
+- Added `AI_SESSION_HANDOFF.md` and `Software_Project_Master_Context.md` to the root of this private repository, and linked them from the root README.
+- Updated the project context, development log, backup manifest and distribution plan with the latest product state and known blocker.
+- Preserved the last verified current release: Resolver Reach 2.2.0. Workflow #39945785064 succeeded for x64 and native ARM64; both installers are published at GitHub Release v2.2.0.
+- The current attachment inventory has only the old `ResolverReach-Logs-20261023-032704.zip`, not the new `ResolverReach-Logs-20261023-040016.zip`. Download retry of the MediaFire URL failed; latest scan's results are not known.
+- The old ZIP showed 235 PASS, 1 valid DNS ERROR (REFUSED), and 30 FAIL/266 endpoints; this is historical evidence and must not be represented as the newer run's results.
+- Backup branch `backup/ResolverReach-2.2.0-2026-10-23` will be synced to the final updated main SHA.
+- Scope truth: the project-specific source, history, prompt archive, handoff and released binaries are backed up in GitHub; the entire account-level ChatGPT memory store and unrelated conversations cannot be exported or modified through this repo integration.

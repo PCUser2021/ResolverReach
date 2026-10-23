@@ -11,7 +11,7 @@ The source history includes Resolver Reach and Ollama GGUF Importer.
 
 The private Git repository is the authoritative, versioned backup of source and project records. The user has now explicitly authorized making the source repository public; the current connected toolset cannot execute GitHub's repository-visibility setting, so the change remains pending the repository owner's Settings action.
 
-- Main branch head after Resolver Reach 2.4.0 was merged and handoff records were synchronized: `803e36738e567b08a12ff3cdbc4de3675d3dd4f7` (later documentation-only commits may follow this manifest update).
+- Resolver Reach 2.4.0 source merge commit: `803e36738e567b08a12ff3cdbc4de3675d3dd4f7`. This manifest update commit is `26eb22a39347f75acbee776b7539895d8d197666`; subsequent main commits, if any, should be checked before using it as the head SHA.
 - Historical backup branch: `backup/ResolverReach-2.0.0-2026-10-23`. Current versioned full-tree backup branch: `backup/ResolverReach-2.2.0-2026-10-23` (sync after final docs).
 - Resolver Reach 2.0.0 redesign merge: commit `35ff1517f7e0c0ce42fe1a8500935123d922dd30`.
 - Successful Windows x64 publish/installer build: [workflow run #39928118989](https://github.com/PCUser2021/ResolverReach/actions/runs/39928118989).

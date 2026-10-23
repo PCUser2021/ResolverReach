@@ -211,3 +211,11 @@ This is an append-only, chronological audit log for the two Windows applications
 - **Memory backup:** Added `JDOWNLOADER_REACH_MEMORY.md` containing project requirements, architecture, decisions, prior validated installer hashes, CI references, limitations, current branch and backup location. It is project-specific, not a full export of the user's entire ChatGPT Memory store.
 - **Publication boundary:** GitHub metadata reports `PCUser2021/ResolverReach` is private. It contains multiple apps plus `PROMPT_ARCHIVE.md`, so exposing the entire repository is not equivalent to publishing only JDownloader Reach. The available GitHub connector does not expose a repository-create or visibility-change action. Do not claim public visibility; a separate dedicated repository or an owner-performed Settings operation is required.
 - **Validation at time of logging:** No local Windows build or physical interactive JDownloader API test was run by the authoring environment. Check the new branch CI result before claiming 0.3.0 installers build successfully; record the actual run and final commit in a follow-up.
+
+
+### Verification follow-up — JDownloader Reach 0.3.0 CI (2026-10-23)
+
+- Initial cleaned build workflow run [#39946242480](https://github.com/PCUser2021/ResolverReach/actions/runs/39946242480) failed for both architectures because the PowerShell PE-validation array retained a trailing comma after removing the third executable. Both application publish steps had passed before that syntax error.
+- Corrected the array in `.github/workflows/jdownloader-reach.yml` and committed the fix as `b86b6743c1d8da8e597bd9e3cbf10dcecfe35305`.
+- New workflow run [#39946624955](https://github.com/PCUser2021/ResolverReach/actions/runs/39946624955) is running on that fix. At the time of this entry, x64 PE verification and license staging succeeded and installer compilation was in progress; ARM64 app publishing was in progress. Do not report final installer success until both jobs complete successfully and artifacts can be confirmed.
+- The repository-specific memory and backup references were updated. The full pre-removal branch remains `backup/JDownloaderReach-full-2026-10-23`; the fixed clean snapshot is `backup/JDownloaderReach-0.3.0-clean-2026-10-23-r2`.

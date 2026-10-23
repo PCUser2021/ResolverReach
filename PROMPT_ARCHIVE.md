@@ -141,3 +141,22 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Local installer inspection: `Resolver-Reach-2.0.0-Setup-x64.exe`, 33,971,274 bytes; `strings -el` confirmed installer name/product/version strings including `2.0.0`. SHA-256: `0023ab33844ba6ffe00f572eb0ed28e395b3e46044fb392f893726f20df2bc22`.
 - No live DoH endpoint runtime testing was performed by CI; successful build/installer compilation does not prove every resolver reachable. The app performs live endpoint checks when the user runs it.
 - Durable implementation and build verification are documented in `DEVELOPMENT_LOG.md` and `PROJECT_CONTEXT.md`. Prompt 007 was captured in the private archive before implementation.
+
+
+### Prompt 008 — Public Resolver Reach listing without source access
+- Date: 2026-10-23
+- Target: `PCUser2021/ResolverReach` and a proposed public binary-only distribution repository.
+- Exact prompt:
+
+> Thanks a lot.
+> Now, do exactly what I say:
+> Make the "Resolver Reach" repository public on GitHub.
+> Disable access to the source codes.
+> Write a compelling description explaining exactly what "Resolver Reach" does.
+> Add the "Resolver Reach" icon to the GitHub page.
+> Add a screenshot of "Resolver Reach" to the GitHub page.
+>
+> In the description, be sure to state: "Resolver Reach" is intended solely for personal, home use. Under no circumstances is anyone permitted to use "Resolver Reach" for any purpose other than personal, home use—this includes accessing the source code or reverse engineering it.
+>
+> 100% add everything you did to Resolver Reach to GitHub, make a full backup of all you did to Resolver Reach, and make a full backup of everything you did, including your ChatGPT memory
+- Status at capture time: request archived before changes. Important constraint: a public GitHub source repository inherently exposes its committed source/history; do not expose the private source repo. Try to use a separate public distribution repository if supported.

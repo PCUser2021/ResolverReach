@@ -61,3 +61,42 @@ jobs:
           path: artifacts/installer/ResolverReach-Setup-x64.exe
           if-no-files-found: error
           retention-days: 14
+
+
+  publish-release:
+    name: Publish tested v2.0.0 release
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[publish-release]')
+    needs: build-windows-x64
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download installer from the successful build
+        uses: actions/download-artifact@v4
+        with:
+          name: ResolverReach-Windows-x64
+          path: artifacts/installer
+
+      - name: Create GitHub Release and upload installer
+        uses: softprops/action-gh-release@v3
+        env:
+          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v2.0.0
+          target_commitish: \${{ github.sha }}
+          name: Resolver Reach 2.0.0
+          body: |
+            Resolver Reach 2.0.0 — Windows 11 x64
+
+            A single-window DNS-over-HTTPS reachability tester.
+
+            - Test the live cURL resolver catalog.
+            - Paste and test your own HTTPS DoH endpoints.
+            - Validate RFC 8484 DNS replies and view HTTP status, latency, and DNS details in the main window.
+            - License: MIT. Original project source may be used for any purpose under the license terms.
+          files: |
+            artifacts/installer/ResolverReach-Setup-x64.exe
+          fail_on_unmatched_files: true
+          draft: false
+          prerelease: false
+          make_latest: true

@@ -23,12 +23,12 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     private const int MaximumEndpointsPerRun = 512;
     private static readonly HttpClient Http = new(new SocketsHttpHandler
     {
-        ConnectTimeout = TimeSpan.FromSeconds(5),
+        ConnectTimeout = TimeSpan.FromSeconds(12),
         PooledConnectionLifetime = TimeSpan.FromMinutes(5),
         AutomaticDecompression = System.Net.DecompressionMethods.None
     })
     {
-        Timeout = TimeSpan.FromSeconds(10)
+        Timeout = TimeSpan.FromSeconds(20)
     };
 
     private readonly CompositeDisposable _lifetime = new();
@@ -72,7 +72,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     {
         string? version = typeof(ResolverReachViewModel).Assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-        return string.IsNullOrWhiteSpace(version) ? "2.1.0" : version.Split('+', 2)[0];
+        return string.IsNullOrWhiteSpace(version) ? "2.1.1" : version.Split('+', 2)[0];
     }
 
     public ResolverReachViewModel()
@@ -357,8 +357,8 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
                 ProgressLabel = $"0 / {endpoints.Length}"
             });
 
-            using var gate = new SemaphoreSlim(8, 8);
-            int completed = 0, healthy = 0, dnsErrors = 0, failed = 0, cancelled = 0;
+            using var gate = new SemaphoreSlim(6, 6);
+            int completed = 0, healthy = 0, dnsErrors = 0, failed = 0, transportFailed = 0, httpInvalidFailed = 0, cancelled = 0;
             var progressGate = new object();
 
             Task[] jobs = endpoints.Select(async endpoint =>
@@ -390,7 +390,13 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
                 {
                     case "PASS": Interlocked.Increment(ref healthy); break;
                     case "DNS ERROR": Interlocked.Increment(ref dnsErrors); break;
-                    case "FAIL": Interlocked.Increment(ref failed); break;
+                    case "FAIL":
+                        Interlocked.Increment(ref failed);
+                        if (result.HttpStatusCode.HasValue)
+                            Interlocked.Increment(ref httpInvalidFailed);
+                        else
+                            Interlocked.Increment(ref transportFailed);
+                        break;
                     case "CANCELLED": Interlocked.Increment(ref cancelled); break;
                 }
 
@@ -420,6 +426,8 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
             int passTotal = Volatile.Read(ref healthy);
             int dnsTotal = Volatile.Read(ref dnsErrors);
             int failedTotal = Volatile.Read(ref failed);
+            int transportFailuresTotal = Volatile.Read(ref transportFailed);
+            int httpInvalidFailuresTotal = Volatile.Read(ref httpInvalidFailed);
             int cancelledTotal = Volatile.Read(ref cancelled);
             int finishedTotal = Volatile.Read(ref completed);
             int reachableTotal = passTotal + dnsTotal;
@@ -434,15 +442,15 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
             {
                 titleFinal = loadCurlWikiCatalog ? "cURL resolver check stopped" : "Custom resolver check stopped";
                 detailFinal = $"{reachableTotal} valid DoH responses · {failedTotal} unavailable · partial run.";
-                statusFinal = $"Stopped · {reachableTotal}/{completedTotal} completed endpoints responded ({percentage:F1}%) · {failedTotal} unavailable{suffix}";
+                statusFinal = $"Stopped · {reachableTotal}/{completedTotal} valid DoH responses ({percentage:F1}%) · {failedTotal} failed checks ({transportFailuresTotal} transport, {httpInvalidFailuresTotal} HTTP/invalid reply){suffix}";
             }
             else
             {
-                titleFinal = failedTotal == 0 && dnsTotal == 0 ? "All listed resolvers are healthy"
-                    : failedTotal == 0 ? "All endpoints replied; some DNS errors"
-                    : $"{reachableTotal} of {endpoints.Length} endpoints responded";
-                detailFinal = $"{reachableTotal}/{endpoints.Length} valid DoH responses ({percentage:F1}%) · {passTotal} NOERROR · {dnsTotal} DNS errors · {failedTotal} failed.";
-                statusFinal = $"Complete · {reachableTotal}/{endpoints.Length} reachable ({percentage:F1}%) · {passTotal} NOERROR · {dnsTotal} DNS errors · {failedTotal} unavailable";
+                titleFinal = failedTotal == 0 && dnsTotal == 0 ? "All tested endpoints returned valid DoH responses"
+                    : failedTotal == 0 ? "All endpoints returned valid DoH replies; some DNS errors"
+                    : $"{reachableTotal} of {endpoints.Length} endpoints returned valid DoH responses";
+                detailFinal = $"{reachableTotal}/{endpoints.Length} valid DoH responses ({percentage:F1}%) · {passTotal} NOERROR · {dnsTotal} DNS errors · {failedTotal} failed checks ({transportFailuresTotal} transport, {httpInvalidFailuresTotal} HTTP/invalid reply).";
+                statusFinal = $"Complete · {reachableTotal}/{endpoints.Length} valid DoH responses ({percentage:F1}%) · {passTotal} NOERROR · {dnsTotal} DNS errors · {failedTotal} failed checks ({transportFailuresTotal} transport, {httpInvalidFailuresTotal} HTTP/invalid reply)";
             }
 
             UpdateState(state => state with
@@ -502,40 +510,31 @@ private static async Task<ResolverResult> TestEndpointAsync(string input, Cancel
 
         try
         {
-            using var postRequest = new HttpRequestMessage(HttpMethod.Post, uri)
-            {
-                Content = new ByteArrayContent(query),
-                Version = new Version(2, 0),
-                VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
-            };
-            postRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/dns-message");
-            postRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/dns-message"));
-            postRequest.Headers.UserAgent.ParseAdd($"ResolverReach/{GetProductVersion()}");
-
-            using HttpResponseMessage postResponse = await Http.SendAsync(
-                postRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-
-            // RFC 8484 supports both POST and GET. Some catalog endpoints only expose GET.
-            if (postResponse.StatusCode is System.Net.HttpStatusCode.BadRequest
+            var post = await SendDohRequestWithRetryAsync(HttpMethod.Post, uri, query, cancellationToken).ConfigureAwait(false);
+            if (post.Response.StatusCode is System.Net.HttpStatusCode.BadRequest
                 or System.Net.HttpStatusCode.MethodNotAllowed
                 or System.Net.HttpStatusCode.UnsupportedMediaType
                 or System.Net.HttpStatusCode.NotImplemented)
             {
+                int postStatus = (int)post.Response.StatusCode;
+                post.Response.Dispose();
+                // RFC 8484 allows GET and POST. Some published Base URLs expose only GET.
                 Uri getUri = BuildGetQueryUri(uri, query);
-                using var getRequest = new HttpRequestMessage(HttpMethod.Get, getUri)
+                var get = await SendDohRequestWithRetryAsync(HttpMethod.Get, getUri, query, cancellationToken).ConfigureAwait(false);
+                using (get.Response)
                 {
-                    Version = new Version(2, 0),
-                    VersionPolicy = HttpVersionPolicy.RequestVersionOrLower
-                };
-                getRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/dns-message"));
-                getRequest.Headers.UserAgent.ParseAdd($"ResolverReach/{GetProductVersion()}");
-
-                using HttpResponseMessage getResponse = await Http.SendAsync(
-                    getRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-                return await EvaluateDnsResponseAsync(input, getResponse, queryId, clock, "GET fallback", cancellationToken);
+                    return await EvaluateDnsResponseAsync(
+                        input, get.Response, queryId, clock,
+                        $"GET fallback after POST HTTP {postStatus}; {get.Transport}", cancellationToken).ConfigureAwait(false);
+                }
             }
 
-            return await EvaluateDnsResponseAsync(input, postResponse, queryId, clock, "POST", cancellationToken);
+            using (post.Response)
+            {
+                return await EvaluateDnsResponseAsync(
+                    input, post.Response, queryId, clock,
+                    $"POST; {post.Transport}", cancellationToken).ConfigureAwait(false);
+            }
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -547,7 +546,7 @@ private static async Task<ResolverResult> TestEndpointAsync(string input, Cancel
         {
             clock.Stop();
             return new ResolverResult(input, "FAIL", null, clock.Elapsed.TotalMilliseconds,
-                "Timed out", "Request timed out or was cancelled by the HTTP client.");
+                "Timed out", "Connection/request timed out after the configured timeout and one retry.");
         }
         catch (HttpRequestException ex)
         {
@@ -561,6 +560,93 @@ private static async Task<ResolverResult> TestEndpointAsync(string input, Cancel
             return new ResolverResult(input, "FAIL", null, clock.Elapsed.TotalMilliseconds,
                 "No DNS response", ShortError(ex.Message));
         }
+    }
+
+    private static HttpRequestMessage CreateDohRequest(
+        HttpMethod method, Uri uri, byte[] dnsQuery, bool forceHttp11)
+    {
+        var request = new HttpRequestMessage(method, uri)
+        {
+            Version = forceHttp11 ? new Version(1, 1) : new Version(2, 0),
+            VersionPolicy = forceHttp11
+                ? HttpVersionPolicy.RequestVersionExact
+                : HttpVersionPolicy.RequestVersionOrLower
+        };
+
+        if (method == HttpMethod.Post)
+        {
+            request.Content = new ByteArrayContent(dnsQuery);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/dns-message");
+        }
+
+        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/dns-message"));
+        request.Headers.UserAgent.ParseAdd($"ResolverReach/{GetProductVersion()}");
+        return request;
+    }
+
+    private static bool IsHttp2ProtocolFailure(HttpRequestException exception)
+    {
+        for (Exception? current = exception; current is not null; current = current.InnerException)
+        {
+            string message = current.Message;
+            if (message.Contains("HTTP/2", StringComparison.OrdinalIgnoreCase) ||
+                message.Contains("HttpProtocolError", StringComparison.OrdinalIgnoreCase) ||
+                message.Contains("protocol error", StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+        return false;
+    }
+
+    private static bool IsTransientHttpStatus(System.Net.HttpStatusCode statusCode)
+    {
+        int code = (int)statusCode;
+        return code is 408 or 425 or 429 or 500 or 502 or 503 or 504;
+    }
+
+    private static async Task<(HttpResponseMessage Response, string Transport)> SendPreferredWithHttp11FallbackAsync(
+        HttpMethod method, Uri uri, byte[] dnsQuery, CancellationToken cancellationToken)
+    {
+        try
+        {
+            using var request = CreateDohRequest(method, uri, dnsQuery, forceHttp11: false);
+            HttpResponseMessage response = await Http.SendAsync(
+                request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            return (response, $"HTTP/{response.Version}");
+        }
+        catch (HttpRequestException ex) when (IsHttp2ProtocolFailure(ex) && !cancellationToken.IsCancellationRequested)
+        {
+            using var retryRequest = CreateDohRequest(method, uri, dnsQuery, forceHttp11: true);
+            HttpResponseMessage retryResponse = await Http.SendAsync(
+                retryRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            return (retryResponse, "HTTP/1.1 compatibility fallback after HTTP/2 protocol error");
+        }
+    }
+
+    private static async Task<(HttpResponseMessage Response, string Transport)> SendDohRequestWithRetryAsync(
+        HttpMethod method, Uri uri, byte[] dnsQuery, CancellationToken cancellationToken)
+    {
+        (HttpResponseMessage Response, string Transport) first;
+        try
+        {
+            first = await SendPreferredWithHttp11FallbackAsync(method, uri, dnsQuery, cancellationToken).ConfigureAwait(false);
+        }
+        catch (TaskCanceledException) when (!cancellationToken.IsCancellationRequested)
+        {
+            await Task.Delay(TimeSpan.FromMilliseconds(350), cancellationToken).ConfigureAwait(false);
+            var retryAfterTimeout = await SendPreferredWithHttp11FallbackAsync(
+                method, uri, dnsQuery, cancellationToken).ConfigureAwait(false);
+            return (retryAfterTimeout.Response, $"one retry after timeout; {retryAfterTimeout.Transport}");
+        }
+
+        if (!IsTransientHttpStatus(first.Response.StatusCode))
+            return first;
+
+        int originalStatus = (int)first.Response.StatusCode;
+        first.Response.Dispose();
+        await Task.Delay(TimeSpan.FromMilliseconds(350), cancellationToken).ConfigureAwait(false);
+        var retryAfterStatus = await SendPreferredWithHttp11FallbackAsync(
+            method, uri, dnsQuery, cancellationToken).ConfigureAwait(false);
+        return (retryAfterStatus.Response, $"one retry after HTTP {originalStatus}; {retryAfterStatus.Transport}");
     }
 
     private static Uri BuildGetQueryUri(Uri endpoint, byte[] dnsQuery)

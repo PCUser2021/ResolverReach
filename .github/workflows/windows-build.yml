@@ -31,7 +31,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path artifacts/publish, artifacts/installer | Out-Null
-          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.1.0 --output artifacts/publish
+          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.1.1 --output artifacts/publish
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Install Inno Setup
@@ -48,7 +48,7 @@ jobs:
         shell: pwsh
         run: |
           $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
-          & $iscc /DMyAppVersion=2.1.0 "installer/ResolverReach.iss"
+          & $iscc /DMyAppVersion=2.1.1 "installer/ResolverReach.iss"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if (-not (Test-Path "artifacts/installer/ResolverReach-Setup-x64.exe")) {
             throw "Expected installer output was not created."
@@ -64,7 +64,7 @@ jobs:
 
 
   publish-release:
-    name: Publish tested v2.1.0 release
+    name: Publish tested v2.1.1 release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[publish-release]')
     needs: build-windows-x64
     runs-on: ubuntu-latest
@@ -82,11 +82,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v2.1.0
+          tag_name: v2.1.1
           target_commitish: ${{ github.sha }}
-          name: Resolver Reach 2.1.0
+          name: Resolver Reach 2.1.1
           body: |
-            Resolver Reach 2.1.0 — Windows 11 x64
+            Resolver Reach 2.1.1 — Windows 11 x64
 
             A single-window DNS-over-HTTPS reachability tester.
 

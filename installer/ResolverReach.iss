@@ -1,6 +1,6 @@
 #define MyAppName "Resolver Reach"
 #ifndef MyAppVersion
-  #define MyAppVersion "2.1.0"
+  #define MyAppVersion "2.1.1"
 #endif
 #define MyAppPublisher "PCUser2021"
 #define MyAppExeName "ResolverReach.exe"

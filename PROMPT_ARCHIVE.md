@@ -386,3 +386,13 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Access check: no `ResolverReach-Logs-20261023-044828.zip` file exists in the conversation attachment listing, file library listing, or `/mnt/data` working directory. The visible manifest is not the ZIP's contents.
 - Status: specific 04:48 scan diagnosis is blocked until the actual ZIP bytes are uploaded. Do not infer its results from older logs.
 - Current known project state remains Resolver Reach 2.2.0, with verified x64 and native ARM64 installers (workflow #39945785064); versioned backup branch should match final main after archival documentation.
+
+
+### Prompt 016 — Repeated ZIP manifest only; actual diagnostic archive still unavailable
+- Date: 2026-10-23
+- User again sent:
+  - `Total files: 1`
+  - `Chunks: 0`
+  - `ResolverReach-Logs-20261023-044828.zip` (binary)
+- No ZIP bytes or attachment accompanied this message. Rechecked conversation files and `/mnt/data`; the actual 04:48 ZIP is still absent. Only the earlier `ResolverReach-Logs-20261023-032704.zip` is available.
+- No new analysis or code fix can be substantiated from a filename/manifest. User needs to attach the ZIP using ChatGPT's Add photos & files control, ensuring the full file appears as an attachment rather than as a manifest.

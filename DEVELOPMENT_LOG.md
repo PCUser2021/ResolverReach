@@ -156,3 +156,16 @@ This is an append-only, chronological audit log for the two Windows applications
 - **Published artifact:** [Resolver Reach v2.1.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.0), asset `ResolverReach-Setup-x64.exe`, 33,980,655 bytes. Stable download: `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
 - **Testing limitation:** No interactive GUI test was run on a live Windows desktop in this task; CI validates compilation/packaging and asset publishing, not a visual caption-area inspection or click-through test of ZIP creation.
 - **Visibility:** Repository metadata still reports `private`; the release asset is hosted but downloads/source browsing remain limited to authorized users until repository visibility is made public by the owner.
+
+
+## 2026-10-23 — Analyze uploaded DoH log and implement 2.1.1 reliability fixes
+
+- **Input:** `ResolverReach-Logs-20261023-032704.zip`, Windows 11 build 26200, .NET runtime 10.0.13, Resolver Reach 2.1.0.
+- **Evidence:** 266 endpoints completed: 235 PASS, 1 DNS ERROR (valid RCODE REFUSED), 30 FAIL. Valid DoH response percentage was 88.7%; the claim that every endpoint was unreachable did not match the saved scan summary.
+- **Failure breakdown:** 11 ~5-second timeouts; 11 HTTPS/TLS/HTTP/2 failures; 4 HTTP status errors; 3 HTTP 200 responses with a mismatched transaction ID; 1 HTML response instead of application/dns-message.
+- **Source root cause:** 5-second `SocketsHttpHandler.ConnectTimeout`, 10-second `HttpClient.Timeout`, no HTTP/1.1 fallback for HTTP/2 protocol resets, and eight concurrent probes.
+- **Fixes committed in 2.1.1:** connect timeout 12s, request timeout 20s, concurrency 6, one retry on client timeout, one retry after transient HTTP status 408/425/429/500/502/503/504, exact HTTP/1.1 fallback after detected HTTP/2 protocol errors.
+- **Result-summary accuracy:** scan completion now separates transport failures (no HTTP response) from HTTP responses that failed DoH validation. DNS RCODE REFUSED is still a valid exchange marked DNS ERROR; dead/nonexistent hostname, HTTP denial/server errors, wrong MIME type, and invalid DNS IDs remain failures.
+- **Version:** project 2.1.1, assembly/file 2.1.1.0, installer 2.1.1, release tag v2.1.1. App behavior and failure classification are the reason for the patch version bump.
+- **CI/release:** implementation commit `766b1b6bd2bca0dcd3e01b7b4d4e9ff32e1c833d` triggered [Windows build #39940585354](https://github.com/PCUser2021/ResolverReach/actions/runs/39940585354) and release job on the same workflow run. Build/release result is pending at log creation time.
+- **Testing limitation:** a successful build will not prove all 266 endpoints are live. A fresh post-fix scan from the user's VPN/network is required to measure improvement; third-party endpoints may remain offline or non-compliant.

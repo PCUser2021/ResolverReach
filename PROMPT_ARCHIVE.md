@@ -285,3 +285,13 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Engineering constraints discovered at task start: JDownloader is a large Java codebase; Resolver Reach is a .NET 10/Avalonia application, and the repository also contains the separate Ollama GGUF Importer WinForms app. These technologies cannot be losslessly converted into a single language/framework by a mechanical transformation.
 - Workflow: preserve the current `main` branch, work on an isolated feature branch, verify license compatibility before redistribution, and record the actual scope/build results. Any first iteration must clearly distinguish a launcher/prototype from a fully ported and integrated downloader.
 - Status at archive time: repository inspection underway; no product code changes made yet.
+
+
+### Outcome 012 — DoH failure analysis and Resolver Reach 2.1.1 reliability fixes
+- Date: 2026-10-23
+- Log analysis of `ResolverReach-Logs-20261023-032704.zip`: 235 PASS, 1 valid DNS ERROR (RCODE REFUSED), 30 FAIL out of 266; 236/266 (88.7%) returned valid DoH responses.
+- Failure types: 11 ~5s timeouts, 11 TLS/HTTP2/protocol failures, 4 HTTP errors, 3 HTTP 200 replies with mismatched DNS transaction ID, 1 HTML response instead of application/dns-message.
+- Version 2.1.1 introduces a 12-second connect timeout, 20-second total HTTP timeout, six-way concurrency, one retry after timeout and transient HTTP status, HTTP/1.1 fallback after HTTP/2 protocol reset, and accurate transport-vs-invalid-response summary.
+- Save Logs ZIP history remains; project/assembly/file/installer/workflow versions are synchronized to 2.1.1 / 2.1.1.0 / v2.1.1.
+- Windows build and Release result: pending at the time of this outcome; don't call the binary released until CI and asset read-back succeed. Follow-up must add final run conclusion and release asset URL.
+- No code can ensure every public resolver responds; several failures in the supplied archive are server DNS, HTTP status, content type or DNS transaction-ID errors.

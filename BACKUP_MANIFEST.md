@@ -3,7 +3,7 @@
 Snapshot date: 2026-10-23  
 Primary repository: https://github.com/PCUser2021/ResolverReach  
 Visibility at last check: **private; the user requested public access, but the owner must still change the GitHub visibility setting**  
-Product version: **Resolver Reach 2.1.0**  
+Product version: **Resolver Reach 2.1.1**  
 The source history includes Resolver Reach and Ollama GGUF Importer.
 
 ## Authoritative tracked backup
@@ -83,3 +83,10 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - App version: 2.1.0, assembly/file: 2.1.0.0.
 - UI compiled, but no live Windows interactive GUI test was performed.
 - GitHub repository visibility remains private as of the final metadata check.
+
+
+## Resolver Reach 2.1.1 — uploaded DoH log root cause and fix
+- Log summary: 266 endpoints scanned; 235 PASS, 1 DNS ERROR, 30 FAIL (88.7% valid DoH response).
+- Fixes: 12s connect timeout, 20s HttpClient timeout, six concurrent probes, bounded one-retry policy for timeout/transient HTTP statuses, HTTP/1.1 fallback for HTTP/2 protocol resets and clearer final failure breakdown.
+- Product/assembly/file versions: 2.1.1 / 2.1.1.0 / 2.1.1.0; installer/release tag v2.1.1.
+- Build and release verification pending workflow #39940585354.

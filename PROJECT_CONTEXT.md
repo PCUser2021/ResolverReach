@@ -11,7 +11,7 @@ Default branch: main (visibility last verified private; user has requested publi
 ### 1. Resolver Reach
 
 - Product: Resolver Reach
-- Current project version recorded in source after the 2026-10-23 Save Logs/titlebar fix: 2.1.0
+- Current project version recorded in source after the 2026-10-23 Save Logs/titlebar/network reliability fixes: 2.1.1
 - Target: Windows 11 25H2, x64 only; ARM64 is intentionally not targeted
 - Stack: C# / .NET 10, Avalonia, FluentAvalonia, ReactiveUI, DynamicData
 - Project: `src/ResolverReach/ResolverReach.csproj`
@@ -30,7 +30,7 @@ Verified product behavior in README/source documentation:
 - Supports POST and falls back to GET for relevant POST rejection statuses (400, 405, 415, 501).
 - “Check the Curl Resolvers” refreshes the current cURL DoH wiki catalog, extracts Base URL entries, deduplicates HTTPS endpoints, and tests with bounded concurrency and cancellable progress.
 - Escape cancels a scan.
-- Version 2.1.0 has a visible Save Logs button in the results header. It opens a native ZIP save dialog and archives current-session activity, historical endpoint result rows, visible results, and session metadata.
+- Version 2.1.1 has a visible Save Logs button in the results header. It opens a native ZIP save dialog and archives current-session activity, historical endpoint result rows, visible results, and session metadata.
 - It is a diagnostic utility, not a VPN or Windows system DNS manager. It must not change Windows DNS settings or route general traffic.
 
 ### 2. Ollama GGUF Importer
@@ -97,7 +97,7 @@ For every substantive task related to either application:
 - Resolver Reach CI: `.github/workflows/windows-build.yml`
 - GGUF Importer CI: `.github/workflows/ollama-gguf-importer.yml`
 
-Last verified 2026-10-23: Resolver Reach 2.1.0 build and Release succeeded in workflow run `39937042568`; release asset is uploaded. Repository metadata still reports `private`. See `PUBLIC_DISTRIBUTION_PLAN.md`, `BACKUP_MANIFEST.md`, and the latest development-log entry.
+Last verified build for product 2.1.0 succeeded in workflow run `39937042568`. Resolver Reach 2.1.1 reliability fixes are committed and the Windows build/release workflow is running; verify its outcome before claiming the new release. Repository metadata still reports `private`.
 
 
 ## Cross-repository prompt backup and restore policy
@@ -190,3 +190,14 @@ Last verified 2026-10-23: Resolver Reach 2.1.0 build and Release succeeded in wo
 - Successful CI and release run: #39937042568. Published release v2.1.0 asset `ResolverReach-Setup-x64.exe` (33,980,655 bytes).
 - No interactive desktop UI test or end-to-end click-to-ZIP test was run; the Windows CI build and package/release upload succeeded.
 - Repository visibility is still private at the final metadata check.
+
+
+## Resolver Reach 2.1.1 — DoH probe resilience (2026-10-23)
+
+- Uploaded ZIP analysis: 266 endpoints scanned; 235 PASS, 1 DNS ERROR (valid RCODE REFUSED), 30 FAIL. 236/266 (88.7%) returned valid DoH responses.
+- Failure split: 11 timeouts at almost exactly 5,000 ms; 11 HTTPS/TLS/HTTP/2 failures; 4 HTTP status errors; 3 HTTP 200 replies with mismatched DNS transaction IDs; 1 HTML response instead of application/dns-message.
+- Root weaknesses in v2.1.0: 5-second connect timeout, 10-second HttpClient timeout, and no HTTP/1.1 fallback after HTTP/2 resets.
+- v2.1.1 raises connect timeout to 12s, request timeout to 20s, reduces concurrency from 8 to 6, retries once after client timeout or transient HTTP statuses (408/425/429/500/502/503/504), and retries HTTP/2 protocol resets over exact HTTP/1.1.
+- Summary distinguishes transport failures (no HTTP status received) from HTTP responses that still failed DoH validation. A host-not-found, 403/404/502, unexpected content type, or wrong DNS transaction ID still correctly fails.
+- Save Logs ZIP remains available and preserves current-session activity and all scan result history within one process.
+- Product/assembly/file/installer/workflow version synchronized to 2.1.1 / 2.1.1.0 / tag v2.1.1. Wait for build/release verification before marking complete. A live post-fix scan is necessary to measure whether the 30 failures decrease.

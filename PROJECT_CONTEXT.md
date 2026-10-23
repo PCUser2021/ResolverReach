@@ -11,7 +11,7 @@ Default branch: main (visibility last verified private; user has requested publi
 ### 1. Resolver Reach
 
 - Product: Resolver Reach
-- Current project version recorded in source after the 2026-10-23 Save Logs/titlebar/network reliability fixes: 2.1.1
+- Current project version: 2.2.0 (2026-10-23), with native x64 and ARM64 installers and the metallic/spectral icon overhaul.
 - Target: Windows 11 25H2, x64 only; ARM64 is intentionally not targeted
 - Stack: C# / .NET 10, Avalonia, FluentAvalonia, ReactiveUI, DynamicData
 - Project: `src/ResolverReach/ResolverReach.csproj`
@@ -97,7 +97,7 @@ For every substantive task related to either application:
 - Resolver Reach CI: `.github/workflows/windows-build.yml`
 - GGUF Importer CI: `.github/workflows/ollama-gguf-importer.yml`
 
-Last verified 2026-10-23: Resolver Reach 2.1.1 build and release completed successfully in workflow #39940585354; release asset is uploaded. Repository metadata last reported `private`.
+Last verified 2026-10-23: Resolver Reach 2.2.0 x64 and ARM64 builds/installers plus release publishing succeeded in workflow #39945785064. Repository metadata last reported `private`.
 
 
 ## Cross-repository prompt backup and restore policy
@@ -250,3 +250,12 @@ Last verified 2026-10-23: Resolver Reach 2.1.1 build and release completed succe
 - The main app icon, XAML vector icon set, SVG icon source files, public SVG mark, and UI design preview were redesigned as original dark metallic/glass/spectral artwork.
 - The supplied newer ZIP named ResolverReach-Logs-20261023-040016.zip could not be downloaded from the supplied MediaFire URL in this environment. The contents were not analyzed. Request direct upload to finish post-2.1.1 scan-specific diagnosis.
 - CI validates compilation and packaging, but no physical ARM64 device test, live GUI interaction, or full resolver scan was run in this session.
+
+
+## Latest prompt and memory backup status — 2026-10-23
+
+- Latest user request is archived as Prompt 014 in `PROMPT_ARCHIVE.md`.
+- Added [`AI_SESSION_HANDOFF.md`](AI_SESSION_HANDOFF.md) with detailed design/source/build/release/diagnostic state, and [`Software_Project_Master_Context.md`](Software_Project_Master_Context.md) as a compact cross-project continuation memo.
+- Newer resolver archive expected: `ResolverReach-Logs-20261023-040016.zip`. The current conversation file list does not include that ZIP, and the MediaFire download failed on retry. The older `ResolverReach-Logs-20261023-032704.zip` is the only accessible scan evidence. Do not claim the new file was inspected.
+- App-specific memory stored in the repository cannot export or mutate the user's entire account-level ChatGPT memory store. State this limitation accurately.
+- After final repository documentation updates, advance `backup/ResolverReach-2.2.0-2026-10-23` to the final main SHA and verify that both refs match.

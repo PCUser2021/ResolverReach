@@ -411,3 +411,15 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Status at capture: request recorded before implementation.
 - Scope interpretation: update current stable/supported Resolver Reach dependencies and CI/installer tooling; redesign all Resolver Reach icon assets and UI glyphs around the referenced blue-gradient/white-rounded-geometry direction; keep Ollama GGUF Importer source/behavior unchanged.
 - Backup limitation: GitHub source, Git history, assets, and project-specific archive/context/logs can be preserved in branches. The full ChatGPT platform Memory store and all unrelated historical chats cannot be exported or guaranteed complete from these tools.
+
+
+### Prompt 017 — Upgrade Resolver Reach dependencies and tooling using OnionFruit as an upstream reference
+- Date: 2026-10-23
+- Exact user request: “Update 100% update anything you used in this project” for `https://github.com/PCUser2021/ResolverReach`, using the example commands `git clone https://github.com/dragonfruitnetwork/onionfruit` and `cd onionfruit`.
+- Interpretation: review upstream OnionFruit and current project dependencies/tooling; do not replace Resolver Reach with the unrelated Tor client or wholesale-copy upstream implementation.
+- Upstream assessment: OnionFruit is a separate C# Tor-network desktop application. Resolver Reach references its UI structure/theme in `THIRD-PARTY-NOTICES.md` and includes the LGPL-3.0 text. This maintenance change does not add OnionFruit as a runtime dependency or copy its Tor implementation.
+- Maintenance branch: `maintenance/latest-toolchain-onionfruit-review`; PR #2: https://github.com/PCUser2021/ResolverReach/pull/2.
+- Upgrades staged: Avalonia / Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, .NET 10 retained, plus updated GitHub Actions references and installer compiler discovery. DynamicData 9.5.0 retained.
+- First CI identified breaking changes: FluentAvalonia removed `TitleBarHitTestType`; ReactiveUI's non-`.Reactive` build changed scheduler and command types. The code was updated to remove the deleted title-bar call and use the compatibility package family.
+- Verification: Ollama GGUF Importer CI passed on the prior revision. The current Windows x64/ARM64 workflow run #39993023775 was triggered by the compatibility fixes and was pending when this archive entry was written. Do not claim v2.3.0 builds, merge, release, or installer assets until read-back confirms success.
+- User-facing action method supplied was a clone into a separate working directory; cloning OnionFruit alone does not update Resolver Reach.

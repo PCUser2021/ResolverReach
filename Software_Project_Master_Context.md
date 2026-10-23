@@ -74,3 +74,12 @@ This file, the full GitHub source and Git history, the release assets, and the p
 ## Maintenance update — 2026-10-23
 
 A separate branch, `maintenance/latest-toolchain-onionfruit-review`, stages a dependency/toolchain modernization. Planned stable versions at the time of the update: Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia 12.1.6, ReactiveUI 26.0.1; DynamicData remains 9.5.0 pending a verified newer stable release. GitHub Actions are updated to checkout v7, setup-dotnet v6, upload-artifact v6, download-artifact v6, and softprops/action-gh-release v3.0.3. .NET 10 LTS remains the target framework. The supplied OnionFruit clone commands are treated as instructions for cloning the upstream reference repository, not as a command that automatically ports its code into Resolver Reach. The first restore run identified the ReactiveUI.Avalonia 12.1.6 minimum ReactiveUI version; the explicit dependency was corrected to 26.0.1. The branch must pass CI before merging. Account-level ChatGPT Memory cannot be fully exported or backed up by repository tools; repository notes are the durable project-specific record.
+
+
+## Maintenance branch — dependency/toolchain update (Prompt 017, 2026-10-23)
+- Main remains the latest shipped v2.2.0. PR #2 is the unshipped modernization candidate: https://github.com/PCUser2021/ResolverReach/pull/2.
+- App package candidates: Avalonia/Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1; DynamicData 9.5.0 retained; target framework .NET 10 retained.
+- CI references updated to checkout v7, setup-dotnet v6, artifact upload/download v6 and softprops/action-gh-release v3.0.3; setup searches Inno Setup 7/6 compiler locations.
+- The first compile exposed breaking APIs. Fixes remove `TitleBarHitTestType` and use the System.Reactive-compatible ReactiveUI package variant. Latest Windows x64/ARM64 run #39993023775 was pending at this note's creation.
+- OnionFruit is only an upstream reference for UI/theme and its LGPL notice remains. Do not merge its unrelated Tor client implementation into Resolver Reach.
+- Do not publish v2.3.0 until CI passes and outputs are read back; this does not alter the v2.2.0 release record above.

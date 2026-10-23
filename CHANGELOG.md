@@ -5,18 +5,23 @@
 ### Updated
 - Updated Avalonia and Avalonia.Desktop to 12.1.4.
 - Updated FluentAvaloniaUI to 3.1.0.
-- Updated ReactiveUI.Avalonia to 12.1.6 and ReactiveUI to 26.0.1.
+- Switched to `ReactiveUI.Avalonia.Reactive` 12.1.6 and `ReactiveUI.Reactive` 26.0.1 to preserve the app's existing `System.Reactive` APIs across the major-version upgrade.
 - Retained DynamicData 9.5.0 because the repository already uses that release and the current package evidence did not establish a newer stable version.
 - Updated GitHub Actions references to checkout v7, setup-dotnet v6, upload-artifact v6, download-artifact v6, and softprops/action-gh-release v3.0.3.
 - Updated the application version to 2.3.0 and adjusted release metadata.
 - Updated installer discovery to prefer Inno Setup 7 while retaining a fallback for Inno Setup 6 if the package manager supplies that version.
 
-#- Aligned the explicit ReactiveUI package with ReactiveUI.Avalonia 12.1.6, which requires ReactiveUI 26.0.1 or newer.
 
 ### Verification status
 - This is a maintenance branch, not a published release.
-- The repository has not been built locally in this session. The GitHub Actions CI result must be checked before merging or publishing.
-- Avalonia 12 / FluentAvalonia 3 are major-version upgrades; source/API incompatibilities, if any, must be fixed from CI output before release.
+- GitHub Actions confirmed restore succeeded, but the first Avalonia 12 / ReactiveUI 26 compile attempt failed on removed title-bar and incompatible reactive-type APIs. Fixes are committed on the maintenance branch; the next x64/ARM64 CI run is pending.
+- No release has been published from this branch. Do not merge or publish v2.3.0 until both Windows architecture jobs and installer packaging pass.
+
+### Follow-up fixes from initial CI
+- Removed the obsolete FluentAvalonia `TitleBarHitTestType` assignment, which no longer exists in the upgraded title-bar API.
+- Switched the main view and view model to `ReactiveUI.Avalonia.Reactive` / `ReactiveUI.Reactive` and kept `System.Reactive` imports, avoiding the incompatible `RxVoid`/`ISequencer` API family.
+- Updated the product-version fallback to `2.3.0`.
+- Current CI run triggered by the fixes: https://github.com/PCUser2021/ResolverReach/actions/runs/39993023775 (pending at time of this note).
 
 ## [2.2.0] — 2026-10-23
 

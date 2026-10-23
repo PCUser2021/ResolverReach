@@ -106,3 +106,13 @@ This file plus the full Git history/source/assets/releases and project logs pres
 - Actual ZIP is absent from current attachments, Library and `/mnt/data`; the manifest is not the binary. Do not attempt to infer results from it.
 - The only scan archive actually analyzed is the older `ResolverReach-Logs-20261023-032704.zip` (266 endpoints: 235 PASS, 1 DNS ERROR, 30 FAIL). That run preceded the v2.1.1 networking changes and is not a substitute for the latest run.
 - Next action: ask user to attach the entire `ResolverReach-Logs-20261023-044828.zip` directly as a file. Once present, inspect ZIP directory, log, CSVs and per-endpoint errors; then determine code vs external resolver/VPN/network causes.
+
+
+## Maintenance dependency update — Prompt 017, 2026-10-23
+- Current release on main is still Resolver Reach v2.2.0; the update is isolated on PR #2, `maintenance/latest-toolchain-onionfruit-review`: https://github.com/PCUser2021/ResolverReach/pull/2.
+- Updated dependency proposal: Avalonia/Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1. DynamicData remains 9.5.0; target framework remains .NET 10.
+- Updated CI action references: checkout v7, setup-dotnet v6, upload/download-artifact v6, softprops/action-gh-release v3.0.3. Installer path lookup supports Inno Setup 7 and 6, including PATH fallback.
+- The first Windows compile passed restore but failed due to FluentAvalonia's removed `TitleBarHitTestType` and the non-System.Reactive ReactiveUI API. Those failures were fixed on the branch by removing that assignment and switching to the `.Reactive` package family.
+- Latest Windows x64/ARM64 run after the fixes: https://github.com/PCUser2021/ResolverReach/actions/runs/39993023775. At handoff entry creation it was pending; inspect actual job results before merging or releasing. Previous Ollama GGUF Importer run #39990582893 passed.
+- OnionFruit is a separate Tor application used only as a UI reference in this repository; no OnionFruit code was copied or added as a runtime dependency. Keep the existing third-party notices and LGPL text.
+- Once CI succeeds, read back PR merge state, release assets, and backup refs before claiming completion. No release has been published by the maintenance PR yet.

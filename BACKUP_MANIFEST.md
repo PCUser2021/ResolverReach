@@ -181,3 +181,11 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Upstream reference: https://github.com/dragonfruitnetwork/onionfruit. The supplied `git clone ...; cd onionfruit` commands only clone and enter the upstream repository; they do not update Resolver Reach automatically. This branch uses it as an upstream reference only and does not merge or copy OnionFruit application code.
 - Validation caveat: no local build or package restore was executed from this session. CI must be green before merging. Major Avalonia 12 / FluentAvalonia 3 changes can require source-level migration fixes.
 - Backup scope: GitHub repository commits and branches preserve tracked source history. This manifest, project context, handoff, development log, and prompt archive preserve the repository-specific notes currently tracked in Git. They do not constitute a complete export of ChatGPT account Memory, all chat transcripts, untracked local files, or external GitHub Actions artifacts.
+
+
+## Maintenance dependency review — 2026-10-23 (not yet shipped)
+- Active work branch: `maintenance/latest-toolchain-onionfruit-review`; pull request: https://github.com/PCUser2021/ResolverReach/pull/2.
+- Main stays at the verified v2.2.0 until this upgrade passes CI. The branch stages app dependencies and Windows build tooling for v2.3.0.
+- Dependency set: Avalonia/Avalonia.Desktop 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Avalonia.Reactive 12.1.6; ReactiveUI.Reactive 26.0.1; DynamicData 9.5.0; .NET 10.
+- Initial CI reached compile after successful restore but failed on upstream API breaking changes. Fixes have been committed; latest x64/ARM64 run #39993023775 was pending at archive time.
+- Do not treat the maintenance branch as a release. After CI success, read back both jobs and packaged artifacts, then merge/publish only with the intended release procedure. Sync the versioned backup branch to final main only after finalization.

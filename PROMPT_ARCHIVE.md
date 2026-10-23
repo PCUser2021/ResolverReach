@@ -471,3 +471,14 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Additional PR workflow runs: [#40006194471](https://github.com/PCUser2021/ResolverReach/actions/runs/40006194471) and [#40006338791](https://github.com/PCUser2021/ResolverReach/actions/runs/40006338791) also concluded failure. As with #40005597884, the jobs reported no step summaries and job-log retrieval returned `BlobNotFound`; no concrete failing command or source-level error was exposed. The cause remains unconfirmed, so the release stays blocked rather than merging unverified builds.
 - Backup branch `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` was advanced after the latest source/documentation writes. A read-back comparison verified matching blob hashes for the prompt archive, app project, build workflow, macOS install guide, backup manifest, and development log between feature and backup refs.
 - No v2.4.0 GitHub Release or macOS installer artifact is available yet. Existing earlier-run Windows artifacts do not validate the new cross-platform candidate.
+
+
+### Prompt 012 — Remove macOS version from Resolver Reach 2.4.0 work
+- Date: 2026-10-23
+- Target: `PCUser2021/ResolverReach`
+- Context: latest failed CI run https://github.com/PCUser2021/ResolverReach/actions/runs/40006428473
+- Exact prompt:
+
+> [https://github.com/PCUser2021/ResolverReach/actions/runs/40006428473](https://github.com/PCUser2021/ResolverReach/actions/runs/40006428473)
+> Delete macOS version completely. i don't have money to develop the macos version.
+- Status: captured before implementation on `feature/2.4.0-release-macos-backup`. Outcome will document the Windows-only cleanup and CI verification.

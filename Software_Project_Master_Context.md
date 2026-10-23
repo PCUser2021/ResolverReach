@@ -61,3 +61,11 @@ Last verified: 2026-10-23
 ## Memory limitation
 
 This file, the full GitHub source and Git history, the release assets, and the prompt/development archives preserve durable **project-specific** context. They are not a backup of all account-level ChatGPT memory, unrelated conversations, or hidden/internal model state. Do not claim that the complete ChatGPT memory database was exported or changed from a conversation.
+
+
+## Latest diagnostic status (Prompt 015, 2026-10-23)
+
+- User message named `ResolverReach-Logs-20261023-044828.zip`, but supplied only a codebase manifest: one binary file, zero chunks, visible ZIP signature prefix `PK\x03\x04\x14`.
+- The actual ZIP is not in current conversation attachments, Library or `/mnt/data`. It has not been analyzed. Do not claim otherwise or treat old log statistics as new.
+- Latest user handoff is archived in `PROMPT_ARCHIVE.md`; project context and development log record the blocker.
+- Ask for a normal direct upload of the actual ZIP bytes before diagnosing/fixing 04:48 scan-specific failures.

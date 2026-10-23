@@ -98,3 +98,11 @@ Next action required: ask the user to attach `ResolverReach-Logs-20261023-040016
 
 ## Backup completeness and limits
 This file plus the full Git history/source/assets/releases and project logs preserve project-specific implementation context and work carried out in the repository. The current prompt archive stores the latest prompt and prior project work records. This does **not** export the entire account-level ChatGPT memory store, all unrelated chat conversations, or hidden/internal model state. Those cannot be written out by this repository integration. If full cross-session continuity is needed, use this handoff and archive as the persistent, versioned project memory.
+
+
+## Latest diagnostic handoff — 2026-10-23, Prompt 015
+
+- User's latest message is a manifest for `ResolverReach-Logs-20261023-044828.zip` with `Total files: 1`, `Chunks: 0`, and only the `PK\x03\x04\x14` ZIP prefix.
+- Actual ZIP is absent from current attachments, Library and `/mnt/data`; the manifest is not the binary. Do not attempt to infer results from it.
+- The only scan archive actually analyzed is the older `ResolverReach-Logs-20261023-032704.zip` (266 endpoints: 235 PASS, 1 DNS ERROR, 30 FAIL). That run preceded the v2.1.1 networking changes and is not a substitute for the latest run.
+- Next action: ask user to attach the entire `ResolverReach-Logs-20261023-044828.zip` directly as a file. Once present, inspect ZIP directory, log, CSVs and per-endpoint errors; then determine code vs external resolver/VPN/network causes.

@@ -233,3 +233,12 @@ This is an append-only, chronological audit log for the two Windows applications
 - The newer 04:00 log has not been received as an attachment and its external link failed. Do not claim its failure categories are known; only the older 03:27 ZIP has been analyzed.
 - The versioned backup branch must match main after the remaining documentation updates.
 - Repository files preserve project-specific context, not the entire account-level ChatGPT Memory store.
+
+
+## 2026-10-23 — Prompt 015: newest scan ZIP still lacks binary chunks
+
+- User supplied a manifest naming `ResolverReach-Logs-20261023-044828.zip`, `Total files: 1`, `Chunks: 0`; visible content ends at the ZIP header prefix `PK\x03\x04\x14`.
+- Checked the conversation attachment inventory, Library, and `/mnt/data`: the actual 04:48 ZIP is not present. The manifest/signature is not enough to read the ZIP directory or result CSV/log contents.
+- No per-endpoint diagnostic conclusion or code change is justified from this message. Earlier 03:27 log remains the only analyzed scan file.
+- Request a direct chat file upload of the actual `ResolverReach-Logs-20261023-044828.zip`; after receiving it, inspect all files, classify errors, compare against v2.2.0, and only change the app where evidence supports a root cause.
+- Project source/release/archive are retained in the private GitHub repo. Account-wide ChatGPT memory cannot be exported by these GitHub tools.

@@ -277,3 +277,10 @@ Last verified 2026-10-23: Resolver Reach 2.2.0 x64 and ARM64 builds/installers p
 - Backup branch backup/ResolverReach-2.2.0-2026-10-23 is synchronized after the current context/archive updates. Verify main and backup branch refs match after each subsequent documentation or source commit.
 - New log ResolverReach-Logs-20261023-040016.zip remains absent from the current attachments; the MediaFire fetch failed. Do not state that its contents were diagnosed.
 - These files preserve project-specific context, not an export of all account-level ChatGPT Memory or unrelated chats.
+
+
+### Prompt 015 — Latest log manifest checked (2026-10-23)
+- User supplied a codebase manifest for `ResolverReach-Logs-20261023-044828.zip`, with `Total files: 1`, `Chunks: 0`, and only ZIP signature bytes `PK\x03\x04\x14`.
+- Actual archive bytes are absent from current conversation/library file lists and `/mnt/data`. The scan results have not been inspected. This is a confirmed transfer/attachment gap, not evidence about endpoint reachability.
+- Do not make or claim new log-specific fixes until the actual ZIP is available. Ask the user to attach the ZIP as a normal file upload.
+- The latest manifest handoff has been archived as Prompt 015 in `PROMPT_ARCHIVE.md`.

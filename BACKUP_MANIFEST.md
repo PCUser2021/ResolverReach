@@ -3,7 +3,7 @@
 Snapshot date: 2026-10-23  
 Primary repository: https://github.com/PCUser2021/ResolverReach  
 Visibility at last check: **private; the user requested public access, but the owner must still change the GitHub visibility setting**  
-Product version: **Resolver Reach 2.0.0**  
+Product version: **Resolver Reach 2.1.0**  
 The source history includes Resolver Reach and Ollama GGUF Importer.
 
 ## Authoritative tracked backup
@@ -64,3 +64,10 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Stable download: https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe
 - Fixed version download: https://github.com/PCUser2021/ResolverReach/releases/download/v2.0.0/ResolverReach-Setup-x64.exe
 - Repository remains private as of final metadata read; public downloads and source browsing require the owner to change repository visibility.
+
+
+## Resolver Reach 2.1.0 — titlebar fix and ZIP logs
+- Version metadata: product `2.1.0`, assembly/file version `2.1.0.0`.
+- UI bug fix: header right padding reserves 190 DIPs for Windows caption controls so the version badge no longer overlaps them.
+- New Save Logs button opens a ZIP save picker. ZIP file entries: session summary, activity log, historical endpoint-result CSV, current visible-results CSV, and JSON session/runtime metadata.
+- Release workflow is configured for release tag `v2.1.0`; build and asset upload must be verified before considering the update shipped.

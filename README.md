@@ -8,6 +8,7 @@ This repository contains two Windows desktop applications. For persistent cross-
 
 - [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) — project inventory, architecture, verified feature requirements, user workflow preferences, release checks, and the required logging procedure.
 - [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md) — append-only chronological record of decisions, changes, tests, releases, and known limitations.
+- [PROMPT_ARCHIVE.md](PROMPT_ARCHIVE.md) — private, append-only archive of repository-related prompts and task outcomes used to restore context in later sessions.
 
 For every substantive project task, update the development log with what actually changed and what was actually tested. Do not claim a build or release artifact succeeded unless verified. Keep both applications' visible product-version information and Save Logs features intact unless explicitly instructed otherwise.
 

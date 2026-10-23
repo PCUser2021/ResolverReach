@@ -160,3 +160,16 @@ The following seed entries were reconstructed from repository-related prompts vi
 >
 > 100% add everything you did to Resolver Reach to GitHub, make a full backup of all you did to Resolver Reach, and make a full backup of everything you did, including your ChatGPT memory
 - Status at capture time: request archived before changes. Important constraint: a public GitHub source repository inherently exposes its committed source/history; do not expose the private source repo. Try to use a separate public distribution repository if supported.
+
+
+### Outcome 008 — Public-distribution preparation; private source preserved
+- Date: 2026-10-23
+- Original source repository `PCUser2021/ResolverReach` was verified **private** with admin permissions for the connected account.
+- Safety decision: did not change visibility of the source repository, because it contains source code for both Resolver Reach and Ollama GGUF Importer. GitHub's documented behavior is that making a private repository public exposes its code and allows public forks. This would conflict with the user's simultaneous requirement to disable source access.
+- Repository-creation/visibility actions are not available through the current GitHub connection, so a separate public repository could not be created in this session. Do not claim the requested public listing is live.
+- Prepared a source-free local publication kit at `/mnt/data/ResolverReach-Public-Distribution-Kit.zip`, SHA-256 `0295e351aa532b70f8e84d83054d0b9e78a9f31301a61b70008188f2c0a9030b`. It contains the installer, public README, repo description, personal/home-use license terms, brand icon artwork and UI preview; no application source is included.
+- Prepared public-facing draft materials in the still-private repo: `public-distribution/README.md`, `public-distribution/LICENSE.txt`, `public-distribution/REPO_DESCRIPTION.txt`, `public-distribution/assets/resolverreach-icon.svg`, `public-distribution/assets/resolverreach-preview.svg`, and `PUBLIC_DISTRIBUTION_PLAN.md`. Added `BACKUP_MANIFEST.md`.
+- The image asset is an explicitly labelled design preview/illustration created from the v2.0.0 layout, **not a screenshot captured from a running process**. It must not be described as a genuine app screenshot until one is captured on Windows.
+- User's requested personal/home-use and anti-reverse-engineering language appears in the license and public README drafts. The drafts also acknowledge that enforceability and mandatory reverse-engineering exceptions vary by jurisdiction.
+- Full ChatGPT platform Memory/history export is not available through these tools. The repository preserves repository-related prompts, project decisions, source state and outcomes; it is not a complete export of platform Memory.
+- Next safe publishing step: create a separate public, binary-only repository (suggested name `ResolverReach-Downloads`) and upload the kit contents, preferably publishing the EXE as a GitHub Release asset. Keep the source repository private.

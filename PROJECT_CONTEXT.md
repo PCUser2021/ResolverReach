@@ -97,7 +97,7 @@ For every substantive task related to either application:
 - Resolver Reach CI: `.github/workflows/windows-build.yml`
 - GGUF Importer CI: `.github/workflows/ollama-gguf-importer.yml`
 
-Last verified 2026-10-23: Resolver Reach 2.0.0 single-window redesign merged to main at `35ff1517f7e0c0ce42fe1a8500935123d922dd30`; Windows x64 build and installer succeeded in workflow run `39928118989`, artifact `12490750995`. No live resolver endpoint runtime test was part of CI. Ollama GGUF Importer remains version 1.0.0.
+Last verified 2026-10-23: Resolver Reach 2.0.0 main branch build passed (run `39928118989`), artifact `12490750995`. The source repository remains private. A separate public binary-only distribution kit is prepared but not published; see `PUBLIC_DISTRIBUTION_PLAN.md` and `BACKUP_MANIFEST.md`.
 
 
 ## Cross-repository prompt backup and restore policy
@@ -139,3 +139,14 @@ Last verified 2026-10-23: Resolver Reach 2.0.0 single-window redesign merged to 
 - The visible theme picker, Paste Links menu, Save Logs button, and save-file dialog flow were removed from the Resolver Reach UI. Product version display and Escape-to-cancel remain.
 - Version 2.0.0 was selected because the GUI interaction model is replaced. Keep project/package, assembly/file, HTTP User-Agent, installer, workflow, and documentation version metadata synchronized on subsequent shipped updates.
 - Preserve RFC 8484 testing and DNS-response validation, live cURL wiki extraction, de-duplication, bounded concurrency, the 512-URL limit, and in-window results/progress. Results are point-in-time and cannot guarantee universal reachability.
+
+
+## Public distribution and source confidentiality — 2026-10-23
+
+- Keep `PCUser2021/ResolverReach` **private**. It includes source for Resolver Reach and Ollama GGUF Importer. Never change this repository to public as a shortcut for publishing only the binary.
+- GitHub public repositories expose committed files and history to the internet and allow public forks. The user's combined requirements are satisfied safely only by a separate public distribution repo containing binary/release assets, README, license, icon, and a clearly marked preview.
+- The current connected GitHub interface did not expose a repository-create or visibility-change operation during this task. The public distribution repository has not been created by the assistant. A packaged source-free ZIP and public draft files are available for upload.
+- UI image caveat: `public-distribution/assets/resolverreach-preview.svg` is an illustration rendered from the 2.0.0 XAML composition, not a real screen capture of the app running. A genuine screen capture must replace it before claiming it is an actual screenshot.
+- Requested home/personal-use and anti-reverse-engineering language is in the public README and license draft. Do not promise absolute enforceability; mandatory rights and exceptions depend on applicable jurisdiction.
+- Full platform-level ChatGPT Memory and all historical chats cannot be exported through this repository connection. Persist all relevant project-related prompts/decisions/outcomes in `PROMPT_ARCHIVE.md`, and preserve the implementation state/history in Git.
+- Full backup manifest: `BACKUP_MANIFEST.md`. Suggested stable source snapshot branch: `backup/ResolverReach-2.0.0-2026-10-23`.

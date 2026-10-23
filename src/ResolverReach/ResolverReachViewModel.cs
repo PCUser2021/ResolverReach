@@ -65,7 +65,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     {
         string? version = typeof(ResolverReachViewModel).Assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-        return string.IsNullOrWhiteSpace(version) ? "1.0.0" : version.Split('+', 2)[0];
+        return string.IsNullOrWhiteSpace(version) ? "2.0.0" : version.Split('+', 2)[0];
     }
 
     public ResolverReachViewModel()
@@ -717,12 +717,4 @@ internal static class DnsWire
         name = string.Empty;
         return false;
     }
-}
-
-
-public sealed record LogSaveResult(bool Succeeded, bool Cancelled, string? FileName, string? ErrorMessage)
-{
-    public static LogSaveResult Saved(string fileName) => new(true, false, fileName, null);
-    public static LogSaveResult UserCancelled() => new(false, true, null, null);
-    public static LogSaveResult Failed(string errorMessage) => new(false, false, null, errorMessage);
 }

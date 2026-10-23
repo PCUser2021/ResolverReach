@@ -5,11 +5,13 @@
 ### Updated
 - Updated Avalonia and Avalonia.Desktop to 12.1.4.
 - Updated FluentAvaloniaUI to 3.1.0.
-- Updated ReactiveUI.Avalonia to 12.1.6 and ReactiveUI to 24.2.0.
+- Updated ReactiveUI.Avalonia to 12.1.6 and ReactiveUI to 26.0.1.
 - Retained DynamicData 9.5.0 because the repository already uses that release and the current package evidence did not establish a newer stable version.
 - Updated GitHub Actions references to checkout v7, setup-dotnet v6, upload-artifact v6, download-artifact v6, and softprops/action-gh-release v3.0.3.
 - Updated the application version to 2.3.0 and adjusted release metadata.
 - Updated installer discovery to prefer Inno Setup 7 while retaining a fallback for Inno Setup 6 if the package manager supplies that version.
+
+#- Aligned the explicit ReactiveUI package with ReactiveUI.Avalonia 12.1.6, which requires ReactiveUI 26.0.1 or newer.
 
 ### Verification status
 - This is a maintenance branch, not a published release.

@@ -1,5 +1,14 @@
 # Resolver Reach changelog
 
+## [2.4.0] — Windows-only release candidate, 2026-10-23
+
+### Windows installer and toolchain
+- Retained Windows x64 and native ARM64 installers as the only supported release targets.
+- Pinned CI's .NET SDK installation to 10.0.402, the latest stable .NET 10 SDK verified for this update (runtime servicing release 10.0.13).
+- The direct NuGet dependencies were checked against current stable NuGet listings on 2026-10-23; Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI packages 12.1.6/26.0.1, DynamicData 9.5.0, System.Reactive 7.0.0, and test packages remain current stable versions.
+- Release remains pending until the Windows x64/ARM64 build, protocol tests, installers and artifact-verification jobs pass.
+
+
 ## [2.4.0] — merged to main, 2026-10-23 (not yet released)
 
 ### Updated

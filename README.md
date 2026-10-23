@@ -36,11 +36,12 @@ A valid DNS error response is a completed DoH exchange but is not a successful a
 
 ## Downloads
 
-**Current release:** [Resolver Reach 2.2.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.2.0). The x64 and native ARM64 builds, installers, and Release upload all passed in [GitHub Actions run #39945785064](https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064).
+**Release candidate:** Resolver Reach 2.4.0 for Windows. The release workflow builds x64 and native ARM64 installers. The release is not published until the test, build, installer and artifact-verification jobs pass.
 
 - **[Windows x64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe)** — standard Intel/AMD 64-bit Windows. The x64-compatible installer can also run under Windows 11 ARM64 emulation.
 - **[Native Windows ARM64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe)** — native Arm64 Windows app, not the emulated x64 build.
 - [Browse all releases and checksums](https://github.com/PCUser2021/ResolverReach/releases).
+
 
 Public anonymous downloads require the repository to be public; private release assets remain access-controlled.
 
@@ -52,7 +53,7 @@ See [LICENSE](LICENSE).
 
 ## Technical details
 
-- Source candidate: **2.4.0** (not yet published; latest verified GitHub Release remains **v2.2.0**)
+- Release candidate: **2.4.0** (publishing is gated on successful Windows CI)
 - Runtime identifiers: `win-x64`, `win-arm64`
 - Stack: C# 14 / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, System.Reactive 7.0.0, DynamicData 9.5.0; versions are centrally managed in `Directory.Packages.props`
 - DNS check: RFC 8484 wire-format request and full declared-section/EDNS boundary validation

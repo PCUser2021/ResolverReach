@@ -440,3 +440,72 @@ The following seed entries were reconstructed from repository-related prompts vi
 - OnionFruit remains a separate UI/theme reference; no Tor-client source or runtime dependency was imported.
 - A local `git clone` from the execution container could not resolve `github.com`; upstream source metadata was inspected through the connected GitHub repository API instead.
 - Remaining finalization: check main post-merge CI and sync the named versioned backup branch to final main after this documentation commit.
+
+
+### Prompt 011 — Release Resolver Reach 2.4.0, upgrade dependencies, add macOS installers, and back up work
+- Date: 2026-10-23
+- Target: `PCUser2021/ResolverReach`
+- Exact prompt:
+
+> Make an installer for 2.4.0
+> Update everything you used to develop Resolver Reach to the latest version and apply it to the Resolver Reach installers
+> Develop macOS versions with installers. Make a 100% full backup of everything you did to GitHub
+- Status: captured before implementation on branch `feature/2.4.0-release-macos-backup`. Outcome will be recorded after changes and CI/backup verification.
+
+
+### Outcome 011 — Cross-platform installer work recorded; release blocked by untraceable CI failure
+- Date: 2026-10-23
+- PR: [#4 — Resolver Reach 2.4.0: Windows and macOS installers](https://github.com/PCUser2021/ResolverReach/pull/4)
+- Feature branch: `feature/2.4.0-release-macos-backup`; source branch head before this outcome entry: `d00af08d705a71973aa5858ea224a2cd12a591ea`.
+- Implemented project/runtime configuration for `osx-x64` and `osx-arm64`; macOS app-bundle packaging into DMG and ZIP; Windows-only app manifest/icon conditions; Windows-only Mica/extended-title-bar styling; pinned .NET SDK 10.0.402 in CI; expanded package verification/release asset list; updated README, dependency inventory, changelog, project context, handoff, backup manifest and added `MACOS_INSTALLATION.md`.
+- Stable NuGet package versions were checked against current listings on 2026-10-23; the existing direct package versions were current stable versions in the checks performed. .NET SDK 10.0.402 / runtime 10.0.13 is the latest stable .NET 10 servicing release found for the date.
+- PR CI run [#40005597884](https://github.com/PCUser2021/ResolverReach/actions/runs/40005597884) failed across test/build jobs. The available job-step API returned no steps and the log API returned `BlobNotFound`; a rerun also failed without accessible logs. The cause is unknown and must not be guessed.
+- Previous run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171) has non-expired Windows x64/ARM64 artifacts for an earlier 2.4.0 source commit. Those artifacts do not verify this new branch and contain no macOS packages.
+- No v2.4.0 release was published; no macOS DMG/ZIP has been verified or published. macOS packages are unsigned/not notarized because Apple Developer credentials were not supplied. Minimum macOS is 15 (Sequoia), matching the current .NET 10 support matrix.
+- A snapshot branch named `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` was created and advanced after this archive update. Read-back comparison verified matching blob SHAs for the prompt archive, project file, build workflow, macOS installation guide, and backup manifest. The snapshot covers the working tree and reachable Git history, not account-level ChatGPT Memory or unrelated conversations.
+- Remaining: obtain a fresh Actions run with usable logs, fix any evidenced failures, verify all Windows/macOS artifacts and hashes, then merge and publish the release only after the gates pass. This repository backup covers project files and Git history reachable from the snapshot branch; it cannot export platform-level ChatGPT Memory or unrelated conversations.
+
+
+### Outcome 011 follow-up — repeated Actions retries and backup confirmation
+- Date: 2026-10-23
+- Additional PR workflow runs: [#40006194471](https://github.com/PCUser2021/ResolverReach/actions/runs/40006194471) and [#40006338791](https://github.com/PCUser2021/ResolverReach/actions/runs/40006338791) also concluded failure. As with #40005597884, the jobs reported no step summaries and job-log retrieval returned `BlobNotFound`; no concrete failing command or source-level error was exposed. The cause remains unconfirmed, so the release stays blocked rather than merging unverified builds.
+- Backup branch `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` was advanced after the latest source/documentation writes. A read-back comparison verified matching blob hashes for the prompt archive, app project, build workflow, macOS install guide, backup manifest, and development log between feature and backup refs.
+- No v2.4.0 GitHub Release or macOS installer artifact is available yet. Existing earlier-run Windows artifacts do not validate the new cross-platform candidate.
+
+
+### Prompt 012 — Remove macOS version from Resolver Reach 2.4.0 work
+- Date: 2026-10-23
+- Target: `PCUser2021/ResolverReach`
+- Context: latest failed CI run https://github.com/PCUser2021/ResolverReach/actions/runs/40006428473
+- Exact prompt:
+
+> [https://github.com/PCUser2021/ResolverReach/actions/runs/40006428473](https://github.com/PCUser2021/ResolverReach/actions/runs/40006428473)
+> Delete macOS version completely. i don't have money to develop the macos version.
+- Status: captured before implementation on `feature/2.4.0-release-macos-backup`. Outcome will document the Windows-only cleanup and CI verification.
+
+
+### Outcome 012 — macOS support removed from the active Resolver Reach proposal
+- Date: 2026-10-23
+- PR: [#4 — Resolver Reach 2.4.0: Windows and macOS installers](https://github.com/PCUser2021/ResolverReach/pull/4); the PR title/body must be renamed to Windows-only after these source changes.
+- Removed active macOS support by restoring the Windows-only `ResolverReach.csproj`, Windows-only `MainWindow.axaml.cs`, and Windows-only `.github/workflows/windows-build.yml` from `main`, while retaining pinned .NET SDK `10.0.402` in CI.
+- Removed macOS download links, macOS feature/packaging/security text and macOS runtime IDs from the README and dependency inventory; changed the 2.4.0 changelog candidate to Windows-only scope.
+- Updated current project context, master context, and AI handoff to state that Windows x64 and native Windows ARM64 are the only active targets.
+- Deleted `MACOS_INSTALLATION.md` from the working branch. No macOS app-bundle, DMG/ZIP package, runtime identifier, or macOS CI job remains in the active source/workflow.
+- Historical backup branch `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` is intentionally retained as a backup snapshot of the previous state; it is not an active product target. A separate Windows-only snapshot will be created after final records are written.
+- The previous macOS-containing CI runs did not expose job logs and failed across jobs. The cause was not confirmed. A fresh Windows-only CI run must pass its tests, x64/ARM64 builds, and installer-artifact validation before PR merge or v2.4.0 publication.
+- Account-level ChatGPT Memory cannot be fully exported through the GitHub integration; project source/history and repository-specific prompts/outcomes are kept in GitHub.
+
+
+### Outcome 012 follow-up — Windows-only PR replaces the closed macOS proposal
+- Date: 2026-10-23
+- Closed PR #4 with an explanatory comment after removing macOS support from the active files.
+- Created the Windows-only replacement PR [#6](https://github.com/PCUser2021/ResolverReach/pull/6) from branch `feature/resolverreach-2.4.0-windows-only`.
+- Created `backup/ResolverReach-2.4.0-windows-only-2026-10-23` to preserve the cleaned Windows-only candidate separately. The earlier `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` remains as a historical copy of the rejected experiment, not as a supported product.
+- PR #6's CI must be checked on the latest head before merge. No v2.4.0 release is being claimed until the Windows tests, x64/ARM64 installers, and artifact verification pass.
+
+
+### Outcome 012 final status — Windows-only CI remains blocked
+- Date: 2026-10-23
+- The latest Windows-only PR #6 run [#40009024496](https://github.com/PCUser2021/ResolverReach/actions/runs/40009024496) failed in the DNS protocol test, Windows x64 build, and Windows ARM64 build jobs. Artifact verification and publication were skipped.
+- GitHub exposed no job-step summaries or log URLs for this run. The root cause remains unknown. Do not claim that removing macOS fixed the CI problem, and do not merge or publish v2.4.0 until an accessible run passes all Windows-only checks.
+- Current PR #6 branch and its Windows-only snapshot both have Windows x64/ARM64-only project/workflow settings; macOS support has been removed from the active source and distribution docs. A separate old snapshot branch intentionally records the previous experiment.

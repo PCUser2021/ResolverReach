@@ -9,11 +9,13 @@ This file is the current project overview. Current source, Git history, GitHub A
 
 ## Current application — Resolver Reach
 
+**Current in-progress Windows-only release:** PR [#6](https://github.com/PCUser2021/ResolverReach/pull/6), branch `feature/resolverreach-2.4.0-windows-only`. PR #4 was closed after the macOS proposal was withdrawn. Supported targets are Windows x64 and native ARM64 only. The macOS proposal was cancelled at the user's request and has been removed from the active project files and workflow. The initial CI runs failed without readable job logs; do not merge or publish until a fresh Windows-only run passes.
+
 Main now contains Resolver Reach source candidate 2.4.0, merged at [`803e367`](https://github.com/PCUser2021/ResolverReach/commit/803e36738e567b08a12ff3cdbc4de3675d3dd4f7). The candidate's 12 deterministic protocol tests, x64/ARM64 builds, installer builds and artifact verification passed CI run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171). The latest published release remains v2.2.0. See `DEPENDENCIES.md` for the package and build-tool inventory.
 
 - Resolver Reach is the sole application maintained in the current source tree.
 - Current main source candidate: 2.4.0 (merged; not yet published as a GitHub Release). Latest published GitHub Release: v2.2.0. Do not claim a v2.4.0 release until its release assets are verified.
-- Platform: Windows 11 x64 and native ARM64; runtime identifiers: `win-x64` and `win-arm64`.
+- Platform: Windows 11 x64 and native ARM64 only; runtime identifiers: `win-x64` and `win-arm64`.
 - Stack: C# 14 / .NET 10; Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, System.Reactive 7.0.0, DynamicData 9.5.0; direct NuGet versions are centralized in `Directory.Packages.props`.
 - Main project: `src/ResolverReach/ResolverReach.csproj`.
 - Source directory: `src/ResolverReach/`.
@@ -34,11 +36,11 @@ Main now contains Resolver Reach source candidate 2.4.0, merged at [`803e367`](h
 
 ## Releases and CI
 
-- Published v2.2.0 release: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.2.0
+- Previously published release: v2.2.0. The 2.4.0 release workflow builds Windows x64/ARM64 installers only. Do not claim v2.4.0 is published until its Actions run passes and release assets are visible.
 - x64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.2.0/ResolverReach-Setup-x64.exe
 - Native ARM64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.2.0/ResolverReach-Setup-arm64.exe
 - Verified release workflow run #39945785064: https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064.
-- The v2.3.0 source merge and PR-head Windows x64/ARM64 packaging checks were recorded on 2026-10-23. Confirm the current main-branch workflow before making new build claims.
+- Resolver Reach is Windows-only. Do not restore macOS runtime identifiers, installers, download links, install guides or CI jobs unless the user explicitly reopens that requirement.
 - CI validates compilation and packaging; it does not replace live resolver testing or an interactive GUI smoke test.
 
 ## Diagnostic blocker

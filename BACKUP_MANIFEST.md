@@ -1,47 +1,43 @@
 # Resolver Reach project backup manifest
 
 Snapshot date: 2026-10-23  
-Current primary repository: https://github.com/PCUser2021/ResolverReach  
-Repository visibility: **private**  
+Primary repository: https://github.com/PCUser2021/ResolverReach  
+Visibility at last check: **private (awaiting GitHub UI visibility change)**  
 Product version: **Resolver Reach 2.0.0**  
-Primary source history includes both Resolver Reach and Ollama GGUF Importer.
+The source history includes Resolver Reach and Ollama GGUF Importer.
 
 ## Authoritative tracked backup
 
-The private Git repository is the authoritative, versioned backup of source and project records. Do not make this repository public: it contains implementation source for Resolver Reach and Ollama GGUF Importer, plus historical commits and CI configuration.
+The private Git repository is the authoritative, versioned backup of source and project records. The user has now explicitly authorized making the source repository public; the current connected toolset cannot execute GitHub's repository-visibility setting, so the change remains pending the repository owner's Settings action.
 
-- Current main at backup preparation: commit `026fda8d8e8bc6eafdbf2bda7354f3acdac6227e`.
+- Main branch backup head: check the current `main` ref before relying on this snapshot.
+- Stable backup branch: `backup/ResolverReach-2.0.0-2026-10-23`.
 - Resolver Reach 2.0.0 redesign merge: commit `35ff1517f7e0c0ce42fe1a8500935123d922dd30`.
 - Successful Windows x64 publish/installer build: [workflow run #39928118989](https://github.com/PCUser2021/ResolverReach/actions/runs/39928118989).
 - Project source and icon: `src/ResolverReach/`.
 - Packaging and CI: `installer/ResolverReach.iss`, `.github/workflows/windows-build.yml`.
 - Product documentation and durable working context: `README.md`, `CHANGELOG.md`, `PROJECT_CONTEXT.md`, `DEVELOPMENT_LOG.md`, `PROMPT_ARCHIVE.md`.
-- Public-only draft copy (docs/assets; not source): `public-distribution/`.
-- Distribution constraints and publish steps: `PUBLIC_DISTRIBUTION_PLAN.md`.
-
-The stable source snapshot branch `backup/ResolverReach-2.0.0-2026-10-23` has been created. It is maintained as a second reference to the complete source-and-records snapshot at task completion; verify that its head matches the final `main` commit after any follow-up edits.
+- Publication assets/drafts: `public-distribution/`, `PUBLIC_DISTRIBUTION_PLAN.md`, `LICENSE.txt`.
 
 ## Verified shipped binary
 
 - Installer file: `Resolver-Reach-2.0.0-Setup-x64.exe`.
 - Size: 33,971,274 bytes.
 - SHA-256: `0023ab33844ba6ffe00f572eb0ed28e395b3e46044fb392f893726f20df2bc22`.
-- GitHub Actions artifact: `ResolverReach-Windows-x64`, artifact ID `12490750995`; temporary artifact expiry listed as 2026-11-06.
+- GitHub Actions artifact: `ResolverReach-Windows-x64`, artifact ID `12490750995`; the artifact's listed expiry was 2026-11-06.
 - Build/installer success does not prove live reachability for each DNS resolver.
 
-## Public-only distribution kit prepared in the current working session
+## Public page preparation
 
-Local ZIP: `/mnt/data/ResolverReach-Public-Distribution-Kit.zip`  
-ZIP SHA-256: `0295e351aa532b70f8e84d83054d0b9e78a9f31301a61b70008188f2c0a9030b`.
+- Root `README.md` begins with the Resolver Reach icon and a preview of the v2.0.0 UI. The preview is an illustration and **not** a screenshot captured from the running app.
+- Root `LICENSE.txt` includes the requested personal/home-use restrictions and explains that public source visibility cannot be blocked by the license wording.
+- Proposed GitHub About/Description text is in `public-distribution/REPO_DESCRIPTION.txt`. It must be copied into the GitHub About settings manually because no repository-metadata-write operation is available in this session.
+- GitHub visibility remains private until changed in the web UI: https://github.com/PCUser2021/ResolverReach/settings.
 
-It contains only the installer, public-facing README, requested personal/home-use terms, the proposed repository description, a brand icon illustration, and a clearly labelled UI design preview. It contains **no source files**. The preview is an illustration based on the UI layout, not a screenshot captured from a running app.
+## Visibility warning
 
-## Visibility constraint and not-yet-completed external action
-
-GitHub's own documentation says that changing a private repository to public makes the code visible to everyone and allows anyone to fork it: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility
-
-To satisfy both privacy goals, keep this source repository private and publish the prepared kit in a separate public distribution repository (suggested name: `ResolverReach-Downloads`). In this session's available GitHub connection, no action is provided to create a repository or change repository visibility. Therefore the public repository has **not** been created and the current private repository has intentionally **not** been exposed.
+Once the private source repository becomes public, GitHub makes all committed code visible, allows public forks, and exposes Actions history/logs. The repository's own history also contains repository-related prompt archive entries and development notes. The user has explicitly authorized source publication in Prompt 009.
 
 ## ChatGPT memory limitation
 
-The complete ChatGPT platform-level Memory store and every historical chat cannot be exported through the connected tools. Repository-related prompts, decisions, source changes, build results, and handoff details that are available have been persisted in `PROMPT_ARCHIVE.md`, `PROJECT_CONTEXT.md`, and `DEVELOPMENT_LOG.md`. This record must not be described as a complete ChatGPT Memory export.
+The complete ChatGPT platform-level Memory store and every historical chat cannot be exported through the connected tools. Repository-related prompts, decisions, implementation notes, build validation and handoff state are preserved in `PROMPT_ARCHIVE.md`, `PROJECT_CONTEXT.md`, and `DEVELOPMENT_LOG.md`; that is not a full platform Memory export.

@@ -4,13 +4,11 @@
 
 <h1 align="center">Resolver Reach</h1>
 
-<p align="center"><strong>Windows 11 x64/ARM64 and macOS Intel/Apple Silicon · DNS-over-HTTPS resolver diagnostics</strong></p>
+<p align="center"><strong>Windows 11 x64 and native ARM64 · DNS-over-HTTPS resolver diagnostics</strong></p>
 
 <p align="center">
   <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe"><strong>Download Windows x64</strong></a>
   · <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe"><strong>Download native ARM64</strong></a>
-  · <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-2.4.0-macOS-arm64.dmg"><strong>Download macOS Apple Silicon</strong></a>
-  · <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-2.4.0-macOS-x64.dmg"><strong>Download macOS Intel</strong></a>
   · <a href="https://github.com/PCUser2021/ResolverReach/releases">All releases</a>
 </p>
 
@@ -38,17 +36,12 @@ A valid DNS error response is a completed DoH exchange but is not a successful a
 
 ## Downloads
 
-See [macOS installation instructions](MACOS_INSTALLATION.md) for architecture selection and Gatekeeper/signing limitations.
-
-**Release candidate:** Resolver Reach 2.4.0. The release workflow builds Windows x64/ARM64 installers plus macOS Apple Silicon/Intel DMG and ZIP packages. The release is not published until all test, build, packaging, and artifact-verification jobs pass.
+**Release candidate:** Resolver Reach 2.4.0 for Windows. The release workflow builds x64 and native ARM64 installers. The release is not published until the test, build, installer and artifact-verification jobs pass.
 
 - **[Windows x64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe)** — standard Intel/AMD 64-bit Windows. The x64-compatible installer can also run under Windows 11 ARM64 emulation.
 - **[Native Windows ARM64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe)** — native Arm64 Windows app, not the emulated x64 build.
-- **[macOS Apple Silicon installer (DMG)](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-2.4.0-macOS-arm64.dmg)** — native arm64 Macs (M1 and newer).
-- **[macOS Intel installer (DMG)](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-2.4.0-macOS-x64.dmg)** — Intel Macs. ZIP alternatives are published alongside the DMGs.
 - [Browse all releases and checksums](https://github.com/PCUser2021/ResolverReach/releases).
 
-**macOS security note:** these packages are not code-signed or notarized yet. Gatekeeper may block first launch; Apple Developer signing/notarization credentials are required for a normal trusted first-launch experience. .NET 10 support currently targets macOS 15 (Sequoia) and newer.
 
 Public anonymous downloads require the repository to be public; private release assets remain access-controlled.
 
@@ -60,8 +53,8 @@ See [LICENSE](LICENSE).
 
 ## Technical details
 
-- Release candidate: **2.4.0** (publishing is gated on successful cross-platform CI)
-- Runtime identifiers: `win-x64`, `win-arm64`, `osx-x64`, `osx-arm64`
+- Release candidate: **2.4.0** (publishing is gated on successful Windows CI)
+- Runtime identifiers: `win-x64`, `win-arm64`
 - Stack: C# 14 / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, System.Reactive 7.0.0, DynamicData 9.5.0; versions are centrally managed in `Directory.Packages.props`
 - DNS check: RFC 8484 wire-format request and full declared-section/EDNS boundary validation
 - Tests: xUnit.net v3 4.0.2, Microsoft.NET.Test.Sdk 18.11.0, Visual Studio adapter 4.0.1, Microsoft.Testing.Extensions.TrxReport 2.5.1, Coverlet.MTP 10.1.0; `.NET 10` `global.json` selects Microsoft Testing Platform

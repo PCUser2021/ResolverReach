@@ -1,1 +1,1 @@
-Resolver Reach is a Windows 11 x64 DNS-over-HTTPS tester. Test the live cURL resolver catalog or paste HTTPS endpoints; validate RFC 8484 DNS replies and view reachability, HTTP status, latency, and results in one window. MIT licensed for any purpose.
+Resolver Reach is a Windows 11 x64 and native ARM64 DNS-over-HTTPS tester. Test the live cURL DoH catalog or paste endpoints, validate RFC 8484 replies, and export diagnostics to ZIP. MIT licensed for any purpose.

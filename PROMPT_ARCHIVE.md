@@ -309,3 +309,13 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Preserve the full pre-removal repository state on branch `backup/JDownloaderReach-full-2026-10-23` before modifying the integration.
 - Create a durable project-specific JDownloader Reach memory/context file in the repository. Do not export unrelated general ChatGPT memories or sensitive personal details.
 - User requests a public project page. Repository visibility is currently private; do not claim public until GitHub metadata confirms it. The connected GitHub actions available in this session do not expose repository visibility mutation or repository creation, so a manual Settings action may remain necessary.
+
+
+### Outcome — JDownloader Reach 0.3.0 cleanup and project backup (2026-10-23)
+
+- Removed the Ollama GGUF Importer integration from the JDownloader Reach UI/source/settings, package workflow, installer metadata and shortcuts. The standalone importer application and its independent workflow remain intact.
+- Code commit: `b512cb97a82a210c6d38253a9bd65dd711d08630`. CI then exposed a PowerShell syntax issue in the two-entry PE validation array; workflow fix commit: `b86b6743c1d8da8e597bd9e3cbf10dcecfe35305`.
+- Backups on GitHub: pre-removal `backup/JDownloaderReach-full-2026-10-23`; clean-snapshot `backup/JDownloaderReach-0.3.0-clean-2026-10-23-r2`. The first retains the full pre-removal state and both retain the repository history reachable from their base commit.
+- Added project-scoped memory to `JDOWNLOADER_REACH_MEMORY.md`; this is not a full export of the account-wide ChatGPT Memory store.
+- Current cleaned-workflow CI run: https://github.com/PCUser2021/ResolverReach/actions/runs/39946624955. Initial run `39946242480` failed at the PE-check script parser step; the corrected run has reached x64 installer compilation, while the ARM64 build is still in progress at the time of this entry. Final result to be appended only after verified.
+- Repository visibility still reports private. The connected GitHub toolset has no repository creation or visibility mutation action. Do not claim public visibility. Because the repository includes unrelated projects and a private prompt archive, publishing JDownloader Reach alone needs a dedicated clean public repository or deliberate user-performed separation/settings work.

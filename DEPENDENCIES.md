@@ -54,6 +54,7 @@ Test fixtures are synthetic DNS packets: the protocol tests do not depend on pub
 | softprops/action-gh-release | `@v3.0.3` | Explicit version tag |
 | Inno Setup compiler | **6.7.1 in verified CI run #40001573171** | Workflow checks Inno Setup 7 paths first, then 6; current installer was built with Inno Setup 6.7.1. The workflow does not pin that patch version, so future runners could select a different release |
 | Chocolatey install fallback | `choco install innosetup --yes --no-progress` | This fallback does not pin an installer-package version; the verified run found Inno Setup 6.7.1. Exact future installation depends on runner/package feed |
+| Runtime identifiers | `win-x64`, `win-arm64`, `osx-x64`, `osx-arm64` | Windows x64/ARM64 and macOS Intel/Apple Silicon self-contained builds |
 | Windows packaging | Inno Setup script `installer/ResolverReach.iss` | Produces separate x64-compatible and native ARM64 installers |
 | macOS packaging | Native `hdiutil` + `ditto` on GitHub-hosted macOS runner | Produces DMG and ZIP containing `Resolver Reach.app` for `osx-x64` and `osx-arm64`; app bundle metadata sets minimum macOS 15.0 |
 | macOS signing/notarization | Not configured | No Apple Developer signing credentials are available to this workflow; packages are unsigned and not notarized, so Gatekeeper may block first launch |

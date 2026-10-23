@@ -352,3 +352,13 @@ This is an append-only, chronological audit log for the two Windows applications
 - Deleted `MACOS_INSTALLATION.md` from the active branch.
 - Prompt 012 records the request and this outcome. The historical branch `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` is retained as an archival copy of the earlier attempt; a clean Windows-only snapshot branch will be created after verification.
 - Verification not yet complete at log write: the new Windows-only PR run must pass the 12 protocol tests, Windows x64 build/installer, Windows ARM64 build/installer, and artifact verification. Do not merge/publish until confirmed. Previous cross-platform runs failed without retrievable logs; their cause remains unknown.
+
+
+## 2026-10-23 — Windows-only PR and backup snapshot
+
+- Closed PR #4, which proposed macOS packaging, with a comment pointing to the replacement.
+- Created PR #6, https://github.com/PCUser2021/ResolverReach/pull/6, on branch `feature/resolverreach-2.4.0-windows-only`.
+- Created `backup/ResolverReach-2.4.0-windows-only-2026-10-23` as the clean Windows-only candidate snapshot. Retained the older cross-platform snapshot branch as historical backup only.
+- Active target scope is Windows x64 and native Windows ARM64. The app project and workflow are restored to Windows-only targets; the .NET SDK in CI remains pinned to 10.0.402.
+- The macOS installation guide was deleted, and macOS download links, runtime IDs and packaging/release jobs were removed from active project and release files.
+- Final verification pending: inspect the latest PR #6 workflow. The old macOS-containing CI runs failed without readable job logs, so the root cause is unknown. No v2.4.0 release has been published by this cleanup.

@@ -35,7 +35,7 @@ A valid DNS error response is shown separately from a failed/unreachable endpoin
 
 The personal/home-use restrictions above are the requested terms. See [LICENSE.txt](LICENSE.txt) for the distribution license.
 
-**Source visibility:** this repository is public only after its owner changes the repository's Visibility setting in GitHub. Once public, the source and Git history are visible to visitors and GitHub permits public forks; the license wording cannot technically conceal publicly committed files. The requested restriction on source access is therefore a stated use restriction, not an access-control mechanism.
+**Repository visibility:** the owner can switch visibility at [Repository Settings](https://github.com/PCUser2021/ResolverReach/settings) → Danger Zone → Change repository visibility. The connected assistant session cannot execute this administrative setting change. Once public, the source and Git history are visible to visitors and GitHub permits public forks; the license wording cannot technically conceal publicly committed files. The requested restriction on source access is therefore a stated use restriction, not an access-control mechanism.
 
 ## Build verification
 

@@ -38,6 +38,8 @@ A valid DNS error response is a completed DoH exchange but is not a successful a
 
 ## Downloads
 
+See [macOS installation instructions](MACOS_INSTALLATION.md) for architecture selection and Gatekeeper/signing limitations.
+
 **Release candidate:** Resolver Reach 2.4.0. The release workflow builds Windows x64/ARM64 installers plus macOS Apple Silicon/Intel DMG and ZIP packages. The release is not published until all test, build, packaging, and artifact-verification jobs pass.
 
 - **[Windows x64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe)** — standard Intel/AMD 64-bit Windows. The x64-compatible installer can also run under Windows 11 ARM64 emulation.

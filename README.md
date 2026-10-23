@@ -57,3 +57,14 @@ Resolver Reach 2.1.1 is a Windows 11 x64 app built with C# / .NET 10, Avalonia, 
 - Target: Windows 11 x64
 - DoH test: RFC 8484 DNS wire-format query with POST and GET fallback where appropriate
 - No changes to Windows DNS settings, VPN, or general traffic routing
+
+
+## JDownloader Reach — integrated download and tools shell
+
+An early Windows x64 prototype is being developed on the isolated branch `feature/jdownloader-reach-prototype`. It adds an Avalonia shell that can communicate with an existing local JDownloader engine (add links to LinkGrabber, inspect a basic package snapshot, and start queued downloads) and launch both repository applications: Resolver Reach and Ollama GGUF Importer.
+
+- [Prototype documentation](src/JDownloaderReach/README.md)
+- [Integration architecture and phases](docs/JDownloaderReach-Integration-Architecture.md)
+- [Prototype change log](src/JDownloaderReach/CHANGELOG.md)
+
+**Important:** This is not a complete Java-to-C# conversion and does not bundle the JDownloader engine. The integrated ZIP workflow packages the three .NET applications; JDownloader must be installed separately. The optional deprecated local API is restricted in this client to `127.0.0.1:3128` and must not be exposed to a network.

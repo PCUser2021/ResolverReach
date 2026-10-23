@@ -123,7 +123,7 @@ This is an append-only, chronological audit log for the two Windows applications
 - **No live DNS test claim:** Packaging success does not mean every DoH endpoint has been runtime-tested.
 
 
-## 2026-10-23 — MIT licensing and release download automation (in progress)
+## 2026-10-23 — MIT licensing and release download automation (completed)
 
 - **User intent:** Allow anyone to use Resolver Reach and the project source for any purpose and make permanent installer links available through GitHub Releases.
 - **License:** Replaced personal/home-use-only restrictions with MIT in the root license files and public distribution draft. The README states that original project code/docs/assets may be used for any purpose subject to retaining the MIT notice. Third-party dependencies retain their own license terms.
@@ -143,3 +143,16 @@ This is an append-only, chronological audit log for the two Windows applications
 - Stable latest URL in README: `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
 - Repository metadata still reports `private`; the release asset exists but public anonymous downloads/source browsing still require the GitHub repository Visibility setting to be changed to Public.
 - App version remains 2.0.0; only license/docs/release automation changed. CI did not run live DNS reachability tests against every endpoint.
+
+
+## 2026-10-23 — Resolver Reach 2.1.0 titlebar fix and ZIP Save Logs
+
+- **User request:** Fix the screenshot-highlighted title/version overlap in the top-right Windows caption area and add a Save Logs action that lets the user choose a destination and saves full logs as ZIP.
+- **Version:** Bumped Resolver Reach to **2.1.0**, assembly/file version **2.1.0.0**, installer version **2.1.0**. Updated current README/changelog/project context/distribution notes and release workflow to tag `v2.1.0`.
+- **UI fix:** `src/ResolverReach/MainView.axaml` now reserves 190 DIPs at the right edge of the extended header, keeping the version badge clear of the Windows minimize/maximize/close controls. Added a visible `Save Logs` button in the results-header row.
+- **Save dialog:** `src/ResolverReach/MainView.axaml.cs` uses Avalonia `StorageProvider.SaveFilePickerAsync` with a ZIP filter and a timestamped suggested filename. Cancel is handled without writing an archive; success/failure is reflected in the main window status.
+- **Full session ZIP:** `src/ResolverReach/ResolverReachViewModel.cs` maintains a timestamped activity log and historical endpoint result rows across scans during the current app session. ZIP entries: `session-summary.txt`, `activity.log`, `resolver-results-history.csv`, `current-visible-results.csv`, and `session.json`. Entries include run mode, attempted endpoints, per-endpoint status/HTTP code/latency/DNS result and details, final scan summaries, cancellation/errors, product/runtime/session metadata, and current UI status.
+- **Build/release verification:** [GitHub Actions run #39937042568](https://github.com/PCUser2021/ResolverReach/actions/runs/39937042568) completed with conclusion `success`. .NET restore, self-contained win-x64 publish, Inno Setup compile, artifact upload, and release publish all succeeded.
+- **Published artifact:** [Resolver Reach v2.1.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.0), asset `ResolverReach-Setup-x64.exe`, 33,980,655 bytes. Stable download: `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
+- **Testing limitation:** No interactive GUI test was run on a live Windows desktop in this task; CI validates compilation/packaging and asset publishing, not a visual caption-area inspection or click-through test of ZIP creation.
+- **Visibility:** Repository metadata still reports `private`; the release asset is hosted but downloads/source browsing remain limited to authorized users until repository visibility is made public by the owner.

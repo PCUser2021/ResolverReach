@@ -55,7 +55,8 @@ Test fixtures are synthetic DNS packets: the protocol tests do not depend on pub
 | Inno Setup compiler | **6.7.1 in verified CI run #40001573171** | Workflow checks Inno Setup 7 paths first, then 6; current installer was built with Inno Setup 6.7.1. The workflow does not pin that patch version, so future runners could select a different release |
 | Chocolatey install fallback | `choco install innosetup --yes --no-progress` | This fallback does not pin an installer-package version; the verified run found Inno Setup 6.7.1. Exact future installation depends on runner/package feed |
 | Windows packaging | Inno Setup script `installer/ResolverReach.iss` | Produces separate x64-compatible and native ARM64 installers |
-| Git in Windows CI | `2.56.0.windows.2` | Observed in both architecture-build/test job logs for run #40001573171; not part of the shipped app |\n| Publish model | .NET self-contained single-file | `win-x64` and `win-arm64`; native runtime bits are embedded/extracted by .NET publish configuration |
+| Git in Windows CI | `2.56.0.windows.2` | Observed in both architecture-build/test job logs for run #40001573171; not part of the shipped app |
+| Publish model | .NET self-contained single-file | `win-x64` and `win-arm64`; native runtime bits are embedded/extracted by .NET publish configuration |
 
 ## Protocol and external standards
 

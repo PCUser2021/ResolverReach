@@ -166,3 +166,32 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Prompt 015 recorded in the private prompt archive. The actual `ResolverReach-Logs-20261023-044828.zip` bytes were not delivered; message contained a manifest with 0 chunks and a ZIP prefix only.
 - Durable AI handoff files and master context are committed. The previous diagnostic ZIP remains the only scan file available for analysis.
 - After the Prompt 015 documentation commit, `backup/ResolverReach-2.2.0-2026-10-23` was synced to the exact `main` commit. Verify both refs again if more documentation/source changes are committed.
+
+
+- Initial restore attempt exposed a dependency constraint: ReactiveUI.Avalonia 12.1.6 requires ReactiveUI >= 26.0.1. The maintenance branch was corrected to ReactiveUI 26.0.1 before the next CI attempt.
+
+## 2026-10-23 maintenance branch snapshot
+
+- Maintenance branch: `maintenance/latest-toolchain-onionfruit-review`.
+- Intent: modernize Resolver Reach's NuGet dependencies and GitHub Actions tooling while preserving the main branch until CI validates the migration.
+- Dependency targets: Avalonia 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Avalonia 12.1.6; ReactiveUI 26.0.1; DynamicData 9.5.0 was verified as the latest stable NuGet release on 2026-10-23.
+- CI action targets: actions/checkout v7; actions/setup-dotnet v6; actions/upload-artifact v6; actions/download-artifact v6; softprops/action-gh-release v3.0.3.
+- Runtime: .NET 10 LTS retained. Official Microsoft release page showed .NET SDK 10.0.402 / runtime 10.0.13 on 2026-10-23.
+- Installer: workflow now looks for Inno Setup 7 first and Inno Setup 6 second after installing the Chocolatey package; actual installed version depends on the package repository at workflow time.
+- Upstream reference: https://github.com/dragonfruitnetwork/onionfruit. The supplied `git clone ...; cd onionfruit` commands only clone and enter the upstream repository; they do not update Resolver Reach automatically. This branch uses it as an upstream reference only and does not merge or copy OnionFruit application code.
+- Validation caveat: no local build or package restore was executed from this session. CI must be green before merging. Major Avalonia 12 / FluentAvalonia 3 changes can require source-level migration fixes.
+- Backup scope: GitHub repository commits and branches preserve tracked source history. This manifest, project context, handoff, development log, and prompt archive preserve the repository-specific notes currently tracked in Git. They do not constitute a complete export of ChatGPT account Memory, all chat transcripts, untracked local files, or external GitHub Actions artifacts.
+
+
+## Maintenance dependency review — 2026-10-23 (not yet shipped)
+- Active work branch: `maintenance/latest-toolchain-onionfruit-review`; pull request: https://github.com/PCUser2021/ResolverReach/pull/2.
+- Main stays at the verified v2.2.0 until this upgrade passes CI. The branch stages app dependencies and Windows build tooling for v2.3.0.
+- Dependency set: Avalonia/Avalonia.Desktop 12.1.4; FluentAvaloniaUI 3.1.0; ReactiveUI.Avalonia.Reactive 12.1.6; ReactiveUI.Reactive 26.0.1; DynamicData 9.5.0; .NET 10.
+- Initial CI reached compile after successful restore but failed on upstream API breaking changes. Fixes have been committed; latest x64/ARM64 run #39993023775 was pending at archive time.
+- Do not treat the maintenance branch as a release. After CI success, read back both jobs and packaged artifacts, then merge/publish only with the intended release procedure. Sync the versioned backup branch to final main only after finalization.
+
+- Follow-up action audit: official release metadata identifies `actions/upload-artifact@v7.0.2` and `actions/download-artifact@v8.0.2` as current on 2026-10-23. Workflow refs use major tags @v7/@v8. Re-run CI against the updated workflow before merge/release.
+
+- Final package/action audit: DynamicData 9.5.0 and System.Reactive 7.0.0 are current stable releases; official GitHub metadata identifies checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2 and softprops/action-gh-release v3.0.3. Both workflows have been updated to current artifact action majors. Current-head CI remains the release gate.
+
+- CI now verifies the artifacts after upload by downloading x64 and native ARM64 installers via download-artifact@v8, validating non-zero output files, and printing SHA-256 hashes. The release job depends on the verification job. Final latest-head CI must pass before merge or release.

@@ -106,3 +106,20 @@ This file plus the full Git history/source/assets/releases and project logs pres
 - Actual ZIP is absent from current attachments, Library and `/mnt/data`; the manifest is not the binary. Do not attempt to infer results from it.
 - The only scan archive actually analyzed is the older `ResolverReach-Logs-20261023-032704.zip` (266 endpoints: 235 PASS, 1 DNS ERROR, 30 FAIL). That run preceded the v2.1.1 networking changes and is not a substitute for the latest run.
 - Next action: ask user to attach the entire `ResolverReach-Logs-20261023-044828.zip` directly as a file. Once present, inspect ZIP directory, log, CSVs and per-endpoint errors; then determine code vs external resolver/VPN/network causes.
+
+
+## Maintenance dependency update — Prompt 017, 2026-10-23
+- Current release on main is still Resolver Reach v2.2.0; the update is isolated on PR #2, `maintenance/latest-toolchain-onionfruit-review`: https://github.com/PCUser2021/ResolverReach/pull/2.
+- Updated dependency proposal: Avalonia/Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1. DynamicData remains 9.5.0; target framework remains .NET 10.
+- Updated CI action references: checkout v7, setup-dotnet v6, upload-artifact v7 / download-artifact v8, softprops/action-gh-release v3.0.3. Installer path lookup supports Inno Setup 7 and 6, including PATH fallback.
+- The first Windows compile passed restore but failed due to FluentAvalonia's removed `TitleBarHitTestType` and the non-System.Reactive ReactiveUI API. Those failures were fixed on the branch by removing that assignment and switching to the `.Reactive` package family.
+- Latest Windows x64/ARM64 run after the fixes: https://github.com/PCUser2021/ResolverReach/actions/runs/39993023775. At handoff entry creation it was pending; inspect actual job results before merging or releasing. Previous Ollama GGUF Importer run #39990582893 passed.
+- OnionFruit is a separate Tor application used only as a UI reference in this repository; no OnionFruit code was copied or added as a runtime dependency. Keep the existing third-party notices and LGPL text.
+- Once CI succeeds, read back PR merge state, release assets, and backup refs before claiming completion. No release has been published by the maintenance PR yet.
+
+- Toolchain re-check: on 2026-10-23 the official GitHub Releases API reported checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2, and softprops/action-gh-release v3.0.3 as latest. Workflow uses major refs `@v7`, `@v8` for artifact actions. CI needs another run after these changes.
+
+- Full workflow audit completed: both `.github/workflows/windows-build.yml` and `.github/workflows/ollama-gguf-importer.yml` use checkout@v7 / setup-dotnet@v6; artifact upload uses @v7 and Windows release artifact downloads use @v8. These refs match the latest official releases at the audit date (checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2, softprops/action-gh-release v3.0.3).
+- NuGet audit: DynamicData 9.5.0 is listed as current stable; ReactiveUI.Reactive 26.0.1 requires System.Reactive >=7.0.0, the current stable version. Do not add a duplicate explicit System.Reactive reference unless CI establishes it is necessary; it arrives transitively through the selected compatibility package.
+
+- Last CI hardening: added `verify-packaged-artifacts` to the Windows workflow so current `download-artifact@v8` is exercised on PRs. It downloads both installers, validates non-empty EXE files, and emits SHA-256 hashes. The release-only job depends on this validation but remains disabled for ordinary PRs.

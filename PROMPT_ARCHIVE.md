@@ -411,3 +411,21 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Status at capture: request recorded before implementation.
 - Scope interpretation: update current stable/supported Resolver Reach dependencies and CI/installer tooling; redesign all Resolver Reach icon assets and UI glyphs around the referenced blue-gradient/white-rounded-geometry direction; keep Ollama GGUF Importer source/behavior unchanged.
 - Backup limitation: GitHub source, Git history, assets, and project-specific archive/context/logs can be preserved in branches. The full ChatGPT platform Memory store and all unrelated historical chats cannot be exported or guaranteed complete from these tools.
+
+
+### Prompt 017 — Upgrade Resolver Reach dependencies and tooling using OnionFruit as an upstream reference
+- Date: 2026-10-23
+- Exact user request: “Update 100% update anything you used in this project” for `https://github.com/PCUser2021/ResolverReach`, using the example commands `git clone https://github.com/dragonfruitnetwork/onionfruit` and `cd onionfruit`.
+- Interpretation: review upstream OnionFruit and current project dependencies/tooling; do not replace Resolver Reach with the unrelated Tor client or wholesale-copy upstream implementation.
+- Upstream assessment: OnionFruit is a separate C# Tor-network desktop application. Resolver Reach references its UI structure/theme in `THIRD-PARTY-NOTICES.md` and includes the LGPL-3.0 text. This maintenance change does not add OnionFruit as a runtime dependency or copy its Tor implementation.
+- Maintenance branch: `maintenance/latest-toolchain-onionfruit-review`; PR #2: https://github.com/PCUser2021/ResolverReach/pull/2.
+- Upgrades staged: Avalonia / Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, .NET 10 retained, plus updated GitHub Actions references and installer compiler discovery. DynamicData 9.5.0 retained.
+- First CI identified breaking changes: FluentAvalonia removed `TitleBarHitTestType`; ReactiveUI's non-`.Reactive` build changed scheduler and command types. The code was updated to remove the deleted title-bar call and use the compatibility package family.
+- Verification: Ollama GGUF Importer CI passed on the prior revision. The current Windows x64/ARM64 workflow run #39993023775 was triggered by the compatibility fixes and was pending when this archive entry was written. Do not claim v2.3.0 builds, merge, release, or installer assets until read-back confirms success.
+- User-facing action method supplied was a clone into a separate working directory; cloning OnionFruit alone does not update Resolver Reach.
+
+- Post-audit action update: official GitHub releases show `actions/upload-artifact` latest v7.0.2 and `actions/download-artifact` latest v8.0.2 (both published 2026-10-07); workflow references updated to major tags `@v7` / `@v8`. The next workflow run must validate these refs.
+
+- Final dependency audit: NuGet lists DynamicData 9.5.0 as current (2026-10-13); ReactiveUI.Reactive 26.0.1 requires System.Reactive >= 7.0.0, with 7.0.0 current. Official GitHub release metadata checked: checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2, softprops/action-gh-release v3.0.3. Both workflows now use the current artifact action majors; a fresh CI run after the last workflow update is required.
+
+- Additional CI hardening: added a non-release `verify-packaged-artifacts` job to the Windows workflow. It downloads the x64 and native ARM64 installer artifacts using download-artifact@v8, verifies each EXE is present/non-empty and logs SHA-256 checksums. The release job now depends on that verification. Final branch-head CI is still the merge gate.

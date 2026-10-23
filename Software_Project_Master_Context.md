@@ -69,3 +69,23 @@ This file, the full GitHub source and Git history, the release assets, and the p
 - The actual ZIP is not in current conversation attachments, Library or `/mnt/data`. It has not been analyzed. Do not claim otherwise or treat old log statistics as new.
 - Latest user handoff is archived in `PROMPT_ARCHIVE.md`; project context and development log record the blocker.
 - Ask for a normal direct upload of the actual ZIP bytes before diagnosing/fixing 04:48 scan-specific failures.
+
+
+## Maintenance update — 2026-10-23
+
+A separate branch, `maintenance/latest-toolchain-onionfruit-review`, stages a dependency/toolchain modernization. Planned stable versions at the time of the update: Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia 12.1.6, ReactiveUI 26.0.1; DynamicData 9.5.0 was verified as the current stable NuGet release on 2026-10-23. GitHub Actions are updated to checkout v7, setup-dotnet v6, upload-artifact v7, download-artifact v8, and softprops/action-gh-release v3.0.3. .NET 10 LTS remains the target framework. The supplied OnionFruit clone commands are treated as instructions for cloning the upstream reference repository, not as a command that automatically ports its code into Resolver Reach. The first restore run identified the ReactiveUI.Avalonia 12.1.6 minimum ReactiveUI version; the explicit dependency was corrected to 26.0.1. The branch must pass CI before merging. Account-level ChatGPT Memory cannot be fully exported or backed up by repository tools; repository notes are the durable project-specific record.
+
+
+## Maintenance branch — dependency/toolchain update (Prompt 017, 2026-10-23)
+- Main remains the latest shipped v2.2.0. PR #2 is the unshipped modernization candidate: https://github.com/PCUser2021/ResolverReach/pull/2.
+- App package candidates: Avalonia/Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1; DynamicData 9.5.0 retained; target framework .NET 10 retained.
+- CI references updated to checkout v7, setup-dotnet v6, artifact upload/download v6 and softprops/action-gh-release v3.0.3; setup searches Inno Setup 7/6 compiler locations.
+- The first compile exposed breaking APIs. Fixes remove `TitleBarHitTestType` and use the System.Reactive-compatible ReactiveUI package variant. Latest Windows x64/ARM64 run #39993023775 was pending at this note's creation.
+- OnionFruit is only an upstream reference for UI/theme and its LGPL notice remains. Do not merge its unrelated Tor client implementation into Resolver Reach.
+- Do not publish v2.3.0 until CI passes and outputs are read back; this does not alter the v2.2.0 release record above.
+
+- Latest GitHub Actions audit (2026-10-23): official release metadata was checked; upload-artifact v7.0.2 and download-artifact v8.0.2 are current, so the maintenance workflow uses major tags @v7/@v8. The previous CI run predates this workflow edit and cannot be treated as validation of the final action versions.
+
+- Final dependency verification on 2026-10-23: DynamicData 9.5.0 is current stable; System.Reactive 7.0.0 is the current release required by ReactiveUI.Reactive 26.0.1. Artifact workflows now use upload-artifact@v7 and download-artifact@v8; inspect the latest run for the final branch head.
+
+- Windows workflow now has a normal-PR artifact round-trip check using download-artifact@v8. It downloads both uploaded installers, checks each EXE is non-empty, and prints SHA-256 hashes; release publication depends on this job and remains separately gated.

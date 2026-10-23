@@ -1,9 +1,10 @@
+using System.Reactive.Linq;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
-using ReactiveUI;
-using ReactiveUI.Avalonia;
+using ReactiveUI.Avalonia.Reactive;
+using ReactiveUI.Reactive;
 
 namespace ResolverReach;
 

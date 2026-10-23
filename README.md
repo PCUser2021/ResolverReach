@@ -2,7 +2,7 @@
   <img src="public-distribution/assets/resolverreach-icon.svg" alt="Resolver Reach app icon" width="108" />
 </p>
 
-<h1 align="center">Resolver Reach 2.0.0</h1>
+<h1 align="center">Resolver Reach 2.1.0</h1>
 
 <p align="center"><strong>Windows 11 x64 · DNS-over-HTTPS reachability testing · One main window</strong></p>
 
@@ -27,6 +27,7 @@ Resolver Reach is a Windows desktop tool for checking whether DNS-over-HTTPS (Do
 - **Validate actual DoH responses:** send an RFC 8484 DNS query for `example.com A` and validate HTTP status, `application/dns-message` content type, DNS transaction ID, response flags, echoed question, and DNS response code. HTTP/TLS success alone is not a successful DNS test.
 - **Integrated results:** view PASS, DNS ERROR, or FAIL with HTTP status, latency, DNS response details, and scan progress.
 - **Bounded scanning:** up to 512 unique endpoints per run; Escape cancels an active scan.
+- **Save Logs:** choose a destination and export a ZIP containing the complete current-session activity log, all endpoint outcomes across scans in the session, currently displayed results, a session summary, and JSON runtime/session metadata.
 
 A valid DNS error response is distinguished from an unavailable endpoint or invalid reply. Availability checks are point-in-time measurements, not a guarantee of future reachability. The chosen DNS provider receives the test query; use services you trust.
 
@@ -50,7 +51,7 @@ Resolver Reach 2.0.0 is a Windows 11 x64 app built with C# / .NET 10, Avalonia, 
 
 ## Technical details
 
-- Version: **2.0.0**
+- Version: **2.1.0**
 - Target: Windows 11 x64
 - DoH test: RFC 8484 DNS wire-format query with POST and GET fallback where appropriate
 - No changes to Windows DNS settings, VPN, or general traffic routing

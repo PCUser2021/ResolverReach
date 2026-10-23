@@ -150,9 +150,9 @@ internal static class DnsWire
 
         int extendedRcode = 0;
         bool sawOpt = false;
-        if (!TryReadRecords(message, ref offset, answers, section: 0, ref extendedRcode, ref sawOpt, out error) ||
-            !TryReadRecords(message, ref offset, authorities, section: 1, ref extendedRcode, ref sawOpt, out error) ||
-            !TryReadRecords(message, ref offset, additionals, section: 2, ref extendedRcode, ref sawOpt, out error))
+        if (!TryReadRecords(message, ref offset, answers, 0, ref extendedRcode, ref sawOpt, out error) ||
+            !TryReadRecords(message, ref offset, authorities, 1, ref extendedRcode, ref sawOpt, out error) ||
+            !TryReadRecords(message, ref offset, additionals, 2, ref extendedRcode, ref sawOpt, out error))
         {
             return false;
         }

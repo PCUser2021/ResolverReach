@@ -12,7 +12,7 @@
 - Diagnostic logging records session startup/runtime, each scan's mode and target URLs, per-endpoint status/HTTP status/latency/DNS details, cancellation/failure, and scan summaries.
 
 ### Validation
-- The Windows x64 build and release job result for 2.1.0 will be recorded after the tagged release and uploaded asset are verified. Do not treat this entry as build proof.
+- Verified successful Windows x64 build, installer compilation, and release upload in [workflow run #39937042568](https://github.com/PCUser2021/ResolverReach/actions/runs/39937042568). Published [Release v2.1.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.0) includes `ResolverReach-Setup-x64.exe` (33,980,655 bytes). The UI was compiled in CI but not interactively exercised on a Windows desktop during this task.
 
 ## [2.0.0] — 2026-10-23
 

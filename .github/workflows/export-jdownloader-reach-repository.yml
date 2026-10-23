@@ -40,6 +40,11 @@ jobs:
           Copy-Item "THIRD-PARTY-NOTICES.md" -Destination "$seed/THIRD-PARTY-NOTICES.md" -Force
           Copy-Item "THIRD-PARTY-LICENSES" -Destination "$seed/THIRD-PARTY-LICENSES" -Recurse -Force
           Copy-Item "docs/JDownloaderReach-Integration-Architecture.md" -Destination "$seed/docs/INTEGRATION-ARCHITECTURE.md" -Force
+
+          $architecturePath = "$seed/docs/INTEGRATION-ARCHITECTURE.md"
+          $architecture = Get-Content $architecturePath -Raw
+          $architecture = $architecture.Replace("- The standalone `src/OllamaGgufImporter/` source and `.github/workflows/ollama-gguf-importer.yml` remain independent and unchanged.", "- Ollama GGUF Importer is a separate product and is outside this repository.")
+          Set-Content -Path $architecturePath -Value $architecture -Encoding utf8
           Copy-Item "src/JDownloaderReach/CHANGELOG.md" -Destination "$seed/CHANGELOG.md" -Force
 
           $buildWorkflow = Get-Content ".github/workflows/jdownloader-reach.yml" -Raw

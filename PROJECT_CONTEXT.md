@@ -252,3 +252,14 @@ No interactive install test on physical ARM64 or x64 hardware was performed. JDo
 - **Verification caveat:** the 0.2.0 x64 and ARM64 installers had successful build/PE validation. The revised 0.3.0 source must be rebuilt in GitHub Actions; no physical-device GUI/API integration test has been run.
 - **Privacy/publication:** the current repository metadata is private. It is also a central repository containing other projects and a private prompt archive. Do not expose this entire repository merely to publish JDownloader Reach. A dedicated public repository would be the correct publication boundary, but the current GitHub connector has no repository-creation or visibility-mutation operation. Never claim the project is public until verified.
 - **Project-specific memory:** see `JDOWNLOADER_REACH_MEMORY.md`. Raw prompts stay in this private repository's `PROMPT_ARCHIVE.md`; the memory file is scoped to JDownloader Reach and excludes unrelated personal ChatGPT memories.
+
+
+### JDownloader Reach 0.3.0 clean-build result — 2026-10-23
+
+- Successful corrected CI run: [#39946624955](https://github.com/PCUser2021/ResolverReach/actions/runs/39946624955), code/workflow commit `b86b6743c1d8da8e597bd9e3cbf10dcecfe35305`. Both x64 and ARM64 jobs passed.
+- x64 artifact `12498472300` / 64,495,157 bytes / SHA-256 of extracted EXE `4aee55e9eef29647435dc9b4492c182c9fe4ec752a8b612584177d33d7cb6d02`.
+- ARM64 artifact `12497973329` / 59,116,477 bytes / SHA-256 of extracted EXE `8538a3a53f6b73811434a2b631271bd9c8e726a82fcdd26b698bb468c0a5e57a`.
+- Both artifact ZIPs passed integrity tests. Build/PE validation/package success is confirmed; physical-device GUI/API behavior remains untested.
+- Artifact expiry: 2026-11-22. For long-term recovery use the full Git backup branches, not temporary Actions artifacts.
+- Latest full-current snapshot as of the prior complete log state: `backup/JDownloaderReach-full-current-2026-10-23`. A final snapshot can be created after this entry is committed.
+- The repository remains private, and the current connector cannot change visibility or create repositories.

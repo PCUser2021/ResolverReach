@@ -71,3 +71,15 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - UI bug fix: header right padding reserves 190 DIPs for Windows caption controls so the version badge no longer overlaps them.
 - New Save Logs button opens a ZIP save picker. ZIP file entries: session summary, activity log, historical endpoint-result CSV, current visible-results CSV, and JSON session/runtime metadata.
 - Release workflow is configured for release tag `v2.1.0`; build and asset upload must be verified before considering the update shipped.
+
+
+## Verified Resolver Reach 2.1.0 build and ZIP log feature — 2026-10-23
+- Build/release workflow: [#39937042568](https://github.com/PCUser2021/ResolverReach/actions/runs/39937042568), conclusion `success`.
+- Published Release: [v2.1.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.0).
+- Asset: `ResolverReach-Setup-x64.exe`, 33,980,655 bytes.
+- Stable download: https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe
+- Source change: 190-DIP safe area for titlebar badge and Save Logs native ZIP save picker.
+- ZIP entries: session-summary.txt, activity.log, resolver-results-history.csv, current-visible-results.csv, session.json.
+- App version: 2.1.0, assembly/file: 2.1.0.0.
+- UI compiled, but no live Windows interactive GUI test was performed.
+- GitHub repository visibility remains private as of the final metadata check.

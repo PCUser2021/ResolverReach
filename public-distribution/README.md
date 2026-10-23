@@ -1,41 +1,32 @@
 <p align="center">
   <img src="assets/resolverreach-icon.svg" alt="Resolver Reach icon" width="112" />
 </p>
-
-<h1 align="center">Resolver Reach 2.1.1</h1>
-
-<p align="center"><strong>A single-window DNS-over-HTTPS reachability tester for Windows 11 x64.</strong></p>
-
+<h1 align="center">Resolver Reach 2.2.0</h1>
+<p align="center"><strong>Single-window DNS-over-HTTPS tester for Windows x64 and native ARM64.</strong></p>
 <p align="center">
-  <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe"><strong>Download Windows x64 installer</strong></a>
-  · <a href="https://github.com/PCUser2021/ResolverReach/releases">All releases</a>
+  <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe"><strong>Download x64</strong></a>
+  · <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe"><strong>Download ARM64</strong></a>
 </p>
 
-Resolver Reach checks whether DoH endpoints complete a valid DNS exchange. Test the live cURL DoH catalog or paste your own HTTPS endpoint URLs. Results, status, latency, and scan progress remain in one main window.
+Resolver Reach checks whether DoH endpoints complete a valid DNS exchange. Test the live cURL catalog or paste your own HTTPS resolver URLs. Results and progress stay in the main window, and diagnostic logs can be exported to a ZIP.
 
 <p align="center">
-  <img src="assets/resolverreach-preview.svg" alt="Resolver Reach 2.1.1 interface design preview" width="100%" />
+  <img src="assets/resolverreach-preview.svg" alt="Resolver Reach interface design preview" width="100%" />
 </p>
+*This is an illustrative UI design preview, not a screenshot captured from a running application.*
 
-*This is an illustrative design preview based on the v2.0.0 layout, not a screenshot captured from a running application.*
+## Highlights
+- Validate RFC 8484 DNS responses rather than HTTPS reachability alone.
+- Distinguish valid DNS errors from transport failures and invalid DoH replies.
+- Longer timeout tolerance, bounded retries, and HTTP/1.1 fallback for detected HTTP/2 protocol errors.
+- Save Logs exports the current app session's activity and endpoint-result history to a user-selected ZIP file.
+- Separate self-contained `win-x64` and native `win-arm64` installers.
+- Original icon family: dark titanium/glass geometry with spectral cyan/blue/violet accents.
 
-## Features
-
-- **Test cURL Resolvers:** fetch the live [cURL DNS-over-HTTPS wiki](https://github.com/curl/curl/wiki/DNS-over-HTTPS), extract unique HTTPS Base URLs, and test the current list.
-- **Paste links:** test one or more HTTPS DoH endpoints separated by newlines or semicolons.
-- **Validate DNS, not just HTTPS:** send a real RFC 8484 query for `example.com A`; check HTTP status, `application/dns-message` content type, transaction ID, response flags, echoed question, and DNS response code.
-- **Integrated results:** see endpoint status, HTTP status, latency, DNS details, and progress in the main window.
-- **Bounded scans:** max 512 unique endpoints per run; Escape cancels an active scan.
-- **Resilient networking:** longer connect timeout, a single retry for timeouts/transient HTTP statuses, and HTTP/1.1 compatibility fallback for HTTP/2 protocol resets.
-- **Clearer failure accounting:** distinguishes transport failure from HTTP replies that fail DNS validation.
-- **Save Logs:** exports full current-session activity and endpoint-result history, current results, and session metadata into a user-selected ZIP archive.
-
-Results are point-in-time and cannot guarantee future availability. The selected resolver receives the test query; use services you trust.
-
-## Download
-
-Use the stable [latest-release installer link](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe). Browse [all releases](https://github.com/PCUser2021/ResolverReach/releases) for earlier versions and release assets. Public access requires the GitHub repository itself to be public.
+## Downloads
+- [Latest x64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe)
+- [Latest native ARM64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe)
+- [All releases](https://github.com/PCUser2021/ResolverReach/releases)
 
 ## License
-
-Original project source, documentation and original assets are licensed under the [MIT License](../LICENSE). You may use, copy, modify, distribute, sublicense, and sell copies for any purpose, subject to preserving the copyright and license notice. Third-party dependencies retain their own licenses.
+Original project code, documentation and project-authored assets are MIT licensed. Use, modify, and redistribute for any purpose subject to preserving the license/copyright notice. Third-party dependencies retain their own licenses.

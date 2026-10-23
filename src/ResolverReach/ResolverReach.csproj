@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
@@ -10,18 +10,19 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>ResolverReach</RootNamespace>
     <AssemblyName>ResolverReach</AssemblyName>
-    <Version>2.3.0</Version>
-    <AssemblyVersion>2.3.0.0</AssemblyVersion>
-    <FileVersion>2.3.0.0</FileVersion>
+    <Version>2.4.0</Version>
+    <AssemblyVersion>2.4.0.0</AssemblyVersion>
+    <FileVersion>2.4.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\ResolverReach.ico" />
     <AvaloniaResource Include="Assets\Icons\*.svg" />
-    <PackageReference Include="Avalonia" Version="12.1.4" />
-    <PackageReference Include="Avalonia.Desktop" Version="12.1.4" />
-    <PackageReference Include="FluentAvaloniaUI" Version="3.1.0" />
-    <PackageReference Include="ReactiveUI.Avalonia.Reactive" Version="12.1.6" />
-    <PackageReference Include="ReactiveUI.Reactive" Version="26.0.1" />
-    <PackageReference Include="DynamicData" Version="9.5.0" />
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="FluentAvaloniaUI" />
+    <PackageReference Include="ReactiveUI.Avalonia.Reactive" />
+    <PackageReference Include="ReactiveUI.Reactive" />
+    <PackageReference Include="DynamicData" />
+    <PackageReference Include="System.Reactive" />
   </ItemGroup>
 </Project>

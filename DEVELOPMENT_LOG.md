@@ -277,3 +277,22 @@ This is an append-only, chronological audit log for the two Windows applications
 - Refreshed the current project context and handoff to describe Resolver Reach as the sole application in the current source tree.
 - Resolver Reach source, installer and Windows build workflow were retained. No app build was run for this deletion-only task.
 - A pre-removal snapshot remains on branch `backup/pre-remove-ollama-gguf-importer-2026-10-23`. Earlier Git history and past Actions records were not rewritten or erased.
+
+
+## 2026-10-23 — Resolver Reach 2.4.0 protocol validation/test stack candidate
+
+- Created feature branch `feature/resolverreach-2.4.0-comprehensive-doh-validation` from the verified main head `7f4f212b10a1f358dbb5290d60af1f4f0ab50a81`; changes are not yet on main.
+- Added `Directory.Packages.props` for centralized NuGet versions; app now declares System.Reactive 7.0.0 explicitly. Added source candidate 2.4.0 and synchronized project, assembly, file, manifest, installer and workflow/release version metadata on the feature branch.
+- Extracted `DnsWire` into `src/ResolverReach/DnsWire.cs`. Query ID is zero. Validator covers RR boundaries across answer/authority/additional sections, common A/AAAA and name/MX/SOA/SRV RDATA, EDNS OPT placement/options/extended RCODE, compression pointer direction and trailing bytes; truncated or structurally impossible responses fail.
+- Replaced fully buffered HTTP response reads with a streaming read capped at 65,535 bytes.
+- Added offline tests for valid NOERROR/NXDOMAIN, RR-section parsing, EDNS extended RCODE/options, wrong IDs/questions, flags, truncated headers/RRs, bad compression pointers and trailing bytes.
+- Added a CI test job; release publication now requires that job as well as x64/ARM64 packaging and artifact verification.
+- Package inventory is recorded in `DEPENDENCIES.md`. Exact tested releases selected for tests: Microsoft.NET.Test.Sdk 18.11.0, xunit.v3 4.0.2, xunit.runner.visualstudio 4.0.1, coverlet.collector 10.1.0. Current app direct versions: Avalonia/Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, System.Reactive 7.0.0, DynamicData 9.5.0.
+- Verification at log creation: GitHub source edits are present on the feature branch, but no build, NuGet restore, unit-test execution, GUI smoke test, live DNS test, or release is yet verified. The latest published release before this candidate remains v2.2.0. Record the exact GitHub Actions outcome before claiming readiness.
+
+
+### CI follow-up — switch xUnit v3 to the .NET 10 Testing Platform mode
+
+- First CI run `40001056874` restored both projects and confirmed .NET SDK `10.0.402` / runtime `10.0.13` were installed. Test execution failed immediately because xUnit v3's Microsoft.Testing.Platform MSBuild integration rejects execution in legacy VSTest mode under .NET 10 without explicit runner selection. This was a CI configuration problem, not a DNS assertion failure; no tests had run yet.
+- Corrected the test project to use the MTP runner; added root `global.json` selecting Microsoft.Testing.Platform for .NET 10; replaced the VSTest-only `coverlet.collector` with `coverlet.MTP 10.1.0`, and added `Microsoft.Testing.Extensions.TrxReport 2.5.1`. Workflow now requests TRX, Coverlet JSON and Cobertura using MTP arguments. Official .NET documentation documents `global.json` selection for MTP with .NET 10 and the MTP report/coverage extensions.
+- A new PR workflow must confirm the correction before this candidate can be considered tested. Do not claim green tests based on the configuration edit alone.

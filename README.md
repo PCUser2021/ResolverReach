@@ -2,7 +2,7 @@
   <img src="public-distribution/assets/resolverreach-icon.svg" alt="Resolver Reach app icon" width="112" />
 </p>
 
-<h1 align="center">Resolver Reach 2.2.0</h1>
+<h1 align="center">Resolver Reach</h1>
 
 <p align="center"><strong>Windows 11 x64 and native ARM64 · DNS-over-HTTPS resolver diagnostics</strong></p>
 
@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <img src="public-distribution/assets/resolverreach-preview.svg" alt="Resolver Reach 2.2.0 interface design preview" width="100%" />
+  <img src="public-distribution/assets/resolverreach-preview.svg" alt="Resolver Reach interface design preview" width="100%" />
 </p>
 
 *Image note: the graphic above is an illustrative UI design preview based on the current layout, not a screenshot captured from a running application.*
@@ -24,9 +24,10 @@ Resolver Reach checks whether DNS-over-HTTPS (DoH) endpoints complete a valid DN
 
 - **Test cURL Resolvers:** fetch the live [cURL DNS-over-HTTPS resolver catalog](https://github.com/curl/curl/wiki/DNS-over-HTTPS), extract unique HTTPS Base URLs, and test the current list.
 - **Paste links → Test Resolvers:** test your own HTTPS endpoints, one URL per line or separated with semicolons.
-- **Validate real DNS exchanges:** send RFC 8484 DNS requests and validate HTTP status, the `application/dns-message` content type, DNS transaction ID, response flags, echoed question, and response code. HTTP/TLS success alone is not a successful DNS test.
+- **Validate real DNS exchanges:** send RFC 8484 DNS requests and validate HTTP status, the `application/dns-message` content type, DNS transaction ID, response flags, echoed question, declared answer/authority/additional record boundaries, common structured RDATA layouts, EDNS OPT/options and extended RCODE. Oversized bodies are rejected while streaming rather than after buffering the full response. HTTP/TLS success alone is not a successful DNS test.
 - **Clear failure accounting:** distinguishes transport failures from HTTP responses that fail DoH validation; DNS error codes are reported separately from invalid/unreachable replies.
-- **Resilient probe handling:** longer connection tolerance, a bounded retry for timeouts/transient HTTP status codes, and HTTP/1.1 compatibility fallback after HTTP/2 protocol errors.
+- **Resilient probe handling:** bounded response reads, longer connection tolerance, a bounded retry for timeouts/transient HTTP status codes, and HTTP/1.1 compatibility fallback after HTTP/2 protocol errors.
+- **Automated protocol regression tests:** deterministic offline DNS fixtures cover valid NOERROR/NXDOMAIN responses, all response sections, EDNS extended RCODEs, mismatched IDs/questions, malformed/truncated records, invalid compression pointers, and trailing bytes.
 - **Save Logs to ZIP:** choose the destination and export session summary, activity log, endpoint result history, currently visible results, and session/runtime metadata.
 - **Dual Windows architecture:** separate self-contained `win-x64` and native `win-arm64` applications/installers.
 - **Original vector icon family:** dark titanium/glass forms with spectral cyan, blue, violet, and magenta accents, applied consistently to the app mark, scan/paste/log actions, status states, and empty state.
@@ -51,10 +52,12 @@ See [LICENSE](LICENSE).
 
 ## Technical details
 
-- Version: **2.2.0**
+- Source candidate: **2.4.0** (not yet published; latest verified GitHub Release remains **v2.2.0**)
 - Runtime identifiers: `win-x64`, `win-arm64`
-- Stack: C# / .NET 10, Avalonia, FluentAvalonia, ReactiveUI, DynamicData
-- DNS check: RFC 8484 wire-format request and response validation
+- Stack: C# 14 / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, System.Reactive 7.0.0, DynamicData 9.5.0; versions are centrally managed in `Directory.Packages.props`
+- DNS check: RFC 8484 wire-format request and full declared-section/EDNS boundary validation
+- Tests: xUnit.net v3 4.0.2, Microsoft.NET.Test.Sdk 18.11.0, Visual Studio adapter 4.0.1, Microsoft.Testing.Extensions.TrxReport 2.5.1, Coverlet.MTP 10.1.0; `.NET 10` `global.json` selects Microsoft Testing Platform
+- Complete packages and build-tool versions: [DEPENDENCIES.md](DEPENDENCIES.md)
 - No changes to Windows DNS settings, VPN, or general traffic routing
 
 

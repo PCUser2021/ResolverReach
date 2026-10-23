@@ -13,7 +13,7 @@ Last verified: 2026-10-23
 - Changelog: [CHANGELOG.md](https://github.com/PCUser2021/ResolverReach/blob/main/CHANGELOG.md)
 - Resolver Reach current source and workflows are authoritative; inspect them before claiming behavior or build status. Verify releases and artifacts through GitHub's Release API/workflow run.
 
-## Resolver Reach 2.3.0 source (merged; not yet released)
+## Resolver Reach 2.4.0 candidate source (merged; not yet released)
 
 - Platform: Windows 11 x64 and native Windows ARM64.
 - Technology: C# / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, DynamicData 9.5.0.
@@ -89,3 +89,12 @@ A separate branch, `maintenance/latest-toolchain-onionfruit-review`, stages a de
 - Package/action audit is recorded in the changelog. Current source is version 2.3.0, but latest published release remains v2.2.0; no v2.3.0 release has been created.
 - OnionFruit was only used as an upstream UI/theme reference, not as a Resolver Reach code/runtime dependency.
 - After this documentation commit, verify main CI and synchronize `backup/ResolverReach-2.2.0-2026-10-23` with final main.
+
+
+## Resolver Reach 2.4.0 candidate implementation (2026-10-23)
+
+- Candidate branch `feature/resolverreach-2.4.0-comprehensive-doh-validation`; main has not yet received these changes.
+- Direct package versions are centralized in `Directory.Packages.props`; `DEPENDENCIES.md` is the package/build/test inventory.
+- DNS validation checks all declared RR sections and message end boundaries, common structured RDATA, EDNS OPT/options and extended RCODE, compression-pointer direction, and trailing bytes.
+- DoH response reads are capped at 65,535 bytes while streaming.
+- Added deterministic xUnit.net v3 unit tests and a GitHub Actions test job. Exact candidate commit must pass CI before merge/release.

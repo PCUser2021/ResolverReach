@@ -1,14 +1,14 @@
 # AI Session Handoff — Resolver Reach
 
 Last verified: 2026-10-23
-Main branch contains Resolver Reach source version 2.3.0; latest published release verified in previous records is v2.2.0. Do not claim a v2.3.0 release until its release and assets are checked.
+Main branch has not yet received this candidate. Proposed source version is Resolver Reach 2.4.0 on feature branch `feature/resolverreach-2.4.0-comprehensive-doh-validation`; latest published release verified in records remains v2.2.0. Do not claim a v2.3.0 release until its release and assets are checked.
 
 ## Application and build
 
 - Repository: https://github.com/PCUser2021/ResolverReach
 - Main project: `src/ResolverReach/ResolverReach.csproj`
 - Platform targets: Windows x64 and native ARM64 (`win-x64`, `win-arm64`).
-- Stack: C# / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, DynamicData 9.5.0.
+- Stack: C# 14 / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, System.Reactive 7.0.0, DynamicData 9.5.0. See `DEPENDENCIES.md` for test/build package versions.
 - UI source: `src/ResolverReach/MainView.axaml`, `MainWindow.axaml`, and their code-behind; icons under `src/ResolverReach/Assets/Icons/`.
 - Installer: `installer/ResolverReach.iss`.
 - Windows CI: `.github/workflows/windows-build.yml`.
@@ -67,3 +67,12 @@ Main branch contains Resolver Reach source version 2.3.0; latest published relea
 ## Upstream reference note
 
 OnionFruit was inspected as a separate C#/.NET Tor desktop application and a UI/theme reference only. No OnionFruit Tor engine or runtime dependencies should be added to Resolver Reach merely to imitate its technology stack.
+
+
+## Candidate implementation — Resolver Reach 2.4.0 (2026-10-23)
+
+- Branch: `feature/resolverreach-2.4.0-comprehensive-doh-validation`.
+- Extracted `DnsWire`; query ID is zero; validates declared RR sections, common structured RDATA, EDNS OPT/options and extended RCODE, compression pointer direction, and exact end-of-message boundaries.
+- DoH response body reads are capped at 65,535 bytes while streaming.
+- Added `Directory.Packages.props`, `DEPENDENCIES.md`, `tests/ResolverReach.Tests` and a CI protocol-test job. Release publication now depends on tests.
+- Do not claim build, tests, live resolver behavior, or release success until the Actions run for the exact candidate head is complete. No release assets were published by the source edits.

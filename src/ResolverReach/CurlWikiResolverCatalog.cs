@@ -35,7 +35,7 @@ internal static class CurlWikiResolverCatalog
         using var request = new HttpRequestMessage(HttpMethod.Get, RawMarkdownUrl);
         Version? productVersion = typeof(CurlWikiResolverCatalog).Assembly.GetName().Version;
         string productVersionLabel = productVersion is null
-            ? "2.0.0"
+            ? "2.4.0"
             : $"{productVersion.Major}.{productVersion.Minor}.{Math.Max(0, productVersion.Build)}";
         request.Headers.UserAgent.ParseAdd($"ResolverReach/{productVersionLabel}");
         request.Headers.CacheControl = new CacheControlHeaderValue { NoCache = true };

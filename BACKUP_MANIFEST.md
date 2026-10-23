@@ -259,7 +259,7 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - User requested removing macOS support from the active candidate because they do not have budget to develop it.
 - The active feature branch now removes macOS runtime IDs, main-window conditionals, CI build/packaging/release upload steps, README download links, dependency inventory entries, and the macOS install guide. Current supported targets are Windows x64 and native Windows ARM64 only.
 - The existing `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` branch is deliberately kept as a historical backup of the previous attempt, consistent with the earlier full-backup request; it is not part of the active product/build.
-- A clean Windows-only backup branch will be created and read back after the final documentation and prompt archive commits.
+- Clean Windows-only backup branch: `backup/ResolverReach-2.4.0-windows-only-2026-10-23`; the branch was created and then advanced after the final documentation and prompt-archive commits. Read-back verification is recorded in the latest backup checkpoint.
 - Verification remains pending until a fresh Windows-only CI run passes all tests, both architecture installer jobs, and artifact validation. No new release is claimed here.
 
 

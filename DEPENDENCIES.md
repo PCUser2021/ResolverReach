@@ -1,8 +1,8 @@
 # Resolver Reach — stack, dependencies, and build toolchain
 
 **Audit date:** 2026-10-23  
-**Source candidate:** 2.4.0 (not yet published as a GitHub Release)  
-**Last release recorded before this change:** v2.2.0  
+**Release candidate:** 2.4.0 (cross-platform CI/release pending)  
+**Last release recorded before this change:** v2.2.0 (until v2.4.0 assets are verified and published)  
 **Repository:** https://github.com/PCUser2021/ResolverReach
 
 This file records the package and toolchain versions declared by the repository and the versions selected for the new test project. It distinguishes pinned versions from tools installed dynamically by CI; an unpinned installer or runner must not be described as an exact version.
@@ -13,7 +13,7 @@ This file records the package and toolchain versions declared by the repository 
 |---|---:|---|
 | C# language/compiler | C# 14 via .NET 10 SDK | Application and tests |
 | .NET target framework | `net10.0` | Application and test target |
-| .NET SDK selection | `global.json`: `10.0.402`, `rollForward: latestFeature`; setup-dotnet requests `10.0.x` | CI run used SDK `10.0.402`; global.json enables the .NET 10 Microsoft Testing Platform runner |
+| .NET SDK selection | `global.json`: `10.0.402`, `rollForward: latestFeature`; setup-dotnet requests pinned `10.0.402` | Build workflows are pinned to the latest stable SDK verified on 2026-10-23; global.json enables the .NET 10 Microsoft Testing Platform runner |
 | .NET SDK latest official release at audit time | `10.0.402` (released 2026-10-13) | Current reference for the unpinned `10.0.x` selector |
 | .NET 10 runtime servicing release | `10.0.13` (released 2026-10-13) | Current .NET 10 patch line; publish remains self-contained |
 | Avalonia | `12.1.4` | Cross-platform .NET UI framework |
@@ -54,11 +54,11 @@ Test fixtures are synthetic DNS packets: the protocol tests do not depend on pub
 | softprops/action-gh-release | `@v3.0.3` | Explicit version tag |
 | Inno Setup compiler | **6.7.1 in verified CI run #40001573171** | Workflow checks Inno Setup 7 paths first, then 6; current installer was built with Inno Setup 6.7.1. The workflow does not pin that patch version, so future runners could select a different release |
 | Chocolatey install fallback | `choco install innosetup --yes --no-progress` | This fallback does not pin an installer-package version; the verified run found Inno Setup 6.7.1. Exact future installation depends on runner/package feed |
-| Windows packaging | Inno Setup script `installer/ResolverReach.iss` | Produces separate x64-compatible and native ARM64 installers |
+| Windows packaging | Inno Setup script `installer/ResolverReach.iss` | Produces separate x64-compatible and native ARM64 installers |\n| macOS packaging | Native `hdiutil` + `ditto` on GitHub-hosted macOS runner | Produces DMG and ZIP containing `Resolver Reach.app` for `osx-x64` and `osx-arm64`; app bundle metadata sets minimum macOS 15.0 |\n| macOS signing/notarization | Not configured | No Apple Developer signing credentials are available to this workflow; packages are unsigned and not notarized, so Gatekeeper may block first launch |
 | Git in Windows CI | `2.56.0.windows.2` | Observed in both architecture-build/test job logs for run #40001573171; not part of the shipped app |
 | Publish model | .NET self-contained single-file | `win-x64` and `win-arm64`; native runtime bits are embedded/extracted by .NET publish configuration |
 
-## Protocol and external standards
+## Current stable-version audit (2026-10-23)\n\nThe workflow uses .NET SDK 10.0.402 and .NET 10 runtime servicing release 10.0.13, both published 2026-10-13. NuGet stable listings checked for this update show Avalonia/Avalonia.Desktop 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, DynamicData 9.5.0, System.Reactive 7.0.0, xunit.v3 4.0.2, and the existing test/coverage package versions as current stable releases. Do not upgrade packages to prereleases merely because their version number is higher.\n\n## Protocol and external standards
 
 - **RFC 8484** — DNS over HTTPS; raw DNS wire bytes on POST, Base64URL `dns` parameter for GET, media type `application/dns-message`.
 - **RFC 1035** — DNS message format, name compression, resource-record layout.

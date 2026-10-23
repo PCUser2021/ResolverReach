@@ -56,3 +56,16 @@ See [LICENSE](LICENSE).
 - Stack: C# / .NET 10, Avalonia, FluentAvalonia, ReactiveUI, DynamicData
 - DNS check: RFC 8484 wire-format request and response validation
 - No changes to Windows DNS settings, VPN, or general traffic routing
+
+
+## Project handoff and durable context
+
+For continuing work across sessions, read:
+- [Software project master context](Software_Project_Master_Context.md)
+- [Full AI session handoff](AI_SESSION_HANDOFF.md)
+- [Project implementation context](PROJECT_CONTEXT.md)
+- [Prompt and outcome archive](PROMPT_ARCHIVE.md)
+- [Development log](DEVELOPMENT_LOG.md)
+- [Backup manifest](BACKUP_MANIFEST.md)
+
+The repository and its prompt archive preserve project-specific context, source, assets, release history and decisions. They are not a complete export of account-level ChatGPT memory or unrelated conversations.

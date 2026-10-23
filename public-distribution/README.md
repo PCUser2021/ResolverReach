@@ -4,44 +4,35 @@
 
 <h1 align="center">Resolver Reach 2.0.0</h1>
 
-<p align="center"><strong>A focused, single-window DNS-over-HTTPS resolver reachability tester for Windows 11 x64.</strong></p>
-
-> **PERSONAL / HOME USE ONLY.** Resolver Reach is intended solely for personal, home use. Under no circumstances is anyone permitted to use Resolver Reach for any purpose other than personal, home use—this includes accessing the source code or reverse engineering it.
-
-Resolver Reach checks whether DNS-over-HTTPS endpoints complete a valid DNS exchange. Choose one of two actions: test the live resolver URLs listed by the cURL DoH wiki, or paste your own HTTPS endpoint URLs. Results, status, latency, and scan progress remain in the main window.
+<p align="center"><strong>A single-window DNS-over-HTTPS reachability tester for Windows 11 x64.</strong></p>
 
 <p align="center">
-  <img src="assets/resolverreach-preview.svg" alt="Resolver Reach 2.0.0 main-window design preview" width="100%" />
+  <a href="https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe"><strong>Download Windows x64 installer</strong></a>
+  · <a href="https://github.com/PCUser2021/ResolverReach/releases">All releases</a>
 </p>
 
-*Preview note: this is a design illustration rendered from the v2.0.0 layout, not a screenshot captured from a running application.*
+Resolver Reach checks whether DoH endpoints complete a valid DNS exchange. Test the live cURL DoH catalog or paste your own HTTPS endpoint URLs. Results, status, latency, and scan progress remain in one main window.
 
-## Download
+<p align="center">
+  <img src="assets/resolverreach-preview.svg" alt="Resolver Reach 2.0.0 interface design preview" width="100%" />
+</p>
 
-The release-only repository should host the installer as a GitHub Release asset named **Resolver-Reach-2.0.0-Setup-x64.exe**. The package does not include source code.
+*This is an illustrative design preview based on the v2.0.0 layout, not a screenshot captured from a running application.*
 
 ## Features
 
-- **Test cURL Resolvers:** fetches the live [cURL DNS-over-HTTPS wiki](https://github.com/curl/curl/wiki/DNS-over-HTTPS), extracts HTTPS endpoints from its public resolver table's Base URL column, deduplicates them, and tests the current catalog.
-- **Paste links:** tests one or more HTTPS DoH endpoint URLs separated by newlines or semicolons.
-- **Validate DNS, not just HTTPS:** sends a real RFC 8484 query for `example.com A`; checks HTTP status, `application/dns-message` content type, transaction ID, response flags, the echoed question, and DNS response code.
-- **Integrated results:** reports endpoint status, HTTP status, latency, DNS response details, and scan progress in the same main window.
-- **Bounded scan:** at most 512 unique endpoints per run; Escape cancels an active scan.
+- **Test cURL Resolvers:** fetch the live [cURL DNS-over-HTTPS wiki](https://github.com/curl/curl/wiki/DNS-over-HTTPS), extract unique HTTPS Base URLs, and test the current list.
+- **Paste links:** test one or more HTTPS DoH endpoints separated by newlines or semicolons.
+- **Validate DNS, not just HTTPS:** send a real RFC 8484 query for `example.com A`; check HTTP status, `application/dns-message` content type, transaction ID, response flags, echoed question, and DNS response code.
+- **Integrated results:** see endpoint status, HTTP status, latency, DNS details, and progress in the main window.
+- **Bounded scans:** max 512 unique endpoints per run; Escape cancels an active scan.
 
-A valid HTTP response or TLS connection alone is not counted as a successful DoH exchange. Results are point-in-time measurements and cannot guarantee universal or future reachability. Your selected DNS provider receives the test query; use providers you trust.
+Results are point-in-time and cannot guarantee future availability. The selected resolver receives the test query; use services you trust.
 
-## Personal / home-use terms
+## Download
 
-This is proprietary closed-source software. No source code is distributed or licensed, and no rights to modify, redistribute, or use the software outside personal, home use are granted. See [LICENSE.txt](LICENSE.txt).
+Use the stable [latest-release installer link](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe). Browse [all releases](https://github.com/PCUser2021/ResolverReach/releases) for earlier versions and release assets. Public access requires the GitHub repository itself to be public.
 
-The license states the requested restrictions, subject to any non-waivable rights under applicable law. Contractual restrictions on reverse engineering can vary by jurisdiction.
+## License
 
-## Build verification
-
-The Windows x64 publish and installer compilation passed in [GitHub Actions run #39928118989](https://github.com/PCUser2021/ResolverReach/actions/runs/39928118989). CI verifies packaging success; it does not test every public resolver's live availability.
-
-## Product details
-
-- Version: **2.0.0**
-- Target: Windows 11 x64
-- Project/source code: maintained privately and not included in this distribution
+Original project source, documentation and original assets are licensed under the [MIT License](../LICENSE). You may use, copy, modify, distribute, sublicense, and sell copies for any purpose, subject to preserving the copyright and license notice. Third-party dependencies retain their own licenses.

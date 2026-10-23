@@ -373,3 +373,16 @@ The following seed entries were reconstructed from repository-related prompts vi
 - backup/ResolverReach-2.2.0-2026-10-23 is to be advanced to the final main commit after these notes and confirmed equal.
 - The newer 04:00 log ZIP was not attached and the MediaFire URL could not be fetched. Only the earlier 03:27 log has been analyzed.
 - GitHub files preserve project-specific knowledge; they are not an export of all account-level ChatGPT Memory or unrelated conversations.
+
+
+### Prompt 015 — New diagnostic archive manifest provided but binary data unavailable
+- Date: 2026-10-23
+- User-provided manifest:
+  - `Codebase Manifest`
+  - `Total files: 1`
+  - `Chunks: 0`
+  - File: `ResolverReach-Logs-20261023-044828.zip` (binary)
+  - Message includes only the ZIP signature prefix `PK\x03\x04\x14`.
+- Access check: no `ResolverReach-Logs-20261023-044828.zip` file exists in the conversation attachment listing, file library listing, or `/mnt/data` working directory. The visible manifest is not the ZIP's contents.
+- Status: specific 04:48 scan diagnosis is blocked until the actual ZIP bytes are uploaded. Do not infer its results from older logs.
+- Current known project state remains Resolver Reach 2.2.0, with verified x64 and native ARM64 installers (workflow #39945785064); versioned backup branch should match final main after archival documentation.

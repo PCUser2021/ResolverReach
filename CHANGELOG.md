@@ -10,7 +10,7 @@
 - Kept the 2.1.1 scanner resilience work: 12-second connect timeout, 20-second request timeout, six concurrent probes, one retry for timeout/transient HTTP statuses, and HTTP/1.1 fallback after detected HTTP/2 protocol errors.
 
 ### Validation
-- Windows x64 and ARM64 build/installer workflows must both pass; the release job runs only after both installers are successfully produced.
+- **Verified:** [Windows x64 + ARM64 build and release workflow #39945785064](https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064) completed successfully. [Release v2.2.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.2.0) includes both `ResolverReach-Setup-x64.exe` (33,974,496 bytes) and `ResolverReach-Setup-arm64.exe` (31,276,362 bytes). CI verifies build and packaging, not endpoint availability or interactive UI behavior.
 - The Windows CI jobs validate compilation and packaging, not live resolver reachability. A fresh post-install scan is required to measure endpoint availability in the user's network/VPN environment.
 - Build and packaging success does not prove every public resolver is reachable or that the UI has been interactively exercised on both architectures.
 

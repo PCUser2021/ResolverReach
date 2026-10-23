@@ -90,3 +90,13 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - Fixes: 12s connect timeout, 20s HttpClient timeout, six concurrent probes, bounded one-retry policy for timeout/transient HTTP statuses, HTTP/1.1 fallback for HTTP/2 protocol resets and clearer final failure breakdown.
 - Product/assembly/file versions: 2.1.1 / 2.1.1.0 / 2.1.1.0; installer/release tag v2.1.1.
 - Build and release verification pending workflow #39940585354.
+
+
+## Final verified Resolver Reach 2.1.1 release — 2026-10-23
+- CI: [run #39940585354](https://github.com/PCUser2021/ResolverReach/actions/runs/39940585354), conclusion `success`.
+- Release: [v2.1.1](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.1).
+- Installer asset: `ResolverReach-Setup-x64.exe`, 33,979,934 bytes.
+- Direct download: https://github.com/PCUser2021/ResolverReach/releases/download/v2.1.1/ResolverReach-Setup-x64.exe
+- Stable latest link: https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe
+- Release job confirmed the build artifact was uploaded. The actual endpoint availability percentage after the fix remains to be measured in a new scan.
+- The repository visibility remains private at the last metadata read.

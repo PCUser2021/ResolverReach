@@ -97,7 +97,7 @@ For every substantive task related to either application:
 - Resolver Reach CI: `.github/workflows/windows-build.yml`
 - GGUF Importer CI: `.github/workflows/ollama-gguf-importer.yml`
 
-Last verified build for product 2.1.0 succeeded in workflow run `39937042568`. Resolver Reach 2.1.1 reliability fixes are committed and the Windows build/release workflow is running; verify its outcome before claiming the new release. Repository metadata still reports `private`.
+Last verified 2026-10-23: Resolver Reach 2.1.1 build and release completed successfully in workflow #39940585354; release asset is uploaded. Repository metadata last reported `private`.
 
 
 ## Cross-repository prompt backup and restore policy
@@ -201,3 +201,14 @@ Last verified build for product 2.1.0 succeeded in workflow run `39937042568`. R
 - Summary distinguishes transport failures (no HTTP status received) from HTTP responses that still failed DoH validation. A host-not-found, 403/404/502, unexpected content type, or wrong DNS transaction ID still correctly fails.
 - Save Logs ZIP remains available and preserves current-session activity and all scan result history within one process.
 - Product/assembly/file/installer/workflow version synchronized to 2.1.1 / 2.1.1.0 / tag v2.1.1. Wait for build/release verification before marking complete. A live post-fix scan is necessary to measure whether the 30 failures decrease.
+
+
+### Resolver Reach 2.1.1 release verification — 2026-10-23
+
+- Successful workflow: [#39940585354](https://github.com/PCUser2021/ResolverReach/actions/runs/39940585354).
+- Published Release: [v2.1.1](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.1).
+- Installer asset: `ResolverReach-Setup-x64.exe`, 33,979,934 bytes; stable download `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
+- Code uses 12-second connect timeout, 20-second request timeout, six concurrent probes, one timeout retry, one retry for transient HTTP status codes, and HTTP/1.1 fallback for HTTP/2 protocol errors.
+- Final UI summary distinguishes transport failures from HTTP replies that fail DNS validation.
+- The logs are from v2.1.0. A new v2.1.1 scan is needed to confirm the measured improvement in the user's Proton VPN/network environment; no universal endpoint reachability is guaranteed.
+- Repository visibility remains private as last checked.

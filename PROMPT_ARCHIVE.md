@@ -295,3 +295,11 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Save Logs ZIP history remains; project/assembly/file/installer/workflow versions are synchronized to 2.1.1 / 2.1.1.0 / v2.1.1.
 - Windows build and Release result: pending at the time of this outcome; don't call the binary released until CI and asset read-back succeed. Follow-up must add final run conclusion and release asset URL.
 - No code can ensure every public resolver responds; several failures in the supplied archive are server DNS, HTTP status, content type or DNS transaction-ID errors.
+
+
+### Outcome 012 verification follow-up — Resolver Reach 2.1.1 published
+- Date: 2026-10-23
+- [Workflow #39940585354](https://github.com/PCUser2021/ResolverReach/actions/runs/39940585354) completed successfully, including Windows x64 publish, installer compile, upload, and release job.
+- Published [Resolver Reach v2.1.1](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.1) with `ResolverReach-Setup-x64.exe` (33,979,934 bytes).
+- Stable installer URL: `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
+- The source fix improves retries/timeouts and HTTP/2 compatibility; however, live endpoint reachability must be measured by scanning again on the user's machine/network. The original 30 endpoint failures include genuine host/service issues that client changes cannot eliminate.

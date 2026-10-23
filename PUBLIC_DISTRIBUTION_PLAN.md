@@ -24,4 +24,4 @@ Repository visibility last verified as private, so public source and anonymous d
 ## Resolver Reach 2.1.1 DoH reliability
 - Uploaded log showed 236/266 valid DNS-over-HTTPS replies, not zero: 235 NOERROR and 1 RCODE REFUSED. The 30 fails included 11 timeouts, 11 TLS/HTTP2, 4 HTTP errors, 3 invalid DNS IDs, and 1 HTML MIME response.
 - v2.1.1 raises the connect/request timeouts, retries transient timeout/status errors once, falls back to HTTP/1.1 after HTTP/2 protocol errors, uses six concurrent probes, and separates transport failures from HTTP replies that fail DoH validation.
-- Build/release run #39940585354 is pending final verification; a fresh scan is necessary to confirm measured endpoint-level improvement.
+- Build/release [run #39940585354](https://github.com/PCUser2021/ResolverReach/actions/runs/39940585354) completed successfully. Published [Release v2.1.1](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.1), asset `ResolverReach-Setup-x64.exe` (33,979,934 bytes). A fresh scan is still necessary to confirm measured endpoint-level improvement.

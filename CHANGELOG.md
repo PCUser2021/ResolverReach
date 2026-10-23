@@ -10,7 +10,7 @@
 - Reduced concurrent probe requests from 8 to 6 to avoid overwhelming fragile endpoints during large resolver-catalog scans.
 
 ### Validation
-- See [workflow run #39937042568](https://github.com/PCUser2021/ResolverReach/actions/runs/39937042568) for the prior 2.1.0 build. Version 2.1.1's build/release status is pending the new CI run; this changelog is not by itself proof of a successful build.
+- Verified: [Windows build and release workflow #39940585354](https://github.com/PCUser2021/ResolverReach/actions/runs/39940585354) completed successfully. [Resolver Reach 2.1.1](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.1) is published with `ResolverReach-Setup-x64.exe` (33,979,934 bytes). CI verifies compile/package/upload, not post-fix reachability of all public resolvers.
 - No program can make permanently offline, nonexistent, rate-limited, or non-compliant public resolvers return valid replies.
 
 ## [2.1.0] — 2026-10-23

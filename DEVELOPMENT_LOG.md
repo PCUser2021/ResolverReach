@@ -169,3 +169,14 @@ This is an append-only, chronological audit log for the two Windows applications
 - **Version:** project 2.1.1, assembly/file 2.1.1.0, installer 2.1.1, release tag v2.1.1. App behavior and failure classification are the reason for the patch version bump.
 - **CI/release:** implementation commit `766b1b6bd2bca0dcd3e01b7b4d4e9ff32e1c833d` triggered [Windows build #39940585354](https://github.com/PCUser2021/ResolverReach/actions/runs/39940585354) and release job on the same workflow run. Build/release result is pending at log creation time.
 - **Testing limitation:** a successful build will not prove all 266 endpoints are live. A fresh post-fix scan from the user's VPN/network is required to measure improvement; third-party endpoints may remain offline or non-compliant.
+
+
+### Verification follow-up — Resolver Reach 2.1.1 build and release complete (2026-10-23)
+- Windows x64 build and installer job: [workflow run #39940585354](https://github.com/PCUser2021/ResolverReach/actions/runs/39940585354), completed successfully.
+- Verified steps: .NET 10 setup, restore, self-contained Windows x64 publish, Inno Setup installation, installer compilation, and artifact upload.
+- Release job also completed successfully. Published Release: [Resolver Reach v2.1.1](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.1).
+- Asset: `ResolverReach-Setup-x64.exe`, 33,979,934 bytes. Direct URL: `https://github.com/PCUser2021/ResolverReach/releases/download/v2.1.1/ResolverReach-Setup-x64.exe`; stable link: `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
+- The 2.1.1 source commit is `766b1b6bd2bca0dcd3e01b7b4d4e9ff32e1c833d`; documentation and archive verification followed on main.
+- Code fixes: 12s connect timeout, 20s request timeout, six concurrent probes, one retry for timeouts/transient HTTP statuses, and HTTP/1.1 fallback after HTTP/2 protocol errors. Summary wording now distinguishes transport errors from HTTP replies failing DNS validation.
+- Important limit: build and release pass does not demonstrate a post-fix scan improvement. The user needs to run v2.1.1 and compare a new scan; unreachable/misconfigured third-party resolvers will still fail.
+- Last repository metadata check continued to report private visibility. Release downloads require repository access until visibility is made public.

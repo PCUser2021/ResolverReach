@@ -39,7 +39,7 @@ A valid DNS error response is distinguished from an unavailable endpoint or inva
 - **[View all releases and assets](https://github.com/PCUser2021/ResolverReach/releases)**.
 - Public downloads require the repository to be public; private repositories' release assets remain access-controlled.
 
-**Current published release:** [Resolver Reach 2.1.1](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.0). The verified Windows build and release workflow ([run #39937042568](https://github.com/PCUser2021/ResolverReach/actions/runs/39937042568)) uploaded `ResolverReach-Setup-x64.exe`. Future tagged product releases are published by the release job; short-lived Actions artifacts remain as a secondary fallback.
+**Current published release:** [Resolver Reach 2.1.1](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.1). The verified Windows build and release workflow ([run #39940585354](https://github.com/PCUser2021/ResolverReach/actions/runs/39940585354)) uploaded `ResolverReach-Setup-x64.exe` (33,979,934 bytes). Stable links: [latest installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe) and [all releases](https://github.com/PCUser2021/ResolverReach/releases).
 
 ## License
 

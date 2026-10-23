@@ -98,3 +98,16 @@ For every substantive task related to either application:
 - GGUF Importer CI: `.github/workflows/ollama-gguf-importer.yml`
 
 Last audit note: source project files for both products declare version 1.0.0. The root README documents Save Logs in both products. This is a snapshot from 2026-10-22; re-check before representing it as current.
+
+
+## Cross-repository prompt backup and restore policy
+
+- Central private prompt archive: [PROMPT_ARCHIVE.md](PROMPT_ARCHIVE.md). It preserves repository-related user prompts and task outcomes across all repositories visible to the connected GitHub account.
+- At the start of every repository-related task, read the latest relevant archive entries and restore context from the target repository's current `AGENTS.md`, project context, README, source, recent commits, and CI runs.
+- Before substantive work, append the user's repository-related prompt exactly to `PROMPT_ARCHIVE.md` and commit it. Do not claim capture until the commit and file are verified.
+- After work, append a separate outcome to `PROMPT_ARCHIVE.md` and an implementation/test entry to `DEVELOPMENT_LOG.md`. Record only checks actually performed.
+- Current accessible repository inventory last checked 2026-10-22: `PCUser2021/ResolverReach` (private, central archive) and `PCUser2021/Wand-Enhancer` (public).
+- Never place verbatim user prompts in the public `Wand-Enhancer` repository. Keep prompt text in the private central archive; public repositories may have generic instructions and non-sensitive work summaries only.
+- Never save credentials or secret values in logs; redact them. Scope is every repository-related user prompt, not unrelated general-chat messages.
+- Restore means reconstructing project requirements and unfinished task state from the archive and current source. Do not automatically roll back or overwrite repository code without explicit approval.
+- Hard limitation: this policy does not create a ChatGPT platform event hook. It cannot guarantee that every message from every conversation is intercepted if a session does not load these instructions or cannot write to GitHub. If GitHub writing is unavailable, say so and provide a ready-to-commit archive entry.

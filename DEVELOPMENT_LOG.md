@@ -362,3 +362,11 @@ This is an append-only, chronological audit log for the two Windows applications
 - Active target scope is Windows x64 and native Windows ARM64. The app project and workflow are restored to Windows-only targets; the .NET SDK in CI remains pinned to 10.0.402.
 - The macOS installation guide was deleted, and macOS download links, runtime IDs and packaging/release jobs were removed from active project and release files.
 - Final verification pending: inspect the latest PR #6 workflow. The old macOS-containing CI runs failed without readable job logs, so the root cause is unknown. No v2.4.0 release has been published by this cleanup.
+
+
+## 2026-10-23 — Windows-only CI check after macOS removal
+
+- Latest PR #6 run: https://github.com/PCUser2021/ResolverReach/actions/runs/40009024496.
+- Test, Windows x64 build, and native Windows ARM64 build jobs reported failure; artifact verification and release publication were skipped.
+- GitHub's job endpoint returned no step summaries or log URLs, so the failure cause cannot be determined. Do not infer the failure is related to the previous macOS changes, and do not merge/release until a new accessible Windows-only run passes.
+- Code/configuration check confirmed Windows-only runtime identifiers (`win-x64`, `win-arm64`), Windows-only workflow, no macOS setup guide, no macOS README downloads and no macOS packaging rows in `DEPENDENCIES.md`.

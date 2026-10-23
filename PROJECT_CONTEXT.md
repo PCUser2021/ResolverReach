@@ -204,3 +204,17 @@ Last verified 2026-10-23: Resolver Reach 2.1.0 build and Release succeeded in wo
 - Limits: no full Java-to-C# source conversion; the engine, extractors, plugin ecosystem, premium-account logic, update system, and original UI remain in JDownloader. This is a functional integration prototype, not a finished replacement.
 - Validation policy: do not claim compile success or live API testing until a corresponding Windows Actions run or real installation test is observed. No local build or interactive API test was performed during authoring.
 - Preserve existing behavior and versions of Resolver Reach 2.1.1 and Ollama GGUF Importer 1.0.0. The new prototype is versioned independently as 0.1.0.
+
+
+## 2026-10-23 — JDownloader Reach 0.2.0 x64 and ARM64 installer packaging
+
+This section supersedes the earlier statement that the prototype was x64-only and ZIP-only.
+
+- **Version:** JDownloader Reach is now 0.2.0 (assembly/file version 0.2.0.0). Resolver Reach remains 2.1.1; Ollama GGUF Importer remains 1.0.0.
+- **Installers:** `installer/JDownloaderReach-x64.iss` builds `JDownloaderReach-Setup-x64.exe`, restricted to x64 Windows. `installer/JDownloaderReach-arm64.iss` builds `JDownloaderReach-Setup-arm64.exe`, restricted to Windows ARM64.
+- **Native application payload:** The workflow publishes the shell and both repository apps for `win-x64` or `win-arm64`. `src/OllamaGgufImporter/OllamaGgufImporter.csproj` now selects `PlatformTarget=x64` for x64 and `ARM64` for the ARM64 runtime. The two Avalonia projects declare both runtime identifiers.
+- **Verification:** A PowerShell PE-header check validates all three EXEs have machine type `0x8664` (x64) or `0xAA64` (ARM64) as selected by the matrix, before the installer is compiled.
+- **Distribution contents:** Each installer includes JDownloader Reach, native Resolver Reach, native Ollama GGUF Importer, shell setup instructions, the root MIT license, Resolver Reach third-party notices, and the referenced `THIRD-PARTY-LICENSES/ONIONFRUIT-LGPL-3.0.md` file.
+- **Workflow:** `.github/workflows/jdownloader-reach.yml` creates separate GitHub Actions artifacts named `JDownloaderReach-Setup-x64` and `JDownloaderReach-Setup-arm64`, with 30-day retention. This is artifact distribution, not a permanent GitHub Release.
+- **Security/product boundary:** JDownloader's Java engine is still not bundled. The shell operates an existing JDownloader instance via loopback-only legacy API controls and launches the two .NET tools.
+- **Current CI note:** The build before the license-copy correction succeeded for both architectures in workflow run `39943167275`. The rebuild including the third-party license file is in progress under workflow run `39943711695`; update the outcome after inspecting that exact run.

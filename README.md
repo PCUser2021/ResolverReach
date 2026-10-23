@@ -1,62 +1,45 @@
 # Resolver Reach
 
-Resolver Reach is a Windows 11 25H2 x64 desktop tool for checking whether DNS-over-HTTPS (DoH) resolvers complete a valid HTTPS DNS exchange.
+Resolver Reach **2.0.0** is a Windows 11 25H2 x64 desktop diagnostic tool for checking whether DNS-over-HTTPS (DoH) resolvers complete a valid HTTPS DNS exchange.
 
 ## Project continuity records
 
-This repository contains two Windows desktop applications. For persistent cross-session context and a chronological record of substantive work, read these files first:
+This repository contains two Windows desktop applications. For persistent context and chronological records, read:
 
-- [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) — project inventory, architecture, verified feature requirements, user workflow preferences, release checks, and the required logging procedure.
-- [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md) — append-only chronological record of decisions, changes, tests, releases, and known limitations.
-- [PROMPT_ARCHIVE.md](PROMPT_ARCHIVE.md) — private, append-only archive of repository-related prompts and task outcomes used to restore context in later sessions.
+- [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) — architecture, requirements, release checks, and durable user preferences.
+- [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md) — decisions, changes, tests, releases, and limitations.
+- [PROMPT_ARCHIVE.md](PROMPT_ARCHIVE.md) — private archive of repository-related prompts and task outcomes.
 
-For every substantive project task, update the development log with what actually changed and what was actually tested. Do not claim a build or release artifact succeeded unless verified. Keep both applications' visible product-version information and Save Logs features intact unless explicitly instructed otherwise.
+## Resolver Reach 2.0.0
 
-## Features
+- **One window only.** Inputs, progress, aggregate status, and all endpoint results are displayed in the main application window.
+- **Exactly two visible testing paths:** click **Test cURL Resolvers** to fetch and test the current cURL wiki catalog, or paste URLs into the input field and click **Test Resolvers**.
+- The layout adopts dark slate panels, rounded cards/rows, a strong red status strip, and restrained pink accents based on the user-provided visual reference.
+- The live catalog is refreshed on each cURL run. The app extracts unique HTTPS URLs from the wiki's **Base URL** column rather than treating provider homepages as resolvers.
+- Pasted URLs can be separated by line breaks or semicolons.
+- Sends an RFC 8484 wire-format DNS query for `example.com A`; validates HTTP status, `application/dns-message` content type, DNS transaction ID, response flags, question, and DNS response code. HTTP/TLS success alone does not count as a valid DoH exchange.
+- Displays endpoint status, HTTP status, latency, and DNS response details in the main window. PASS indicates a valid NOERROR reply; DNS ERROR means a valid exchange returned a DNS error code; FAIL indicates an unavailable endpoint or invalid response.
+- Uses bounded concurrency and a maximum of 512 unique endpoints per run. Press **Escape** to cancel an active scan. It does not change Windows DNS settings or route general traffic.
+- Product version 2.0.0 appears in the header. The UI intentionally has no theme picker, menu, log-save dialog, or secondary result window.
 
-- Windows x64 release only; ARM64 is intentionally not targeted.
-- Single maximized FluentAvalonia window with selectable system, light, and dark themes, an integrated results view, and a Paste Links menu for custom endpoints.
-- Original Resolver Reach app icon: a blue-gradient R mark with DNS circuit nodes on a dark navy field. It uses the visual language of modern creative-app icons without reusing Adobe's Photoshop logo.
-- Paste a batch of HTTPS DoH endpoint URLs (one per line or separated with semicolons).
-- Sends a real RFC 8484 wire-format DNS query for example.com A; validates HTTP status, application/dns-message content type, DNS transaction ID, response flags, question, and DNS response code. A TLS/host connection alone is not counted as success.
-- Shows endpoint status, HTTP status, latency, and DNS response details.
-- **Save Logs** opens the native save-file picker and exports the current session summary and endpoint results to a UTF-8 text file.
-- **Check the Curl Resolvers** fetches the current public resolver table from the cURL DoH wiki, extracts only Base URL-column endpoints, deduplicates the HTTPS URLs, then tests every listed endpoint with bounded concurrency and a cancellable progress display. The full catalog is refreshed on each run; it is not a baked-in snapshot.
-- Reports valid DoH responses separately from DNS RCODE errors and unreachable/invalid endpoints. A successful HTTP request alone does not count as a valid DNS exchange. Resolver availability is a point-in-time measurement, not a guarantee of 100% uptime.
-- Supports RFC 8484 POST and retries a GET-form DNS query for endpoints that reject POST with 400, 405, 415, or 501.
-- Press Escape to cancel an in-progress scan; results and progress stay in the main window.
-- GitHub Actions builds the self-contained x64 application and compiles an Inno Setup installer. Product version (currently 1.0.0) is shown in the main header. The Windows app icon lives at src/ResolverReach/Assets/ResolverReach.ico and is used for the executable, both windows, and installer.
-
-## Build locally on Windows
+### Build locally on Windows
 
 Install the .NET 10 SDK and Inno Setup 6. From a PowerShell terminal at the repository root:
 
-    dotnet restore src/ResolverReach/ResolverReach.csproj
-    dotnet publish src/ResolverReach/ResolverReach.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts/publish
-    iscc /DMyAppVersion=1.0.0 installer/ResolverReach.iss
+```powershell
+dotnet restore src/ResolverReach/ResolverReach.csproj
+dotnet publish src/ResolverReach/ResolverReach.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts/publish
+iscc /DMyAppVersion=2.0.0 installer/ResolverReach.iss
+```
 
-Click **Check the Curl Resolvers** to refresh resolver URLs from https://github.com/curl/curl/wiki/DNS-over-HTTPS and test the listed HTTPS DNS endpoints. Each resolver receives a test query for example.com; use this only when you are comfortable sending that query to every listed provider. Checks are point-in-time and cannot guarantee future or universal reachability.
+The workflow under [GitHub Actions](https://github.com/PCUser2021/ResolverReach/actions/workflows/windows-build.yml) builds the self-contained Windows x64 application and installer. Download `ResolverReach-Windows-x64` from a successful run.
 
-The workflow under .github/workflows/windows-build.yml runs on pushes to main and manual dispatch. Download the ResolverReach-Windows-x64 artifact from the run's Artifacts section.
-
-## UI and accessibility approach
-
-- The app uses Avalonia with FluentAvalonia and Microsoft's Fluent Design guidance for layout hierarchy, predictable commands, keyboard access, readable contrast, and light/dark themes.
-- Windows x64 manifest includes DPI awareness and long-path support. Endpoint checks use invariant URL/DNS parsing and display meaningful status text rather than relying on color alone.
-- See Microsoft's [Windows app design guidelines](https://learn.microsoft.com/en-us/windows/apps/design/guidelines-overview), [accessibility best practices](https://learn.microsoft.com/en-us/windows/apps/get-started/best-practices), and [localization guidance](https://learn.microsoft.com/en-us/windows/apps/design/globalizing/prepare-your-app-for-localization).
-- These design choices are not a certification of conformance to every international standard. Formal WCAG, localization, keyboard, assistive-technology, and high-DPI testing remains a release requirement.
-
-Resolver Reach is an independent DNS diagnostics tool, not a VPN or system DNS manager.
-
-## Privacy and safety
-
-Resolver Reach sends DNS-over-HTTPS queries only to the HTTPS URLs in the input box. It does not change Windows' system DNS settings, install a network driver, or route general traffic through the resolver. Avoid endpoints you do not trust; the chosen endpoint receives the test DNS query.
+Resolver availability is a point-in-time measurement. Each chosen endpoint receives a DNS query for `example.com`; test only providers you trust. Resolver Reach is a diagnostic utility, not a VPN or system DNS manager.
 
 ## Companion utility: Ollama GGUF Importer
 
-The repository also includes a separate portable Windows x64 utility for importing local GGUF model files into Ollama. Its main header displays the product version (currently 1.0.0), and its executable/window use the dedicated icon at src/OllamaGgufImporter/Assets/OllamaGgufImporter.ico. It detects the current user's default Ollama model-store path, supports multi-select and common split GGUF shard sets, and registers models through Ollama's supported Modelfile + ollama create process rather than copying files directly into Ollama's internal store.
+The repository also includes a separate portable Windows x64 utility for importing local GGUF model files into Ollama. Its main header displays product version 1.0.0, and its executable/window use the dedicated icon at `src/OllamaGgufImporter/Assets/OllamaGgufImporter.ico`. It detects the default Ollama model-store path, supports multi-select and common split GGUF shard sets, and registers models through Ollama's supported temporary Modelfile + `ollama create` process rather than copying files into Ollama's internal store.
 
-- Includes a **Save Logs** button that opens a Save As dialog and exports the activity log plus the current import queue.
-- Source and instructions: [src/OllamaGgufImporter](src/OllamaGgufImporter/README.md)
-- Build artifact: download **Ollama-GGUF-Importer-Windows-x64** from the [GitHub Actions workflow](https://github.com/PCUser2021/ResolverReach/actions/workflows/ollama-gguf-importer.yml).
-
+- Includes **Save Logs**, exporting the activity log and current import queue.
+- Source and instructions: [Ollama GGUF Importer README](src/OllamaGgufImporter/README.md)
+- Build artifact: [Ollama-GGUF-Importer-Windows-x64 workflow](https://github.com/PCUser2021/ResolverReach/actions/workflows/ollama-gguf-importer.yml)

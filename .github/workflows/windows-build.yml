@@ -275,7 +275,7 @@ jobs:
           retention-days: 14
 
   verify-packaged-artifacts:
-    name: Verify both installer artifacts
+    name: Verify all Windows and macOS installer artifacts
     needs: [build-windows-x64, build-windows-arm64, build-macos-installers]
     runs-on: ubuntu-latest
     timeout-minutes: 10

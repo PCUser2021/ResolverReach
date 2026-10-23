@@ -9,7 +9,7 @@ This file is the current project overview. Current source, Git history, GitHub A
 
 ## Current application — Resolver Reach
 
-**Current in-progress Windows-only release:** PR [#4](https://github.com/PCUser2021/ResolverReach/pull/4), branch `feature/2.4.0-release-macos-backup`. Supported targets are Windows x64 and native ARM64 only. The macOS proposal was cancelled at the user's request and has been removed from the active project files and workflow. The initial CI runs failed without readable job logs; do not merge or publish until a fresh Windows-only run passes.
+**Current in-progress Windows-only release:** PR [#6](https://github.com/PCUser2021/ResolverReach/pull/6), branch `feature/resolverreach-2.4.0-windows-only`. PR #4 was closed after the macOS proposal was withdrawn. Supported targets are Windows x64 and native ARM64 only. The macOS proposal was cancelled at the user's request and has been removed from the active project files and workflow. The initial CI runs failed without readable job logs; do not merge or publish until a fresh Windows-only run passes.
 
 Main now contains Resolver Reach source candidate 2.4.0, merged at [`803e367`](https://github.com/PCUser2021/ResolverReach/commit/803e36738e567b08a12ff3cdbc4de3675d3dd4f7). The candidate's 12 deterministic protocol tests, x64/ARM64 builds, installer builds and artifact verification passed CI run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171). The latest published release remains v2.2.0. See `DEPENDENCIES.md` for the package and build-tool inventory.
 

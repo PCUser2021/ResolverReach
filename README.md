@@ -36,7 +36,7 @@ A valid DNS error response is distinguished from an unavailable endpoint or inva
 - **[View all releases and assets](https://github.com/PCUser2021/ResolverReach/releases)**.
 - Public downloads require the repository to be public; private repositories' release assets remain access-controlled.
 
-The Windows build workflow is configured to publish the installer to GitHub Releases after a successful main-branch build on the designated release commit. It also keeps a short-lived Actions artifact as a secondary fallback.
+**Current published release:** [Resolver Reach 2.0.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.0.0). The verified Windows build and release workflow ([run #39933931024](https://github.com/PCUser2021/ResolverReach/actions/runs/39933931024)) uploaded `ResolverReach-Setup-x64.exe`. Future tagged product releases are published by the release job; short-lived Actions artifacts remain as a secondary fallback.
 
 ## License
 

@@ -76,3 +76,14 @@ OnionFruit was inspected as a separate C#/.NET Tor desktop application and a UI/
 - DoH response body reads are capped at 65,535 bytes while streaming.
 - Added `Directory.Packages.props`, `DEPENDENCIES.md`, `tests/ResolverReach.Tests` and a CI protocol-test job. Release publication now depends on tests.
 - Verified GitHub Actions run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171): 12/12 deterministic tests passed, both Windows architectures published and installers compiled, and both installer artifacts passed non-empty/download validation. The release job was skipped intentionally; the latest published release remains v2.2.0. No live public-resolver test or interactive GUI smoke test is implied.
+
+
+## Current handoff — Resolver Reach 2.4.0 cross-platform installers (2026-10-23)
+
+- Active branch: `feature/2.4.0-release-macos-backup`.
+- Request: build 2.4.0 Windows installers, update the toolchain/dependencies, add macOS installers, and back up all project work to GitHub.
+- Current changes: pinned .NET SDK to 10.0.402 in CI; added macOS `osx-x64` and `osx-arm64` publish/package matrix; creates `Resolver Reach.app`, DMG, and ZIP; extended artifact verification and release asset list; conditional Windows manifest/icon and macOS window-chrome behavior; updated README/changelog/dependency inventory.
+- .NET 10's current supported macOS baseline is macOS 15+, so the app bundle plist uses 15.0.
+- macOS builds are unsigned/not notarized. Apple Developer signing credentials were not supplied.
+- Required next steps: open/inspect PR; run tests and all four architecture builds/package jobs; fix actual failures; only then merge/publish v2.4.0; create a durable backup branch/tag and record exact commits/artifacts in `BACKUP_MANIFEST.md`, `DEVELOPMENT_LOG.md`, and `PROMPT_ARCHIVE.md`.
+- Do not claim v2.4.0 assets or a full backup are complete until verified. Repository history/branches cannot export all platform-level ChatGPT Memory.

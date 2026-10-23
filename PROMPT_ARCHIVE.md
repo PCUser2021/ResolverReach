@@ -182,3 +182,13 @@ The following seed entries were reconstructed from repository-related prompts vi
 - GitHub private draft files exist under `public-distribution/`; `PUBLIC_DISTRIBUTION_PLAN.md` and `BACKUP_MANIFEST.md` state the visibility conflict, publication path, and Memory export limitation.
 - A stable source snapshot branch named `backup/ResolverReach-2.0.0-2026-10-23` was created; after this final audit-only update it will be advanced to the same final commit as `main` and read back.
 - Not completed: creation of a separate public repository or visibility change (no such operation is exposed through this session's connected GitHub interface); a genuine screenshot capture from a running Windows GUI (the included preview is illustrative only); complete platform-level ChatGPT Memory export (not available).
+
+
+### Prompt 009 — Explicit approval to make Resolver Reach source public
+- Date: 2026-10-23
+- Target: `PCUser2021/ResolverReach`
+- Exact prompt:
+
+> ok fine, turn source code public and 100% make the project public
+
+- Status: user explicitly approved public source visibility after being informed that it means source can be read and forked. The connected GitHub toolset in this session lacks a repository-settings/visibility mutation operation. Do not claim the visibility was changed unless verified using GitHub repository metadata.

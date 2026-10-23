@@ -94,3 +94,17 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Exact prompt:
 
 > always add a new version to softwares you update and always saves you knowledge to id
+
+
+### Outcome 006 — Mandatory versioning and knowledge persistence rules implemented
+- Date: 2026-10-22 (America/Los_Angeles)
+- Archived the exact user request before policy changes in commit `7b48a65d982b5b54e4bed9e8247d2402713f7f48`.
+- Added mandatory shipped-software version bump, synchronized version metadata, changelog, artifact verification, and repository knowledge-persistence rules to private `PROJECT_CONTEXT.md`: commit `255d9d3e195a7d1d93c858ba1e7b75ab47b88cb6`.
+- Added matching instructions to public `PCUser2021/Wand-Enhancer/AGENTS.md`: commit `175893576348fb9dfb5cf76880b4e2f2d6ff6472`.
+- Logged policy implementation in private `DEVELOPMENT_LOG.md`: commit `d80c65e0f16333d21d4a70afe68441bc2efc28cb`; added read-back verification: commit `fe686d41f8d634a6f15f543c8c7b413a46b3f878`.
+- Updated the public-safe `PCUser2021/Wand-Enhancer/AI_WORK_LOG.md`: policy entry commit `b5c64f50f0e470a4581304f34aa10c3a84b52dbe`; verification follow-up commit `9b5c8c6d16b457a8936e8b7c0e6e8a1c04b81c04`.
+- Verification: read-back confirmed the new version/knowledge rules in `PROJECT_CONTEXT.md` (blob `5ce54854c01b54f45800b136d7941845adf51f28`), `AGENTS.md` (blob `6dc15b096486ff3720682bb8bb272e0ed872e7b6`), private archive (blob `b61567b9501dc0bc256e9b299539f57325aac56f`), and public work log (blob `0563d0275edf0f5c11552a6c941cabcadfab5af8`). Subsequent verification log entries were committed; final read-back should confirm the latest entries.
+- Version rule: each shipped software update that changes code, behavior/UI, dependencies, assets, configuration, packaging or executable output must advance product version and update the changelog. Patch/minor/major should reflect impact; synchronize all version surfaces and verify the actual built artifact before declaring release.
+- Knowledge rule: durable requirements, decisions, discoveries, bug causes, failed attempts and unfinished work must be persisted into repository context/logs. Every repository-related prompt should be archived in this private file first; public repositories only receive non-sensitive summaries.
+- No application code changed in this task; no product version was bumped and no build/runtime tests were run. This was a documentation/policy change.
+- Limitation remains: this repository policy is not a ChatGPT-wide message interception hook and cannot guarantee automatic capture in sessions that never load the policy or lack GitHub access.

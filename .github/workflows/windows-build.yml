@@ -1,4 +1,4 @@
-name: Windows x64 build and installer
+name: Windows x64 and ARM64 build and installers
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
   build-windows-x64:
     name: Build and package Windows x64
     runs-on: windows-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
 
     steps:
       - name: Checkout repository
@@ -31,10 +31,10 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path artifacts/publish, artifacts/installer | Out-Null
-          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.1.1 --output artifacts/publish
+          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.2.0 --output artifacts/publish
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-      - name: Install Inno Setup
+      - name: Install Inno Setup 6
         shell: pwsh
         run: |
           $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
@@ -44,14 +44,14 @@ jobs:
           }
           if (-not (Test-Path $iscc)) { throw "Inno Setup compiler was not found at $iscc" }
 
-      - name: Compile installer
+      - name: Compile x64-compatible installer
         shell: pwsh
         run: |
           $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
-          & $iscc /DMyAppVersion=2.1.1 "installer/ResolverReach.iss"
+          & $iscc /DMyAppVersion=2.2.0 /DMyAppArchitecture=x64compatible /DMyAppOutputName=x64 "installer/ResolverReach.iss"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if (-not (Test-Path "artifacts/installer/ResolverReach-Setup-x64.exe")) {
-            throw "Expected installer output was not created."
+            throw "Expected x64 installer output was not created."
           }
 
       - name: Upload Windows x64 installer
@@ -62,40 +62,102 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+  build-windows-arm64:
+    name: Build and package native Windows ARM64
+    runs-on: windows-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore src/ResolverReach/ResolverReach.csproj
+
+      - name: Publish self-contained native ARM64 application
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifacts/publish, artifacts/installer | Out-Null
+          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-arm64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.2.0 --output artifacts/publish
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Install Inno Setup 6
+        shell: pwsh
+        run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            choco install innosetup --yes --no-progress
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+          if (-not (Test-Path $iscc)) { throw "Inno Setup compiler was not found at $iscc" }
+
+      - name: Compile native ARM64 installer
+        shell: pwsh
+        run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          & $iscc /DMyAppVersion=2.2.0 /DMyAppArchitecture=arm64 /DMyAppOutputName=arm64 "installer/ResolverReach.iss"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if (-not (Test-Path "artifacts/installer/ResolverReach-Setup-arm64.exe")) {
+            throw "Expected native ARM64 installer output was not created."
+          }
+
+      - name: Upload Windows ARM64 installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: ResolverReach-Windows-arm64
+          path: artifacts/installer/ResolverReach-Setup-arm64.exe
+          if-no-files-found: error
+          retention-days: 14
 
   publish-release:
-    name: Publish tested v2.1.1 release
+    name: Publish tested v2.2.0 release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[publish-release]')
-    needs: build-windows-x64
+    needs: [build-windows-x64, build-windows-arm64]
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: Download installer from the successful build
+      - name: Download x64 installer
         uses: actions/download-artifact@v4
         with:
           name: ResolverReach-Windows-x64
-          path: artifacts/installer
+          path: artifacts/x64
 
-      - name: Create GitHub Release and upload installer
+      - name: Download ARM64 installer
+        uses: actions/download-artifact@v4
+        with:
+          name: ResolverReach-Windows-arm64
+          path: artifacts/arm64
+
+      - name: Publish GitHub Release with both installers
         uses: softprops/action-gh-release@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v2.1.1
+          tag_name: v2.2.0
           target_commitish: ${{ github.sha }}
-          name: Resolver Reach 2.1.1
+          name: Resolver Reach 2.2.0
           body: |
-            Resolver Reach 2.1.1 — Windows 11 x64
+            Resolver Reach 2.2.0 — Windows 11 x64 and native ARM64
 
-            A single-window DNS-over-HTTPS reachability tester.
+            This release includes two architecture-specific installers:
+            - ResolverReach-Setup-x64.exe: x64 Windows; also installable on Windows 11 ARM64 via x64 emulation.
+            - ResolverReach-Setup-arm64.exe: native ARM64 Windows build.
 
-            - Test the live cURL resolver catalog.
-            - Paste and test your own HTTPS DoH endpoints.
-            - Validate RFC 8484 DNS replies and view HTTP status, latency, and DNS details in the main window.
-            - License: MIT. Original project source may be used for any purpose under the license terms.
+            Highlights:
+            - New dark titanium/glass icon family with cyan, blue, violet and spectral-magenta accents.
+            - Status icons now distinguish a valid DNS response, a DNS error, and a failed check.
+            - Save Logs exports the in-session diagnostics to a user-selected ZIP.
+            - Existing resolver retry and HTTP/1.1 fallback behavior is retained.
+            - License: MIT.
           files: |
-            artifacts/installer/ResolverReach-Setup-x64.exe
+            artifacts/x64/ResolverReach-Setup-x64.exe
+            artifacts/arm64/ResolverReach-Setup-arm64.exe
           fail_on_unmatched_files: true
           draft: false
           prerelease: false

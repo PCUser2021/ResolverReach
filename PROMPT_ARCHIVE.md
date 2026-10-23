@@ -205,3 +205,17 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Updated `PUBLIC_DISTRIBUTION_PLAN.md` and `BACKUP_MANIFEST.md` to reflect current approval and the remaining GitHub Settings operation. The prompt archive and history contain prior repository-related prompts; these will also become public when the repository visibility is changed.
 - The repository's visibility was last read as `private`; don't claim public visibility until a fresh GitHub metadata read reports `public`.
 - Full platform ChatGPT Memory/export remains unavailable. Project-related knowledge and outcomes are saved in this private repository.
+
+
+### Prompt 010 — Make Resolver Reach freely reusable and enable release downloads
+- Date: 2026-10-23
+- Target: `PCUser2021/ResolverReach`
+- Exact prompt:
+
+> ok ok. just let anyone use it and let anyone use this project source code for anything
+> https://github.com/PCUser2021/ResolverReach
+>
+> also active the download links in here too
+> https://github.com/PCUser2021/ResolverReach/releases
+
+- Intent recorded: replace the earlier personal/home-use restrictions with a permissive license for the project code the owner controls, and make release download assets available if the connected GitHub tools support it. Verify actual repo visibility, license content, and release assets; never claim public visibility or downloadable release assets without read-back.

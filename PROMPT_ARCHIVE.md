@@ -219,3 +219,13 @@ The following seed entries were reconstructed from repository-related prompts vi
 > https://github.com/PCUser2021/ResolverReach/releases
 
 - Intent recorded: replace the earlier personal/home-use restrictions with a permissive license for the project code the owner controls, and make release download assets available if the connected GitHub tools support it. Verify actual repo visibility, license content, and release assets; never claim public visibility or downloadable release assets without read-back.
+
+
+### Outcome 010 — MIT license and v2.0.0 release verified (2026-10-23)
+- Root and distribution licenses are now MIT for original project work; old home-use-only restrictions were removed.
+- Stable download link: https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe
+- Published release: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.0.0
+- Successful build and release workflow: https://github.com/PCUser2021/ResolverReach/actions/runs/39933931024
+- Asset `ResolverReach-Setup-x64.exe` is uploaded (33,975,898 bytes).
+- Repository visibility still reports private; public source and anonymous public downloads require the owner to change visibility in GitHub Settings.
+- Product stays at version 2.0.0 because application code/behavior was not changed by this licensing/distribution update.

@@ -425,3 +425,5 @@ The following seed entries were reconstructed from repository-related prompts vi
 - User-facing action method supplied was a clone into a separate working directory; cloning OnionFruit alone does not update Resolver Reach.
 
 - Post-audit action update: official GitHub releases show `actions/upload-artifact` latest v7.0.2 and `actions/download-artifact` latest v8.0.2 (both published 2026-10-07); workflow references updated to major tags `@v7` / `@v8`. The next workflow run must validate these refs.
+
+- Final dependency audit: NuGet lists DynamicData 9.5.0 as current (2026-10-13); ReactiveUI.Reactive 26.0.1 requires System.Reactive >= 7.0.0, with 7.0.0 current. Official GitHub release metadata checked: checkout v7.0.1, setup-dotnet v6.0.0, upload-artifact v7.0.2, download-artifact v8.0.2, softprops/action-gh-release v3.0.3. Both workflows now use the current artifact action majors; a fresh CI run after the last workflow update is required.

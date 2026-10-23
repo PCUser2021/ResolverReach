@@ -1,5 +1,18 @@
 # Resolver Reach changelog
 
+## [2.1.1] — 2026-10-23
+
+### Fixed
+- Increased connection timeout from 5 to 12 seconds and whole-request timeout from 10 to 20 seconds to reduce false timeout failures on slow/VPN-routed connections.
+- Added one bounded retry for request timeouts and transient HTTP responses (408, 425, 429, 500, 502, 503, 504).
+- Added an explicit HTTP/1.1 retry if an HTTP/2 protocol reset/error occurs.
+- Corrected final scan summary wording: transport failures and HTTP responses that fail DoH validation are now counted separately instead of labelling every failure as "unavailable".
+- Reduced concurrent probe requests from 8 to 6 to avoid overwhelming fragile endpoints during large resolver-catalog scans.
+
+### Validation
+- See [workflow run #39937042568](https://github.com/PCUser2021/ResolverReach/actions/runs/39937042568) for the prior 2.1.0 build. Version 2.1.1's build/release status is pending the new CI run; this changelog is not by itself proof of a successful build.
+- No program can make permanently offline, nonexistent, rate-limited, or non-compliant public resolvers return valid replies.
+
 ## [2.1.0] — 2026-10-23
 
 ### Fixed

@@ -2,7 +2,7 @@
   <img src="public-distribution/assets/resolverreach-icon.svg" alt="Resolver Reach app icon" width="108" />
 </p>
 
-<h1 align="center">Resolver Reach 2.1.0</h1>
+<h1 align="center">Resolver Reach 2.1.1</h1>
 
 <p align="center"><strong>Windows 11 x64 · DNS-over-HTTPS reachability testing · One main window</strong></p>
 
@@ -27,6 +27,8 @@ Resolver Reach is a Windows desktop tool for checking whether DNS-over-HTTPS (Do
 - **Validate actual DoH responses:** send an RFC 8484 DNS query for `example.com A` and validate HTTP status, `application/dns-message` content type, DNS transaction ID, response flags, echoed question, and DNS response code. HTTP/TLS success alone is not a successful DNS test.
 - **Integrated results:** view PASS, DNS ERROR, or FAIL with HTTP status, latency, DNS response details, and scan progress.
 - **Bounded scanning:** up to 512 unique endpoints per run; Escape cancels an active scan.
+- **More resilient probing:** longer connection tolerance, one retry for request timeouts and transient HTTP errors, and HTTP/1.1 fallback after HTTP/2 protocol resets.
+- **Clearer diagnosis:** separates transport failures from endpoints that returned an HTTP response but failed DoH validation.
 - **Save Logs:** choose a destination and export a ZIP containing the complete current-session activity log, all endpoint outcomes across scans in the session, currently displayed results, a session summary, and JSON runtime/session metadata.
 
 A valid DNS error response is distinguished from an unavailable endpoint or invalid reply. Availability checks are point-in-time measurements, not a guarantee of future reachability. The chosen DNS provider receives the test query; use services you trust.
@@ -37,7 +39,7 @@ A valid DNS error response is distinguished from an unavailable endpoint or inva
 - **[View all releases and assets](https://github.com/PCUser2021/ResolverReach/releases)**.
 - Public downloads require the repository to be public; private repositories' release assets remain access-controlled.
 
-**Current published release:** [Resolver Reach 2.1.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.0). The verified Windows build and release workflow ([run #39937042568](https://github.com/PCUser2021/ResolverReach/actions/runs/39937042568)) uploaded `ResolverReach-Setup-x64.exe`. Future tagged product releases are published by the release job; short-lived Actions artifacts remain as a secondary fallback.
+**Current published release:** [Resolver Reach 2.1.1](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.1.0). The verified Windows build and release workflow ([run #39937042568](https://github.com/PCUser2021/ResolverReach/actions/runs/39937042568)) uploaded `ResolverReach-Setup-x64.exe`. Future tagged product releases are published by the release job; short-lived Actions artifacts remain as a secondary fallback.
 
 ## License
 
@@ -47,11 +49,11 @@ See [LICENSE](LICENSE). Third-party libraries, dependencies, and trademarks rema
 
 ## Build verification
 
-Resolver Reach 2.0.0 is a Windows 11 x64 app built with C# / .NET 10, Avalonia, FluentAvalonia, ReactiveUI, and DynamicData. The v2.0.0 Windows x64 publish and installer compile passed in [GitHub Actions run #39928118989](https://github.com/PCUser2021/ResolverReach/actions/runs/39928118989). CI packaging success does not mean every DNS resolver has been live-tested.
+Resolver Reach 2.1.1 is a Windows 11 x64 app built with C# / .NET 10, Avalonia, FluentAvalonia, ReactiveUI, and DynamicData. The v2.0.0 Windows x64 publish and installer compile passed in [GitHub Actions run #39928118989](https://github.com/PCUser2021/ResolverReach/actions/runs/39928118989). CI packaging success does not mean every DNS resolver has been live-tested.
 
 ## Technical details
 
-- Version: **2.1.0**
+- Version: **2.1.1**
 - Target: Windows 11 x64
 - DoH test: RFC 8484 DNS wire-format query with POST and GET fallback where appropriate
 - No changes to Windows DNS settings, VPN, or general traffic routing

@@ -3,7 +3,7 @@
 Snapshot date: 2026-10-23  
 Primary repository: https://github.com/PCUser2021/ResolverReach  
 Visibility at last check: **private; the user requested public access, but the owner must still change the GitHub visibility setting**  
-Source version: **Resolver Reach 2.3.0**  
+Main source candidate: **Resolver Reach 2.4.0**  
 Latest published release: **Resolver Reach 2.2.0**  
 The source history includes Resolver Reach and Ollama GGUF Importer.
 
@@ -11,7 +11,7 @@ The source history includes Resolver Reach and Ollama GGUF Importer.
 
 The private Git repository is the authoritative, versioned backup of source and project records. The user has now explicitly authorized making the source repository public; the current connected toolset cannot execute GitHub's repository-visibility setting, so the change remains pending the repository owner's Settings action.
 
-- Main branch backup head after the v2.3.0 source merge: `e96baa4d822ce58617b8544e6167df94334ffea3`; confirm the latest head after documentation commits.
+- Main branch head after Resolver Reach 2.4.0 was merged and handoff records were synchronized: `803e36738e567b08a12ff3cdbc4de3675d3dd4f7` (later documentation-only commits may follow this manifest update).
 - Historical backup branch: `backup/ResolverReach-2.0.0-2026-10-23`. Current versioned full-tree backup branch: `backup/ResolverReach-2.2.0-2026-10-23` (sync after final docs).
 - Resolver Reach 2.0.0 redesign merge: commit `35ff1517f7e0c0ce42fe1a8500935123d922dd30`.
 - Successful Windows x64 publish/installer build: [workflow run #39928118989](https://github.com/PCUser2021/ResolverReach/actions/runs/39928118989).
@@ -213,9 +213,9 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - This was a source-tree cleanup, not a Git history rewrite or a claim that all remote build artifacts were erased.
 
 
-## Resolver Reach 2.4.0 candidate branch — 2026-10-23
+## Resolver Reach 2.4.0 merged source and CI verification — 2026-10-23
 
-- Feature branch: `feature/resolverreach-2.4.0-comprehensive-doh-validation`.
-- Candidate source version: 2.4.0; latest previously verified GitHub Release: v2.2.0. No v2.4.0 release assets have been created.
+- Merged into main at commit [`803e367`](https://github.com/PCUser2021/ResolverReach/commit/803e36738e567b08a12ff3cdbc4de3675d3dd4f7).
+- Main source candidate version: 2.4.0; latest verified published GitHub Release remains v2.2.0. No v2.4.0 release assets have been created.
 - Candidate adds centralized NuGet package versions, deterministic DNS protocol tests, expanded DNS/EDNS validation and bounded DoH body reads. The exact branch head and Actions results must be recorded after verification.
-- `DEPENDENCIES.md` lists application/test packages, CI actions, and build tools whose patch versions are not pinned. This entry records planned verification; it is not proof that the build or tests passed.
+- CI run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171) passed all 12 tests, Windows x64/ARM64 build and installer jobs, and artifact verification. `DEPENDENCIES.md` lists app/test packages and tooling, including tools whose patch versions are not pinned. No live DNS or GUI smoke test was run.

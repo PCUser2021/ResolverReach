@@ -43,7 +43,7 @@ jobs:
 
           $architecturePath = "$seed/docs/INTEGRATION-ARCHITECTURE.md"
           $architecture = Get-Content $architecturePath -Raw
-          $architecture = $architecture.Replace("- The standalone `src/OllamaGgufImporter/` source and `.github/workflows/ollama-gguf-importer.yml` remain independent and unchanged.", "- Ollama GGUF Importer is a separate product and is outside this repository.")
+          $architecture = [regex]::Replace($architecture, "(?m)^- The standalone `src/OllamaGgufImporter/` source and `\.github/workflows/ollama-gguf-importer\.yml` remain independent and unchanged\.$", "- Ollama GGUF Importer is a separate product and is outside this repository.")
           Set-Content -Path $architecturePath -Value $architecture -Encoding utf8
           Copy-Item "src/JDownloaderReach/CHANGELOG.md" -Destination "$seed/CHANGELOG.md" -Force
 

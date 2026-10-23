@@ -86,3 +86,11 @@ The following seed entries were reconstructed from repository-related prompts vi
 - **Wand-Enhancer public-safe work log created:** commit `67983fe5c4bc309b0f67a05bca9d57adad126460`.
 - **Verification:** all six GitHub write operations returned successful commit SHAs. Follow-up read-back verification is still required. No build or runtime tests were run; these are documentation/policy-only changes.
 - **Important limitation:** this creates a documented cross-session capture/restore procedure, not a ChatGPT-wide event hook. It cannot intercept messages in conversations that do not load the policy or lack private-repository access.
+
+
+### Prompt 006 — Mandatory version bumps and repository knowledge persistence
+- Date: 2026-10-22 (America/Los_Angeles)
+- Target: all repositories accessible to the connected GitHub account
+- Exact prompt:
+
+> always add a new version to softwares you update and always saves you knowledge to id

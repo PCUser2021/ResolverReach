@@ -229,3 +229,15 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Asset `ResolverReach-Setup-x64.exe` is uploaded (33,975,898 bytes).
 - Repository visibility still reports private; public source and anonymous public downloads require the owner to change visibility in GitHub Settings.
 - Product stays at version 2.0.0 because application code/behavior was not changed by this licensing/distribution update.
+
+
+### Prompt 011 — Fix title/version overlap and add ZIP Save Logs
+- Date: 2026-10-23
+- Target: `PCUser2021/ResolverReach` — Resolver Reach
+- Supplied screenshot: `Resolver Reach bug.png`, with a blue highlight around the top-right Windows caption controls overlapping the version badge.
+- Exact prompt:
+
+> ChatGPT, please fix this GUI bug (highlighted in blue) and also add a Save Logs button to select a location to save the full logs to. Save it to a ZIP file
+
+- Required work: fix the top-right title/version/system-caption overlap; add a Save Logs main-window button that prompts for a user-selected ZIP path and exports available full run/activity diagnostics; bump product version and synchronize metadata/changelog; verify the Windows build and update durable context.
+- Status at archive time: captured before implementation.

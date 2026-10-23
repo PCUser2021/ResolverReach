@@ -319,3 +319,13 @@ The following seed entries were reconstructed from repository-related prompts vi
 - Added project-scoped memory to `JDOWNLOADER_REACH_MEMORY.md`; this is not a full export of the account-wide ChatGPT Memory store.
 - Current cleaned-workflow CI run: https://github.com/PCUser2021/ResolverReach/actions/runs/39946624955. Initial run `39946242480` failed at the PE-check script parser step; the corrected run has reached x64 installer compilation, while the ARM64 build is still in progress at the time of this entry. Final result to be appended only after verified.
 - Repository visibility still reports private. The connected GitHub toolset has no repository creation or visibility mutation action. Do not claim public visibility. Because the repository includes unrelated projects and a private prompt archive, publishing JDownloader Reach alone needs a dedicated clean public repository or deliberate user-performed separation/settings work.
+
+
+### Final outcome — JDownloader Reach 0.3.0 cleanup verified (2026-10-23)
+
+- Corrected clean build workflow run [#39946624955](https://github.com/PCUser2021/ResolverReach/actions/runs/39946624955) completed successfully on commit `b86b6743c1d8da8e597bd9e3cbf10dcecfe35305`, with both x86-64 and ARM64 jobs successful.
+- Artifacts uploaded: x64 ID `12498472300` (64,495,157 bytes; extracted installer SHA-256 `4aee55e9eef29647435dc9b4492c182c9fe4ec752a8b612584177d33d7cb6d02`); ARM64 ID `12497973329` (59,116,477 bytes; extracted installer SHA-256 `8538a3a53f6b73811434a2b631271bd9c8e726a82fcdd26b698bb468c0a5e57a`). ZIP tests passed for both downloaded artifacts. Actions retention runs through 2026-11-22.
+- The cleaned app has no importer controls/settings/handlers, installer shortcut/binary, or workflow publish step. The standalone importer remains a separate project.
+- Pre-removal full backup and clean code snapshots have been preserved as GitHub branches. Project-scoped memory is saved in `JDOWNLOADER_REACH_MEMORY.md`; full platform Memory/account export is not available through the GitHub connector.
+- Visibility is still private. The connected tools cannot create repositories or change visibility. Since this central repo includes multiple apps and a private prompt archive, a dedicated public repository is needed to publish JDownloader Reach without exposing unrelated materials.
+- No physical Windows GUI/API test was performed. The verification confirms build/package success only.

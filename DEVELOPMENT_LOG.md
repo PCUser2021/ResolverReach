@@ -111,7 +111,7 @@ This is an append-only, chronological audit log for the two Windows applications
 - **Memory limitation:** Complete platform-level ChatGPT Memory and all historic chats cannot be exported by available tools. Relevant repository prompts, project decisions, source state, backup branch and build validation remain in Git.
 
 
-## 2026-10-23 — MIT licensing and release download automation (in progress)
+## 2026-10-23 — MIT licensing and release download automation (completed)
 
 - **User intent:** Allow anyone to use Resolver Reach and the project source for any purpose and make permanent installer links available through GitHub Releases.
 - **License:** Replaced personal/home-use-only restrictions with MIT in the root license files and public distribution draft. The README states that original project code/docs/assets may be used for any purpose subject to retaining the MIT notice. Third-party dependencies retain their own licenses.
@@ -133,3 +133,13 @@ This is an append-only, chronological audit log for the two Windows applications
 - **Visibility status:** Repository metadata currently reports `private`. The available GitHub connector does not provide a repository visibility mutation, so public access needs a manual GitHub Settings change.
 - **Version policy:** No product behavior/source-code logic changed; product version remains 2.0.0. This is a license/docs/release-pipeline update.
 - **No live DNS test claim:** Packaging success does not mean every DoH endpoint has been runtime-tested.
+
+
+### Verification follow-up — Release published successfully (2026-10-23)
+- Release workflow: [run #39933931024](https://github.com/PCUser2021/ResolverReach/actions/runs/39933931024), commit `6889479639a97ece67ed37108de44022fa59d2f5`; final run status `completed`, conclusion `success`.
+- Windows build steps passed: .NET setup, restore, self-contained x64 publish, Inno Setup, installer compilation, and artifact upload.
+- Release job passed: downloaded the `ResolverReach-Windows-x64` artifact and published GitHub Release [v2.0.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.0.0).
+- Verified release is published (not a draft) with uploaded asset `ResolverReach-Setup-x64.exe`, 33,975,898 bytes. Browser URL: `https://github.com/PCUser2021/ResolverReach/releases/download/v2.0.0/ResolverReach-Setup-x64.exe`.
+- Stable latest URL in README: `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
+- Repository metadata still reports `private`; the release asset exists but public anonymous downloads/source browsing still require the GitHub repository Visibility setting to be changed to Public.
+- App version remains 2.0.0; only license/docs/release automation changed. CI did not run live DNS reachability tests against every endpoint.

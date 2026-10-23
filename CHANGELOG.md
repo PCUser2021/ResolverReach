@@ -1,6 +1,6 @@
 # Resolver Reach changelog
 
-## [2.4.0] — source candidate, 2026-10-23 (not yet released)
+## [2.4.0] — merged to main, 2026-10-23 (not yet released)
 
 ### Updated
 - Centralized direct NuGet package versions in `Directory.Packages.props` and made System.Reactive 7.0.0 an explicit direct dependency.
@@ -14,7 +14,7 @@
 - Added `tests/ResolverReach.Tests` using xUnit.net v3 and deterministic offline DNS fixtures; explicitly selected Microsoft Testing Platform for the .NET 10 `dotnet test` mode.
 - Added a GitHub Actions test job and made it a prerequisite for release publication; TRX and Coverlet MTP (JSON/Cobertura) results are uploaded as workflow artifacts.
 - Added `DEPENDENCIES.md` documenting direct package versions, the .NET servicing release at audit time, CI action versions, and the intentionally unpinned Inno Setup installation.
-- No GitHub Release was created by these source changes; publication remains gated on successful CI and an explicit `[publish-release]` commit message.
+- PR #3 was squash-merged to main as `803e36738e567b08a12ff3cdbc4de3675d3dd4f7`. CI run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171) passed all 12 tests, both architecture build+installer jobs and artifact verification. The release-only job was skipped because the merge message did not include `[publish-release]`; the latest published release remains v2.2.0.
 
 
 ## Repository cleanup — 2026-10-23

@@ -190,3 +190,17 @@ Last verified 2026-10-23: Resolver Reach 2.1.0 build and Release succeeded in wo
 - Successful CI and release run: #39937042568. Published release v2.1.0 asset `ResolverReach-Setup-x64.exe` (33,980,655 bytes).
 - No interactive desktop UI test or end-to-end click-to-ZIP test was run; the Windows CI build and package/release upload succeeded.
 - Repository visibility is still private at the final metadata check.
+
+
+## 2026-10-23 — JDownloader Reach prototype
+
+- New application: **JDownloader Reach 0.1.0 prototype**.
+- Project: `src/JDownloaderReach/JDownloaderReach.csproj`; stack: C# / .NET 10, Avalonia, FluentAvalonia.
+- Isolated development branch: `feature/jdownloader-reach-prototype`. Do not rewrite `main` or remove existing projects when continuing this integration.
+- Prototype functions: launch a user-selected JDownloader executable; call the legacy local API at fixed loopback URL `http://127.0.0.1:3128/` to check engine state, add links to LinkGrabber, query a package snapshot, and request download start; launch Resolver Reach and Ollama GGUF Importer; persist executable paths; export activity/settings/runtime details to ZIP.
+- Workflow `.github/workflows/jdownloader-reach.yml` publishes the shell and both existing apps into one Windows x64 ZIP artifact. It does not package a JDownloader Java distribution.
+- License boundary: no JDownloader Java implementation is copied into this prototype. The source mirror was inspected for API/build/license reference. JDownloader source headers specify GPL-3.0-or-later; before distributing a future engine-source bundle or derivative, perform a full dependency/license audit and comply with source-distribution obligations. Resolver Reach source is MIT; its third-party notices remain applicable.
+- Security: API address is hard-coded to `127.0.0.1`; no remote host or credentials are supported. The deprecated local API may be unauthenticated. Do not expose port 3128 outside loopback.
+- Limits: no full Java-to-C# source conversion; the engine, extractors, plugin ecosystem, premium-account logic, update system, and original UI remain in JDownloader. This is a functional integration prototype, not a finished replacement.
+- Validation policy: do not claim compile success or live API testing until a corresponding Windows Actions run or real installation test is observed. No local build or interactive API test was performed during authoring.
+- Preserve existing behavior and versions of Resolver Reach 2.1.1 and Ollama GGUF Importer 1.0.0. The new prototype is versioned independently as 0.1.0.

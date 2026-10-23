@@ -162,3 +162,11 @@ Last verified 2026-10-23: Resolver Reach 2.0.0 builds successfully in workflow r
 - Public front page includes the app icon and a clearly labelled layout preview. The preview is an illustration, not a screenshot captured from the live app.
 - Git history contains both Resolver Reach and Ollama GGUF Importer sources. If the source repository is made public, all tracked files/history and Actions logs will also be visible.
 - Full platform-level ChatGPT Memory and every historical chat cannot be exported through the available tools. Project prompts, decisions, state, and test outcomes visible in this work are recorded in `PROMPT_ARCHIVE.md`, `PROJECT_CONTEXT.md`, `DEVELOPMENT_LOG.md`, and `BACKUP_MANIFEST.md`.
+
+
+## Verified Release asset — 2026-10-23
+- Published Release: [Resolver Reach 2.0.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.0.0).
+- Workflow #39933931024 completed successfully, including Windows x64 publish, installer compilation, and release asset upload.
+- Stable URL: `https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe`.
+- Repo visibility last read as private; MIT licensing is committed but public access still requires the owner to switch the repository to Public.
+- Future executable updates require a new application version and corresponding tag; ordinary docs/license updates do not increment the product version.

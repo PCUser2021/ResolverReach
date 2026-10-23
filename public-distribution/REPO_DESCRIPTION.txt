@@ -1,0 +1,1 @@
+Resolver Reach is a Windows 11 x64 DoH tester: check live cURL DNS-over-HTTPS resolver URLs or paste your own, validate real RFC 8484 DNS replies, and view status, latency, and results in one window. Personal/home use only; proprietary binary distribution.

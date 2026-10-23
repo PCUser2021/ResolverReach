@@ -27,7 +27,7 @@ jobs:
         run: dotnet restore tests/ResolverReach.Tests/ResolverReach.Tests.csproj
 
       - name: Run deterministic protocol tests
-        run: dotnet test tests/ResolverReach.Tests/ResolverReach.Tests.csproj --configuration Release --no-restore --logger "trx;LogFileName=ResolverReach.Tests.trx" --collect:"XPlat Code Coverage"
+        run: dotnet test tests/ResolverReach.Tests/ResolverReach.Tests.csproj --configuration Release --no-restore --results-directory tests/ResolverReach.Tests/TestResults -- --report-trx --coverlet --coverlet-output-format cobertura,json
 
       - name: Upload test results and coverage
         if: always()

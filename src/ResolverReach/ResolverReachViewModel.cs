@@ -66,6 +66,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
 
     public ReactiveCommand<Unit, Unit> CheckCatalogCommand { get; }
     public ReactiveCommand<Unit, Unit> CheckLinksCommand { get; }
+    public ReactiveCommand<Unit, Unit> ClearLinksCommand { get; }
     public ReactiveCommand<Unit, Unit> CancelCommand { get; }
 
     private static string GetProductVersion()
@@ -81,7 +82,9 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
             .ObserveOn(RxSchedulers.TaskpoolScheduler)
             .SortAndBind(
                 out ReadOnlyObservableCollection<ResolverResult> displayedResults,
-                SortExpressionComparer<ResolverResult>.Ascending(x => x.Endpoint),
+                SortExpressionComparer<ResolverResult>.Ascending(x => x.SortGroup)
+                    .ThenByAscending(x => x.SortLatencyMilliseconds)
+                    .ThenByAscending(x => x.Endpoint),
                 new SortAndBindOptions { Scheduler = RxSchedulers.MainThreadScheduler })
             .Subscribe();
         Results = displayedResults;
@@ -119,6 +122,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
             },
             canCheckLinks,
             outputScheduler: RxSchedulers.MainThreadScheduler);
+        ClearLinksCommand = ReactiveCommand.Create(() => InputLinks = string.Empty, outputScheduler: RxSchedulers.MainThreadScheduler);
         _isBusy = Observable.CombineLatest(
                 CheckCatalogCommand.IsExecuting,
                 CheckLinksCommand.IsExecuting,
@@ -137,6 +141,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
         _lifetime.Add(_isBusy);
         _lifetime.Add(CheckCatalogCommand);
         _lifetime.Add(CheckLinksCommand);
+        _lifetime.Add(ClearLinksCommand);
         _lifetime.Add(CancelCommand);
 
         AppendActivityLog($"Application session started. Version {GetProductVersion()}; OS {Environment.OSVersion}; runtime {Environment.Version}.");
@@ -546,13 +551,13 @@ private static async Task<ResolverResult> TestEndpointAsync(string input, Cancel
         {
             clock.Stop();
             return new ResolverResult(input, "FAIL", null, clock.Elapsed.TotalMilliseconds,
-                "Timed out", "Connection/request timed out after the configured timeout and one retry.");
+                "Timed out", "Request timed out after 20 seconds plus one retry. Endpoint outage, packet loss, routing/firewall policy, overload or filtering are possible; timeout does not identify censorship."
         }
         catch (HttpRequestException ex)
         {
             clock.Stop();
             return new ResolverResult(input, "FAIL", null, clock.Elapsed.TotalMilliseconds,
-                "HTTPS / TLS failure", ShortError(ex.Message));
+                "HTTPS / TLS failure", DescribeTransportFailure(ex));
         }
         catch (Exception ex)
         {
@@ -561,6 +566,52 @@ private static async Task<ResolverResult> TestEndpointAsync(string input, Cancel
                 "No DNS response", ShortError(ex.Message));
         }
     }
+
+    private static string DescribeTransportFailure(HttpRequestException exception)
+    {
+        var messages = new List<string>();
+        for (Exception? current = exception; current is not null; current = current.InnerException)
+            if (!string.IsNullOrWhiteSpace(current.Message) && !messages.Contains(current.Message, StringComparer.Ordinal))
+                messages.Add(current.Message);
+
+        string raw = string.Join(" | ", messages);
+        string lower = raw.ToLowerInvariant();
+        string explanation =
+            lower.Contains("no such host") || lower.Contains("name or service not known") ||
+            lower.Contains("temporary failure in name resolution") || lower.Contains("getaddrinfo") ||
+            lower.Contains("nodename nor servname")
+            ? "Hostname resolution failed before HTTPS. Check the URL, local/bootstrap DNS and provider infrastructure; DNS filtering is possible but not proven. Observed: "
+            : lower.Contains("certificate") || lower.Contains("tls") || lower.Contains("ssl") || lower.Contains("authentication failed")
+            ? "TLS/certificate validation failed. Invalid/expired certificates, clock errors, server configuration, TLS interception or filtering are possible; compare another network before attributing censorship. Observed: "
+            : lower.Contains("connection refused")
+            ? "TCP connection was refused by the endpoint or an intermediary; the refusing party cannot be identified from this response alone. Observed: "
+            : lower.Contains("connection reset") || lower.Contains("forcibly closed") || lower.Contains("reset by peer")
+            ? "Connection reset during transport. A resolver, CDN, firewall or intermediary may have terminated it; reset alone cannot distinguish censorship from service/network fault. Observed: "
+            : lower.Contains("network is unreachable") || lower.Contains("no route to host")
+            ? "The operating system reported no usable network route. Check connectivity, routing and firewall policy; this is not sufficient evidence of censorship. Observed: "
+            : "HTTPS transport failed before a valid DNS response. Compare another network to distinguish outage, routing/TLS faults and possible filtering. Observed: ";
+        return explanation + ShortError(raw);
+    }
+
+    private static string DescribeHttpFailure(int code, string? reasonPhrase) => code switch
+    {
+        400 => "HTTP 400 Bad Request: request syntax/query format rejected; verify the DoH path.",
+        401 => "HTTP 401 Unauthorized: endpoint requires credentials not supplied by this probe.",
+        403 => "HTTP 403 Forbidden: server/CDN denied the request under an access-control rule. Endpoint policy, abuse protection, configuration or an intermediary may be responsible; this does not prove country-level censorship.",
+        404 => "HTTP 404 Not Found: responding hostname did not find the requested URI path; verify the provider-documented DoH path.",
+        405 => "HTTP 405 Method Not Allowed: endpoint rejected the HTTP method; verify GET/POST and path requirements.",
+        407 => "HTTP 407 Proxy Authentication Required: an HTTP proxy requires authentication; this is not a DNS response.",
+        408 => "HTTP 408 Request Timeout: server/intermediary timed out waiting for the request.",
+        413 => "HTTP 413 Content Too Large: endpoint rejected the request body.",
+        415 => "HTTP 415 Unsupported Media Type: endpoint rejected the content type; verify RFC 8484 support.",
+        429 => "HTTP 429 Too Many Requests: endpoint rate-limited this client; check provider limits and retry later.",
+        451 => "HTTP 451 Unavailable For Legal Reasons: responding server reports a legal restriction. This does not identify who imposed it or prove local-network censorship.",
+        500 => "HTTP 500 Internal Server Error: endpoint reported a server-side failure.",
+        502 => "HTTP 502 Bad Gateway: gateway received an invalid upstream response.",
+        503 => "HTTP 503 Service Unavailable: endpoint temporarily cannot serve requests.",
+        504 => "HTTP 504 Gateway Timeout: gateway/proxy did not receive a timely upstream response.",
+        _ => $"HTTP {code} ({reasonPhrase ?? "no reason phrase"}): non-success response arrived before a valid DNS message. Verify provider endpoint/policy and compare another network; this alone cannot prove local censorship."
+    };
 
     private static HttpRequestMessage CreateDohRequest(
         HttpMethod method, Uri uri, byte[] dnsQuery, bool forceHttp11)
@@ -672,7 +723,7 @@ private static async Task<ResolverResult> TestEndpointAsync(string input, Cancel
         {
             clock.Stop();
             return new ResolverResult(endpoint, "FAIL", (int)response.StatusCode, clock.Elapsed.TotalMilliseconds,
-                "No DNS response", $"HTTP {(int)response.StatusCode} ({response.ReasonPhrase ?? "request rejected"}) via {requestMode}.");
+                "No DNS response", $"{DescribeHttpFailure((int)response.StatusCode, response.ReasonPhrase)} Via {requestMode}.");
         }
 
         string? mediaType = response.Content.Headers.ContentType?.MediaType;
@@ -753,12 +804,53 @@ public sealed record ResolverDashboardState(
 
 public sealed class ResolverResult
 {
+    private ResolverMetadata Metadata { get; }
     public string Endpoint { get; }
     public string Status { get; }
     public int? HttpStatusCode { get; }
     public double? LatencyMilliseconds { get; }
     public string DnsSummary { get; }
     public string Detail { get; }
+    public string ProviderName => Metadata.ProviderName;
+    public string CountryName => Metadata.CountryName;
+    public string CountryFlag => Metadata.CountryFlag;
+    public string CountryDisplay => $"{CountryFlag} {CountryName} · {ProviderName}";
+    public string FeaturesSummary => Metadata.FeaturesSummary;
+    public int SortGroup => IsPass ? 0 : IsDnsError ? 1 : Status == "FAIL" ? 2 : 3;
+    public double SortLatencyMilliseconds => LatencyMilliseconds ?? double.MaxValue;
+
+    public string DiagnosticExplanation
+    {
+        get
+        {
+            if (IsPass) return "Valid NOERROR DNS response received from this network at test time. Point-in-time evidence only, not a global availability guarantee.";
+            if (IsDnsError) return $"HTTPS/DoH and DNS message validation succeeded, but resolver returned {DnsSummary}. This may reflect query/policy, DNSSEC/upstream trouble or a transient condition; it is not by itself proof of censorship.";
+            if (HttpStatusCode is int code)
+            {
+                if (code is 401 or 403 or 407 or 451)
+                    return "The HTTP server, CDN or proxy explicitly denied the request. This is evidence of an access restriction at that layer, but does not establish country-level network censorship.";
+                if (code == 404) return "Hostname responded, but this URI path/resource was not found; confirm the provider's DoH URI.";
+                if (code == 429) return "The endpoint rate-limited this client. Cool down and retry; this is not evidence of censorship.";
+                if (code is 408 or 500 or 502 or 503 or 504)
+                    return "Endpoint or upstream gateway timed out or returned a server error. Compare later and from another network to distinguish outage, routing and filtering.";
+                if (DnsSummary == "Unexpected content type")
+                    return "HTTP response was not application/dns-message. Wrong path, captive portal, proxy or HTTP interception may explain it; check TLS and retest elsewhere. Censorship is not confirmed.";
+                return $"Endpoint returned HTTP {code} before a valid DNS reply. Verify URI/policy; this alone cannot prove censorship.";
+            }
+            string lower = (Detail + " " + DnsSummary).ToLowerInvariant();
+            if (lower.Contains("timed out") || lower.Contains("timeout"))
+                return "Request timed out after waiting/retry. Packet loss, congestion, endpoint outage, routing/firewall policy or censorship can cause this; timeout alone cannot distinguish them.";
+            if (lower.Contains("host") && (lower.Contains("resolve") || lower.Contains("known")))
+                return "Hostname could not be resolved before HTTPS. Check URL, local/bootstrap DNS and endpoint DNS; filtering is possible but not proven.";
+            if (lower.Contains("tls") || lower.Contains("certificate") || lower.Contains("ssl"))
+                return "TLS/certificate negotiation failed. Invalid certificate, clock, server config, interception or filtering are possible; inspect the certificate before concluding censorship.";
+            if (lower.Contains("connection refused"))
+                return "TCP connection was refused by endpoint or intermediary; the refusing party is not identifiable from this response alone.";
+            if (lower.Contains("connection reset") || lower.Contains("forcibly closed"))
+                return "Connection reset before a valid DNS response. Server or intermediary may have terminated it; compare another network before attributing censorship.";
+            return "No valid DNS response was obtained. The observed detail is the client-side failure; one test cannot reliably distinguish outage, configuration, routing and censorship.";
+        }
+    }
 
     public bool IsPass => string.Equals(Status, "PASS", StringComparison.Ordinal);
     public bool IsDnsError => string.Equals(Status, "DNS ERROR", StringComparison.Ordinal);
@@ -794,5 +886,6 @@ public sealed class ResolverResult
         LatencyMilliseconds = latencyMilliseconds;
         DnsSummary = dnsSummary;
         Detail = detail;
+        Metadata = ResolverMetadata.ForEndpoint(endpoint);
     }
 }

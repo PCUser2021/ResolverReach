@@ -1,15 +1,9 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:ResolverReach" x:Class="ResolverReach.MainView" x:DataType="vm:ResolverReachViewModel" x:CompileBindings="True" Background="{DynamicResource AppBackgroundBrush}" KeyDown="MainView_KeyDown">
   <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Background="{DynamicResource AppBackgroundBrush}">
-    <Border Grid.Row="0" Background="#34393F" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="0,0,0,1" Padding="22,11,190,11">
+    <Border Grid.Row="0" Background="#202020" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="0,0,0,1" Padding="22,11,190,11">
       <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="13">
-        <Border Width="42" Height="42" CornerRadius="11" Background="#101827" BorderBrush="#5B7697" BorderThickness="1" VerticalAlignment="Center">
-          <Grid>
-            <Ellipse Width="29" Height="29" Stroke="#A7B8CF" StrokeThickness="2" />
-            <Ellipse Width="21" Height="21" Stroke="#4ADFF8" StrokeThickness="1.5" />
-            <Ellipse Width="9" Height="9" Fill="#4CE4FA" Stroke="#DDFBFF" StrokeThickness="1" />
-            <Path Data="M21,4 L21,12 M21,30 L21,38 M4,21 L12,21 M30,21 L38,21" Stroke="#778FAA" StrokeThickness="1.5" />
-            <Ellipse Width="5" Height="5" Fill="#C27CFF" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="7" />
-          </Grid>
+        <Border Width="42" Height="42" CornerRadius="11" Background="#2B2B2B" BorderBrush="#484848" BorderThickness="1" VerticalAlignment="Center">
+          <Path Width="29" Height="29" Data="{StaticResource FluentGlobeGeometry}" Fill="{DynamicResource AppAccentBrush}" Stretch="Uniform" />
         </Border>
         <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
           <TextBlock Text="Resolver Reach" FontSize="19" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" />
@@ -21,19 +15,15 @@
       </Grid>
     </Border>
 
-    <Border x:Name="StatusRibbon" Grid.Row="1" Background="#F44336" Padding="22,15">
+    <Border x:Name="StatusRibbon" Grid.Row="1" Background="#2B2B2B" Padding="22,15">
       <Grid ColumnDefinitions="*,Auto" ColumnSpacing="18">
         <StackPanel Spacing="4" VerticalAlignment="Center">
           <TextBlock Text="{Binding DashboardState.Title}" FontSize="21" FontWeight="SemiBold" Foreground="White" />
-          <TextBlock Text="{Binding DashboardState.Detail}" FontSize="12" Foreground="#FFF1EF" TextWrapping="Wrap" />
+          <TextBlock Text="{Binding DashboardState.Detail}" FontSize="12" Foreground="#F3F3F3" TextWrapping="Wrap" />
         </StackPanel>
-        <Border Grid.Column="1" BorderBrush="#D1EDFF" BorderThickness="1" CornerRadius="20" Padding="10,6" VerticalAlignment="Center" Background="#192D44">
+        <Border Grid.Column="1" BorderBrush="#484848" BorderThickness="1" CornerRadius="20" Padding="10,6" VerticalAlignment="Center" Background="#252525">
           <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-            <Grid Width="17" Height="17">
-              <Ellipse Width="15" Height="15" Stroke="#9CB8D6" StrokeThickness="1.3" />
-              <Ellipse Width="6" Height="15" Stroke="#55E6FF" StrokeThickness="1.2" />
-              <Path Data="M1,8 L16,8 M3,4 L13,4 M3,12 L13,12" Stroke="#438CFF" StrokeThickness="1" />
-            </Grid>
+            <Path Width="17" Height="17" Data="{StaticResource FluentSyncGeometry}" Fill="{DynamicResource AppAccentBrush}" Stretch="Uniform" />
             <TextBlock Text="DoH CHECK" FontSize="10" FontWeight="Bold" Foreground="White" />
           </StackPanel>
         </Border>
@@ -43,40 +33,33 @@
     <Grid Grid.Row="2" Margin="22,15,22,11" RowDefinitions="Auto,Auto" RowSpacing="11">
       <Border Grid.Row="0" Background="{DynamicResource AppSurfaceBrush}" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="15,13">
         <Grid ColumnDefinitions="42,*,Auto" ColumnSpacing="13">
-          <Border Width="38" Height="38" CornerRadius="9" Background="#15243A" BorderBrush="#465F7F" BorderThickness="1" VerticalAlignment="Center">
-            <Grid>
-              <Ellipse Width="25" Height="25" Stroke="#809BB9" StrokeThickness="1.8" />
-              <Ellipse Width="17" Height="17" Stroke="#3EDDF8" StrokeThickness="1.5" />
-              <Path Data="M5,20 C9,14 13,26 18,20 S27,14 32,20" Stroke="#54E5FF" StrokeThickness="2" Fill="Transparent" />
-              <Ellipse Width="5" Height="5" Fill="#C27CFF" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" />
-            </Grid>
+          <Border Width="38" Height="38" CornerRadius="9" Background="#2B2B2B" BorderBrush="#484848" BorderThickness="1" VerticalAlignment="Center">
+            <Path Width="25" Height="25" Data="{StaticResource FluentSyncGeometry}" Fill="{DynamicResource AppAccentBrush}" Stretch="Uniform" />
           </Border>
           <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">
             <TextBlock Text="1. Test cURL Resolvers" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" />
             <TextBlock Text="Fetch the current curl/curl DNS-over-HTTPS wiki and test every unique HTTPS Base URL listed in its public resolver table." FontSize="11" Foreground="{DynamicResource AppMutedBrush}" TextWrapping="Wrap" />
           </StackPanel>
-          <Button x:Name="CheckNowButton" Grid.Column="2" Command="{Binding CheckCatalogCommand}" Padding="18,11" MinWidth="190" MinHeight="42" VerticalAlignment="Center" Background="#F22E8C" BorderBrush="#FF75B7" BorderThickness="1" CornerRadius="6" AutomationProperties.Name="Test all resolvers listed in the live cURL DNS-over-HTTPS wiki">
+          <Button x:Name="CheckNowButton" Grid.Column="2" Command="{Binding CheckCatalogCommand}" Padding="18,11" MinWidth="190" MinHeight="42" VerticalAlignment="Center" Background="#0078D4" BorderBrush="#60CDFF" BorderThickness="1" CornerRadius="6" AutomationProperties.Name="Test all resolvers listed in the live cURL DNS-over-HTTPS wiki">
             <TextBlock Text="Test cURL Resolvers" FontSize="13" FontWeight="SemiBold" Foreground="White" />
           </Button>
         </Grid>
       </Border>
 
       <Border Grid.Row="1" Background="{DynamicResource AppSurfaceBrush}" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="15,13">
-        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="14" RowSpacing="9">
+        <Grid ColumnDefinitions="*,Auto,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="9">
           <StackPanel Grid.Column="0" Grid.Row="0" Spacing="4">
             <StackPanel Orientation="Horizontal" Spacing="8">
-              <Grid Width="23" Height="23">
-                <Path Data="M5,2 L15,2 L20,7 L20,21 L5,21 Z" Fill="#17263A" Stroke="#9BAFC6" StrokeThickness="1.4" />
-                <Path Data="M15,2 L15,7 L20,7" Stroke="#9BAFC6" StrokeThickness="1.4" Fill="Transparent" />
-                <Path Data="M8,11 L16,11 M8,15 L14,15" Stroke="#4DDBF7" StrokeThickness="1.5" />
-                <Ellipse Width="4" Height="4" Fill="#C27CFF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="2" />
-              </Grid>
-              <TextBlock Text="2. Paste links" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" VerticalAlignment="Center" />
+              <Path Width="21" Height="21" Data="{StaticResource FluentLinkGeometry}" Fill="{DynamicResource AppAccentBrush}" Stretch="Uniform" />
+              <TextBlock Text="Paste Links" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" VerticalAlignment="Center" />
             </StackPanel>
             <TextBlock Text="Paste one or more HTTPS DNS-over-HTTPS endpoint URLs. Use one URL per line or separate them with semicolons." FontSize="11" Foreground="{DynamicResource AppMutedBrush}" TextWrapping="Wrap" />
           </StackPanel>
           <TextBox x:Name="EndpointBox" Grid.Column="0" Grid.Row="1" Text="{Binding InputLinks, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="3" MaxLines="5" PlaceholderText="https://cloudflare-dns.com/dns-query&#10;https://dns.google/dns-query" FontFamily="Cascadia Mono, Consolas, monospace" FontSize="12" Padding="11" Background="{DynamicResource AppInputBrush}" Foreground="{DynamicResource AppInputTextBrush}" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1" CornerRadius="6" AutomationProperties.Name="Paste HTTPS DNS-over-HTTPS resolver URLs" />
-          <Button x:Name="CheckPasteButton" Grid.Column="1" Grid.Row="1" Command="{Binding CheckLinksCommand}" Padding="19,11" MinWidth="150" MinHeight="42" VerticalAlignment="Center" Background="#F22E8C" BorderBrush="#FF75B7" BorderThickness="1" CornerRadius="6">
+          <Button x:Name="ClearLinksButton" Grid.Column="1" Grid.Row="1" Command="{Binding ClearLinksCommand}" Padding="10,11" MinWidth="42" MinHeight="42" VerticalAlignment="Center" Background="{DynamicResource AppSubtleBrush}" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1" CornerRadius="6" AutomationProperties.Name="Clear all pasted resolver links">
+            <Path Width="16" Height="16" Data="{StaticResource FluentDismissGeometry}" Fill="{DynamicResource AppTextBrush}" Stretch="Uniform" />
+          </Button>
+          <Button x:Name="CheckPasteButton" Grid.Column="2" Grid.Row="1" Command="{Binding CheckLinksCommand}" Padding="19,11" MinWidth="150" MinHeight="42" VerticalAlignment="Center" Background="#0078D4" BorderBrush="#60CDFF" BorderThickness="1" CornerRadius="6">
             <TextBlock Text="Test Resolvers" FontSize="13" FontWeight="SemiBold" Foreground="White" />
           </Button>
         </Grid>
@@ -86,15 +69,12 @@
     <Grid Grid.Row="3" Margin="22,0,22,11" RowDefinitions="Auto,Auto,*">
       <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10" Margin="0,0,0,10">
         <StackPanel Spacing="3">
-          <TextBlock Text="Resolver results" FontSize="17" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" />
-          <TextBlock Text="PASS = valid NOERROR DNS reply · DNS ERROR = valid DoH exchange with a DNS error code · FAIL = unreachable or invalid response." FontSize="11" Foreground="{DynamicResource AppMutedBrush}" TextWrapping="Wrap" />
+          <TextBlock Text="Resolver results · fastest valid replies first" FontSize="17" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" />
+          <TextBlock Text="PASS = valid NOERROR · DNS ERROR = valid DNS-layer error · FAIL = transport/protocol failure. Country is provider/operator origin, not guaranteed anycast location; feature summaries are curated and may need endpoint-specific verification." FontSize="11" Foreground="{DynamicResource AppMutedBrush}" TextWrapping="Wrap" />
         </StackPanel>
-        <Button x:Name="SaveLogsButton" Grid.Column="1" Click="SaveLogsButton_Click" Padding="14,8" MinWidth="112" MinHeight="34" VerticalAlignment="Center" Background="#50555C" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1" CornerRadius="5" AutomationProperties.Name="Save full resolver diagnostic logs to a ZIP archive">
+        <Button x:Name="SaveLogsButton" Grid.Column="1" Click="SaveLogsButton_Click" Padding="14,8" MinWidth="112" MinHeight="34" VerticalAlignment="Center" Background="#2B2B2B" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1" CornerRadius="5" AutomationProperties.Name="Save full resolver diagnostic logs to a ZIP archive">
           <StackPanel Orientation="Horizontal" Spacing="7" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Grid Width="18" Height="18">
-              <Path Data="M1,5 L7,5 L9,7 L17,7 L17,16 L1,16 Z" Fill="#1A2B41" Stroke="#9BB2CB" StrokeThickness="1.3" />
-              <Path Data="M9,7 L9,12 M6.5,10 L9,12.5 L11.5,10" Stroke="#55E6FF" StrokeThickness="1.4" Fill="Transparent" />
-            </Grid>
+            <Path Width="18" Height="18" Data="{StaticResource FluentSaveGeometry}" Fill="{DynamicResource AppAccentBrush}" Stretch="Uniform" />
             <TextBlock Text="Save Logs" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" VerticalAlignment="Center" />
           </StackPanel>
         </Button>
@@ -102,7 +82,7 @@
           <TextBlock Text="UP TO 512 URLS / RUN" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" />
         </Border>
       </Grid>
-      <Border Grid.Row="1" Background="#3A3F45" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1" CornerRadius="5" Margin="0,0,0,2">
+      <Border Grid.Row="1" Background="#2B2B2B" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1" CornerRadius="5" Margin="0,0,0,2">
         <Grid ColumnDefinitions="3*,100,85,2*" ColumnSpacing="10">
           <TextBlock Grid.Column="0" Text="ENDPOINT / DETAILS" Margin="11,9" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource AppMutedBrush}" />
           <TextBlock Grid.Column="1" Text="STATUS" Margin="7,9" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource AppMutedBrush}" />
@@ -112,13 +92,8 @@
       </Border>
       <Grid Grid.Row="2" MinHeight="140">
         <StackPanel x:Name="EmptyState" IsVisible="{Binding IsEmptyResults}" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8" MaxWidth="530">
-          <Border Width="54" Height="54" CornerRadius="16" Background="#15243A" BorderBrush="#465F7F" BorderThickness="1" HorizontalAlignment="Center">
-            <Grid>
-              <Ellipse Width="35" Height="35" Stroke="#809AB8" StrokeThickness="2" />
-              <Ellipse Width="24" Height="24" Stroke="#4DDDF8" StrokeThickness="2" />
-              <Ellipse Width="10" Height="10" Fill="#4DDDF8" Stroke="#DDFBFF" StrokeThickness="1" />
-              <Path Data="M27,12 L35,6 M27,42 L35,48 M12,27 L6,35" Stroke="#B977FF" StrokeThickness="2" />
-            </Grid>
+          <Border Width="54" Height="54" CornerRadius="16" Background="#2B2B2B" BorderBrush="#484848" BorderThickness="1" HorizontalAlignment="Center">
+            <Path Width="35" Height="35" Data="{StaticResource FluentGlobeGeometry}" Fill="{DynamicResource AppAccentBrush}" Stretch="Uniform" />
           </Border>
           <TextBlock Text="Ready to test" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" HorizontalAlignment="Center" />
           <TextBlock Text="Choose Test cURL Resolvers or paste your resolver URLs above and select Test Resolvers. Results appear here." TextWrapping="Wrap" TextAlignment="Center" FontSize="12" Foreground="{DynamicResource AppMutedBrush}" HorizontalAlignment="Center" />
@@ -130,16 +105,16 @@
                 <Grid ColumnDefinitions="3*,100,85,2*" ColumnSpacing="10">
                   <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center">
                     <TextBlock Text="{Binding Endpoint}" FontSize="12" Foreground="{DynamicResource AppTextBrush}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Text="{Binding CountryDisplay}" FontSize="10" Foreground="{DynamicResource AppAccentBrush}" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding FeaturesSummary}" FontSize="10" Foreground="{DynamicResource AppMutedBrush}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
                     <TextBlock Text="{Binding Detail}" FontSize="10" Foreground="{DynamicResource AppMutedBrush}" TextWrapping="Wrap" />
                   </StackPanel>
                   <Border Grid.Column="1" CornerRadius="4" Padding="7,5" Background="{Binding StatusBackground}" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
                       <Grid Width="14" Height="14">
-                        <Ellipse Width="12" Height="12" Stroke="#168C83" StrokeThickness="1.4" IsVisible="{Binding IsPass}" />
-                        <Path Data="M2,7 L5,10 L11,3" Stroke="#168C83" StrokeThickness="1.8" Fill="Transparent" IsVisible="{Binding IsPass}" />
-                        <Path Data="M7,1 L13,12 L1,12 Z" Fill="#F5B545" Stroke="#9D661C" StrokeThickness="0.8" IsVisible="{Binding IsDnsError}" />
-                        <Ellipse Width="12" Height="12" Stroke="#D44F79" StrokeThickness="1.4" IsVisible="{Binding IsFailure}" />
-                        <Path Data="M4,4 L10,10 M10,4 L4,10" Stroke="#D44F79" StrokeThickness="1.7" Fill="Transparent" IsVisible="{Binding IsFailure}" />
+                        <Path Data="{StaticResource FluentCheckmarkCircleGeometry}" Fill="#30B566" IsVisible="{Binding IsPass}" Stretch="Uniform" />
+                        <Path Data="{StaticResource FluentWarningGeometry}" Fill="#D7A800" IsVisible="{Binding IsDnsError}" Stretch="Uniform" />
+                        <Path Data="{StaticResource FluentErrorCircleGeometry}" Fill="#F87171" IsVisible="{Binding IsFailure}" Stretch="Uniform" />
                       </Grid>
                       <TextBlock Text="{Binding Status}" Foreground="{Binding StatusForeground}" FontSize="10" FontWeight="SemiBold" VerticalAlignment="Center" />
                     </StackPanel>
@@ -148,6 +123,7 @@
                   <StackPanel Grid.Column="3" Spacing="3" VerticalAlignment="Center">
                     <TextBlock Text="{Binding HttpLabel}" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" />
                     <TextBlock Text="{Binding DnsSummary}" FontSize="10" Foreground="{DynamicResource AppMutedBrush}" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding DiagnosticExplanation}" FontSize="10" Foreground="{DynamicResource AppMutedBrush}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
                   </StackPanel>
                 </Grid>
               </Border>
@@ -157,7 +133,7 @@
       </Grid>
     </Grid>
 
-    <Border Grid.Row="4" Background="#34393F" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="0,1,0,0" Padding="22,10">
+    <Border Grid.Row="4" Background="#202020" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="0,1,0,0" Padding="22,10">
       <Grid ColumnDefinitions="*,Auto" ColumnSpacing="18">
         <StackPanel Spacing="7">
           <TextBlock x:Name="StatusText" Text="{Binding DashboardState.StatusText}" FontSize="11" Foreground="{DynamicResource AppTextBrush}" TextWrapping="Wrap" />

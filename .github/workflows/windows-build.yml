@@ -59,7 +59,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path artifacts/publish, artifacts/installer | Out-Null
-          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.4.0 --output artifacts/publish
+          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.5.0 --output artifacts/publish
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Install Inno Setup
@@ -98,7 +98,7 @@ jobs:
             if ($command) { $iscc = $command.Source }
           }
           if (-not $iscc) { throw "Inno Setup compiler not found." }
-          & $iscc /DMyAppVersion=2.4.0 /DMyAppArchitecture=x64compatible /DMyAppOutputName=x64 "installer/ResolverReach.iss"
+          & $iscc /DMyAppVersion=2.5.0 /DMyAppArchitecture=x64compatible /DMyAppOutputName=x64 "installer/ResolverReach.iss"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if (-not (Test-Path "artifacts/installer/ResolverReach-Setup-x64.exe")) {
             throw "Expected x64 installer output was not created."
@@ -133,7 +133,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path artifacts/publish, artifacts/installer | Out-Null
-          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-arm64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.4.0 --output artifacts/publish
+          dotnet publish src/ResolverReach/ResolverReach.csproj --configuration Release --runtime win-arm64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -p:Version=2.5.0 --output artifacts/publish
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Install Inno Setup
@@ -172,7 +172,7 @@ jobs:
             if ($command) { $iscc = $command.Source }
           }
           if (-not $iscc) { throw "Inno Setup compiler not found." }
-          & $iscc /DMyAppVersion=2.4.0 /DMyAppArchitecture=arm64 /DMyAppOutputName=arm64 "installer/ResolverReach.iss"
+          & $iscc /DMyAppVersion=2.5.0 /DMyAppArchitecture=arm64 /DMyAppOutputName=arm64 "installer/ResolverReach.iss"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if (-not (Test-Path "artifacts/installer/ResolverReach-Setup-arm64.exe")) {
             throw "Expected native ARM64 installer output was not created."
@@ -214,7 +214,7 @@ jobs:
           sha256sum artifacts/x64/ResolverReach-Setup-x64.exe artifacts/arm64/ResolverReach-Setup-arm64.exe
 
   publish-release:
-    name: Publish tested v2.4.0 release
+    name: Publish tested v2.5.0 release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '[publish-release]')
     needs: [build-windows-x64, build-windows-arm64, verify-packaged-artifacts, test]
     runs-on: ubuntu-latest
@@ -238,11 +238,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v2.4.0
+          tag_name: v2.5.0
           target_commitish: ${{ github.sha }}
-          name: Resolver Reach 2.4.0
+          name: Resolver Reach 2.5.0
           body: |
-            Resolver Reach 2.4.0 — Windows 11 x64 and native ARM64
+            Resolver Reach 2.5.0 — Windows 11 x64 and native ARM64
 
             This release includes two architecture-specific installers:
             - ResolverReach-Setup-x64.exe: x64 Windows; also installable on Windows 11 ARM64 via x64 emulation.

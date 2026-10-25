@@ -11,10 +11,10 @@ This file is the current project overview. Current source, Git history, GitHub A
 
 **Current in-progress Windows-only release:** PR [#6](https://github.com/PCUser2021/ResolverReach/pull/6), branch `feature/resolverreach-2.4.0-windows-only`. PR #4 was closed after the macOS proposal was withdrawn. Supported targets are Windows x64 and native ARM64 only. The macOS proposal was cancelled at the user's request and has been removed from the active project files and workflow. The initial CI runs failed without readable job logs; do not merge or publish until a fresh Windows-only run passes.
 
-Main now contains Resolver Reach source candidate 2.4.0, merged at [`803e367`](https://github.com/PCUser2021/ResolverReach/commit/803e36738e567b08a12ff3cdbc4de3675d3dd4f7). The candidate's 12 deterministic protocol tests, x64/ARM64 builds, installer builds and artifact verification passed CI run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171). The latest published release remains v2.2.0. See `DEPENDENCIES.md` for the package and build-tool inventory.
+Main now contains Resolver Reach 2.5.0, merged at [`48d2ce1`](https://github.com/PCUser2021/ResolverReach/commit/48d2ce1ad7d960d68eacdc5f633e7a8441b60d20). PR CI run [#40193638402](https://github.com/PCUser2021/ResolverReach/actions/runs/40193638402) passed tests, both architecture builds, installer builds and artifact verification. The latest published release remains v2.4.0; v2.5.0 installer assets are not yet published. See `DEPENDENCIES.md` for the package and build-tool inventory.
 
 - Resolver Reach is the sole application maintained in the current source tree.
-- Current main source candidate: 2.4.0 (merged; not yet published as a GitHub Release). Latest published GitHub Release: v2.2.0. Do not claim a v2.4.0 release until its release assets are verified.
+- Current main source version: 2.5.0 (merged; not yet published as a GitHub Release). Latest published GitHub Release: v2.4.0. Do not claim a v2.5.0 release until its release assets are verified.
 - Platform: Windows 11 x64 and native ARM64 only; runtime identifiers: `win-x64` and `win-arm64`.
 - Stack: C# 14 / .NET 10; Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, System.Reactive 7.0.0, DynamicData 9.5.0; direct NuGet versions are centralized in `Directory.Packages.props`.
 - Main project: `src/ResolverReach/ResolverReach.csproj`.
@@ -83,6 +83,6 @@ OnionFruit was inspected as an independent upstream UI/theme reference only. Its
 
 ## Update — 2026-10-25: Resolver Reach 2.5.0 PR
 - Created backup branch `backup/pre-resolver-reach-country-diagnostics-20261025` before changes.
-- PR #7 (`feature/resolverreach-2.5.0-country-diagnostics`) proposes a Paste Links clear button, Fluent System Icon resources, a Windows 11 dark Fluent-inspired palette, provider country/flag profiles, curated capabilities, latency ordering of successful DNS responses, and detailed observed-error diagnostics.
+- PR #7 (`feature/resolverreach-2.5.0-country-diagnostics`) was squash-merged as `48d2ce1ad7d960d68eacdc5f633e7a8441b60d20`. It added a Paste Links clear button, Fluent System Icon resources, a Windows 11 dark Fluent-inspired palette, provider country/flag profiles, curated capabilities, latency ordering of successful DNS responses, and detailed observed-error diagnostics.
 - A timeout or reset is not classified as proof of censorship. Country values represent provider/operator origin, not guaranteed anycast location. Unknown endpoints remain unknown.
-- The published v2.4.0 release remains in place; PR #7 CI must pass before merging or publishing v2.5.0.
+- PR #7 CI passed all tests/builds/artifact verification. The published v2.4.0 release remains in place until a separate v2.5.0 release action completes.

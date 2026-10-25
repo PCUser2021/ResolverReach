@@ -372,8 +372,10 @@ This is an append-only, chronological audit log for the two Windows applications
 - Code/configuration check confirmed Windows-only runtime identifiers (`win-x64`, `win-arm64`), Windows-only workflow, no macOS setup guide, no macOS README downloads and no macOS packaging rows in `DEPENDENCIES.md`.
 
 
-## 2026-10-25 — Resolver Reach 2.5.0 proposal (PR #7)
-- Created `backup/pre-resolver-reach-country-diagnostics-20261025` and proposed changes on `feature/resolverreach-2.5.0-country-diagnostics`.
-- Added Paste Links clearing, Fluent UI icon resources/dark palette, recognized-provider country/flag and conservative capability summaries, valid-response/latency ordering, and detailed status/transport diagnostic text.
-- Global 100% availability and country-level censorship are not inferred from one client vantage point. The PR workflow is responsible for current build/test status.
-- Latest published release before merge remains v2.4.0.
+## 2026-10-25 — Resolver Reach 2.5.0 merged
+- Created `backup/pre-resolver-reach-country-diagnostics-20261025` before code changes.
+- Merged PR #7 to main as `48d2ce1ad7d960d68eacdc5f633e7a8441b60d20`.
+- PR CI run `40193638402` and post-merge main CI run `40193868580` both passed DNS protocol unit tests, Windows x64 and native ARM64 builds, installer compilation, and artifact verification.
+- Added Paste Links clearing, Fluent System icon resources/dark palette, provider country/flag and conservative capability summaries, valid-response/latency ordering, and detailed status/transport diagnosis.
+- A single client timeout/reset is not proof of censorship. Country-level attribution requires probes from inside the affected networks and independent control networks.
+- v2.5.0 is merged but not released; latest published release remains v2.4.0 pending deliberate publication.

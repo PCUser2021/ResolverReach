@@ -370,3 +370,10 @@ This is an append-only, chronological audit log for the two Windows applications
 - Test, Windows x64 build, and native Windows ARM64 build jobs reported failure; artifact verification and release publication were skipped.
 - GitHub's job endpoint returned no step summaries or log URLs, so the failure cause cannot be determined. Do not infer the failure is related to the previous macOS changes, and do not merge/release until a new accessible Windows-only run passes.
 - Code/configuration check confirmed Windows-only runtime identifiers (`win-x64`, `win-arm64`), Windows-only workflow, no macOS setup guide, no macOS README downloads and no macOS packaging rows in `DEPENDENCIES.md`.
+
+
+## 2026-10-25 — Resolver Reach 2.5.0 proposal (PR #7)
+- Created `backup/pre-resolver-reach-country-diagnostics-20261025` and proposed changes on `feature/resolverreach-2.5.0-country-diagnostics`.
+- Added Paste Links clearing, Fluent UI icon resources/dark palette, recognized-provider country/flag and conservative capability summaries, valid-response/latency ordering, and detailed status/transport diagnostic text.
+- Global 100% availability and country-level censorship are not inferred from one client vantage point. The PR workflow is responsible for current build/test status.
+- Latest published release before merge remains v2.4.0.

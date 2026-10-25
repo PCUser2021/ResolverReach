@@ -1,5 +1,20 @@
 # Resolver Reach changelog
 
+## [2.5.0] — proposed, 2026-10-25
+
+### Resolver metadata, diagnostics, and interface
+- Added a Paste Links clear button using Microsoft's Fluent System Dismiss icon and changed the section title to the exact wording “Paste Links”.
+- Updated key in-window action/status glyphs to Microsoft Fluent UI System Icons and aligned the dark surface/blue accent palette with Windows 11 Fluent styling while preserving the existing layout.
+- Added recognized-provider country flags/names and conservative endpoint-profile feature summaries. Unknown/custom URLs remain uncatalogued rather than receiving fabricated countries or capabilities.
+- Sorted valid NOERROR replies first, then by measured latency; valid DNS errors and failures follow in separate groups.
+- Added explanations for common HTTP access denials, wrong paths/methods, rate limiting, upstream failures, TLS errors, hostname resolution failures, timeouts, refusals and resets. The UI avoids treating timeouts/resets as proof of national censorship.
+- Bumped the application, assembly, file, installer and CI metadata to 2.5.0. The published v2.4.0 release remains unchanged until the new PR passes checks and a deliberate release action is taken.
+
+### Verification boundaries
+- Deterministic tests cover metadata defaults, speed-sort properties, and cautious diagnostics; current Windows x64/ARM64 CI is the authority for build/test outcome.
+- This version does not guarantee worldwide 100% availability. Tests run from the user's machine. Country-level censorship attribution requires repeat probes inside affected networks and independent control networks.
+- Provider/operator country is not physical anycast-edge location. Feature profiles are curated; DNSSEC is not independently confirmed for unknown/custom endpoints.
+
 ## [2.4.0] — Windows-only release candidate, 2026-10-23
 
 ### Windows installer and toolchain

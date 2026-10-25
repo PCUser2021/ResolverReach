@@ -1,6 +1,6 @@
 # Resolver Reach changelog
 
-## [2.5.0] — proposed, 2026-10-25
+## [2.5.0] — merged to main, release pending, 2026-10-25
 
 ### Resolver metadata, diagnostics, and interface
 - Added a Paste Links clear button using Microsoft's Fluent System Dismiss icon and changed the section title to the exact wording “Paste Links”.

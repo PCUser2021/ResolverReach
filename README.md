@@ -37,7 +37,7 @@ A valid DNS error response is a completed DoH exchange but is not a successful a
 
 ## Downloads
 
-**Latest published release:** Resolver Reach 2.4.0 for Windows. Version 2.5.0 is under review in PR #7; its installers are not available until CI passes and the release is deliberately published.
+**Latest published release:** Resolver Reach 2.4.0 for Windows. Version 2.5.0 has been merged to `main`; its installer release has not been published yet.
 
 - **[Windows x64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe)** — standard Intel/AMD 64-bit Windows. The x64-compatible installer can also run under Windows 11 ARM64 emulation.
 - **[Native Windows ARM64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe)** — native Arm64 Windows app, not the emulated x64 build.
@@ -54,7 +54,7 @@ See [LICENSE](LICENSE).
 
 ## Technical details
 
-- Current development: **2.5.0** (PR #7; not yet released). Latest published release remains v2.4.0.
+- Current main version: **2.5.0** (merged; not yet released). Latest published GitHub Release remains v2.4.0.
 - Runtime identifiers: `win-x64`, `win-arm64`
 - Stack: C# 14 / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, System.Reactive 7.0.0, DynamicData 9.5.0; versions are centrally managed in `Directory.Packages.props`
 - DNS check: RFC 8484 wire-format request and full declared-section/EDNS boundary validation

@@ -551,7 +551,7 @@ private static async Task<ResolverResult> TestEndpointAsync(string input, Cancel
         {
             clock.Stop();
             return new ResolverResult(input, "FAIL", null, clock.Elapsed.TotalMilliseconds,
-                "Timed out", "Request timed out after 20 seconds plus one retry. Endpoint outage, packet loss, routing/firewall policy, overload or filtering are possible; timeout does not identify censorship."
+                "Timed out", "Request timed out after 20 seconds plus one retry. Endpoint outage, packet loss, routing/firewall policy, overload or filtering are possible; timeout does not identify censorship.");
         }
         catch (HttpRequestException ex)
         {

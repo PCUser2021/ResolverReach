@@ -122,7 +122,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
             },
             canCheckLinks,
             outputScheduler: RxSchedulers.MainThreadScheduler);
-        ClearLinksCommand = ReactiveCommand.Create(() => InputLinks = string.Empty, outputScheduler: RxSchedulers.MainThreadScheduler);
+        ClearLinksCommand = ReactiveCommand.Create(() => { InputLinks = string.Empty; }, outputScheduler: RxSchedulers.MainThreadScheduler);
         _isBusy = Observable.CombineLatest(
                 CheckCatalogCommand.IsExecuting,
                 CheckLinksCommand.IsExecuting,

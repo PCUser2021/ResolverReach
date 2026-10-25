@@ -25,18 +25,19 @@ Resolver Reach checks whether DNS-over-HTTPS (DoH) endpoints complete a valid DN
 - **Test cURL Resolvers:** fetch the live [cURL DNS-over-HTTPS resolver catalog](https://github.com/curl/curl/wiki/DNS-over-HTTPS), extract unique HTTPS Base URLs, and test the current list.
 - **Paste links → Test Resolvers:** test your own HTTPS endpoints, one URL per line or separated with semicolons.
 - **Validate real DNS exchanges:** send RFC 8484 DNS requests and validate HTTP status, the `application/dns-message` content type, DNS transaction ID, response flags, echoed question, declared answer/authority/additional record boundaries, common structured RDATA layouts, EDNS OPT/options and extended RCODE. Oversized bodies are rejected while streaming rather than after buffering the full response. HTTP/TLS success alone is not a successful DNS test.
-- **Clear failure accounting:** distinguishes transport failures from HTTP responses that fail DoH validation; DNS error codes are reported separately from invalid/unreachable replies.
+- **Clear failure accounting:** distinguishes transport failures from HTTP responses that fail DoH validation; DNS error codes are reported separately from invalid/unreachable replies. Diagnostics explain observed status/transport classes and distinguish possible filtering from proven censorship.
 - **Resilient probe handling:** bounded response reads, longer connection tolerance, a bounded retry for timeouts/transient HTTP status codes, and HTTP/1.1 compatibility fallback after HTTP/2 protocol errors.
+- **Provider country and capability profiles:** recognized resolver domains show provider/operator country and flag plus a curated feature summary. Unknown endpoints and unverified DNSSEC capabilities remain explicitly unknown; country does not guarantee anycast egress location.
 - **Automated protocol regression tests:** deterministic offline DNS fixtures cover valid NOERROR/NXDOMAIN responses, all response sections, EDNS extended RCODEs, mismatched IDs/questions, malformed/truncated records, invalid compression pointers, and trailing bytes.
 - **Save Logs to ZIP:** choose the destination and export session summary, activity log, endpoint result history, currently visible results, and session/runtime metadata.
 - **Dual Windows architecture:** separate self-contained `win-x64` and native `win-arm64` applications/installers.
-- **Original vector icon family:** dark titanium/glass forms with spectral cyan, blue, violet, and magenta accents, applied consistently to the app mark, scan/paste/log actions, status states, and empty state.
+- **Windows 11 Fluent-inspired interface:** official Fluent System Icon geometry is used for key in-window actions/status indicators with a dark surface and blue accent palette; the existing panel/window structure is retained.
 
 A valid DNS error response is a completed DoH exchange but is not a successful answer. Dead hostnames, access-denied endpoints, non-DNS content, and invalid DNS replies remain failures. Checks are point-in-time; no client can guarantee every third-party resolver will be available.
 
 ## Downloads
 
-**Release candidate:** Resolver Reach 2.4.0 for Windows. The release workflow builds x64 and native ARM64 installers. The release is not published until the test, build, installer and artifact-verification jobs pass.
+**Latest published release:** Resolver Reach 2.4.0 for Windows. Version 2.5.0 is under review in PR #7; its installers are not available until CI passes and the release is deliberately published.
 
 - **[Windows x64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-x64.exe)** — standard Intel/AMD 64-bit Windows. The x64-compatible installer can also run under Windows 11 ARM64 emulation.
 - **[Native Windows ARM64 installer](https://github.com/PCUser2021/ResolverReach/releases/latest/download/ResolverReach-Setup-arm64.exe)** — native Arm64 Windows app, not the emulated x64 build.
@@ -53,7 +54,7 @@ See [LICENSE](LICENSE).
 
 ## Technical details
 
-- Release candidate: **2.4.0** (publishing is gated on successful Windows CI)
+- Current development: **2.5.0** (PR #7; not yet released). Latest published release remains v2.4.0.
 - Runtime identifiers: `win-x64`, `win-arm64`
 - Stack: C# 14 / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, System.Reactive 7.0.0, DynamicData 9.5.0; versions are centrally managed in `Directory.Packages.props`
 - DNS check: RFC 8484 wire-format request and full declared-section/EDNS boundary validation

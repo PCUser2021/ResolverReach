@@ -15,3 +15,9 @@ Resolver Reach uses Avalonia UI for its desktop application framework. Project: 
 ## FluentAvalonia
 
 Resolver Reach uses FluentAvalonia for Fluent-style desktop theme and window controls. Project: https://github.com/amwx/FluentAvalonia. FluentAvalonia and its dependencies retain their respective licenses.
+
+
+## Microsoft Fluent UI System Icons
+The proposed Resolver Reach 2.5.0 update incorporates geometry from Microsoft Fluent UI System Icons, Regular 24 px: Globe, Arrow Sync, Dismiss, Checkmark Circle, Warning, Error Circle, Save and Link. Copyright Microsoft Corporation. Licensed under the MIT License.
+Project: https://github.com/microsoft/fluentui-system-icons
+License: https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE

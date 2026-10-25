@@ -79,3 +79,10 @@ Removing a file from the current tree does not erase older Git commits, historic
 ## Design and upstream reference note
 
 OnionFruit was inspected as an independent upstream UI/theme reference only. Its Tor client, networking components and runtime implementation are not Resolver Reach dependencies. Retain existing third-party notices and license records unless a separate license audit establishes that they are no longer required.
+
+
+## Update — 2026-10-25: Resolver Reach 2.5.0 PR
+- Created backup branch `backup/pre-resolver-reach-country-diagnostics-20261025` before changes.
+- PR #7 (`feature/resolverreach-2.5.0-country-diagnostics`) proposes a Paste Links clear button, Fluent System Icon resources, a Windows 11 dark Fluent-inspired palette, provider country/flag profiles, curated capabilities, latency ordering of successful DNS responses, and detailed observed-error diagnostics.
+- A timeout or reset is not classified as proof of censorship. Country values represent provider/operator origin, not guaranteed anycast location. Unknown endpoints remain unknown.
+- The published v2.4.0 release remains in place; PR #7 CI must pass before merging or publishing v2.5.0.

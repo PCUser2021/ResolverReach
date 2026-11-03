@@ -1,15 +1,15 @@
 # Resolver Reach project backup manifest
 
-Snapshot date: 2026-10-23  
+Snapshot date: 2026-11-03  
 Primary repository: https://github.com/PCUser2021/ResolverReach  
-Visibility at last check: **private; the user requested public access, but the owner must still change the GitHub visibility setting**  
-Main source candidate: **Resolver Reach 2.4.0**  
-Latest published release: **Resolver Reach 2.2.0**  
+Visibility verified: **public** (checked through GitHub repository metadata on 2026-11-03)  
+Main released version: **Resolver Reach 2.5.0**  
+Latest published release: **Resolver Reach 2.5.0**  
 The source history includes Resolver Reach and Ollama GGUF Importer.
 
 ## Authoritative tracked backup
 
-The private Git repository is the authoritative, versioned backup of source and project records. The user has now explicitly authorized making the source repository public; the current connected toolset cannot execute GitHub's repository-visibility setting, so the change remains pending the repository owner's Settings action.
+The public Git repository is the authoritative, versioned backup of source and project records. GitHub repository metadata confirms the repository is public as of 2026-11-03.
 
 - Resolver Reach 2.4.0 source merge commit: `803e36738e567b08a12ff3cdbc4de3675d3dd4f7`. This manifest update commit is `26eb22a39347f75acbee776b7539895d8d197666`; subsequent main commits, if any, should be checked before using it as the head SHA.
 - Historical backup branch: `backup/ResolverReach-2.0.0-2026-10-23`. Current versioned full-tree backup branch: `backup/ResolverReach-2.2.0-2026-10-23` (sync after final docs).
@@ -277,3 +277,13 @@ The complete ChatGPT platform-level Memory store and every historical chat canno
 - After macOS support was removed, PR #6 run #40009024496 failed in the protocol test, Windows x64 build, and Windows ARM64 build jobs; downstream artifact verification and publication were skipped.
 - Available job metadata contains no steps or log URLs. Root cause is unknown. A successful Windows-only run is still required before merge/release.
 - Active Windows-only snapshot branch remains `backup/ResolverReach-2.4.0-windows-only-2026-10-23`; historic `backup/ResolverReach-2.4.0-cross-platform-2026-10-23` preserves only the abandoned prior attempt.
+
+
+## Resolver Reach 2.5.0 release checkpoint — 2026-11-03
+
+- Current main commit: `c37db14bb14b592811cf4eb0447cc9587273dc27`.
+- Published release: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.5.0.
+- Main release workflow [#41701054166](https://github.com/PCUser2021/ResolverReach/actions/runs/41701054166) passed tests, x64 and ARM64 installer builds, artifact round-trip verification and release publication.
+- `ResolverReach-Setup-x64.exe`: 52,323,107 bytes; SHA-256 `e73b725b7ca465a3cb1cadd5e3f551bc269017b7e69aaa7f008f7d5a5ec2ff3b`.
+- `ResolverReach-Setup-arm64.exe`: 49,265,572 bytes; SHA-256 `622fcc20e17c7f4e2bf9260cb54c0df6e0b8f56736c3971b51e26cfeb19d1b44`.
+- Main branch build run completed 17 deterministic tests and all architecture, artifact-verification and publication stages with success. No live worldwide resolver survey or interactive Windows GUI test is implied.

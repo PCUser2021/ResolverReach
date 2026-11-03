@@ -1,20 +1,18 @@
 # Project Context and Working Agreement
 
-Last verified: 2026-10-23
+Last verified: 2026-11-03
 Repository: https://github.com/PCUser2021/ResolverReach
 Default branch: main
-Visibility last reported: private; public access requires a separate repository-settings change.
+Visibility verified: public (GitHub repository metadata checked 2026-11-03).
 
 This file is the current project overview. Current source, Git history, GitHub Actions runs and published release assets are authoritative when summaries differ.
 
 ## Current application — Resolver Reach
 
-**Current in-progress Windows-only release:** PR [#6](https://github.com/PCUser2021/ResolverReach/pull/6), branch `feature/resolverreach-2.4.0-windows-only`. PR #4 was closed after the macOS proposal was withdrawn. Supported targets are Windows x64 and native ARM64 only. The macOS proposal was cancelled at the user's request and has been removed from the active project files and workflow. The initial CI runs failed without readable job logs; do not merge or publish until a fresh Windows-only run passes.
-
-Main now contains Resolver Reach source candidate 2.4.0, merged at [`803e367`](https://github.com/PCUser2021/ResolverReach/commit/803e36738e567b08a12ff3cdbc4de3675d3dd4f7). The candidate's 12 deterministic protocol tests, x64/ARM64 builds, installer builds and artifact verification passed CI run [#40001573171](https://github.com/PCUser2021/ResolverReach/actions/runs/40001573171). The latest published release remains v2.2.0. See `DEPENDENCIES.md` for the package and build-tool inventory.
+**Current released Windows-only version:** Resolver Reach 2.5.0, published 2026-11-03. The release-preparation PR [#9](https://github.com/PCUser2021/ResolverReach/pull/9) was squash-merged to main as [`c37db14`](https://github.com/PCUser2021/ResolverReach/commit/c37db14bb14b592811cf4eb0447cc9587273dc27). The latest main-branch workflow [#41701054166](https://github.com/PCUser2021/ResolverReach/actions/runs/41701054166) passed protocol tests, Windows x64/native ARM64 builds, installer compilation, artifact verification, and release publication. Supported targets remain Windows x64 and native ARM64 only; the earlier macOS proposal remains withdrawn.
 
 - Resolver Reach is the sole application maintained in the current source tree.
-- Current main source candidate: 2.4.0 (merged; not yet published as a GitHub Release). Latest published GitHub Release: v2.2.0. Do not claim a v2.4.0 release until its release assets are verified.
+- Current main source and latest published GitHub Release: **v2.5.0**. Both architecture-specific installer assets are verified on the [v2.5.0 release page](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.5.0).
 - Platform: Windows 11 x64 and native ARM64 only; runtime identifiers: `win-x64` and `win-arm64`.
 - Stack: C# 14 / .NET 10; Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, System.Reactive 7.0.0, DynamicData 9.5.0; direct NuGet versions are centralized in `Directory.Packages.props`.
 - Main project: `src/ResolverReach/ResolverReach.csproj`.
@@ -36,12 +34,13 @@ Main now contains Resolver Reach source candidate 2.4.0, merged at [`803e367`](h
 
 ## Releases and CI
 
-- Previously published release: v2.2.0. The 2.4.0 release workflow builds Windows x64/ARM64 installers only. Do not claim v2.4.0 is published until its Actions run passes and release assets are visible.
-- x64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.2.0/ResolverReach-Setup-x64.exe
-- Native ARM64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.2.0/ResolverReach-Setup-arm64.exe
-- Verified release workflow run #39945785064: https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064.
-- Resolver Reach is Windows-only. Do not restore macOS runtime identifiers, installers, download links, install guides or CI jobs unless the user explicitly reopens that requirement.
-- CI validates compilation and packaging; it does not replace live resolver testing or an interactive GUI smoke test.
+- Latest release: **v2.5.0**, published 2026-11-03: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.5.0
+- Windows x64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.5.0/ResolverReach-Setup-x64.exe (52,323,107 bytes; SHA-256 `e73b725b7ca465a3cb1cadd5e3f551bc269017b7e69aaa7f008f7d5a5ec2ff3b`).
+- Native Windows ARM64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.5.0/ResolverReach-Setup-arm64.exe (49,265,572 bytes; SHA-256 `622fcc20e17c7f4e2bf9260cb54c0df6e0b8f56736c3971b51e26cfeb19d1b44`).
+- Main release workflow [#41701054166](https://github.com/PCUser2021/ResolverReach/actions/runs/41701054166) passed 17 deterministic tests, both Windows publish/installer jobs, artifact round-trip verification, and the release-publishing job.
+- The release-preparation PR [#9](https://github.com/PCUser2021/ResolverReach/pull/9) passed its own complete test/build/installer/artifact matrix before merge.
+- CI verifies compilation and packaging; it does not replace interactive GUI smoke testing or live network tests from Iran, Russia, China, or other target networks. A single client vantage point cannot certify global resolver availability or prove censorship.
+- Product/operator country shown in the UI is not physical anycast-egress location; capability summaries are curated, and unknown DNSSEC/profile data remains unverified.
 
 ## Diagnostic blocker
 
@@ -85,4 +84,4 @@ OnionFruit was inspected as an independent upstream UI/theme reference only. Its
 - Created backup branch `backup/pre-resolver-reach-country-diagnostics-20261025` before changes.
 - PR #7 (`feature/resolverreach-2.5.0-country-diagnostics`) proposes a Paste Links clear button, Fluent System Icon resources, a Windows 11 dark Fluent-inspired palette, provider country/flag profiles, curated capabilities, latency ordering of successful DNS responses, and detailed observed-error diagnostics.
 - A timeout or reset is not classified as proof of censorship. Country values represent provider/operator origin, not guaranteed anycast location. Unknown endpoints remain unknown.
-- The published v2.4.0 release remains in place; PR #7 CI must pass before merging or publishing v2.5.0.
+- The 2.5.0 proposal was merged and published on 2026-11-03; see the verified release and CI state above.

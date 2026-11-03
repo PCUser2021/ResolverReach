@@ -2,7 +2,7 @@ name: Windows x64 and ARM64 build and installers
 
 on:
   push:
-    branches: [main, reactiveui-frp-refactor]
+    branches: [main, reactiveui-frp-refactor, 'release/**']
   pull_request:
   workflow_dispatch:
 
@@ -249,10 +249,13 @@ jobs:
             - ResolverReach-Setup-arm64.exe: native ARM64 Windows build.
 
             Highlights:
-            - New dark titanium/glass icon family with cyan, blue, violet and spectral-magenta accents.
-            - Status icons now distinguish a valid DNS response, a DNS error, and a failed check.
-            - Save Logs exports the in-session diagnostics to a user-selected ZIP.
-            - Existing resolver retry and HTTP/1.1 fallback behavior is retained.
+            - Fluent UI icon geometry and a Windows 11-aligned dark palette, while preserving the existing single-window layout.
+            - Paste Links includes a one-click clear (X) control.
+            - Resolver results are grouped by validity and sorted by measured latency within each group; valid NOERROR responses rank first.
+            - Recognized providers show their operator-origin country and flag, plus curated endpoint-profile features such as DNSSEC, filtering, DNS64 or ECS where known. Unknown capabilities remain explicitly unverified; operator country is not anycast egress location.
+            - Per-result explanations distinguish HTTP access denial, bad paths, rate limits, DNS errors, timeouts, hostname lookup, TLS and connection failures without asserting censorship from a single probe.
+            - RFC 8484 DNS message validation, bounded retries, cancellation, HTTP/1.1 compatibility fallback and full ZIP diagnostics are retained.
+            - 17 deterministic offline regression tests cover DNS-wire validation, endpoint metadata, ordering data and cautious censorship diagnostics.
             - License: MIT.
           files: |
             artifacts/x64/ResolverReach-Setup-x64.exe

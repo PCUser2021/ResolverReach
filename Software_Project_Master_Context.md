@@ -28,7 +28,7 @@ Last verified: 2026-11-03
 
 ---
 
-## Resolver Reach 2.4.0 candidate source (merged; not yet released)
+## Historical context: Resolver Reach 2.4.0 candidate (2026-10-23)
 
 - Platform: Windows 11 x64 and native Windows ARM64.
 - Technology: C# / .NET 10, Avalonia 12.1.4, FluentAvaloniaUI 3.1.0, ReactiveUI.Avalonia.Reactive 12.1.6, ReactiveUI.Reactive 26.0.1, DynamicData 9.5.0.

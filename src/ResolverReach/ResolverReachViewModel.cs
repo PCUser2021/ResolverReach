@@ -73,7 +73,7 @@ public sealed class ResolverReachViewModel : ReactiveObject, IActivatableViewMod
     {
         string? version = typeof(ResolverReachViewModel).Assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-        return string.IsNullOrWhiteSpace(version) ? "2.4.0" : version.Split('+', 2)[0];
+        return string.IsNullOrWhiteSpace(version) ? "2.5.0" : version.Split('+', 2)[0];
     }
 
     public ResolverReachViewModel()

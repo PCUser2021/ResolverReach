@@ -377,3 +377,17 @@ This is an append-only, chronological audit log for the two Windows applications
 - Added Paste Links clearing, Fluent UI icon resources/dark palette, recognized-provider country/flag and conservative capability summaries, valid-response/latency ordering, and detailed status/transport diagnostic text.
 - Global 100% availability and country-level censorship are not inferred from one client vantage point. The PR workflow is responsible for current build/test status.
 - Latest published release before merge remains v2.4.0.
+
+
+## 2026-11-03 — Resolver Reach 2.5.0 release and clean main-branch validation
+
+- Audited Meta Muse's merged 2.5.0 implementation: Paste Links clearing, Fluent UI-inspired icon/palette work, resolver country/operator metadata, curated feature profiles, latency sorting, detailed transport/HTTP/DNS diagnostics, and conservative censorship attribution were present in source.
+- Fixed stale product-version fallback values from 2.4.0 to 2.5.0 in `ResolverReachViewModel.cs` and `CurlWikiResolverCatalog.cs`.
+- Fixed release automation: the push branch filter now includes `release/**`; corrected the v2.5.0 release-note indentation/content to describe the shipped features and verification limits.
+- Release PR [#9](https://github.com/PCUser2021/ResolverReach/pull/9) passed 17/17 deterministic tests, x64 build and Inno Setup installer compilation, native ARM64 build and installer compilation, and artifact round-trip verification. It was squash-merged to main as `c37db14bb14b592811cf4eb0447cc9587273dc27`.
+- Main release workflow [#41701054166](https://github.com/PCUser2021/ResolverReach/actions/runs/41701054166) passed all five jobs, including release publication.
+- Published [GitHub Release v2.5.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.5.0):
+  - x64 installer: 52,323,107 bytes; SHA-256 `e73b725b7ca465a3cb1cadd5e3f551bc269017b7e69aaa7f008f7d5a5ec2ff3b`.
+  - ARM64 installer: 49,265,572 bytes; SHA-256 `622fcc20e17c7f4e2bf9260cb54c0df6e0b8f56736c3971b51e26cfeb19d1b44`.
+- Verification scope: CI ran deterministic offline tests and built/verified both Windows installers. No interactive GUI runtime smoke test was run here, and no live DoH or censorship probes were run from Iran, Russia, China or other foreign networks. Point-in-time client-side success cannot establish global 100% availability or country-level censorship.
+- Updated README, changelog, project context, AI handoff, master context, and backup manifest so release status and download data agree with GitHub's verified assets.

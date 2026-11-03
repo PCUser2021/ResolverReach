@@ -1,10 +1,10 @@
 # Software Project Master Context
 
-Last verified: 2026-10-23
+Last verified: 2026-11-03
 
 ## Primary source of truth / durable project memory
 
-- Main private GitHub repository: https://github.com/PCUser2021/ResolverReach
+- Main public GitHub repository: https://github.com/PCUser2021/ResolverReach
 - Current full technical handoff: [AI_SESSION_HANDOFF.md](https://github.com/PCUser2021/ResolverReach/blob/main/AI_SESSION_HANDOFF.md)
 - Project context: [PROJECT_CONTEXT.md](https://github.com/PCUser2021/ResolverReach/blob/main/PROJECT_CONTEXT.md)
 - Prompt and outcome archive: [PROMPT_ARCHIVE.md](https://github.com/PCUser2021/ResolverReach/blob/main/PROMPT_ARCHIVE.md)
@@ -12,6 +12,21 @@ Last verified: 2026-10-23
 - Backup manifest: [BACKUP_MANIFEST.md](https://github.com/PCUser2021/ResolverReach/blob/main/BACKUP_MANIFEST.md)
 - Changelog: [CHANGELOG.md](https://github.com/PCUser2021/ResolverReach/blob/main/CHANGELOG.md)
 - Resolver Reach current source and workflows are authoritative; inspect them before claiming behavior or build status. Verify releases and artifacts through GitHub's Release API/workflow run.
+
+## Resolver Reach 2.5.0 — released 2026-11-03
+
+- Repository is public: https://github.com/PCUser2021/ResolverReach
+- Current main merge commit: `c37db14bb14b592811cf4eb0447cc9587273dc27`.
+- Published release: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.5.0
+- Windows x64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.5.0/ResolverReach-Setup-x64.exe (52,323,107 bytes; SHA-256 `e73b725b7ca465a3cb1cadd5e3f551bc269017b7e69aaa7f008f7d5a5ec2ff3b`).
+- Native Windows ARM64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.5.0/ResolverReach-Setup-arm64.exe (49,265,572 bytes; SHA-256 `622fcc20e17c7f4e2bf9260cb54c0df6e0b8f56736c3971b51e26cfeb19d1b44`).
+- Successful main release workflow: https://github.com/PCUser2021/ResolverReach/actions/runs/41701054166. It passed all 17 tests, both architecture-specific build/installer jobs, artifact verification, and release publication.
+- Product changes in 2.5.0: Paste Links clear button, Fluent UI-inspired Windows theme/icons, recognized-provider country/flag and curated capabilities, validity-grouped latency ordering, and cautious error/censorship explanations.
+- Country represents provider/operator origin, not physical anycast egress. Feature metadata is curated and some DNSSEC/profile capabilities remain explicitly unverified.
+- No test in this release establishes global 100% resolver availability or censorship status from inside Iran, Russia, China, or another target network. The application probes from the machine and route where it is run.
+- Build stack and supported targets remain documented within `DEPENDENCIES.md`: Windows x64 and native ARM64, .NET 10 and Avalonia/FluentAvalonia.
+
+---
 
 ## Resolver Reach 2.4.0 candidate source (merged; not yet released)
 

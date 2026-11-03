@@ -1,6 +1,6 @@
 # Resolver Reach changelog
 
-## [2.5.0] — proposed, 2026-10-25
+## [2.5.0] — released, 2026-11-03
 
 ### Resolver metadata, diagnostics, and interface
 - Added a Paste Links clear button using Microsoft's Fluent System Dismiss icon and changed the section title to the exact wording “Paste Links”.
@@ -8,12 +8,19 @@
 - Added recognized-provider country flags/names and conservative endpoint-profile feature summaries. Unknown/custom URLs remain uncatalogued rather than receiving fabricated countries or capabilities.
 - Sorted valid NOERROR replies first, then by measured latency; valid DNS errors and failures follow in separate groups.
 - Added explanations for common HTTP access denials, wrong paths/methods, rate limiting, upstream failures, TLS errors, hostname resolution failures, timeouts, refusals and resets. The UI avoids treating timeouts/resets as proof of national censorship.
-- Bumped the application, assembly, file, installer and CI metadata to 2.5.0. The published v2.4.0 release remains unchanged until the new PR passes checks and a deliberate release action is taken.
+- Bumped the application, assembly, file, installer and CI metadata to 2.5.0. The release was published after the exact main commit passed tests, both architecture builds, installer compilation and artifact round-trip verification.
 
 ### Verification boundaries
 - Deterministic tests cover metadata defaults, speed-sort properties, and cautious diagnostics; current Windows x64/ARM64 CI is the authority for build/test outcome.
 - This version does not guarantee worldwide 100% availability. Tests run from the user's machine. Country-level censorship attribution requires repeat probes inside affected networks and independent control networks.
 - Provider/operator country is not physical anycast-edge location. Feature profiles are curated; DNSSEC is not independently confirmed for unknown/custom endpoints.
+
+### Release verification — 2026-11-03
+- Merged release-preparation PR [#9](https://github.com/PCUser2021/ResolverReach/pull/9) as `c37db14bb14b592811cf4eb0447cc9587273dc27` (`[publish-release] Resolver Reach 2.5.0`).
+- Main-branch workflow [#41701054166](https://github.com/PCUser2021/ResolverReach/actions/runs/41701054166) completed successfully: 17 tests passed; Windows x64 and native ARM64 builds and installer compilations passed; both downloaded artifacts passed non-empty-file verification; the release-publishing job succeeded.
+- Published release: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.5.0. Assets: x64 52,323,107 bytes; ARM64 49,265,572 bytes.
+- SHA-256 (verified in the artifact-verification job): x64 `e73b725b7ca465a3cb1cadd5e3f551bc269017b7e69aaa7f008f7d5a5ec2ff3b`; ARM64 `622fcc20e17c7f4e2bf9260cb54c0df6e0b8f56736c3971b51e26cfeb19d1b44`.
+- The release-preparation change also corrected stale 2.4.0 product-version fallback strings and added the `release/**` branch pattern to CI push triggers so release branches receive their own validation run.
 
 ## [2.4.0] — Windows-only release candidate, 2026-10-23
 

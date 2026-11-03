@@ -1,7 +1,7 @@
 # AI Session Handoff — Resolver Reach
 
-Last verified: 2026-10-23
-Main contains Resolver Reach source candidate 2.4.0, merged in commit [`803e367`](https://github.com/PCUser2021/ResolverReach/commit/803e36738e567b08a12ff3cdbc4de3675d3dd4f7). Latest published GitHub Release remains v2.2.0; v2.4.0 has not been published.
+Last verified: 2026-11-03
+Main contains Resolver Reach 2.5.0, merged as [`c37db14`](https://github.com/PCUser2021/ResolverReach/commit/c37db14bb14b592811cf4eb0447cc9587273dc27). Latest published GitHub Release is [v2.5.0](https://github.com/PCUser2021/ResolverReach/releases/tag/v2.5.0), with Windows x64 and native ARM64 installers attached.
 
 ## Application and build
 
@@ -12,7 +12,7 @@ Main contains Resolver Reach source candidate 2.4.0, merged in commit [`803e367`
 - UI source: `src/ResolverReach/MainView.axaml`, `MainWindow.axaml`, and their code-behind; icons under `src/ResolverReach/Assets/Icons/`.
 - Installer: `installer/ResolverReach.iss`.
 - Windows CI: `.github/workflows/windows-build.yml`.
-- Product source candidate is 2.4.0; assembly/file/manifest versions are 2.4.0.0. Latest verified published release remains v2.2.0.
+- Product version is 2.5.0; assembly/file versions are 2.5.0.0. Latest verified published release is v2.5.0.
 
 ## Behavior that must be preserved
 
@@ -25,12 +25,13 @@ Main contains Resolver Reach source candidate 2.4.0, merged in commit [`803e367`
 
 ## Verified release and CI history
 
-- Published v2.2.0: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.2.0
-- x64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.2.0/ResolverReach-Setup-x64.exe
-- Native ARM64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.2.0/ResolverReach-Setup-arm64.exe
-- Successful v2.2.0 workflow: https://github.com/PCUser2021/ResolverReach/actions/runs/39945785064
-- PR #2 merged as `e96baa4d822ce58617b8544e6167df94334ffea3`. Exact PR-head Windows x64/native ARM64 publish, installer compilation and artifact round-trip checks passed in run #39994207960. This did not publish v2.3.0.
-- Current main may have additional commits after these recorded checks; read its latest commit and latest workflow run before claiming CI is green.
+- Published release v2.5.0: https://github.com/PCUser2021/ResolverReach/releases/tag/v2.5.0
+- Windows x64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.5.0/ResolverReach-Setup-x64.exe (52,323,107 bytes; SHA-256 `e73b725b7ca465a3cb1cadd5e3f551bc269017b7e69aaa7f008f7d5a5ec2ff3b`).
+- Native Windows ARM64 installer: https://github.com/PCUser2021/ResolverReach/releases/download/v2.5.0/ResolverReach-Setup-arm64.exe (49,265,572 bytes; SHA-256 `622fcc20e17c7f4e2bf9260cb54c0df6e0b8f56736c3971b51e26cfeb19d1b44`).
+- Main release workflow [#41701054166](https://github.com/PCUser2021/ResolverReach/actions/runs/41701054166) passed all five jobs: 17 protocol/metadata tests, x64 build/installer, ARM64 build/installer, artifact verification and release publication.
+- Release-preparation PR [#9](https://github.com/PCUser2021/ResolverReach/pull/9) was merged as `c37db14bb14b592811cf4eb0447cc9587273dc27` after its own full CI matrix passed.
+- The 2.5.0 release-preparation commit corrected stale 2.4.0 fallback version strings and added `release/**` to the workflow's push branch filter.
+- CI confirms build and packaging only; it is not a GUI runtime smoke test or a live multi-country DoH/censorship survey.
 
 ## Current diagnostic blocker
 
@@ -85,5 +86,5 @@ OnionFruit was inspected as a separate C#/.NET Tor desktop application and a UI/
 - Supported targets are Windows x64 and native ARM64 only. The macOS proposal was removed from the active project file, main-window code, workflow, README, dependency inventory and current changelog.
 - CI pins .NET SDK 10.0.402. Current direct NuGet packages were audited for stable versions on 2026-10-23.
 - The first runs for the former cross-platform branch failed without retrievable job logs (`BlobNotFound`); the root cause was not confirmed. The workflow has been restored to Windows-only jobs and must produce a fresh green test, x64 build, ARM64 build and artifact-verification run before merging/releasing.
-- Do not describe v2.4.0 as published until both Windows installer assets are visible on its release page.
+- v2.5.0 is now the latest published version; verify future releases and assets through GitHub's Release API before sharing installer links.
 - A historical backup branch retains the abandoned macOS experiment because the user also requested a full project backup. Do not copy that experiment into the active source again unless explicitly requested.
